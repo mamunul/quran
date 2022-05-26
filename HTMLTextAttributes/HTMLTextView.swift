@@ -23,7 +23,9 @@ struct HTMLTextView: View {
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .border(.yellow)
                 .onAppear {
-                    let fileUrl = Bundle.main.url(forResource: "html.md", withExtension: "")!
+                    var fileName = "htmml.md"
+                    fileName = "0.html"
+                    let fileUrl = Bundle.main.url(forResource: fileName, withExtension: "")!
                     let data = try! Data(contentsOf: fileUrl)
                     let options: [NSAttributedString.DocumentReadingOptionKey: Any] =
                         [
@@ -52,7 +54,7 @@ struct HTMLTextView: View {
             if let customFont = UIFont(name: family, size: UIFont.labelFontSize) {
                 scaledFont = UIFontMetrics.default.scaledFont(for: customFont)
             }
-            print("Family: \(family)  names: \(names) size:\(scaledFont)")
+            print("Family: \(family)  names: \(names) size:\(String(describing: scaledFont))")
         }
     }
 

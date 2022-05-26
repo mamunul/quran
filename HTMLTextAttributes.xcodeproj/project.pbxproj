@@ -19,6 +19,7 @@
 		0A326223283F72FA00535216 /* me_quran.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A326222283F72FA00535216 /* me_quran.ttf */; };
 		0A326227283F77E300535216 /* HTMLTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A326226283F77E300535216 /* HTMLTextView.swift */; };
 		0A32622B283F8ABF00535216 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A32622A283F8ABF00535216 /* TextView.swift */; };
+		0A32622D283F99AF00535216 /* 0.html in Resources */ = {isa = PBXBuildFile; fileRef = 0A32622C283F99AF00535216 /* 0.html */; };
 		0A71A6DA283E3232004A35F9 /* html.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A71A6D9283E3232004A35F9 /* html.md */; };
 		0AD42DAF283E3F9900D8526E /* _PDMS_Saleem_QuranFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0AD42DAE283E3F8700D8526E /* _PDMS_Saleem_QuranFont.ttf */; };
 /* End PBXBuildFile section */
@@ -37,6 +38,7 @@
 		0A326222283F72FA00535216 /* me_quran.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = me_quran.ttf; sourceTree = "<group>"; };
 		0A326226283F77E300535216 /* HTMLTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLTextView.swift; sourceTree = "<group>"; };
 		0A32622A283F8ABF00535216 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		0A32622C283F99AF00535216 /* 0.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = 0.html; sourceTree = "<group>"; };
 		0A71A6D9283E3232004A35F9 /* html.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = html.md; sourceTree = "<group>"; };
 		0AD42DAE283E3F8700D8526E /* _PDMS_Saleem_QuranFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = _PDMS_Saleem_QuranFont.ttf; sourceTree = "<group>"; };
 		0AD42DB0283E3FAE00D8526E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 		0A2A831D283B564D00FD0E80 /* HTMLTextAttributes */ = {
 			isa = PBXGroup;
 			children = (
+				0A32622E283F99B500535216 /* Tafsir */,
 				0AD42DB0283E3FAE00D8526E /* Info.plist */,
 				0A71A6D9283E3232004A35F9 /* html.md */,
 				0A326222283F72FA00535216 /* me_quran.ttf */,
@@ -97,6 +100,30 @@
 				0A2A8325283B565100FD0E80 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0A32622E283F99B500535216 /* Tafsir */ = {
+			isa = PBXGroup;
+			children = (
+				0A32622F283F99CB00535216 /* IbnKathir */,
+			);
+			path = Tafsir;
+			sourceTree = "<group>";
+		};
+		0A32622F283F99CB00535216 /* IbnKathir */ = {
+			isa = PBXGroup;
+			children = (
+				0A326230283F99D600535216 /* Surah_1 */,
+			);
+			path = IbnKathir;
+			sourceTree = "<group>";
+		};
+		0A326230283F99D600535216 /* Surah_1 */ = {
+			isa = PBXGroup;
+			children = (
+				0A32622C283F99AF00535216 /* 0.html */,
+			);
+			path = Surah_1;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +190,7 @@
 				0A2A8326283B565100FD0E80 /* Preview Assets.xcassets in Resources */,
 				0A32621F283F63B200535216 /* AlMushafQuran.ttf in Resources */,
 				0A326220283F63B400535216 /* AlQalamQuran.ttf in Resources */,
+				0A32622D283F99AF00535216 /* 0.html in Resources */,
 				0AD42DAF283E3F9900D8526E /* _PDMS_Saleem_QuranFont.ttf in Resources */,
 				0A326219283F5C5800535216 /* CassandraPersonalUseRegular.ttf in Resources */,
 				0A2A8323283B565100FD0E80 /* Assets.xcassets in Resources */,
