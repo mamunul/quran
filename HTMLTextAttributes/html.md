@@ -62,7 +62,6 @@ background-color: rgb(200, 200, 200);
 div.ag{             
 background-color: rgb(200, 200, 200);
                 font-family:me_quran; font-size: 20px;
-                 text-align: right;
                  padding:20px;
 
 }

@@ -9,17 +9,19 @@ import SwiftUI
 
 struct HTMLTextView: View {
     @State var attributedString = AttributedString("Wait...Loading...")
+    @State var nsAttributedString = NSMutableAttributedString("Wait...Loading...")
     var body: some View {
         ScrollView {
             Text("«هِيَ أُمُّ الْقُرْآنِ وَهِيَ السَّبْعُ الْمَثَانِي وَهِيَ الْقُرْآنُ الْعَظِيمُ»")
                 .font(Font(UIFont(name: "_PDMS_Saleem_QuranFont", size: UIFont.labelFontSize)!))
             Text("Sample Text Sample Text Sample Text")
                 .padding()
-                .font(Font(UIFont(name: "CassandraPersonalUse-Regular", size: UIFont.labelFontSize)!))            .textSelection(.enabled)
-
-            Text(attributedString)
-                .background(Color.yellow)
                 .textSelection(.enabled)
+                .border(.red)
+
+            TextView(text: $nsAttributedString)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                .border(.yellow)
                 .onAppear {
                     let fileUrl = Bundle.main.url(forResource: "html.md", withExtension: "")!
                     let data = try! Data(contentsOf: fileUrl)
@@ -35,8 +37,8 @@ struct HTMLTextView: View {
                             options: options,
                             documentAttributes: nil
                         ) {
-                        
-                        checkAttributeFonts(nsAttributedString: nsAttributedString)
+                        self.nsAttributedString = nsAttributedString
+//                        checkAttributeFonts(nsAttributedString: nsAttributedString)
                         self.attributedString = AttributedString(nsAttributedString)
                     }
                 }
