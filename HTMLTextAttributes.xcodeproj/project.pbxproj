@@ -7,18 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A2A831F283B564E00FD0E80 /* SampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A831E283B564E00FD0E80 /* SampleApp.swift */; };
+		0A2A831F283B564E00FD0E80 /* HTMLAttributeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A831E283B564E00FD0E80 /* HTMLAttributeApp.swift */; };
 		0A2A8321283B564E00FD0E80 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A8320283B564E00FD0E80 /* ContentView.swift */; };
 		0A2A8323283B565100FD0E80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2A8322283B565100FD0E80 /* Assets.xcassets */; };
 		0A2A8326283B565100FD0E80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2A8325283B565100FD0E80 /* Preview Assets.xcassets */; };
+		0A326219283F5C5800535216 /* CassandraPersonalUseRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A326218283F5C2600535216 /* CassandraPersonalUseRegular.ttf */; };
+		0A32621E283F63AF00535216 /* AlMajeedQuranicFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A32621C283F636500535216 /* AlMajeedQuranicFont.ttf */; };
+		0A32621F283F63B200535216 /* AlMushafQuran.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A32621B283F636500535216 /* AlMushafQuran.ttf */; };
+		0A326220283F63B400535216 /* AlQalamQuran.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A32621A283F636400535216 /* AlQalamQuran.ttf */; };
+		0A326221283F63B600535216 /* MUHAMMADIQURANICFONT.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A32621D283F636500535216 /* MUHAMMADIQURANICFONT.ttf */; };
+		0A326223283F72FA00535216 /* me_quran.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A326222283F72FA00535216 /* me_quran.ttf */; };
+		0A326227283F77E300535216 /* HTMLTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A326226283F77E300535216 /* HTMLTextView.swift */; };
+		0A71A6DA283E3232004A35F9 /* html.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A71A6D9283E3232004A35F9 /* html.md */; };
+		0AD42DAF283E3F9900D8526E /* _PDMS_Saleem_QuranFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0AD42DAE283E3F8700D8526E /* _PDMS_Saleem_QuranFont.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A2A831B283B564D00FD0E80 /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A2A831E283B564E00FD0E80 /* SampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleApp.swift; sourceTree = "<group>"; };
+		0A2A831B283B564D00FD0E80 /* HTMLTextAttributes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HTMLTextAttributes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A2A831E283B564E00FD0E80 /* HTMLAttributeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLAttributeApp.swift; sourceTree = "<group>"; };
 		0A2A8320283B564E00FD0E80 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0A2A8322283B565100FD0E80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A2A8325283B565100FD0E80 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0A326218283F5C2600535216 /* CassandraPersonalUseRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CassandraPersonalUseRegular.ttf; sourceTree = "<group>"; };
+		0A32621A283F636400535216 /* AlQalamQuran.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlQalamQuran.ttf; sourceTree = "<group>"; };
+		0A32621B283F636500535216 /* AlMushafQuran.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlMushafQuran.ttf; sourceTree = "<group>"; };
+		0A32621C283F636500535216 /* AlMajeedQuranicFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlMajeedQuranicFont.ttf; sourceTree = "<group>"; };
+		0A32621D283F636500535216 /* MUHAMMADIQURANICFONT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MUHAMMADIQURANICFONT.ttf; sourceTree = "<group>"; };
+		0A326222283F72FA00535216 /* me_quran.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = me_quran.ttf; sourceTree = "<group>"; };
+		0A326226283F77E300535216 /* HTMLTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLTextView.swift; sourceTree = "<group>"; };
+		0A71A6D9283E3232004A35F9 /* html.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = html.md; sourceTree = "<group>"; };
+		0AD42DAE283E3F8700D8526E /* _PDMS_Saleem_QuranFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = _PDMS_Saleem_QuranFont.ttf; sourceTree = "<group>"; };
+		0AD42DB0283E3FAE00D8526E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,7 +54,7 @@
 		0A2A8312283B564D00FD0E80 = {
 			isa = PBXGroup;
 			children = (
-				0A2A831D283B564D00FD0E80 /* Sample */,
+				0A2A831D283B564D00FD0E80 /* HTMLTextAttributes */,
 				0A2A831C283B564D00FD0E80 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,20 +62,30 @@
 		0A2A831C283B564D00FD0E80 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0A2A831B283B564D00FD0E80 /* Sample.app */,
+				0A2A831B283B564D00FD0E80 /* HTMLTextAttributes.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0A2A831D283B564D00FD0E80 /* Sample */ = {
+		0A2A831D283B564D00FD0E80 /* HTMLTextAttributes */ = {
 			isa = PBXGroup;
 			children = (
-				0A2A831E283B564E00FD0E80 /* SampleApp.swift */,
+				0AD42DB0283E3FAE00D8526E /* Info.plist */,
+				0A71A6D9283E3232004A35F9 /* html.md */,
+				0A326222283F72FA00535216 /* me_quran.ttf */,
+				0A32621C283F636500535216 /* AlMajeedQuranicFont.ttf */,
+				0A32621B283F636500535216 /* AlMushafQuran.ttf */,
+				0A32621A283F636400535216 /* AlQalamQuran.ttf */,
+				0A32621D283F636500535216 /* MUHAMMADIQURANICFONT.ttf */,
+				0A326218283F5C2600535216 /* CassandraPersonalUseRegular.ttf */,
+				0AD42DAE283E3F8700D8526E /* _PDMS_Saleem_QuranFont.ttf */,
+				0A2A831E283B564E00FD0E80 /* HTMLAttributeApp.swift */,
 				0A2A8320283B564E00FD0E80 /* ContentView.swift */,
 				0A2A8322283B565100FD0E80 /* Assets.xcassets */,
 				0A2A8324283B565100FD0E80 /* Preview Content */,
+				0A326226283F77E300535216 /* HTMLTextView.swift */,
 			);
-			path = Sample;
+			path = HTMLTextAttributes;
 			sourceTree = "<group>";
 		};
 		0A2A8324283B565100FD0E80 /* Preview Content */ = {
@@ -70,9 +99,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0A2A831A283B564D00FD0E80 /* Sample */ = {
+		0A2A831A283B564D00FD0E80 /* HTMLTextAttributes */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0A2A8329283B565100FD0E80 /* Build configuration list for PBXNativeTarget "Sample" */;
+			buildConfigurationList = 0A2A8329283B565100FD0E80 /* Build configuration list for PBXNativeTarget "HTMLTextAttributes" */;
 			buildPhases = (
 				0A2A8317283B564D00FD0E80 /* Sources */,
 				0A2A8318283B564D00FD0E80 /* Frameworks */,
@@ -82,9 +111,9 @@
 			);
 			dependencies = (
 			);
-			name = Sample;
+			name = HTMLTextAttributes;
 			productName = Sample;
-			productReference = 0A2A831B283B564D00FD0E80 /* Sample.app */;
+			productReference = 0A2A831B283B564D00FD0E80 /* HTMLTextAttributes.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -102,7 +131,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0A2A8316283B564D00FD0E80 /* Build configuration list for PBXProject "Sample" */;
+			buildConfigurationList = 0A2A8316283B564D00FD0E80 /* Build configuration list for PBXProject "HTMLTextAttributes" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -115,7 +144,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0A2A831A283B564D00FD0E80 /* Sample */,
+				0A2A831A283B564D00FD0E80 /* HTMLTextAttributes */,
 			);
 		};
 /* End PBXProject section */
@@ -125,8 +154,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A326223283F72FA00535216 /* me_quran.ttf in Resources */,
+				0A32621E283F63AF00535216 /* AlMajeedQuranicFont.ttf in Resources */,
+				0A71A6DA283E3232004A35F9 /* html.md in Resources */,
 				0A2A8326283B565100FD0E80 /* Preview Assets.xcassets in Resources */,
+				0A32621F283F63B200535216 /* AlMushafQuran.ttf in Resources */,
+				0A326220283F63B400535216 /* AlQalamQuran.ttf in Resources */,
+				0AD42DAF283E3F9900D8526E /* _PDMS_Saleem_QuranFont.ttf in Resources */,
+				0A326219283F5C5800535216 /* CassandraPersonalUseRegular.ttf in Resources */,
 				0A2A8323283B565100FD0E80 /* Assets.xcassets in Resources */,
+				0A326221283F63B600535216 /* MUHAMMADIQURANICFONT.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +175,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A2A8321283B564E00FD0E80 /* ContentView.swift in Sources */,
-				0A2A831F283B564E00FD0E80 /* SampleApp.swift in Sources */,
+				0A326227283F77E300535216 /* HTMLTextView.swift in Sources */,
+				0A2A831F283B564E00FD0E80 /* HTMLAttributeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,20 +306,22 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Sample/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"$(PRODUCT_NAME)/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(PRODUCT_NAME)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.$(PRODUCT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -296,20 +336,22 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Sample/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"$(PRODUCT_NAME)/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(PRODUCT_NAME)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.$(PRODUCT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -320,7 +362,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0A2A8316283B564D00FD0E80 /* Build configuration list for PBXProject "Sample" */ = {
+		0A2A8316283B564D00FD0E80 /* Build configuration list for PBXProject "HTMLTextAttributes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A2A8327283B565100FD0E80 /* Debug */,
@@ -329,7 +371,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0A2A8329283B565100FD0E80 /* Build configuration list for PBXNativeTarget "Sample" */ = {
+		0A2A8329283B565100FD0E80 /* Build configuration list for PBXNativeTarget "HTMLTextAttributes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A2A832A283B565100FD0E80 /* Debug */,

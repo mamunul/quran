@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct SampleApp: App {
+struct HTMLAttributeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
