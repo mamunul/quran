@@ -8,9 +8,14 @@
 import Foundation
 import UIKit
 
-class TafsirContentPresenter:ObservableObject {
+class TafsirContentPresenter: ObservableObject {
     @Published var attributedContent = NSMutableAttributedString(string: "")
-    func onViewAppear() -> NSMutableAttributedString{
+
+    func scaleContent(scaleState: Double) {
+        print(scaleState)
+    }
+
+    func onViewAppear() -> NSMutableAttributedString {
         var fileName = "htmml.md"
         fileName = "0.html"
         let fileUrl = Bundle.main.url(forResource: fileName, withExtension: "")!
@@ -30,6 +35,7 @@ class TafsirContentPresenter:ObservableObject {
         }
         return NSMutableAttributedString(string: "")
     }
+
     func checkInAppFonts() {
         for family in UIFont.familyNames.sorted() {
             let names = UIFont.fontNames(forFamilyName: family)
