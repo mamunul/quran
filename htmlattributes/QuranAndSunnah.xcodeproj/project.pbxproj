@@ -27,7 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A2A831B283B564D00FD0E80 /* HTMLTextAttributes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HTMLTextAttributes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A2A831B283B564D00FD0E80 /* QuranAndSunnah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuranAndSunnah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2A831E283B564E00FD0E80 /* HTMLAttributeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLAttributeApp.swift; sourceTree = "<group>"; };
 		0A2A8320283B564E00FD0E80 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0A2A8322283B565100FD0E80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 		0A2A8312283B564D00FD0E80 = {
 			isa = PBXGroup;
 			children = (
-				0A2A831D283B564D00FD0E80 /* HTMLTextAttributes */,
+				0A2A831D283B564D00FD0E80 /* QuranAndSunnah */,
 				0A2A831C283B564D00FD0E80 /* Products */,
 				FACC5024DCC29C174FF6C7B7 /* Frameworks */,
 				4EFC6AEA3988ECBFF2EE97C4 /* Pods */,
@@ -75,12 +75,12 @@
 		0A2A831C283B564D00FD0E80 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0A2A831B283B564D00FD0E80 /* HTMLTextAttributes.app */,
+				0A2A831B283B564D00FD0E80 /* QuranAndSunnah.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0A2A831D283B564D00FD0E80 /* HTMLTextAttributes */ = {
+		0A2A831D283B564D00FD0E80 /* QuranAndSunnah */ = {
 			isa = PBXGroup;
 			children = (
 				0AA8B0A2284383D700DDA17B /* Resources */,
@@ -93,7 +93,7 @@
 				0A32622A283F8ABF00535216 /* TextView.swift */,
 				0AA8B0A32843841100DDA17B /* TafsirContentPresenter.swift */,
 			);
-			path = HTMLTextAttributes;
+			path = QuranAndSunnah;
 			sourceTree = "<group>";
 		};
 		0A2A8324283B565100FD0E80 /* Preview Content */ = {
@@ -173,9 +173,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0A2A831A283B564D00FD0E80 /* HTMLTextAttributes */ = {
+		0A2A831A283B564D00FD0E80 /* QuranAndSunnah */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0A2A8329283B565100FD0E80 /* Build configuration list for PBXNativeTarget "HTMLTextAttributes" */;
+			buildConfigurationList = 0A2A8329283B565100FD0E80 /* Build configuration list for PBXNativeTarget "QuranAndSunnah" */;
 			buildPhases = (
 				B41FF876DB47BC8D3E8C911D /* [CP] Check Pods Manifest.lock */,
 				0A2A8317283B564D00FD0E80 /* Sources */,
@@ -187,9 +187,9 @@
 			);
 			dependencies = (
 			);
-			name = HTMLTextAttributes;
+			name = QuranAndSunnah;
 			productName = Sample;
-			productReference = 0A2A831B283B564D00FD0E80 /* HTMLTextAttributes.app */;
+			productReference = 0A2A831B283B564D00FD0E80 /* QuranAndSunnah.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -207,7 +207,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0A2A8316283B564D00FD0E80 /* Build configuration list for PBXProject "HTMLTextAttributes" */;
+			buildConfigurationList = 0A2A8316283B564D00FD0E80 /* Build configuration list for PBXProject "QuranAndSunnah" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -220,7 +220,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0A2A831A283B564D00FD0E80 /* HTMLTextAttributes */,
+				0A2A831A283B564D00FD0E80 /* QuranAndSunnah */,
 			);
 		};
 /* End PBXProject section */
@@ -485,7 +485,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0A2A8316283B564D00FD0E80 /* Build configuration list for PBXProject "HTMLTextAttributes" */ = {
+		0A2A8316283B564D00FD0E80 /* Build configuration list for PBXProject "QuranAndSunnah" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A2A8327283B565100FD0E80 /* Debug */,
@@ -494,7 +494,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0A2A8329283B565100FD0E80 /* Build configuration list for PBXNativeTarget "HTMLTextAttributes" */ = {
+		0A2A8329283B565100FD0E80 /* Build configuration list for PBXNativeTarget "QuranAndSunnah" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A2A832A283B565100FD0E80 /* Debug */,
