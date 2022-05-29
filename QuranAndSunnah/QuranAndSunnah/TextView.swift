@@ -35,6 +35,7 @@ class CustomUITextView: UITextView {
     override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if
             action == #selector(UIResponderStandardEditActions.cut(_:)) ||
+            action == #selector(UIResponderStandardEditActions.copy(_:)) ||
             action == #selector(UIResponderStandardEditActions.selectAll(_:)) ||
             action == #selector(UIResponderStandardEditActions.paste(_:)) ||
             action == #selector(UIResponderStandardEditActions.delete(_:)) ||
@@ -56,7 +57,6 @@ class CustomUITextView: UITextView {
         } else if
             action == #selector(note(_:)) ||
             action == #selector(hightlight(_:)) ||
-            action == #selector(UIResponderStandardEditActions.copy(_:)) ||
             action == #selector(UIResponderStandardEditActions.select(_:)) ||
             action == Selector(("_lookup:"))
         {

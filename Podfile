@@ -1,15 +1,15 @@
 # Uncomment the next line to define a global platform for your project
 
-workspace 'HTMLTextAttributes.xcworkspace'
+workspace 'QuranAndSunnah.xcworkspace'
 
-target 'HTMLTextAttributes' do
+target 'QuranAndSunnah' do
   platform :ios, '14.0'
-  project 'htmlattributes/HTMLTextAttributes.xcodeproj'
+  project 'QuranAndSunnah/QuranAndSunnah.xcodeproj'
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for HTMLTextAttributes
-  pod 'SwiftSoup'
+#  pod 'SwiftSoup'
 end
 
 
