@@ -12,7 +12,7 @@
 		0A60A0CA28436513003E49FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A60A0C928436513003E49FF /* Assets.xcassets */; };
 		0A60A0CD28436513003E49FF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A60A0CC28436513003E49FF /* Preview Assets.xcassets */; };
 		0A60A0D428436534003E49FF /* HTMLContentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A60A0D328436534003E49FF /* HTMLContentParser.swift */; };
-		0AA8B09A284370CA00DDA17B /* 1.html in Resources */ = {isa = PBXBuildFile; fileRef = 0AA8B099284370CA00DDA17B /* 1.html */; };
+		0AA8B0A02843758500DDA17B /* IbnKathirContents in Resources */ = {isa = PBXBuildFile; fileRef = 0AA8B09F2843758500DDA17B /* IbnKathirContents */; };
 		D5135D90FD383E069CCC45BF /* Pods_IbnKathir.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70685771C00F7B57A8414E62 /* Pods_IbnKathir.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,7 +23,7 @@
 		0A60A0C928436513003E49FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A60A0CC28436513003E49FF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A60A0D328436534003E49FF /* HTMLContentParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLContentParser.swift; sourceTree = "<group>"; };
-		0AA8B099284370CA00DDA17B /* 1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = 1.html; sourceTree = "<group>"; };
+		0AA8B09F2843758500DDA17B /* IbnKathirContents */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IbnKathirContents; sourceTree = "<group>"; };
 		70685771C00F7B57A8414E62 /* Pods_IbnKathir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IbnKathir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E41606C1DB4CAA6B06F9686 /* Pods-IbnKathir.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IbnKathir.debug.xcconfig"; path = "Target Support Files/Pods-IbnKathir/Pods-IbnKathir.debug.xcconfig"; sourceTree = "<group>"; };
 		C05C0817609ABCE5F912A9D4 /* Pods-IbnKathir.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IbnKathir.release.xcconfig"; path = "Target Support Files/Pods-IbnKathir/Pods-IbnKathir.release.xcconfig"; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		0A60A0C428436510003E49FF /* IbnKathir */ = {
 			isa = PBXGroup;
 			children = (
-				0AA8B099284370CA00DDA17B /* 1.html */,
+				0AA8B09F2843758500DDA17B /* IbnKathirContents */,
 				0A60A0C528436510003E49FF /* IbnKathirApp.swift */,
 				0A60A0C728436511003E49FF /* ContentView.swift */,
 				0A60A0C928436513003E49FF /* Assets.xcassets */,
@@ -159,8 +159,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A60A0CD28436513003E49FF /* Preview Assets.xcassets in Resources */,
-				0AA8B09A284370CA00DDA17B /* 1.html in Resources */,
 				0A60A0CA28436513003E49FF /* Assets.xcassets in Resources */,
+				0AA8B0A02843758500DDA17B /* IbnKathirContents in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
