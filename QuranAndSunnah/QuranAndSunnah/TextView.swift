@@ -69,6 +69,7 @@ class CustomUITextView: UITextView {
 
 struct TextView: UIViewRepresentable {
     @Binding var text: NSMutableAttributedString
+    @Binding var scale: Double
     func makeUIView(context: Context) -> CustomUITextView {
         let textview = CustomUITextView()
         textview.addCustomMenu()
@@ -77,11 +78,12 @@ struct TextView: UIViewRepresentable {
 
     func updateUIView(_ uiView: CustomUITextView, context: Context) {
         uiView.attributedText = text
+        uiView.font = .systemFont(ofSize: 10 * scale)
     }
 }
 
 struct TextView_Previews: PreviewProvider {
     static var previews: some View {
-        TextView(text: .constant(NSMutableAttributedString(string: "Test")))
+        TextView(text: .constant(NSMutableAttributedString(string: "Test")), scale: .constant(1.0))
     }
 }
