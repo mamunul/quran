@@ -28,8 +28,13 @@ struct TafsirContentView: View {
 
     var body: some View {
         ScrollView {
-            Text("«هِيَ أُمُّ الْقُرْآنِ وَهِيَ السَّبْعُ الْمَثَانِي وَهِيَ الْقُرْآنُ الْعَظِيمُ»")
-                .font(Font(UIFont(name: "_PDMS_Saleem_QuranFont", size: UIFont.labelFontSize)!))
+            HStack {
+                Button {
+                    presenter.recite()
+                } label: {
+                    Text("recite")
+                }
+            }
 
             TextView(text: $content, scale: $scale)
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)

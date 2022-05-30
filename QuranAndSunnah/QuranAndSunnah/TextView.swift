@@ -56,7 +56,8 @@ class CustomUITextView: UITextView {
             action == #selector(UIResponderStandardEditActions.copy(_:)) ||
             action == #selector(note(_:)) ||
             action == #selector(hightlight(_:)) ||
-            action == Selector(("_lookup:"))
+            action == Selector(("_lookup:")) ||
+            action == Selector(("_define:"))
         {
             return true
         }
@@ -82,7 +83,7 @@ struct TextView: UIViewRepresentable {
         let fullRange = NSRange(location: 0, length: text.length)
         text.addAttributes(attribute, range: fullRange)
         uiView.attributedText = text
-        uiView.font = .systemFont(ofSize: 10 * scale)
+//        uiView.font = .systemFont(ofSize: 10 * scale)
     }
 }
 
