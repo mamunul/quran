@@ -21,21 +21,19 @@ class CustomUITextView: UITextView {
     }
 
     @objc func hightlight(_ sender: Any?) {
-        let range = Range(selectedRange, in: text)!
-        let selectedString = SelectedString(range: range, text: String(text[range]))
-        print(selectedString)
+        let attributes = [NSAttributedString.Key.backgroundColor: UIColor.yellow]
+        textStorage.addAttributes(attributes, range: selectedRange)
     }
 
     @objc func note(_ sender: Any?) {
-        let range = Range(selectedRange, in: text)!
-        let selectedString = SelectedString(range: range, text: String(text[range]))
-        print(selectedString)
+        let attributes = [NSAttributedString.Key.backgroundColor: UIColor.green]
+        textStorage.addAttributes(attributes, range: selectedRange)
     }
 
     override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if
             action == #selector(UIResponderStandardEditActions.cut(_:)) ||
-            action == #selector(UIResponderStandardEditActions.copy(_:)) ||
+            action == #selector(UIResponderStandardEditActions.select(_:)) ||
             action == #selector(UIResponderStandardEditActions.selectAll(_:)) ||
             action == #selector(UIResponderStandardEditActions.paste(_:)) ||
             action == #selector(UIResponderStandardEditActions.delete(_:)) ||
@@ -55,9 +53,9 @@ class CustomUITextView: UITextView {
         {
             return false
         } else if
+            action == #selector(UIResponderStandardEditActions.copy(_:)) ||
             action == #selector(note(_:)) ||
             action == #selector(hightlight(_:)) ||
-            action == #selector(UIResponderStandardEditActions.select(_:)) ||
             action == Selector(("_lookup:"))
         {
             return true
