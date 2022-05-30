@@ -68,6 +68,7 @@ class CustomUITextView: UITextView {
 struct TextView: UIViewRepresentable {
     @Binding var text: NSMutableAttributedString
     @Binding var scale: Double
+    @Environment(\.colorScheme) var colorScheme
     func makeUIView(context: Context) -> CustomUITextView {
         let textview = CustomUITextView()
         textview.addCustomMenu()
@@ -76,6 +77,10 @@ struct TextView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: CustomUITextView, context: Context) {
+        let textColor = colorScheme == .dark ? UIColor.white : UIColor.black
+        let attribute = [NSAttributedString.Key.foregroundColor: textColor]
+        let fullRange = NSRange(location: 0, length: uiView.attributedText.length)
+        text.addAttributes(attribute, range: fullRange)
         uiView.attributedText = text
         uiView.font = .systemFont(ofSize: 10 * scale)
     }
