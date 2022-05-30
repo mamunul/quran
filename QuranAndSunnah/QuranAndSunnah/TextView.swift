@@ -71,6 +71,7 @@ struct TextView: UIViewRepresentable {
     func makeUIView(context: Context) -> CustomUITextView {
         let textview = CustomUITextView()
         textview.addCustomMenu()
+        textview.isEditable = false
         return textview
     }
 
