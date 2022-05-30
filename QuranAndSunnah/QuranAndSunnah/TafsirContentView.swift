@@ -13,6 +13,7 @@ struct TafsirContentView: View {
     @State var content = NSMutableAttributedString(string: "")
     @State var scale = 1.0
     @GestureState var scaleState = 1.0
+    @State var searchStrinng: String = ""
 
     var magnification: some Gesture {
         MagnificationGesture()
@@ -29,14 +30,16 @@ struct TafsirContentView: View {
     var body: some View {
         ScrollView {
             HStack {
+                TextField("TItle", text: $searchStrinng, prompt: Text("search here"))
+                    .keyboardType(UIKeyboardType.alphabet)
                 Button {
                     presenter.recite()
                 } label: {
                     Text("recite")
                 }
-            }
+            }.padding(.horizontal)
 
-            TextView(text: $content, scale: $scale)
+            TextView(text: $content, scale: $scale , searchString:$searchStrinng)
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .border(.yellow)
                 .onAppear {

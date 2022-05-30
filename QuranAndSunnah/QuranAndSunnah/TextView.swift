@@ -69,6 +69,7 @@ class CustomUITextView: UITextView {
 struct TextView: UIViewRepresentable {
     @Binding var text: NSMutableAttributedString
     @Binding var scale: Double
+    @Binding var searchString: String
     @Environment(\.colorScheme) var colorScheme
     func makeUIView(context: Context) -> CustomUITextView {
         let textview = CustomUITextView()
@@ -82,13 +83,27 @@ struct TextView: UIViewRepresentable {
         let attribute = [NSAttributedString.Key.foregroundColor: textColor]
         let fullRange = NSRange(location: 0, length: text.length)
         text.addAttributes(attribute, range: fullRange)
+
+//        if !searchString.isEmpty {
+
+//        }
         uiView.attributedText = text
+        
+        let searchRange = NSString(string: text.string).range(of: searchString, options: .caseInsensitive)
+        uiView.selectedRange = searchRange // optional
+        let attributes = [NSAttributedString.Key.backgroundColor: UIColor.lightGray]
+        uiView.textStorage.addAttributes(attributes, range: searchRange)
+        uiView.scrollRangeToVisible(searchRange)
 //        uiView.font = .systemFont(ofSize: 10 * scale)
     }
 }
 
 struct TextView_Previews: PreviewProvider {
     static var previews: some View {
-        TextView(text: .constant(NSMutableAttributedString(string: "Test")), scale: .constant(1.0))
+        TextView(
+            text: .constant(NSMutableAttributedString(string: "Test")),
+            scale: .constant(1.0),
+            searchString: .constant("sfd")
+        )
     }
 }

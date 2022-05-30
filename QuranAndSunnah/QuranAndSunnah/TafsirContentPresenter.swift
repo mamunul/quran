@@ -92,6 +92,11 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
+    func search(searchString: String) -> NSRange {
+        let range = NSString(string: attributedContent.string).range(of: searchString, options: .caseInsensitive)
+        return range
+    }
+
     func searchAndHighlight(content: String, searchString: String, mutableAttributeString: NSMutableAttributedString) -> NSMutableAttributedString {
         let range = NSString(string: content).range(of: searchString, options: .caseInsensitive) // 2
         let highlightColor = UIColor.systemYellow
