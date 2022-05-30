@@ -11,10 +11,6 @@ import UIKit
 class TafsirContentPresenter: ObservableObject {
     @Published var attributedContent = NSMutableAttributedString(string: "")
 
-    func scaleContent(scaleState: Double) {
-        print(scaleState)
-    }
-
     func onViewAppear() -> NSMutableAttributedString {
         var fileName = "htmml.md"
         fileName = "0.html"
