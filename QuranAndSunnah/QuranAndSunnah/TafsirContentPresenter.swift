@@ -5,11 +5,15 @@
 //  Created by newone on 29/5/22.
 //
 
+import AVFoundation
 import Foundation
 import UIKit
 
 class TafsirContentPresenter: ObservableObject {
-    @Published var attributedContent = NSMutableAttributedString(string: "")
+    private var attributedContent = NSMutableAttributedString(string: "")
+    private let synthesizer = AVSpeechSynthesizer()
+    private var utterance: AVSpeechUtterance?
+    private var isPlaying = false
 
     func onViewAppear() -> NSMutableAttributedString {
         var fileName = "htmml.md"
@@ -27,9 +31,38 @@ class TafsirContentPresenter: ObservableObject {
                 options: options,
                 documentAttributes: nil
             ) {
+            attributedContent = nsAttributedString
+            utterance = AVSpeechUtterance(attributedString: attributedContent)
+            let voice = AVSpeechSynthesisVoice()
+            utterance?.voice = voice
             return nsAttributedString
         }
         return NSMutableAttributedString(string: "")
+    }
+
+    func pause() {
+        synthesizer.pauseSpeaking(at: AVSpeechBoundary.immediate)
+    }
+
+    func play() {
+        if synthesizer.isSpeaking {
+            synthesizer.continueSpeaking()
+        } else {
+            synthesizer.speak(utterance!)
+        }
+    }
+
+    func stop() {
+        synthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
+    }
+
+    func recite() {
+        if isPlaying {
+            pause()
+        } else {
+            play()
+        }
+        isPlaying.toggle()
     }
 
     func checkInAppFonts() {
