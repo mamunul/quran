@@ -43,6 +43,8 @@ struct TafsirContentView: View {
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .border(.yellow)
                 .onAppear {
+                    let text = QuranRepository().test()
+                    print(text)
                     self.content = presenter.onViewAppear()
                 }
                 .gesture(magnification)

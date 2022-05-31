@@ -1,0 +1,18 @@
+{
+	"1": {
+		"name": "الفاتحة",
+		"nAyah": 7,
+		"revelationOrder": 5,
+		"type": "meccan",
+		"start": 1,
+		"end": 7
+	},
+	"2": {
+		"name": "البقرة",
+		"nAyah": 286,
+		"revelationOrder": 87,
+		"type": "medinan",
+		"start": 8,
+		"end": 293
+	}
+}
