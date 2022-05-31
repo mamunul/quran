@@ -21,12 +21,20 @@ class CustomUITextView: UITextView {
     }
 
     @objc func hightlight(_ sender: Any?) {
-        let attributes = [NSAttributedString.Key.backgroundColor: UIColor.yellow]
+        var color = UIColor.yellow
+        if traitCollection.userInterfaceStyle == .dark {
+            color = UIColor.purple
+        }
+        let attributes = [NSAttributedString.Key.backgroundColor: color]
         textStorage.addAttributes(attributes, range: selectedRange)
     }
 
     @objc func note(_ sender: Any?) {
-        let attributes = [NSAttributedString.Key.backgroundColor: UIColor.green]
+        var color = UIColor.orange
+        if traitCollection.userInterfaceStyle == .dark {
+            color = UIColor.blue
+        }
+        let attributes = [NSAttributedString.Key.backgroundColor: color]
         textStorage.addAttributes(attributes, range: selectedRange)
     }
 
@@ -83,12 +91,8 @@ struct TextView: UIViewRepresentable {
         let attribute = [NSAttributedString.Key.foregroundColor: textColor]
         let fullRange = NSRange(location: 0, length: text.length)
         text.addAttributes(attribute, range: fullRange)
-
-//        if !searchString.isEmpty {
-
-//        }
         uiView.attributedText = text
-        
+
         let searchRange = NSString(string: text.string).range(of: searchString, options: .caseInsensitive)
         uiView.selectedRange = searchRange // optional
         let attributes = [NSAttributedString.Key.backgroundColor: UIColor.lightGray]
