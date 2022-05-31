@@ -22,9 +22,9 @@ struct Highlight {
 
     /// The highlighted range in the whole text.
     var range: Range<Int>
+    /// The highlighted text
+    var text: String
     /// The color used to mark the highlighted portion of the text.
-    var color: Color
-    /// The number of the ayah in Quran or the number of the ayah in tafsir or the number of the hadith.
     var no: Int
     /// The type of book - hadith/tafsir/quran where this highlight is applied.
     var type: HighlightType
@@ -35,17 +35,18 @@ struct Highlight {
 }
 
 struct Note {
-    /// The noted range in the whole text.
+    /// The highlighted range in the whole text.
     var range: Range<Int>
-    /// The color used to mark the noted portion of the text.
-    var color: Color
+    /// The highlighted text
+    var text: String
     /// The number of the ayah in Quran or the number of the ayah in tafsir or the number of the hadith.
     var no: Int
     /// The type of book - hadith/tafsir/quran where this highlight is applied.
     var type: Highlight.HighlightType
-    /// The language of the noted text .
+    /// The language of the highlighted text .
     var language: Language
     /// The type of hadith / tafsir, as there are a multitude of collector of hadith and tafsir.
     var subType: Int
+    /// The written notes of the highlighted text
     var note: String
 }
