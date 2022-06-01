@@ -28,6 +28,7 @@
 		0AD42DAF283E3F9900D8526E /* _PDMS_Saleem_QuranFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0AD42DAE283E3F8700D8526E /* _PDMS_Saleem_QuranFont.ttf */; };
 		853870E7FF3BC32CFAA7BCE7 /* Pods_QuranAndSunnah.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2F1EA3DE30550BFE4C5D36 /* Pods_QuranAndSunnah.framework */; };
 		EE410F7F284694D90018EE7C /* AppRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE410F7E284694D90018EE7C /* AppRepository.swift */; };
+		EE61D5DD2847D94D003381B7 /* QuranRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE61D5DC2847D94D003381B7 /* QuranRepository.swift */; };
 		EE7180B32846526B000D16FB /* Hadith.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B22846526B000D16FB /* Hadith.swift */; };
 		EE7180B5284655BA000D16FB /* Quran.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B4284655BA000D16FB /* Quran.swift */; };
 		EE7180B728465B7B000D16FB /* Tafsir.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B628465B7B000D16FB /* Tafsir.swift */; };
@@ -62,6 +63,7 @@
 		BCE13DEBD33284E6499A92B3 /* Pods-HTMLTextAttributes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HTMLTextAttributes.debug.xcconfig"; path = "Target Support Files/Pods-HTMLTextAttributes/Pods-HTMLTextAttributes.debug.xcconfig"; sourceTree = "<group>"; };
 		EBFD6A4FBADC2631195D6688 /* Pods-QuranAndSunnah.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuranAndSunnah.release.xcconfig"; path = "Target Support Files/Pods-QuranAndSunnah/Pods-QuranAndSunnah.release.xcconfig"; sourceTree = "<group>"; };
 		EE410F7E284694D90018EE7C /* AppRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRepository.swift; sourceTree = "<group>"; };
+		EE61D5DC2847D94D003381B7 /* QuranRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuranRepository.swift; sourceTree = "<group>"; };
 		EE7180B22846526B000D16FB /* Hadith.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hadith.swift; sourceTree = "<group>"; };
 		EE7180B4284655BA000D16FB /* Quran.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quran.swift; sourceTree = "<group>"; };
 		EE7180B628465B7B000D16FB /* Tafsir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tafsir.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				EE410F7E284694D90018EE7C /* AppRepository.swift */,
 				0AA7916328473E2B00B5C567 /* StreamReader.swift */,
+				EE61D5DC2847D94D003381B7 /* QuranRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				0A2A8317283B564D00FD0E80 /* Sources */,
 				0A2A8318283B564D00FD0E80 /* Frameworks */,
 				0A2A8319283B564D00FD0E80 /* Resources */,
+				EE410F912847AE7F0018EE7C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -322,6 +326,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		EE410F912847AE7F0018EE7C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:|MARK:\"\nERRORTAG=\"ERROR:\"\necho \"${SRCROOT}/$PRODUCT_NAME\"\nfind \"${SRCROOT}/$PRODUCT_NAME\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"\n\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -340,6 +362,7 @@
 				EE410F7F284694D90018EE7C /* AppRepository.swift in Sources */,
 				0A32622B283F8ABF00535216 /* TextView.swift in Sources */,
 				EE7180BA28465C61000D16FB /* Bookmark.swift in Sources */,
+				EE61D5DD2847D94D003381B7 /* QuranRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
