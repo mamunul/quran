@@ -12,8 +12,8 @@ struct Quran {
 }
 
 struct Surah {
-    enum RevelationPlace {
-        case madina, mecca
+    enum RevelationPlace: String {
+        case medinan, meccan
     }
 
     var ayahCount: Int
