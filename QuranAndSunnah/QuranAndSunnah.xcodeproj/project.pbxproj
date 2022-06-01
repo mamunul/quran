@@ -19,7 +19,6 @@
 		0A326223283F72FA00535216 /* me_quran.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A326222283F72FA00535216 /* me_quran.ttf */; };
 		0A326227283F77E300535216 /* TafsirContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A326226283F77E300535216 /* TafsirContentView.swift */; };
 		0A32622B283F8ABF00535216 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A32622A283F8ABF00535216 /* TextView.swift */; };
-		0A71A6DA283E3232004A35F9 /* html.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A71A6D9283E3232004A35F9 /* html.md */; };
 		0AA7916428473E2B00B5C567 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA7916328473E2B00B5C567 /* StreamReader.swift */; };
 		0AA791872847814900B5C567 /* Quran in Resources */ = {isa = PBXBuildFile; fileRef = 0AA791842847814900B5C567 /* Quran */; };
 		0AA791882847814900B5C567 /* Tafsir in Resources */ = {isa = PBXBuildFile; fileRef = 0AA791852847814900B5C567 /* Tafsir */; };
@@ -29,6 +28,7 @@
 		853870E7FF3BC32CFAA7BCE7 /* Pods_QuranAndSunnah.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2F1EA3DE30550BFE4C5D36 /* Pods_QuranAndSunnah.framework */; };
 		EE410F7F284694D90018EE7C /* AppRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE410F7E284694D90018EE7C /* AppRepository.swift */; };
 		EE61D5DD2847D94D003381B7 /* QuranRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE61D5DC2847D94D003381B7 /* QuranRepository.swift */; };
+		EE61D5DF2847E0B5003381B7 /* html.html in Resources */ = {isa = PBXBuildFile; fileRef = EE61D5DE2847E0B5003381B7 /* html.html */; };
 		EE7180B32846526B000D16FB /* Hadith.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B22846526B000D16FB /* Hadith.swift */; };
 		EE7180B5284655BA000D16FB /* Quran.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B4284655BA000D16FB /* Quran.swift */; };
 		EE7180B728465B7B000D16FB /* Tafsir.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B628465B7B000D16FB /* Tafsir.swift */; };
@@ -49,7 +49,6 @@
 		0A326222283F72FA00535216 /* me_quran.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = me_quran.ttf; sourceTree = "<group>"; };
 		0A326226283F77E300535216 /* TafsirContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TafsirContentView.swift; sourceTree = "<group>"; };
 		0A32622A283F8ABF00535216 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
-		0A71A6D9283E3232004A35F9 /* html.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = html.md; sourceTree = "<group>"; };
 		0AA7916328473E2B00B5C567 /* StreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
 		0AA791842847814900B5C567 /* Quran */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Quran; sourceTree = "<group>"; };
 		0AA791852847814900B5C567 /* Tafsir */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tafsir; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		EBFD6A4FBADC2631195D6688 /* Pods-QuranAndSunnah.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuranAndSunnah.release.xcconfig"; path = "Target Support Files/Pods-QuranAndSunnah/Pods-QuranAndSunnah.release.xcconfig"; sourceTree = "<group>"; };
 		EE410F7E284694D90018EE7C /* AppRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRepository.swift; sourceTree = "<group>"; };
 		EE61D5DC2847D94D003381B7 /* QuranRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuranRepository.swift; sourceTree = "<group>"; };
+		EE61D5DE2847E0B5003381B7 /* html.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = html.html; sourceTree = "<group>"; };
 		EE7180B22846526B000D16FB /* Hadith.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hadith.swift; sourceTree = "<group>"; };
 		EE7180B4284655BA000D16FB /* Quran.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quran.swift; sourceTree = "<group>"; };
 		EE7180B628465B7B000D16FB /* Tafsir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tafsir.swift; sourceTree = "<group>"; };
@@ -144,10 +144,10 @@
 		0AA8B0A2284383D700DDA17B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EE61D5DE2847E0B5003381B7 /* html.html */,
 				0AA791862847814900B5C567 /* Hadith */,
 				0AA791842847814900B5C567 /* Quran */,
 				0AA791852847814900B5C567 /* Tafsir */,
-				0A71A6D9283E3232004A35F9 /* html.md */,
 				0AA8B0A1284383B800DDA17B /* Fonts */,
 			);
 			path = Resources;
@@ -289,13 +289,13 @@
 				0AA791872847814900B5C567 /* Quran in Resources */,
 				0A326223283F72FA00535216 /* me_quran.ttf in Resources */,
 				0A32621E283F63AF00535216 /* AlMajeedQuranicFont.ttf in Resources */,
-				0A71A6DA283E3232004A35F9 /* html.md in Resources */,
 				0A2A8326283B565100FD0E80 /* Preview Assets.xcassets in Resources */,
 				0A32621F283F63B200535216 /* AlMushafQuran.ttf in Resources */,
 				0A326220283F63B400535216 /* AlQalamQuran.ttf in Resources */,
 				0AA791882847814900B5C567 /* Tafsir in Resources */,
 				0AD42DAF283E3F9900D8526E /* _PDMS_Saleem_QuranFont.ttf in Resources */,
 				0A326219283F5C5800535216 /* CassandraPersonalUseRegular.ttf in Resources */,
+				EE61D5DF2847E0B5003381B7 /* html.html in Resources */,
 				0A2A8323283B565100FD0E80 /* Assets.xcassets in Resources */,
 				0A326221283F63B600535216 /* MUHAMMADIQURANICFONT.ttf in Resources */,
 			);
