@@ -25,7 +25,7 @@ struct HadithJson: Decodable {
     var Arabic_Isnad: String
     var Arabic_Matn: String
     var Arabic_Comment: String
-    var English_Grade: Stringcd 
+    var English_Grade: String
     var Arabic_Grade: String
 }
 
