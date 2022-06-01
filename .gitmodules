@@ -1,0 +1,9 @@
+[submodule "QuranAndSunnah/QuranAndSunnah/Resources/Quran"]
+	path = QuranAndSunnah/QuranAndSunnah/Resources/Quran
+	url = git@github.com:mamunul/data-quran.git
+[submodule "QuranAndSunnah/QuranAndSunnah/Resources/Tafsir"]
+	path = QuranAndSunnah/QuranAndSunnah/Resources/Tafsir
+	url = git@github.com:mamunul/QuranDB.git
+[submodule "QuranAndSunnah/QuranAndSunnah/Resources/Hadith"]
+	path = QuranAndSunnah/QuranAndSunnah/Resources/Hadith
+	url = git@github.com:mamunul/LK-Hadith-Corpus.git
