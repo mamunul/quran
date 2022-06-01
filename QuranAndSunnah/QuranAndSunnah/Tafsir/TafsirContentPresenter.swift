@@ -17,7 +17,7 @@ class TafsirContentPresenter: ObservableObject {
 
     func onViewAppear() -> NSMutableAttributedString {
         var fileName = "htmml.md"
-        fileName = "0.html"
+        fileName = "Tafsir/IbnKathir/1/0.html"
         let fileUrl = Bundle.main.url(forResource: fileName, withExtension: "")!
         let data = try! Data(contentsOf: fileUrl)
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] =
