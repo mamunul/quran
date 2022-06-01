@@ -10,8 +10,63 @@ import Foundation
 class AppRepository {
 }
 
+struct HadithJson {
+    var chapter_number: Int
+    var chapter_english: String
+    var chapter_arabic: String
+    var section_number: Int
+    var section_english: String
+    var section_arabic: String
+    var hadith_number: Int
+    var english_hadith: String
+    var english_isnad: String
+    var english_matn: String
+    var arabic_hadith: String
+    var arabic_isnad: String
+    var arabic_matn: String
+    var arabic_comment: String
+    var english_grade: String
+    var arabic_grad: String
+}
+
 class HadithRepository {
-    func tes() -> String {
+    func test() -> String {
+        // Chapter_Number,Chapter_English,Chapter_Arabic,Section_Number,Section_English,Section_Arabic,Hadith_number,English_Hadith,English_Isnad,English_Matn,Arabic_Hadith,Arabic_Isnad,Arabic_Matn,Arabic_Comment,English_Grade,Arabic_Grade
+        do {
+            let fileUrl = Bundle.main.url(forResource: "Hadith/AbuDaud/Chapter1.csv", withExtension: "")!
+            let data = try Data(contentsOf: fileUrl)
+            let content = String(data: data, encoding: .utf8)
+            var hadithList = [HadithJson]()
+            var firstLine = true
+            content?.enumerateLines(invoking: { line, _ in
+
+                if firstLine { firstLine = false; return }
+
+                let strs = line.split(separator: ",", omittingEmptySubsequences: false)
+                let hadith =
+                    HadithJson(
+                        chapter_number: Int(Float(strs[0])!),
+                        chapter_english: String(strs[1]),
+                        chapter_arabic: String(strs[2]),
+                        section_number: Int(Float(strs[3])!),
+                        section_english: String(strs[4]),
+                        section_arabic: String(strs[5]),
+                        hadith_number: Int(Float(strs[6])!),
+                        english_hadith: String(strs[7]),
+                        english_isnad: String(strs[8]),
+                        english_matn: String(strs[9]),
+                        arabic_hadith: String(strs[10]),
+                        arabic_isnad: String(strs[11]),
+                        arabic_matn: String(strs[12]),
+                        arabic_comment: String(strs[13]),
+                        english_grade: String(strs[14]),
+                        arabic_grad: String(strs[14])
+                    )
+                hadithList.append(hadith)
+                print(hadith)
+            })
+        } catch {
+        }
         return ""
     }
 }
