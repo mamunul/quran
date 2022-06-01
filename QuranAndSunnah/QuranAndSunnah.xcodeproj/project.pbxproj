@@ -21,6 +21,7 @@
 		0A32622B283F8ABF00535216 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A32622A283F8ABF00535216 /* TextView.swift */; };
 		0A32622D283F99AF00535216 /* 0.html in Resources */ = {isa = PBXBuildFile; fileRef = 0A32622C283F99AF00535216 /* 0.html */; };
 		0A71A6DA283E3232004A35F9 /* html.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A71A6D9283E3232004A35F9 /* html.md */; };
+		0AA7916428473E2B00B5C567 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA7916328473E2B00B5C567 /* StreamReader.swift */; };
 		0AA8B0A42843841100DDA17B /* TafsirContentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA8B0A32843841100DDA17B /* TafsirContentPresenter.swift */; };
 		0AD42DAF283E3F9900D8526E /* _PDMS_Saleem_QuranFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0AD42DAE283E3F8700D8526E /* _PDMS_Saleem_QuranFont.ttf */; };
 		853870E7FF3BC32CFAA7BCE7 /* Pods_QuranAndSunnah.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2F1EA3DE30550BFE4C5D36 /* Pods_QuranAndSunnah.framework */; };
@@ -51,6 +52,7 @@
 		0A32622A283F8ABF00535216 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		0A32622C283F99AF00535216 /* 0.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = 0.html; sourceTree = "<group>"; };
 		0A71A6D9283E3232004A35F9 /* html.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = html.md; sourceTree = "<group>"; };
+		0AA7916328473E2B00B5C567 /* StreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
 		0AA8B0A32843841100DDA17B /* TafsirContentPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TafsirContentPresenter.swift; sourceTree = "<group>"; };
 		0AD42DAE283E3F8700D8526E /* _PDMS_Saleem_QuranFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = _PDMS_Saleem_QuranFont.ttf; sourceTree = "<group>"; };
 		0AD42DB0283E3FAE00D8526E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				EE410F7E284694D90018EE7C /* AppRepository.swift */,
+				0AA7916328473E2B00B5C567 /* StreamReader.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				EE7180B5284655BA000D16FB /* Quran.swift in Sources */,
 				0AA8B0A42843841100DDA17B /* TafsirContentPresenter.swift in Sources */,
 				EE7180B32846526B000D16FB /* Hadith.swift in Sources */,
+				0AA7916428473E2B00B5C567 /* StreamReader.swift in Sources */,
 				0A2A8321283B564E00FD0E80 /* ContentView.swift in Sources */,
 				0A326227283F77E300535216 /* TafsirContentView.swift in Sources */,
 				0A2A831F283B564E00FD0E80 /* HTMLAttributeApp.swift in Sources */,

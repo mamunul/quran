@@ -9,8 +9,8 @@ import Foundation
 
 struct TafsirAyah {
     var bookmark: Bool
-    var textUrl: URL
-    var translations: [URL]
+    var text: String
+    var translations: [Translation]
     var ayahRange: Range<Int>
 }
 
