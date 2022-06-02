@@ -16,28 +16,33 @@ class TafsirContentPresenter: ObservableObject {
     private var isPlaying = false
 
     func onViewAppear() -> NSMutableAttributedString {
-        var fileName = "htmml.md"
-        fileName = "html.html"
-        let fileUrl = Bundle.main.url(forResource: fileName, withExtension: "")!
-        let data = try! Data(contentsOf: fileUrl)
-        let options: [NSAttributedString.DocumentReadingOptionKey: Any] =
-            [
-                .documentType: NSAttributedString.DocumentType.html,
-                .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue),
-            ]
-        if let nsAttributedString =
-            try? NSMutableAttributedString(
-                data: data,
-                options: options,
-                documentAttributes: nil
-            ) {
-            attributedContent = nsAttributedString
-            utterance = AVSpeechUtterance(attributedString: attributedContent)
-            let voice = AVSpeechSynthesisVoice()
-            utterance?.voice = voice
+        attributedContent = getUpdateContent()
+        setupReader()
+        return attributedContent
+    }
+    
+    func setupReader(){
+        utterance = AVSpeechUtterance(attributedString: attributedContent)
+        let voice = AVSpeechSynthesisVoice()
+        utterance?.voice = voice
+    }
+
+    func getUpdateContent() -> NSMutableAttributedString {
+        let fontSize = 15
+        let config =
+            TafsirContentConfiguration(
+                arabicFontSize: fontSize + 2,
+                titleFontSize: fontSize,
+                englishFontSize: fontSize,
+                arabicBackgroundColor: ""
+            )
+        do {
+            let nsAttributedString = try TafsirRepository().getContent(surah: 1, ayah: 0, configuraiton: config)
             return nsAttributedString
+        } catch {
+            print(error)
         }
-        return NSMutableAttributedString(string: "")
+        return NSMutableAttributedString()
     }
 
     func pause() {

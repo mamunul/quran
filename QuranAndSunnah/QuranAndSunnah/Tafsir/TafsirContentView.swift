@@ -43,8 +43,6 @@ struct TafsirContentView: View {
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .border(.yellow)
                 .onAppear {
-                    let text = HadithRepository().test()
-//                    print(text)
                     self.content = presenter.onViewAppear()
                 }
                 .gesture(magnification)
