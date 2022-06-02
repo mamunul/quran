@@ -76,7 +76,6 @@ class CustomUITextView: UITextView {
 
 struct TextView: UIViewRepresentable {
     @Binding var text: NSMutableAttributedString
-    @Binding var scale: Double
     @Binding var searchString: String
     @Environment(\.colorScheme) var colorScheme
     func makeUIView(context: Context) -> CustomUITextView {
@@ -98,7 +97,6 @@ struct TextView: UIViewRepresentable {
         let attributes = [NSAttributedString.Key.backgroundColor: UIColor.lightGray]
         uiView.textStorage.addAttributes(attributes, range: searchRange)
         uiView.scrollRangeToVisible(searchRange)
-//        uiView.font = .systemFont(ofSize: 10 * scale)
     }
 }
 
@@ -106,7 +104,6 @@ struct TextView_Previews: PreviewProvider {
     static var previews: some View {
         TextView(
             text: .constant(NSMutableAttributedString(string: "Test")),
-            scale: .constant(1.0),
             searchString: .constant("sfd")
         )
     }

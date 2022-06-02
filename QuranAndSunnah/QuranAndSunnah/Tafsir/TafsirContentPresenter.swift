@@ -14,34 +14,50 @@ class TafsirContentPresenter: ObservableObject {
     private let synthesizer = AVSpeechSynthesizer()
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
+    @Published var fontSize: Float = 15.0 {
+        didSet {
+            if previousFontSize == fontSize { return }
+            previousFontSize = fontSize
+            DispatchQueue.global().async {
+                self.updateContent()
+            }
+        }
+    }
+
+    private var previousFontSize: Float = 15.0
+
+    var fontRange: ClosedRange<Float> = 15.0 ... 30.0
 
     func onViewAppear() {
-        attributedContent = getUpdateContent()
-        setupReader()
+        DispatchQueue.global().async {
+            self.updateContent()
+            self.setupReader()
+        }
     }
-    
-    func setupReader(){
+
+    private func setupReader() {
         utterance = AVSpeechUtterance(attributedString: attributedContent)
         let voice = AVSpeechSynthesisVoice()
         utterance?.voice = voice
     }
 
-    func getUpdateContent() -> NSMutableAttributedString {
-        let fontSize = 15
+    private func updateContent() {
         let config =
             TafsirContentConfiguration(
-                arabicFontSize: fontSize + 2,
-                titleFontSize: fontSize,
-                englishFontSize: fontSize,
+                arabicFontSize: Int(fontSize) + 2,
+                titleFontSize: Int(fontSize),
+                englishFontSize: Int(fontSize),
                 arabicBackgroundColor: ""
             )
         do {
-            let nsAttributedString = try TafsirRepository().getContent(surah: 1, ayah: 0, configuraiton: config)
-            return nsAttributedString
+            let updatedContent = try TafsirRepository().getContent(surah: 1, ayah: 0, configuraiton: config)
+            DispatchQueue.main.async {
+                self.attributedContent = updatedContent
+            }
+
         } catch {
             print(error)
         }
-        return NSMutableAttributedString()
     }
 
     func pause() {
