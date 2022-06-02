@@ -9,8 +9,7 @@ import Combine
 import SwiftUI
 
 struct TafsirContentView: View {
-    @State var presenter = TafsirContentPresenter()
-    @State var content = NSMutableAttributedString(string: "")
+    @StateObject var presenter = TafsirContentPresenter()
     @State var scale = 1.0
     @GestureState var scaleState = 1.0
     @State var searchStrinng: String = ""
@@ -39,11 +38,11 @@ struct TafsirContentView: View {
                 }
             }.padding(.horizontal)
 
-            TextView(text: $content, scale: $scale , searchString:$searchStrinng)
+            TextView(text: $presenter.attributedContent, scale: $scale , searchString:$searchStrinng)
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .border(.yellow)
                 .onAppear {
-                    self.content = presenter.onViewAppear()
+                    presenter.onViewAppear()
                 }
                 .gesture(magnification)
         }

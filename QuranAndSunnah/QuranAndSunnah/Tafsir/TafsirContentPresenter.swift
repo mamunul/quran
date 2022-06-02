@@ -10,15 +10,14 @@ import Foundation
 import UIKit
 
 class TafsirContentPresenter: ObservableObject {
-    private var attributedContent = NSMutableAttributedString(string: "")
+    @Published var attributedContent = NSMutableAttributedString(string: "")
     private let synthesizer = AVSpeechSynthesizer()
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
 
-    func onViewAppear() -> NSMutableAttributedString {
+    func onViewAppear() {
         attributedContent = getUpdateContent()
         setupReader()
-        return attributedContent
     }
     
     func setupReader(){
