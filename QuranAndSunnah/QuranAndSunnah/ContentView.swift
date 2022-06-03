@@ -15,7 +15,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Quran", systemImage: "list.dash")
                 }
-            TafsirContentView()
+            TafsirMainView()
                 .tabItem {
                     Label("Tafsir", systemImage: "list.dash")
                 }

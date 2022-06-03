@@ -10,16 +10,21 @@ import Foundation
 import UIKit
 
 class TafsirContentPresenter: ObservableObject {
+    @Published var quran: Quran = Quran(surah: [])
     @Published var attributedContent = NSMutableAttributedString(string: "")
     private let synthesizer = AVSpeechSynthesizer()
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
+    private var surah: Surah?
+    private var ayah: Ayah?
     @Published var fontSize: Float = 15.0 {
         didSet {
             if previousFontSize == fontSize { return }
             previousFontSize = fontSize
-            DispatchQueue.global().async {
-                self.updateContent()
+            DispatchQueue.global().async { [self] in
+                if surah != nil && ayah != nil {
+                    self.updateContent(surah: surah!, ayah: ayah!)
+                }
             }
         }
     }
@@ -28,9 +33,16 @@ class TafsirContentPresenter: ObservableObject {
 
     var fontRange: ClosedRange<Float> = 15.0 ... 30.0
 
-    func onViewAppear() {
+    func getSurah() {
+        let quran = QuranRepository().requestQuran()
+        DispatchQueue.main.async {
+            self.quran = quran
+        }
+    }
+
+    func onViewAppear(surah: Surah, ayah: Ayah) {
         DispatchQueue.global().async {
-            self.updateContent()
+            self.updateContent(surah: surah, ayah: ayah)
             self.setupReader()
         }
     }
@@ -41,7 +53,9 @@ class TafsirContentPresenter: ObservableObject {
         utterance?.voice = voice
     }
 
-    private func updateContent() {
+    private func updateContent(surah: Surah, ayah: Ayah) {
+        self.surah = surah
+        self.ayah = ayah
         let config =
             TafsirContentConfiguration(
                 arabicFontSize: Int(fontSize) + 2,
@@ -50,7 +64,7 @@ class TafsirContentPresenter: ObservableObject {
                 arabicBackgroundColor: ""
             )
         do {
-            let updatedContent = try TafsirRepository().getContent(surah: 1, ayah: 0, configuraiton: config)
+            let updatedContent = try TafsirRepository().getContent(surah: surah.surahNo, ayah: ayah.ayahNo-surah.firstAyahNo, configuraiton: config)
             DispatchQueue.main.async {
                 self.attributedContent = updatedContent
             }

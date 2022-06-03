@@ -17,6 +17,7 @@ struct Surah: Identifiable {
     }
 
     var id: Int
+    var surahNo: Int
     var ayahCount: Int
     var firstAyahNo: Int
     var lastAyahNo: Int
