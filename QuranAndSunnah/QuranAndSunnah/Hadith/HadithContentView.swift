@@ -60,7 +60,9 @@ struct HadithListView: View {
                         .multilineTextAlignment(.leading)
                 }
             }
-        }.listStyle(.sidebar)
+        }
+        .listStyle(.sidebar)
+        .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.titleTranslations.first?.translation ?? "")"))
     }
 }
 
@@ -82,7 +84,9 @@ struct HadithChapterListView: View {
                     }
                 }
             }
-        }.listStyle(.sidebar)
+        }
+        .listStyle(.sidebar)
+        .navigationTitle(Text("\(hadithBook.name)"))
     }
 }
 

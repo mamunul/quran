@@ -31,17 +31,23 @@ struct TafsirAyahListView: View {
                     TafsirContentView(surah: surah, ayah: ayah)
                         .environmentObject(presenter)
                 } label: {
-                    VStack {
+                    VStack(spacing: 10) {
+                        Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         Text(ayah.arabic)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .multilineTextAlignment(.trailing)
 
                         Text(ayah.translations.first?.translation ?? "")
-                    }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
+                            .textSelection(.enabled)
+                    }.padding(.vertical)
                 }
             }
         }
         .listStyle(.sidebar)
+        .navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "")"))
     }
 }
 
@@ -56,13 +62,29 @@ struct TafsirSurahListView: View {
                         .environmentObject(presenter)
                 } label: {
                     HStack {
-                        Text(surah.name)
-                        Text(surah.nameTransliterations.first!.transliteration)
-                        Text(surah.nameTranslations.first!.translation)
+                        Text("\(surah.surahNo)").frame(width: 50)
+                        VStack(alignment: .leading) {
+                            Text(surah.nameTransliterations.first!.transliteration)
+                                .font(.system(size: 16))
+                                .frame(alignment: .leading)
+                                .multilineTextAlignment(.leading)
+                            Text(surah.nameTranslations.first!.translation)
+                                .font(.system(size: 14))
+                                .frame(alignment: .leading)
+                                .multilineTextAlignment(.leading)
+                        }
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            Text(surah.name)
+                            Text("\(surah.ayahCount)")
+                                .font(.system(size: 13))
+                        }
                     }
                 }
             }
-        }.listStyle(.sidebar)
+        }
+        .listStyle(.sidebar)
+       
     }
 }
 
@@ -92,7 +114,7 @@ struct TafsirContentView: View {
                 .onAppear {
                     presenter.onViewAppear(surah: surah, ayah: ayah)
                 }
-        }
+        }.navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "") - \(ayah.ayahNo - surah.firstAyahNo + 1)"))
     }
 }
 

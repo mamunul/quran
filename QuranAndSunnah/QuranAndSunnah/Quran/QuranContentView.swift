@@ -73,7 +73,7 @@ struct SurahContentView: View {
                         .textSelection(.enabled)
                 }.padding(.vertical)
             }
-        }
+        }.navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "")"))
     }
 }
 
