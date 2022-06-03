@@ -8,7 +8,7 @@
 import Foundation
 
 struct Hadith:Identifiable {
-    var id: Int
+    var id: String
     var chapterNo: Int
     var sectionNo: String
     var sectionTranslations: [Translation]

@@ -49,7 +49,7 @@ class HadithRepository {
     func getChapter(res: [HadithJson],chapterNo:Int) -> HadithChapter {
         let hadithList = res.map {
             Hadith(
-                id: Int(Float($0.Chapter_Number)!),
+                id: $0.Hadith_number,
                 chapterNo: Int(Float($0.Chapter_Number)!),
                 sectionNo: $0.Section_Number,
                 sectionTranslations: [
