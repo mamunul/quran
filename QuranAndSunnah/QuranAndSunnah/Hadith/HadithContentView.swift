@@ -44,11 +44,21 @@ struct HadithListView: View {
     var body: some View {
         List {
             ForEach(self.chapter.hadithList) { hadith in
-
-                Text(hadith.hadith)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .multilineTextAlignment(.trailing)
-                Text(hadith.hadithTranslations.first?.translation ?? "")
+                VStack(spacing: 10) {
+                    HStack {
+                        Text(hadith.hadithNo)
+                            .frame(alignment: .leading)
+                        Spacer()
+                        Text(hadith.gradeTranslations.first?.translation ?? "")
+                            .frame(alignment: .trailing)
+                    }
+                    Text(hadith.hadith)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .multilineTextAlignment(.trailing)
+                    Text(hadith.hadithTranslations.first?.translation ?? "")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                }
             }
         }.listStyle(.sidebar)
     }
@@ -64,7 +74,11 @@ struct HadithChapterListView: View {
                     HadithListView(chapter: chapter)
                 } label: {
                     HStack {
-                        Text(chapter.titleTranslations.first?.translation ?? "")
+                        Text("\(chapter.chapterNo)").frame(width: 25)
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(chapter.titleTranslations.first?.translation ?? "")
+                            Text("\(chapter.hadithList.first?.hadithNo ?? "") - \(chapter.hadithList.last?.hadithNo ?? "")").font(.system(size: 14))
+                        }
                     }
                 }
             }
@@ -74,6 +88,6 @@ struct HadithChapterListView: View {
 
 struct HadithContentView_Previews: PreviewProvider {
     static var previews: some View {
-        HadithContentView()
+        HadithContentView().colorScheme(.dark)
     }
 }
