@@ -46,6 +46,8 @@ struct HadithListView: View {
             ForEach(self.chapter.hadithList) { hadith in
 
                 Text(hadith.hadith)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .multilineTextAlignment(.trailing)
                 Text(hadith.hadithTranslations.first?.translation ?? "")
             }
         }.listStyle(.sidebar)
