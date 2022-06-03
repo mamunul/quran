@@ -8,8 +8,65 @@
 import SwiftUI
 
 struct HadithContentView: View {
+    @StateObject var presenter = HadithPresenter()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            HadithCollectorListView()
+                .environmentObject(presenter)
+        }
+        .environmentObject(presenter)
+        .onAppear {
+            presenter.getHadithCollectorList()
+        }
+    }
+}
+
+struct HadithCollectorListView: View {
+    @EnvironmentObject var presenter: HadithPresenter
+    var body: some View {
+        List {
+            ForEach(self.presenter.collectors) { collector in
+                NavigationLink {
+                    HadithChapterListView(hadithBook: presenter.getHadith(of: collector))
+                } label: {
+                    HStack {
+                        Text(collector.name)
+                    }
+                }
+            }
+        }.listStyle(.sidebar)
+    }
+}
+
+struct HadithListView: View {
+    @EnvironmentObject var presenter: HadithPresenter
+    var chapter: HadithChapter
+    var body: some View {
+        List {
+            ForEach(self.chapter.hadithList) { hadith in
+
+                Text(hadith.hadith)
+                Text(hadith.hadithTranslations.first?.translation ?? "")
+            }
+        }.listStyle(.sidebar)
+    }
+}
+
+struct HadithChapterListView: View {
+    @EnvironmentObject var presenter: HadithPresenter
+    var hadithBook: HadithBook
+    var body: some View {
+        List {
+            ForEach(self.hadithBook.chapters) { chapter in
+                NavigationLink {
+                    HadithListView(chapter: chapter)
+                } label: {
+                    HStack {
+                        Text(chapter.titleTranslations.first?.translation ?? "")
+                    }
+                }
+            }
+        }.listStyle(.sidebar)
     }
 }
 

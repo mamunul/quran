@@ -7,5 +7,15 @@
 
 import Foundation
 
-class HadithPresenter {
+class HadithPresenter: ObservableObject {
+    @Published var collectors = [HadithCollector]()
+
+    func getHadithCollectorList() {
+        collectors = HadithRepository().getCollectorList()
+    }
+
+    func getHadith(of collector: HadithCollector) -> HadithBook {
+        let book = HadithRepository().getHadith(of: collector)
+        return book
+    }
 }

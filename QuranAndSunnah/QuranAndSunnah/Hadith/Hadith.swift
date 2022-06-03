@@ -7,12 +7,13 @@
 
 import Foundation
 
-struct Hadith {
+struct Hadith:Identifiable {
+    var id: Int
     var chapterNo: Int
-    var sectionNo: Int
+    var sectionNo: String
     var sectionTranslations: [Translation]
     var section: String
-    var hadithNo: Int
+    var hadithNo: String
     var hadithTranslations: [Translation]
     var isnadTranslations: [Translation]
     var matnTranslations: [Translation]
@@ -26,7 +27,8 @@ struct Hadith {
     var tags: [String]
 }
 
-struct HadithChapter {
+struct HadithChapter: Identifiable {
+    var id: Int
     var chapterNo: Int
     var title: String
     var titleTranslations: [Translation]
@@ -34,13 +36,17 @@ struct HadithChapter {
 }
 
 struct HadithBook {
-    enum HadithCollector {
-        case bukhari, muslim
-    }
-
     var name: String
     var nameTranslations: [Translation]
     var numberOfHadith: Int
     var type: HadithCollector
     var chapters: [HadithChapter]
+}
+
+struct HadithCollector: Identifiable {
+    var name: String
+    var id: Int
+
+    var pathComponent: String
+    var chapterRange: Range<Int>
 }
