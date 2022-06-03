@@ -22,12 +22,22 @@ class QuranRepository {
     let wordEnglishTransliteration = "word-transliteration/en-quranwbw.json"
 
     func requestQuran() -> Quran {
-        let surahNammeTranslationJson = surahNameTranslations()
-        let surahInfoJson = surahinfo()
-        let translationsJson = getAllTranslations()
-        let transliterationnJson = getAllTranslations()
+        let surahNammeTranslationJson = surahNameTranslations().sorted { left, right in
+            Int(left.key)! < Int(right.key)!
+        }
+        let surahInfoJson = surahinfo().sorted { left, right in
+            Int(left.key)! < Int(right.key)!
+        }
+        let translationsJson = getAllTranslations().sorted { left, right in
+            Int(left.key)! < Int(right.key)!
+        }
+        let transliterationnJson = getAllAyahTransliterations().sorted { left, right in
+            Int(left.key)! < Int(right.key)!
+        }
 //        let transliterationnJson = getAllAyahTransliterations()
-        let ayah = getAllAyah()
+        let ayah = getAllAyah().sorted { left, right in
+            Int(left.key)! < Int(right.key)!
+        }
 
         var ayahList = [Ayah]()
 
@@ -35,17 +45,21 @@ class QuranRepository {
             let translation = Translation(lang: .en, translation: ayahTranslation.value)
             let transliteration = Transliteration(lang: .en, transliteration: ayahTrannsliteration.value)
             let ayah =
-                Ayah(ayahNo: Int(ayahAr.key)!,
-                     arabic: ayahAr.value,
-                     translations: [translation],
-                     transliterations: [transliteration],
-                     words: [Word](),
-                     bookmark: false,
-                     tags: [String]()
+                Ayah(
+                    id: Int(ayahAr.key)!,
+                    ayahNo: Int(ayahAr.key)!,
+                    arabic: ayahAr.value,
+                    translations: [translation],
+                    transliterations: [transliteration],
+                    words: [Word](),
+                    bookmark: false,
+                    tags: [String]()
                 )
 
             ayahList.append(ayah)
         }
+
+        ayahList.sort { $0.ayahNo < $1.ayahNo }
 
         var surahList = [Surah]()
 
@@ -53,9 +67,10 @@ class QuranRepository {
             let translation = Translation(lang: .en, translation: surahName.value.translation)
             let transliteration = Transliteration(lang: .en, transliteration: surahName.value.name)
 
-//            let ayat = Array(ayahList[surahInfo.value.start ... surahInfo.value.end])
+            let ayat = Array(ayahList[surahInfo.value.start - 1 ... surahInfo.value.end - 1])
             let surah =
                 Surah(
+                    id: Int(surahName.key)!,
                     ayahCount: surahInfo.value.nAyah,
                     firstAyahNo: surahInfo.value.start,
                     lastAyahNo: surahInfo.value.end,
@@ -64,7 +79,7 @@ class QuranRepository {
                     nameTransliterations: [transliteration],
                     revelationOrder: surahInfo.value.revelationOrder,
                     revelaitonPlace: Surah.RevelationPlace(rawValue: surahInfo.value.type)!,
-                    ayat: ayahList)
+                    ayat: ayat)
 
             surahList.append(surah)
         }
@@ -75,7 +90,7 @@ class QuranRepository {
 
     func surahNameTranslations() -> [String: SurahTranslationJson] {
         do {
-            let url = Bundle.main.url(forResource: "en-tanzil.json", withExtension: "")!
+            let url = Bundle.main.url(forResource: "Quran/surah-translation/en-tanzil.json", withExtension: "")!
             let data = try Data(contentsOf: url)
             let res = try JSONDecoder().decode([String: SurahTranslationJson].self, from: data)
             return res
@@ -87,7 +102,7 @@ class QuranRepository {
 
     func surahinfo() -> [String: SurahJson] {
         do {
-            let url = Bundle.main.url(forResource: "surah.json", withExtension: "")!
+            let url = Bundle.main.url(forResource: "Quran/surah/surah.json", withExtension: "")!
             let data = try Data(contentsOf: url)
             let res = try JSONDecoder().decode([String: SurahJson].self, from: data)
             return res
@@ -99,7 +114,7 @@ class QuranRepository {
 
     func getAllTranslations() -> [String: String] {
         do {
-            let url = Bundle.main.url(forResource: "en-ahmedali-tanzil.json", withExtension: "")!
+            let url = Bundle.main.url(forResource: "Quran/ayah-translation/en-hilali-quranenc.json", withExtension: "")!
             let data = try Data(contentsOf: url)
             let res = try JSONDecoder().decode(TranslationJson.self, from: data)
             return res.translations
@@ -111,7 +126,7 @@ class QuranRepository {
 
     func getAllAyahTransliterations() -> [String: String] {
         do {
-            let url = Bundle.main.url(forResource: "id-litequran.json", withExtension: "")! // URL(string: "indonesia.json")!
+            let url = Bundle.main.url(forResource: "Quran/ayah-transliteration/id-litequran.json", withExtension: "")! // URL(string: "indonesia.json")!
             let data = try Data(contentsOf: url)
             let res = try JSONDecoder().decode([String: String].self, from: data)
             return res
@@ -123,7 +138,7 @@ class QuranRepository {
 
     func getAllAyah() -> [String: String] {
         do {
-            let url = Bundle.main.url(forResource: "indonesia.json", withExtension: "")! // URL(string: "indonesia.json")!
+            let url = Bundle.main.url(forResource: "Quran/ayah-text/indonesia.json", withExtension: "")! // URL(string: "indonesia.json")!
             let data = try Data(contentsOf: url)
             let res = try JSONDecoder().decode([String: String].self, from: data)
             return res

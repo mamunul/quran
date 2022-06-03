@@ -11,11 +11,12 @@ struct Quran {
     var surah: [Surah]
 }
 
-struct Surah {
+struct Surah: Identifiable {
     enum RevelationPlace: String {
         case medinan, meccan
     }
 
+    var id: Int
     var ayahCount: Int
     var firstAyahNo: Int
     var lastAyahNo: Int
@@ -47,7 +48,8 @@ struct Word {
     var transliterations: [Transliteration]
 }
 
-struct Ayah {
+struct Ayah: Identifiable {
+    var id: Int
     var ayahNo: Int
     var arabic: String
     var translations: [Translation]
