@@ -30,9 +30,23 @@ struct SurahListView: View {
                     SurahContentView(surah: surah)
                 } label: {
                     HStack {
-                        Text(surah.name)
-                        Text(surah.nameTransliterations.first!.transliteration)
-                        Text(surah.nameTranslations.first!.translation)
+                        Text("\(surah.surahNo)").frame(width: 50)
+                        VStack(alignment: .leading) {
+                            Text(surah.nameTransliterations.first!.transliteration)
+                                .font(.system(size: 16))
+                                .frame(alignment: .leading)
+                                .multilineTextAlignment(.leading)
+                            Text(surah.nameTranslations.first!.translation)
+                                .font(.system(size: 14))
+                                .frame(alignment: .leading)
+                                .multilineTextAlignment(.leading)
+                        }
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            Text(surah.name)
+                            Text("\(surah.ayahCount)")
+                                .font(.system(size: 13))
+                        }
                     }
                 }
             }
@@ -46,13 +60,18 @@ struct SurahContentView: View {
     var body: some View {
         List {
             ForEach(surah.ayat) { ayah in
-                VStack {
+                VStack(spacing: 10) {
+                    Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     Text(ayah.arabic)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .multilineTextAlignment(.trailing)
 
                     Text(ayah.translations.first?.translation ?? "")
-                }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .textSelection(.enabled)
+                }.padding(.vertical)
             }
         }
     }
@@ -66,6 +85,6 @@ struct NextView: View {
 
 struct QuranContentView_Previews: PreviewProvider {
     static var previews: some View {
-        QuranContentView()
+        QuranContentView().colorScheme(.dark)
     }
 }
