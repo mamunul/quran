@@ -71,6 +71,7 @@ class QuranRepository {
             let surah =
                 Surah(
                     id: Int(surahName.key)!,
+                    surahNo: Int(surahName.key)!,
                     ayahCount: surahInfo.value.nAyah,
                     firstAyahNo: surahInfo.value.start,
                     lastAyahNo: surahInfo.value.end,
