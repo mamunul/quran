@@ -96,7 +96,9 @@ struct TextView: UIViewRepresentable {
         uiView.selectedRange = searchRange // optional
         let attributes = [NSAttributedString.Key.backgroundColor: UIColor.lightGray]
         uiView.textStorage.addAttributes(attributes, range: searchRange)
-        uiView.scrollRangeToVisible(searchRange)
+        if searchRange.length != 0 {
+            uiView.scrollRangeToVisible(searchRange)
+        }
     }
 }
 
