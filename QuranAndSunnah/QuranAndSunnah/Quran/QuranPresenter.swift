@@ -10,10 +10,14 @@ import Foundation
 class QuranPresenter: ObservableObject {
     @Published var quran: Quran = Quran(surah: [])
     @Published var surah: Surah?
-
+    private var repository = QuranRepository()
     func getQuran() {
-        let quran = QuranRepository().requestQuran()
-        self.quran = quran
-        surah = quran.surah.first
+        DispatchQueue.global().async { [self] in
+            let quran = self.repository.requestQuran()
+            DispatchQueue.main.async {
+                self.quran = quran
+                self.surah = quran.surah.first
+            }
+        }
     }
 }
