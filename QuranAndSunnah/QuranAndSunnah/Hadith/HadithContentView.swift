@@ -27,7 +27,7 @@ struct HadithCollectorListView: View {
         List {
             ForEach(self.presenter.collectors) { collector in
                 NavigationLink {
-                    HadithChapterListView(hadithBook: presenter.getHadith(of: collector))
+                    HadithChapterListView(collector: collector)
                 } label: {
                     HStack {
                         Text(collector.name)
@@ -68,10 +68,10 @@ struct HadithListView: View {
 
 struct HadithChapterListView: View {
     @EnvironmentObject var presenter: HadithPresenter
-    var hadithBook: HadithBook
+    var collector: HadithCollector
     var body: some View {
         List {
-            ForEach(self.hadithBook.chapters) { chapter in
+            ForEach(self.presenter.hadithBook?.chapters ?? []) { chapter in
                 NavigationLink {
                     HadithListView(chapter: chapter)
                 } label: {
@@ -79,14 +79,18 @@ struct HadithChapterListView: View {
                         Text("\(chapter.chapterNo)").frame(width: 25)
                         VStack(alignment: .leading, spacing: 5) {
                             Text(chapter.titleTranslations.first?.translation ?? "")
-                            Text("\(chapter.hadithList.first?.hadithNo ?? "") - \(chapter.hadithList.last?.hadithNo ?? "")").font(.system(size: 14))
+                            Text("\(chapter.hadithList.first?.hadithNo ?? "") - \(chapter.hadithList.last?.hadithNo ?? "")")
+                                .font(.system(size: 14))
                         }
                     }
                 }
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle(Text("\(hadithBook.name)"))
+        .navigationTitle(Text("\(self.presenter.hadithBook?.name ?? "")"))
+        .onAppear {
+            presenter.getHadith(of: collector)
+        }
     }
 }
 

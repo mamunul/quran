@@ -29,14 +29,17 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
+    private var repository = QuranRepository()
     private var previousFontSize: Float = 15.0
 
     var fontRange: ClosedRange<Float> = 15.0 ... 30.0
 
     func getSurah() {
-        let quran = QuranRepository().requestQuran()
-        DispatchQueue.main.async {
-            self.quran = quran
+        DispatchQueue.global().async {
+            let quran = self.repository.requestQuran()
+            DispatchQueue.main.async {
+                self.quran = quran
+            }
         }
     }
 
@@ -64,7 +67,7 @@ class TafsirContentPresenter: ObservableObject {
                 arabicBackgroundColor: ""
             )
         do {
-            let updatedContent = try TafsirRepository().getContent(surah: surah.surahNo, ayah: ayah.ayahNo-surah.firstAyahNo, configuraiton: config)
+            let updatedContent = try TafsirRepository().getContent(surah: surah.surahNo, ayah: ayah.ayahNo - surah.firstAyahNo, configuraiton: config)
             DispatchQueue.main.async {
                 self.attributedContent = updatedContent
             }

@@ -9,13 +9,18 @@ import Foundation
 
 class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
-
+    @Published var hadithBook: HadithBook?
+    private var repo = HadithRepository()
     func getHadithCollectorList() {
-        collectors = HadithRepository().getCollectorList()
+        collectors = repo.getCollectorList()
     }
 
-    func getHadith(of collector: HadithCollector) -> HadithBook {
-        let book = HadithRepository().getHadith(of: collector)
-        return book
+    func getHadith(of collector: HadithCollector) {
+        DispatchQueue.global().async {
+            let book = self.repo.getHadith(of: collector)
+            DispatchQueue.main.async {
+                self.hadithBook = book
+            }
+        }
     }
 }
