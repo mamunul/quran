@@ -23,7 +23,7 @@ struct TafsirMainView: View {
 
 struct TafsirAyahListView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
-    var surah: Surah
+    var surah: TafsirSurah
     var body: some View {
         List {
             ForEach(surah.ayat) { ayah in
@@ -32,16 +32,8 @@ struct TafsirAyahListView: View {
                         .environmentObject(presenter)
                 } label: {
                     VStack(spacing: 10) {
-                        Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
+                        Text("\(ayah.text)")
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(ayah.arabic)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .multilineTextAlignment(.trailing)
-
-                        Text(ayah.translations.first?.translation ?? "")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .multilineTextAlignment(.leading)
-                            .textSelection(.enabled)
                     }.padding(.vertical)
                 }
             }
@@ -56,7 +48,7 @@ struct TafsirSurahListView: View {
 
     var body: some View {
         List {
-            ForEach(self.presenter.quran.surah) { surah in
+            ForEach(self.presenter.tafsir?.surah ?? []) { surah in
                 NavigationLink {
                     TafsirAyahListView(surah: surah)
                         .environmentObject(presenter)
@@ -91,8 +83,8 @@ struct TafsirSurahListView: View {
 struct TafsirContentView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
     @State var searchStrinng: String = ""
-    var surah: Surah
-    var ayah: Ayah
+    var surah: TafsirSurah
+    var ayah: TafsirAyah
 
     var body: some View {
         ScrollView {
@@ -110,11 +102,11 @@ struct TafsirContentView: View {
             Slider(value: $presenter.fontSize, in: presenter.fontRange, step: 1.0)
             TextView(text: $presenter.attributedContent, searchString: $searchStrinng)
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                .border(.yellow)
+//                .border(.yellow)
                 .onAppear {
                     presenter.onViewAppear(surah: surah, ayah: ayah)
                 }
-        }.navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "") - \(ayah.ayahNo - surah.firstAyahNo + 1)"))
+        }.navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "") - \(ayah.text)"))
     }
 }
 

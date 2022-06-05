@@ -7,15 +7,24 @@
 
 import Foundation
 
-struct TafsirAyah {
+struct TafsirAyah: Identifiable {
+    var id: Int
     var bookmark: Bool
     var text: String
-    var translations: [Translation]
-    var ayahRange: Range<Int>
+    var path: String
 }
 
-struct TafsirSurah {
+struct TafsirSurah: Identifiable {
+    var id: Int
     var surahNo: Int
+    var ayahCount: Int
+    var firstAyahNo: Int
+    var lastAyahNo: Int
+    var name: String
+    var nameTranslations: [Translation]
+    var nameTransliterations: [Transliteration]
+    var revelationOrder: Int
+    var revelaitonPlace: Surah.RevelationPlace
     var ayat: [TafsirAyah]
 }
 
