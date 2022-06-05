@@ -8,11 +8,6 @@
 import SwiftUI
 import UIKit
 
-struct SelectedString {
-    var range: Range<String.Index>
-    var text: String
-}
-
 class CustomUITextView: UITextView {
     func addCustomMenu() {
         let highlightMenuItem = UIMenuItem(title: "Highlight", action: #selector(hightlight(_:)))

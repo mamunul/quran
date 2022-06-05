@@ -12,11 +12,13 @@ import UIKit
 class TafsirContentPresenter: ObservableObject {
     @Published var quran: Quran = Quran(surah: [])
     @Published var attributedContent = NSMutableAttributedString(string: "")
+    @Published var tafsir: Tafsir?
     private let synthesizer = AVSpeechSynthesizer()
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
-    private var surah: Surah?
-    private var ayah: Ayah?
+    private var surah: TafsirSurah?
+    private var ayah: TafsirAyah?
+    private var tafsirRepository = TafsirRepository()
     @Published var fontSize: Float = 15.0 {
         didSet {
             if previousFontSize == fontSize { return }
@@ -37,13 +39,15 @@ class TafsirContentPresenter: ObservableObject {
     func getSurah() {
         DispatchQueue.global().async {
             let quran = self.repository.requestQuran()
+            let tafsir = self.tafsirRepository.getTafsir(surah: quran.surah)
             DispatchQueue.main.async {
                 self.quran = quran
+                self.tafsir = tafsir
             }
         }
     }
 
-    func onViewAppear(surah: Surah, ayah: Ayah) {
+    func onViewAppear(surah: TafsirSurah, ayah: TafsirAyah) {
         DispatchQueue.global().async {
             self.updateContent(surah: surah, ayah: ayah)
             self.setupReader()
@@ -56,7 +60,7 @@ class TafsirContentPresenter: ObservableObject {
         utterance?.voice = voice
     }
 
-    private func updateContent(surah: Surah, ayah: Ayah) {
+    private func updateContent(surah: TafsirSurah, ayah: TafsirAyah) {
         self.surah = surah
         self.ayah = ayah
         let config =
@@ -67,7 +71,8 @@ class TafsirContentPresenter: ObservableObject {
                 arabicBackgroundColor: ""
             )
         do {
-            let updatedContent = try TafsirRepository().getContent(surah: surah.surahNo, ayah: ayah.ayahNo - surah.firstAyahNo, configuraiton: config)
+            let updatedContent = try tafsirRepository.getContent(ayahUrl: ayah.path, configuraiton: config)
+//            let updatedContent = try TafsirRepository().getContent(surah: surah.surahNo, ayah: 1, configuraiton: config)
             DispatchQueue.main.async {
                 self.attributedContent = updatedContent
             }
@@ -124,9 +129,10 @@ class TafsirContentPresenter: ObservableObject {
     }
 
     func checkAttributeFonts(nsAttributedString: NSMutableAttributedString) {
-        nsAttributedString.enumerateAttribute(.font, in: NSRange(location: 0, length: nsAttributedString.length)) { value, _, _ in
-            print((value as! UIFont).fontName)
-        }
+        nsAttributedString.enumerateAttribute(.font, in: NSRange(location: 0, length: nsAttributedString.length))
+            { value, _, _ in
+                print((value as! UIFont).fontName)
+            }
     }
 
     func search(searchString: String) -> NSRange {
@@ -134,7 +140,8 @@ class TafsirContentPresenter: ObservableObject {
         return range
     }
 
-    func searchAndHighlight(content: String, searchString: String, mutableAttributeString: NSMutableAttributedString) -> NSMutableAttributedString {
+    func searchAndHighlight(content: String, searchString: String, mutableAttributeString: NSMutableAttributedString)
+        -> NSMutableAttributedString {
         let range = NSString(string: content).range(of: searchString, options: .caseInsensitive) // 2
         let highlightColor = UIColor.systemYellow
         let highlightedAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.backgroundColor: highlightColor] // 4
