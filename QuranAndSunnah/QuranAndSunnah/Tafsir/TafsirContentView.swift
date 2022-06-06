@@ -100,8 +100,9 @@ struct TafsirContentView: View {
             }
             .padding(.horizontal)
             Slider(value: $presenter.fontSize, in: presenter.fontRange, step: 1.0)
-            TextView(text: $presenter.attributedContent, searchString: $searchStrinng)
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            TextView($presenter.attributedContent, searchString: $searchStrinng)
+//            CTextView(text: $presenter.attributedContent, searchString: $searchStrinng, size: .constant(.zero))
+//                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 //                .border(.yellow)
                 .onAppear {
                     presenter.onViewAppear(surah: surah, ayah: ayah)

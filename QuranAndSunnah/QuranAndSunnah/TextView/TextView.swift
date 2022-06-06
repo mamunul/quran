@@ -1,0 +1,219 @@
+import SwiftUI
+
+/// A SwiftUI TextView implementation that supports both scrolling and auto-sizing layouts
+public struct TextView: View {
+
+    @Environment(\.layoutDirection) private var layoutDirection
+
+    @Binding private var text: NSMutableAttributedString
+    @Binding private var isEmpty: Bool
+
+    @State private var calculatedHeight: CGFloat = 44
+
+    private var onEditingChanged: (() -> Void)?
+    private var shouldEditInRange: ((Range<String.Index>, String) -> Bool)?
+    private var onCommit: (() -> Void)?
+
+    var placeholderView: AnyView?
+    var foregroundColor: UIColor = .label
+    var autocapitalization: UITextAutocapitalizationType = .sentences
+    var multilineTextAlignment: TextAlignment = .leading
+    var font: UIFont = .preferredFont(forTextStyle: .body)
+    var returnKeyType: UIReturnKeyType?
+    var clearsOnInsertion: Bool = false
+    var autocorrection: UITextAutocorrectionType = .default
+    var truncationMode: NSLineBreakMode = .byTruncatingTail
+    var isEditable: Bool = true
+    var isSelectable: Bool = true
+    var isScrollingEnabled: Bool = false
+    var enablesReturnKeyAutomatically: Bool?
+    var autoDetectionTypes: UIDataDetectorTypes = []
+    var allowRichText: Bool
+
+    /// Makes a new TextView with the specified configuration
+    /// - Parameters:
+    ///   - text: A binding to the text
+    ///   - shouldEditInRange: A closure that's called before an edit it applied, allowing the consumer to prevent the change
+    ///   - onEditingChanged: A closure that's called after an edit has been applied
+    ///   - onCommit: If this is provided, the field will automatically lose focus when the return key is pressed
+    public init(_ text: Binding<String>,
+         shouldEditInRange: ((Range<String.Index>, String) -> Bool)? = nil,
+         onEditingChanged: (() -> Void)? = nil,
+         onCommit: (() -> Void)? = nil
+    ) {
+        _text = Binding(
+            get: { NSMutableAttributedString(string: text.wrappedValue) },
+            set: { text.wrappedValue = $0.string }
+        )
+
+        _isEmpty = Binding(
+            get: { text.wrappedValue.isEmpty },
+            set: { _ in }
+        )
+
+        self.onCommit = onCommit
+        self.shouldEditInRange = shouldEditInRange
+        self.onEditingChanged = onEditingChanged
+
+        allowRichText = false
+    }
+
+    /// Makes a new TextView that supports `NSAttributedString`
+    /// - Parameters:
+    ///   - text: A binding to the attributed text
+    ///   - onEditingChanged: A closure that's called after an edit has been applied
+    ///   - onCommit: If this is provided, the field will automatically lose focus when the return key is pressed
+    public init(_ text: Binding<NSMutableAttributedString>,
+                onEditingChanged: (() -> Void)? = nil,
+                onCommit: (() -> Void)? = nil
+    ) {
+        _text = text
+        _isEmpty = Binding(
+            get: { text.wrappedValue.string.isEmpty },
+            set: { _ in }
+        )
+
+        self.onCommit = onCommit
+        self.onEditingChanged = onEditingChanged
+
+        allowRichText = true
+    }
+
+    public var body: some View {
+        Representable(
+            text: $text,
+            calculatedHeight: $calculatedHeight
+            foregroundColor: foregroundColor,
+            autocapitalization: autocapitalization,
+            multilineTextAlignment: multilineTextAlignment,
+            font: font,
+            returnKeyType: returnKeyType,
+            clearsOnInsertion: clearsOnInsertion,
+            autocorrection: autocorrection,
+            truncationMode: truncationMode,
+            isEditable: isEditable,
+            isSelectable: isSelectable
+            isScrollingEnabled: isScrollingEnabled,
+            enablesReturnKeyAutomatically: enablesReturnKeyAutomatically,
+            autoDetectionTypes: autoDetectionTypes,
+            allowsRichText: allowRichText,
+            onEditingChanged: onEditingChanged,
+            shouldEditInRange: shouldEditInRange,
+            onCommit: onCommit
+        )
+        .frame(
+            minHeight: calculatedHeight,
+            maxHeight: calculatedHeight
+        )
+        .background(
+            placeholderView?
+                .foregroundColor(Color(.placeholderText))
+                .multilineTextAlignment(multilineTextAlignment)
+                .font(Font(font))
+                .padding(.horizontal, isScrollingEnabled ? 5 : 0)
+                .padding(.vertical, isScrollingEnabled ? 8 : 0)
+                .opacity(isEmpty ? 1 : 0),
+            alignment: .topLeading
+        )
+    }
+    
+    struct Representable: UIViewRepresentable {
+
+        @Binding var text: NSMutableAttributedString
+        @Binding var calculatedHeight: CGFloat
+
+        let foregroundColor: UIColor
+        let autocapitalization: UITextAutocapitalizationType
+        var multilineTextAlignment: TextAlignment
+        let font: UIFont
+        let returnKeyType: UIReturnKeyType?
+        let clearsOnInsertion: Bool
+        let autocorrection: UITextAutocorrectionType
+        let truncationMode: NSLineBreakMode
+        let isEditable: Bool
+        let isSelectable: Bool
+        let isScrollingEnabled: Bool
+        let enablesReturnKeyAutomatically: Bool?
+        var autoDetectionTypes: UIDataDetectorTypes = []
+        var allowsRichText: Bool
+
+        var onEditingChanged: (() -> Void)?
+        var shouldEditInRange: ((Range<String.Index>, String) -> Bool)?
+        var onCommit: (() -> Void)?
+
+        func makeUIView(context: Context) -> UIKitTextView {
+            context.coordinator.textView
+        }
+
+        func updateUIView(_ view: UIKitTextView, context: Context) {
+            context.coordinator.update(representable: self)
+        }
+
+        @discardableResult func makeCoordinator() -> Coordinator {
+            Coordinator(
+                text: $text,
+                calculatedHeight: $calculatedHeight
+                shouldEditInRange: shouldEditInRange,
+                onEditingChanged: onEditingChanged,
+                onCommit: onCommit
+            )
+        }
+
+    }
+
+}
+
+final class UIKitTextView: UITextView {
+
+    override var keyCommands: [UIKeyCommand]? {
+        return (super.keyCommands ?? []) + [
+            UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(escape(_:)))
+        ]
+    }
+
+    @objc private func escape(_ sender: Any) {
+        resignFirstResponder()
+    }
+
+}
+
+struct RoundedTextView: View {
+    @State private var text: NSMutableAttributedString = .init()
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            TextView($text)
+                .padding(.leading, 25)
+
+            GeometryReader { _ in
+                TextView($text)
+//                    .placeholder("Enter some text")
+                    .padding(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(lineWidth: 1)
+                            .foregroundColor(Color(.placeholderText))
+                    )
+                    .padding()
+            }
+            .background(Color(.systemBackground).edgesIgnoringSafeArea(.all))
+
+            Button {
+                text = NSMutableAttributedString(string: "This is interesting", attributes: [
+                    .font: UIFont.preferredFont(forTextStyle: .headline)
+                ])
+            } label: {
+                Spacer()
+                Text("Interesting?")
+                Spacer()
+            }
+            .padding()
+        }
+    }
+}
+
+struct TextView_Previews: PreviewProvider {
+    static var previews: some View {
+        RoundedTextView()
+    }
+}

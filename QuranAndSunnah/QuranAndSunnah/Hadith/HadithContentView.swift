@@ -40,24 +40,40 @@ struct HadithCollectorListView: View {
 
 struct HadithListView: View {
     @EnvironmentObject var presenter: HadithPresenter
-    var chapter: HadithChapter
+    @Binding var chapter: HadithChapter
+    @State var size: CGSize = CGSize(width: 200, height: 100)
+    @State var size2: CGSize = CGSize(width: 200, height: 100)
     var body: some View {
         List {
-            ForEach(self.chapter.hadithList) { hadith in
+            ForEach(self.$chapter.hadithList) { hadith in
                 VStack(spacing: 10) {
                     HStack {
-                        Text(hadith.hadithNo)
+                        Text(hadith.wrappedValue.hadithNo)
                             .frame(alignment: .leading)
                         Spacer()
-                        Text(hadith.gradeTranslations.first?.translation ?? "")
+                        Text(hadith.wrappedValue.gradeTranslations.first?.translation ?? "")
                             .frame(alignment: .trailing)
                     }
-                    Text(hadith.hadith)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .multilineTextAlignment(.trailing)
-                    Text(hadith.hadithTranslations.first?.translation ?? "")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
+                    TextView(Binding<NSMutableAttributedString>(
+                            get: { NSMutableAttributedString(string: hadith.wrappedValue.hadith) },
+                            set: { hadith.wrappedValue.hadith = $0.string }
+                        ),
+                             searchString: .constant("")
+                    )
+                    .enableScrolling(false)
+                    .isEditable(false)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .multilineTextAlignment(.trailing)
+                    TextView(
+                         Binding<NSMutableAttributedString>(
+                            get: { NSMutableAttributedString(string: hadith.wrappedValue.hadithTranslations.first!.translation) },
+                            set: { hadith.wrappedValue.hadith = $0.string }
+                        ),
+
+                        searchString: .constant("")
+                    )
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
                 }
             }
         }
@@ -71,15 +87,15 @@ struct HadithChapterListView: View {
     var collector: HadithCollector
     var body: some View {
         List {
-            ForEach(self.presenter.hadithBook?.chapters ?? []) { chapter in
+            ForEach(self.$presenter.hadithBook.chapters) { chapter in
                 NavigationLink {
                     HadithListView(chapter: chapter)
                 } label: {
                     HStack {
-                        Text("\(chapter.chapterNo)").frame(width: 25)
+                        Text("\(chapter.wrappedValue.chapterNo)").frame(width: 25)
                         VStack(alignment: .leading, spacing: 5) {
-                            Text(chapter.titleTranslations.first?.translation ?? "")
-                            Text("\(chapter.hadithList.first?.hadithNo ?? "") - \(chapter.hadithList.last?.hadithNo ?? "")")
+                            Text(chapter.wrappedValue.titleTranslations.first?.translation ?? "")
+                            Text("\(chapter.wrappedValue.hadithList.first?.hadithNo ?? "") - \(chapter.wrappedValue.hadithList.last?.hadithNo ?? "")")
                                 .font(.system(size: 14))
                         }
                     }
@@ -87,7 +103,7 @@ struct HadithChapterListView: View {
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle(Text("\(self.presenter.hadithBook?.name ?? "")"))
+        .navigationTitle(Text("\(self.presenter.hadithBook.name)"))
         .onAppear {
             presenter.getHadith(of: collector)
         }
