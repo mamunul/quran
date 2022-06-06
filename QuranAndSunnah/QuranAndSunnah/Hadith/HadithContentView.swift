@@ -60,20 +60,15 @@ struct HadithListView: View {
                         ),
                              searchString: .constant("")
                     )
-                    .enableScrolling(false)
-                    .isEditable(false)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .multilineTextAlignment(.trailing)
+                    .paragraphStyle(.right)
                     TextView(
                          Binding<NSMutableAttributedString>(
                             get: { NSMutableAttributedString(string: hadith.wrappedValue.hadithTranslations.first!.translation) },
                             set: { hadith.wrappedValue.hadith = $0.string }
                         ),
-
                         searchString: .constant("")
                     )
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .multilineTextAlignment(.leading)
+                    .paragraphStyle(.left)
                 }
             }
         }
