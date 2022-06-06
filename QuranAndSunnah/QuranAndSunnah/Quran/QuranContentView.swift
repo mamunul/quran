@@ -63,17 +63,15 @@ struct SurahContentView: View {
                 VStack(spacing: 10) {
                     Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(ayah.arabic)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .multilineTextAlignment(.trailing)
+                    TextView(.constant(ayah.arabic))
+                        .paragraphStyle(.right)
 
-                    Text(ayah.translations.first?.translation ?? "")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
-                        .textSelection(.enabled)
+                    TextView(.constant(ayah.translations.first?.translation ?? ""))
+                        .paragraphStyle(.left)
                 }.padding(.vertical)
             }
-        }.navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "")"))
+        }
+        .navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "")"))
     }
 }
 
