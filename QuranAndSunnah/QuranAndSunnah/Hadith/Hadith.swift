@@ -36,6 +36,7 @@ struct HadithChapter: Identifiable {
 }
 
 struct HadithBook {
+    static let empty = HadithBook(name: "None", nameTranslations: [], numberOfHadith: 0, type: .none, chapters: [])
     var name: String
     var nameTranslations: [Translation]
     var numberOfHadith: Int
@@ -44,6 +45,8 @@ struct HadithBook {
 }
 
 struct HadithCollector: Identifiable {
+    
+    static let none = HadithCollector(name: "", id: 0, pathComponent: "", chapterRange: 0..<0)
     var name: String
     var id: Int
 

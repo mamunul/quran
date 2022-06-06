@@ -9,7 +9,7 @@ import Foundation
 
 class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
-    @Published var hadithBook: HadithBook?
+    @Published var hadithBook: HadithBook = .empty
     private var repo = HadithRepository()
     func getHadithCollectorList() {
         collectors = repo.getCollectorList()

@@ -9,6 +9,15 @@ import SwiftUI
 import UIKit
 
 class CustomUITextView: UITextView {
+    override var keyCommands: [UIKeyCommand]? {
+        return (super.keyCommands ?? []) + [
+            UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(escape(_:)))
+        ]
+    }
+
+    @objc private func escape(_ sender: Any) {
+        resignFirstResponder()
+    }
     func addCustomMenu() {
         let highlightMenuItem = UIMenuItem(title: "Highlight", action: #selector(hightlight(_:)))
         let noteMenuItem = UIMenuItem(title: "Note", action: #selector(note(_:)))
@@ -69,14 +78,15 @@ class CustomUITextView: UITextView {
     }
 }
 
-struct TextView: UIViewRepresentable {
+struct CTextView: UIViewRepresentable {
     @Binding var text: NSMutableAttributedString
     @Binding var searchString: String
+    @Binding var size: CGSize
     @Environment(\.colorScheme) var colorScheme
     func makeUIView(context: Context) -> CustomUITextView {
         let textview = CustomUITextView()
         textview.addCustomMenu()
-        textview.isEditable = false
+//        textview.bounces = false
         return textview
     }
 
@@ -94,14 +104,26 @@ struct TextView: UIViewRepresentable {
         if searchRange.length != 0 {
             uiView.scrollRangeToVisible(searchRange)
         }
+
+        recalculateHeight(textView: uiView)
+        uiView.setNeedsDisplay()
+    }
+    
+    private func recalculateHeight(textView:CustomUITextView) {
+        let newSize = textView.sizeThatFits(CGSize(width: textView.frame.width, height: .greatestFiniteMagnitude))
+        guard size.height != newSize.height else { return }
+
+        DispatchQueue.main.async { // call in next render cycle.
+            self.size.height = newSize.height
+        }
     }
 }
 
-struct TextView_Previews: PreviewProvider {
-    static var previews: some View {
-        TextView(
-            text: .constant(NSMutableAttributedString(string: "Test")),
-            searchString: .constant("sfd")
-        )
-    }
-}
+// struct TextView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TextView(
+//            text: .constant(NSMutableAttributedString(string: "Test")),
+//            searchString: .constant("sfd")
+//        )
+//    }
+// }
