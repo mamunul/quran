@@ -12,6 +12,16 @@ struct QuranContentView: View {
     var body: some View {
         NavigationView {
             SurahListView()
+                .navigationBarItems(trailing: Button(action: {
+                    
+                }, label: {
+                    Image(systemName: "gear")
+                }))
+                .navigationBarItems(leading: Button(action: {
+                    
+                }, label: {
+                    Image(systemName: "menubar.rectangle")
+                }))
         }
 
         .environmentObject(presenter)
@@ -50,7 +60,8 @@ struct SurahListView: View {
                     }
                 }
             }
-        }.listStyle(.sidebar)
+        }
+        .listStyle(.sidebar)
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
+    @State var searchString: String = ""
     var body: some View {
         TabView {
             QuranContentView()
@@ -24,6 +25,7 @@ struct ContentView: View {
                     Label("Hadith", systemImage: "list.dash")
                 }
         }
+        .searchable(text: $searchString)
     }
 }
 
