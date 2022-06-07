@@ -34,6 +34,34 @@ struct ContentView: View {
     }
 }
 
+struct SettingsView: View {
+    @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
+    var body: some View {
+        VStack {
+            Text("FontSize").padding()
+            Slider(value: $fontSize, in: TextView.fontRange, step: 1.0) {
+                Text("FontSize").padding()
+            } minimumValueLabel: {
+                Text("\(TextView.fontRange.lowerBound.formatted())").padding()
+
+            } maximumValueLabel: {
+                Text("\(TextView.fontRange.upperBound.formatted())").padding()
+            }
+        }
+    }
+}
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 12"))
+            .previewDisplayName("iPhone 12")
+        SettingsView()
+            .previewDevice(PreviewDevice(rawValue: "iPad Pro (11-inch)"))
+            .previewDisplayName("iPad Pro (11-inch)")
+    }
+}
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

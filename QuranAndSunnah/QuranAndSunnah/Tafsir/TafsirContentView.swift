@@ -112,7 +112,7 @@ struct TafsirContentView: View {
             }
         }
         .sheet(isPresented: $showingPopover) {
-            Slider(value: $fontSize, in: presenter.fontRange, step: 1.0)
+            SettingsView()
         }
         .onChange(of: fontSize) { newValue in
             presenter.updateFontSize(newValue)

@@ -59,6 +59,7 @@ struct SurahContentView: View {
     @EnvironmentObject var presenter: QuranPresenter
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
+    @State private var showingPopover = false
     var surah: Surah
     var body: some View {
         List {
@@ -81,17 +82,15 @@ struct SurahContentView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: {
+                    showingPopover = true
                 }, label: {
                     Image(systemName: "gear")
                 })
             }
         }
-    }
-}
-
-struct NextView: View {
-    var body: some View {
-        Text("Next View")
+        .sheet(isPresented: $showingPopover) {
+            SettingsView()
+        }
     }
 }
 

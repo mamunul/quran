@@ -9,6 +9,8 @@ public struct TextView: View {
     @State private var calculatedHeight: CGFloat = 44
 
     var paragraphAlignment: CustomTextAlignment = .none
+    
+    static let fontRange: ClosedRange<Double> = 15.0 ... 30.0
 
     var fontSize: Double? = nil
 
