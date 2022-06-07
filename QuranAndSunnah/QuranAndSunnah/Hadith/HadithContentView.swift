@@ -41,9 +41,16 @@ struct HadithCollectorListView: View {
 struct HadithListView: View {
     @EnvironmentObject var presenter: HadithPresenter
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
-    @Binding var chapter: HadithChapter
+//    @Binding var chapter: HadithChapter
     @State var searchString: String = ""
     @State private var showingPopover = false
+    @State private var chapter: HadithChapter
+    private var all: HadithChapter
+    init(chapter: HadithChapter) {
+        all = chapter
+        self.chapter = chapter
+    }
+
     var body: some View {
         List {
             ForEach(self.$chapter.hadithList) { hadith in
@@ -56,19 +63,19 @@ struct HadithListView: View {
                             .frame(alignment: .trailing)
                     }
                     TextView(Binding<NSMutableAttributedString>(
-                            get: { NSMutableAttributedString(string: hadith.wrappedValue.hadith) },
-                            set: { hadith.wrappedValue.hadith = $0.string }
-                        ),
-                             searchString: .constant("")
+                        get: { NSMutableAttributedString(string: hadith.wrappedValue.hadith) },
+                        set: { hadith.wrappedValue.hadith = $0.string }
+                    ),
+                    searchString: .constant("")
                     )
                     .paragraphStyle(.right)
                     .fontSize(fontSize)
                     TextView(
-                         Binding<NSMutableAttributedString>(
+                        Binding<NSMutableAttributedString>(
                             get: { NSMutableAttributedString(string: hadith.wrappedValue.hadithTranslations.first!.translation) },
                             set: { hadith.wrappedValue.hadith = $0.string }
                         ),
-                        searchString: .constant("")
+                        searchString: $searchString
                     )
                     .paragraphStyle(.left)
                     .fontSize(fontSize)
@@ -76,6 +83,16 @@ struct HadithListView: View {
             }
         }
         .searchable(text: $searchString)
+        .onChange(of: searchString) { newValue in
+            Task {
+                if newValue.isEmpty {
+                    chapter.hadithList = all.hadithList
+                } else {
+                    let newList = all.hadithList.filter { $0.hadithTranslations.first!.translation.localizedCaseInsensitiveContains(newValue) }
+                    chapter.hadithList = newList
+                }
+            }
+        }
         .listStyle(.sidebar)
         .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.titleTranslations.first?.translation ?? "")"))
         .toolbar {
@@ -90,7 +107,6 @@ struct HadithListView: View {
         .sheet(isPresented: $showingPopover) {
             SettingsView()
         }
-
     }
 }
 
@@ -101,7 +117,7 @@ struct HadithChapterListView: View {
         List {
             ForEach(self.$presenter.hadithBook.chapters) { chapter in
                 NavigationLink {
-                    HadithListView(chapter: chapter)
+                    HadithListView(chapter: chapter.wrappedValue)
                 } label: {
                     HStack {
                         Text("\(chapter.wrappedValue.chapterNo)").frame(width: 25)

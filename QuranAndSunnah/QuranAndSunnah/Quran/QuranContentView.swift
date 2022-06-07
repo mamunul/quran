@@ -60,7 +60,13 @@ struct SurahContentView: View {
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
     @State private var showingPopover = false
-    var surah: Surah
+    @State private var surah: Surah
+    private var all: Surah
+    init(surah: Surah) {
+        all = surah
+        self.surah = surah
+    }
+
     var body: some View {
         List {
             ForEach(surah.ayat) { ayah in
@@ -71,13 +77,23 @@ struct SurahContentView: View {
                         .paragraphStyle(.right)
                         .fontSize(fontSize)
 
-                    TextView(.constant(ayah.translations.first?.translation ?? ""))
+                    TextView(.constant(ayah.translations.first?.translation ?? ""), searchString: $searchString)
                         .paragraphStyle(.left)
                         .fontSize(fontSize)
                 }.padding(.vertical)
             }
         }
         .searchable(text: $searchString)
+        .onChange(of: searchString) { newValue in
+            Task {
+                if newValue.isEmpty {
+                    surah.ayat = all.ayat
+                } else {
+                    let newList = all.ayat.filter { $0.translations.first?.translation.localizedCaseInsensitiveContains(newValue) ?? false }
+                    surah.ayat = newList
+                }
+            }
+        }
         .navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "")"))
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
