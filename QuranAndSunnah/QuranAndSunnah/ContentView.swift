@@ -8,7 +8,12 @@
 import SwiftUI
 import UIKit
 
+enum StorageName {
+    static let fontSize = "fontSize"
+}
+
 struct ContentView: View {
+    @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
     var body: some View {
         TabView {

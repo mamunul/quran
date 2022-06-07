@@ -40,7 +40,9 @@ struct HadithCollectorListView: View {
 
 struct HadithListView: View {
     @EnvironmentObject var presenter: HadithPresenter
+    @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @Binding var chapter: HadithChapter
+    @State var searchString: String = ""
     @State var size: CGSize = CGSize(width: 200, height: 100)
     @State var size2: CGSize = CGSize(width: 200, height: 100)
     var body: some View {
@@ -61,6 +63,7 @@ struct HadithListView: View {
                              searchString: .constant("")
                     )
                     .paragraphStyle(.right)
+                    .fontSize(fontSize)
                     TextView(
                          Binding<NSMutableAttributedString>(
                             get: { NSMutableAttributedString(string: hadith.wrappedValue.hadithTranslations.first!.translation) },
@@ -69,11 +72,21 @@ struct HadithListView: View {
                         searchString: .constant("")
                     )
                     .paragraphStyle(.left)
+                    .fontSize(fontSize)
                 }
             }
         }
+        .searchable(text: $searchString)
         .listStyle(.sidebar)
         .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.titleTranslations.first?.translation ?? "")"))
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button(action: {
+                }, label: {
+                    Image(systemName: "gear")
+                })
+            }
+        }
     }
 }
 

@@ -10,6 +10,8 @@ public struct TextView: View {
 
     var paragraphAlignment: CustomTextAlignment = .none
 
+    var fontSize: Double? = nil
+
     /// Makes a new TextView with the specified configuration
     /// - Parameters:
     ///   - text: A binding to the text
@@ -30,10 +32,11 @@ public struct TextView: View {
     }
 
     public var body: some View {
-        Representable(
+        TextViewRepresentable(
             text: $text, searchString: self.searchString,
             calculatedHeight: $calculatedHeight,
-            paragraphAlignment: paragraphAlignment
+            paragraphAlignment: paragraphAlignment,
+            fontSize: fontSize
         )
         .frame(
             minHeight: calculatedHeight,

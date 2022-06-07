@@ -73,41 +73,50 @@ struct TafsirSurahListView: View {
                         }
                     }
                 }
+                .isDetailLink(false)
             }
         }
         .listStyle(.sidebar)
-       
     }
 }
 
 struct TafsirContentView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
-    @State var searchStrinng: String = ""
+    @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
+    @State var searchString: String = ""
+    @State private var showingPopover = false
     var surah: TafsirSurah
     var ayah: TafsirAyah
-
     var body: some View {
         ScrollView {
-            HStack {
-                TextField("Title", text: $searchStrinng, prompt: Text("search here"))
-                    .keyboardType(UIKeyboardType.alphabet)
-
+//
+            TextView($presenter.attributedContent, searchString: $searchString)
+                .onAppear {
+                    presenter.onViewAppear(surah: surah, ayah: ayah, fontSize: fontSize)
+                }
+        }
+        .searchable(text: $searchString)
+        .navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "") - \(ayah.text)"))
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
                     presenter.recite()
                 } label: {
                     Text("recite")
                 }
+                Button(action: {
+                    showingPopover = true
+                }, label: {
+                    Image(systemName: "gear")
+                })
             }
-            .padding(.horizontal)
-            Slider(value: $presenter.fontSize, in: presenter.fontRange, step: 1.0)
-            TextView($presenter.attributedContent, searchString: $searchStrinng)
-//            CTextView(text: $presenter.attributedContent, searchString: $searchStrinng, size: .constant(.zero))
-//                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-//                .border(.yellow)
-                .onAppear {
-                    presenter.onViewAppear(surah: surah, ayah: ayah)
-                }
-        }.navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "") - \(ayah.text)"))
+        }
+        .sheet(isPresented: $showingPopover) {
+            Slider(value: $fontSize, in: presenter.fontRange, step: 1.0)
+        }
+        .onChange(of: fontSize) { newValue in
+            presenter.updateFontSize(newValue)
+        }
     }
 }
 
