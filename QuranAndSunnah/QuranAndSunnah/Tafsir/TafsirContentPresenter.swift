@@ -44,8 +44,6 @@ class TafsirContentPresenter: ObservableObject {
     private var repository = QuranRepository()
     private var previousFontSize: Double = 15.0
 
-    var fontRange: ClosedRange<Double> = 15.0 ... 30.0
-
     func getSurah() {
         DispatchQueue.global().async {
             let quran = self.repository.requestQuran()

@@ -43,8 +43,7 @@ struct HadithListView: View {
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @Binding var chapter: HadithChapter
     @State var searchString: String = ""
-    @State var size: CGSize = CGSize(width: 200, height: 100)
-    @State var size2: CGSize = CGSize(width: 200, height: 100)
+    @State private var showingPopover = false
     var body: some View {
         List {
             ForEach(self.$chapter.hadithList) { hadith in
@@ -82,11 +81,16 @@ struct HadithListView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: {
+                    showingPopover = true
                 }, label: {
                     Image(systemName: "gear")
                 })
             }
         }
+        .sheet(isPresented: $showingPopover) {
+            SettingsView()
+        }
+
     }
 }
 
