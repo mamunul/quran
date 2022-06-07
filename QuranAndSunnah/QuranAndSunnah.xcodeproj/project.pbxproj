@@ -40,7 +40,7 @@
 		EE7180BA28465C61000D16FB /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B928465C61000D16FB /* Bookmark.swift */; };
 		EEDC0511284E3E2600201203 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC050D284E3DEA00201203 /* TextView.swift */; };
 		EEDC0512284E3E2900201203 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC050F284E3DEA00201203 /* Modifiers.swift */; };
-		EEDC0513284E3E2C00201203 /* Representable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC0510284E3DEA00201203 /* Representable.swift */; };
+		EEDC0513284E3E2C00201203 /* TextViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC0510284E3DEA00201203 /* TextViewRepresentable.swift */; };
 		EEDC0516284E3E6100201203 /* CustomUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC0515284E3E6100201203 /* CustomUITextView.swift */; };
 /* End PBXBuildFile section */
 
@@ -84,7 +84,7 @@
 		EE7180B928465C61000D16FB /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		EEDC050D284E3DEA00201203 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		EEDC050F284E3DEA00201203 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
-		EEDC0510284E3DEA00201203 /* Representable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Representable.swift; sourceTree = "<group>"; };
+		EEDC0510284E3DEA00201203 /* TextViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewRepresentable.swift; sourceTree = "<group>"; };
 		EEDC0515284E3E6100201203 /* CustomUITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUITextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -247,7 +247,7 @@
 				EEDC0515284E3E6100201203 /* CustomUITextView.swift */,
 				EEDC050F284E3DEA00201203 /* Modifiers.swift */,
 				EEDC050D284E3DEA00201203 /* TextView.swift */,
-				EEDC0510284E3DEA00201203 /* Representable.swift */,
+				EEDC0510284E3DEA00201203 /* TextViewRepresentable.swift */,
 			);
 			path = TextView;
 			sourceTree = "<group>";
@@ -405,7 +405,7 @@
 				EEDC0516284E3E6100201203 /* CustomUITextView.swift in Sources */,
 				EEDC0511284E3E2600201203 /* TextView.swift in Sources */,
 				EE7180BA28465C61000D16FB /* Bookmark.swift in Sources */,
-				EEDC0513284E3E2C00201203 /* Representable.swift in Sources */,
+				EEDC0513284E3E2C00201203 /* TextViewRepresentable.swift in Sources */,
 				EE61D5DD2847D94D003381B7 /* QuranRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

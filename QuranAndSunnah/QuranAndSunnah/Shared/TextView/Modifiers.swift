@@ -15,4 +15,10 @@ public extension TextView {
         view.paragraphAlignment = alignment
         return view
     }
+    
+    internal func fontSize(_ value: Double) -> TextView {
+        var view = self
+        view.fontSize = value
+        return view
+    }
 }

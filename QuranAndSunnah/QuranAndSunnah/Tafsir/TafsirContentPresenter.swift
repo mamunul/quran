@@ -19,22 +19,32 @@ class TafsirContentPresenter: ObservableObject {
     private var surah: TafsirSurah?
     private var ayah: TafsirAyah?
     private var tafsirRepository = TafsirRepository()
-    @Published var fontSize: Float = 15.0 {
-        didSet {
-            if previousFontSize == fontSize { return }
-            previousFontSize = fontSize
-            DispatchQueue.global().async { [self] in
-                if surah != nil && ayah != nil {
-                    self.updateContent(surah: surah!, ayah: ayah!)
-                }
+//    @Published var fontSize: Float = 20 {
+//        didSet {
+//            if previousFontSize == fontSize { return }
+//            previousFontSize = fontSize
+//            DispatchQueue.global().async { [self] in
+//                if surah != nil && ayah != nil {
+//                    self.updateContent(surah: surah!, ayah: ayah!)
+//                }
+//            }
+//        }
+//    }
+
+    func updateFontSize(_ value: Double) {
+        if previousFontSize == value { return }
+        previousFontSize = value
+        DispatchQueue.global().async { [self] in
+            if surah != nil && ayah != nil {
+                self.updateContent(surah: surah!, ayah: ayah!, fontSize: value)
             }
         }
     }
 
     private var repository = QuranRepository()
-    private var previousFontSize: Float = 15.0
+    private var previousFontSize: Double = 15.0
 
-    var fontRange: ClosedRange<Float> = 15.0 ... 30.0
+    var fontRange: ClosedRange<Double> = 15.0 ... 30.0
 
     func getSurah() {
         DispatchQueue.global().async {
@@ -47,9 +57,9 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
-    func onViewAppear(surah: TafsirSurah, ayah: TafsirAyah) {
+    func onViewAppear(surah: TafsirSurah, ayah: TafsirAyah, fontSize: Double) {
         DispatchQueue.global().async {
-            self.updateContent(surah: surah, ayah: ayah)
+            self.updateContent(surah: surah, ayah: ayah, fontSize: fontSize)
             self.setupReader()
         }
     }
@@ -60,7 +70,7 @@ class TafsirContentPresenter: ObservableObject {
         utterance?.voice = voice
     }
 
-    private func updateContent(surah: TafsirSurah, ayah: TafsirAyah) {
+    private func updateContent(surah: TafsirSurah, ayah: TafsirAyah, fontSize: Double) {
         self.surah = surah
         self.ayah = ayah
         let config =

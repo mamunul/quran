@@ -12,16 +12,6 @@ struct QuranContentView: View {
     var body: some View {
         NavigationView {
             SurahListView()
-                .navigationBarItems(trailing: Button(action: {
-                    
-                }, label: {
-                    Image(systemName: "gear")
-                }))
-                .navigationBarItems(leading: Button(action: {
-                    
-                }, label: {
-                    Image(systemName: "menubar.rectangle")
-                }))
         }
 
         .environmentObject(presenter)
@@ -67,6 +57,8 @@ struct SurahListView: View {
 
 struct SurahContentView: View {
     @EnvironmentObject var presenter: QuranPresenter
+    @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
+    @State var searchString: String = ""
     var surah: Surah
     var body: some View {
         List {
@@ -76,13 +68,24 @@ struct SurahContentView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     TextView(.constant(ayah.arabic))
                         .paragraphStyle(.right)
+                        .fontSize(fontSize)
 
                     TextView(.constant(ayah.translations.first?.translation ?? ""))
                         .paragraphStyle(.left)
+                        .fontSize(fontSize)
                 }.padding(.vertical)
             }
         }
+        .searchable(text: $searchString)
         .navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "")"))
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button(action: {
+                }, label: {
+                    Image(systemName: "gear")
+                })
+            }
+        }
     }
 }
 
