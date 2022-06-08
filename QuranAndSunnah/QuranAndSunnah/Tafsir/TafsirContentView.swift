@@ -108,12 +108,14 @@ struct TafsirContentView: View {
                     showingPopover = true
                 }, label: {
                     Image(systemName: "gear")
-                })
+                }).alwaysPopover(isPresented: $showingPopover) {
+                    SettingsView()
+                }
             }
         }
-        .sheet(isPresented: $showingPopover) {
-            SettingsView()
-        }
+//        .sheet(isPresented: $showingPopover) {
+//            SettingsView()
+//        }
         .onChange(of: fontSize) { newValue in
             presenter.updateFontSize(newValue)
         }

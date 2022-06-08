@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A2A831A283B564D00FD0E80"
-               BuildableName = "HTMLTextAttributes.app"
-               BlueprintName = "HTMLTextAttributes"
-               ReferencedContainer = "container:HTMLTextAttributes.xcodeproj">
+               BuildableName = "QuranAndSunnah.app"
+               BlueprintName = "QuranAndSunnah"
+               ReferencedContainer = "container:QuranAndSunnah.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A2A831A283B564D00FD0E80"
-            BuildableName = "HTMLTextAttributes.app"
-            BlueprintName = "HTMLTextAttributes"
-            ReferencedContainer = "container:HTMLTextAttributes.xcodeproj">
+            BuildableName = "QuranAndSunnah.app"
+            BlueprintName = "QuranAndSunnah"
+            ReferencedContainer = "container:QuranAndSunnah.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A2A831A283B564D00FD0E80"
-            BuildableName = "HTMLTextAttributes.app"
-            BlueprintName = "HTMLTextAttributes"
-            ReferencedContainer = "container:HTMLTextAttributes.xcodeproj">
+            BuildableName = "QuranAndSunnah.app"
+            BlueprintName = "QuranAndSunnah"
+            ReferencedContainer = "container:QuranAndSunnah.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

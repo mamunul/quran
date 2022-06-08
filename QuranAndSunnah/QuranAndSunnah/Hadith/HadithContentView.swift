@@ -102,11 +102,14 @@ struct HadithListView: View {
                 }, label: {
                     Image(systemName: "gear")
                 })
+                .alwaysPopover(isPresented: $showingPopover) {
+                    SettingsView()
+                }
             }
         }
-        .sheet(isPresented: $showingPopover) {
-            SettingsView()
-        }
+//        .sheet(isPresented: $showingPopover) {
+//            SettingsView()
+//        }
     }
 }
 
