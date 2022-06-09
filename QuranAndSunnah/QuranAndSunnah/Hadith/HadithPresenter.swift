@@ -9,18 +9,28 @@ import Foundation
 
 class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
-    @Published var hadithBook: HadithBook = .empty
     private var repo = HadithRepository()
     func getHadithCollectorList() {
         collectors = repo.getCollectorList()
     }
 
-    func getHadith(of collector: HadithCollector) {
-        DispatchQueue.global().async {
-            let book = self.repo.getHadith(of: collector)
-            DispatchQueue.main.async {
-                self.hadithBook = book
-            }
+    func getHadithList(of chapter: HadithChapter, collector: HadithCollector) -> [Hadith] {
+        do {
+            let list = try repo.getHadithList(of: chapter, collector: collector)
+            return list
+        } catch {
+            print(error)
+            return []
         }
+    }
+
+    func getHadithBook(of collector: HadithCollector) -> HadithBook {
+        do {
+            let book = try repo.getHadith(of: collector)
+            return book
+        } catch {
+            print(error)
+        }
+        return HadithBook.empty
     }
 }

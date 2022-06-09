@@ -21,8 +21,8 @@ struct TafsirSurah: Identifiable {
     var firstAyahNo: Int
     var lastAyahNo: Int
     var name: String
-    var nameTranslations: [Translation]
-    var nameTransliterations: [Transliteration]
+    var nameTranslations: [TextContent]
+    var nameTransliterations: [TextContent]
     var revelationOrder: Int
     var revelaitonPlace: Surah.RevelationPlace
     var ayat: [TafsirAyah]

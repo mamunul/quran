@@ -22,8 +22,8 @@ struct Surah: Identifiable {
     var firstAyahNo: Int
     var lastAyahNo: Int
     var name: String
-    var nameTranslations: [Translation]
-    var nameTransliterations: [Transliteration]
+    var nameTranslations: [TextContent]
+    var nameTransliterations: [TextContent]
     var revelationOrder: Int
     var revelaitonPlace: RevelationPlace
     var ayat: [Ayah]
@@ -33,28 +33,24 @@ enum Language {
     case en, bn, ar
 }
 
-struct Translation {
+struct TextContent {
+    var contentID: ContentID
     var lang: Language
-    var translation: String
-}
-
-struct Transliteration {
-    var lang: Language
-    var transliteration: String
+    var text: String
 }
 
 struct Word {
-    var wordNo: Int
-    var translations: [Translation]
-    var transliterations: [Transliteration]
+    var contentID: ContentID
+    var translations: [TextContent]
+    var transliterations: [TextContent]
 }
 
 struct Ayah: Identifiable {
     var id: Int
     var ayahNo: Int
     var arabic: String
-    var translations: [Translation]
-    var transliterations: [Transliteration]
+    var translations: [TextContent]
+    var transliterations: [TextContent]
     var words: [Word]
     var bookmark: Bool
     var tags: [String]

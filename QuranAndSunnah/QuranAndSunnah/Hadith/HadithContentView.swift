@@ -44,22 +44,20 @@ struct HadithListView: View {
 //    @Binding var chapter: HadithChapter
     @State var searchString: String = ""
     @State private var showingPopover = false
-    @State private var chapter: HadithChapter
-    private var all: HadithChapter
-    init(chapter: HadithChapter) {
-        all = chapter
-        self.chapter = chapter
-    }
+    @State var chapter: HadithChapter
+    var collector: HadithCollector
+    @State var hadithList = [Hadith]()
+    @State var allHadithList = [Hadith]()
 
     var body: some View {
         List {
-            ForEach(self.$chapter.hadithList) { hadith in
+            ForEach(self.$hadithList) { hadith in
                 VStack(spacing: 10) {
                     HStack {
                         Text(hadith.wrappedValue.hadithNo)
                             .frame(alignment: .leading)
                         Spacer()
-                        Text(hadith.wrappedValue.gradeTranslations.first?.translation ?? "")
+                        Text(hadith.wrappedValue.gradeTranslations.first?.text ?? "")
                             .frame(alignment: .trailing)
                     }
                     TextView(Binding<NSMutableAttributedString>(
@@ -72,7 +70,7 @@ struct HadithListView: View {
                     .fontSize(fontSize)
                     TextView(
                         Binding<NSMutableAttributedString>(
-                            get: { NSMutableAttributedString(string: hadith.wrappedValue.hadithTranslations.first!.translation) },
+                            get: { NSMutableAttributedString(string: hadith.wrappedValue.hadithTranslations.first!.text) },
                             set: { hadith.wrappedValue.hadith = $0.string }
                         ),
                         searchString: $searchString
@@ -86,15 +84,15 @@ struct HadithListView: View {
         .onChange(of: searchString) { newValue in
             Task {
                 if newValue.isEmpty {
-                    chapter.hadithList = all.hadithList
+                    hadithList = allHadithList
                 } else {
-                    let newList = all.hadithList.filter { $0.hadithTranslations.first!.translation.localizedCaseInsensitiveContains(newValue) }
-                    chapter.hadithList = newList
+                    let newList = allHadithList.filter { $0.hadithTranslations.first!.text.localizedCaseInsensitiveContains(newValue) }
+                    hadithList = newList
                 }
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.titleTranslations.first?.translation ?? "")"))
+        .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.titleTranslations.first?.text ?? "")"))
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -102,31 +100,35 @@ struct HadithListView: View {
                 }, label: {
                     Image(systemName: "gear")
                 })
-                .alwaysPopover(isPresented: $showingPopover) {
-                    SettingsView()
-                }
+                    .alwaysPopover(isPresented: $showingPopover) {
+                        SettingsView()
+                    }
             }
         }
-//        .sheet(isPresented: $showingPopover) {
-//            SettingsView()
-//        }
+        .onAppear {
+            Task {
+                allHadithList = presenter.getHadithList(of: chapter, collector: collector)
+                hadithList = allHadithList
+            }
+        }
     }
 }
 
 struct HadithChapterListView: View {
     @EnvironmentObject var presenter: HadithPresenter
     var collector: HadithCollector
+    @State var book = HadithBook.empty
     var body: some View {
         List {
-            ForEach(self.$presenter.hadithBook.chapters) { chapter in
+            ForEach(self.book.chapters) { chapter in
                 NavigationLink {
-                    HadithListView(chapter: chapter.wrappedValue)
+                    HadithListView(chapter: chapter, collector: collector)
                 } label: {
                     HStack {
-                        Text("\(chapter.wrappedValue.chapterNo)").frame(width: 25)
+                        Text("\(chapter.chapterNo)").frame(width: 25)
                         VStack(alignment: .leading, spacing: 5) {
-                            Text(chapter.wrappedValue.titleTranslations.first?.translation ?? "")
-                            Text("\(chapter.wrappedValue.hadithList.first?.hadithNo ?? "") - \(chapter.wrappedValue.hadithList.last?.hadithNo ?? "")")
+                            Text(chapter.titleTranslations.first?.text ?? "")
+                            Text("\(chapter.hadithNo.lowerBound) - \(chapter.hadithNo.upperBound)")
                                 .font(.system(size: 14))
                         }
                     }
@@ -134,9 +136,11 @@ struct HadithChapterListView: View {
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle(Text("\(self.presenter.hadithBook.name)"))
+        .navigationTitle(Text("\(self.book.name)"))
         .onAppear {
-            presenter.getHadith(of: collector)
+            Task {
+                book = presenter.getHadithBook(of: collector)
+            }
         }
     }
 }

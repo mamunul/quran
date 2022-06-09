@@ -26,14 +26,23 @@ struct HadithJson: Decodable {
     var Arabic_Grade: String
 }
 
+enum HadithContentID: ContentID {
+    case bukhari_1
+    case muslim_1
+    case tirmizi_1
+    case abudaud_1
+    case ibnmajah_1
+    case nasai_1
+}
+
 class HadithRepository {
     func getCollectorList() -> [HadithCollector] {
-        let bukhari = HadithCollector(name: "Bukhari", id: 1, pathComponent: "Hadith/Bukhari/", chapterRange: 1 ..< 97)
-        let muslim = HadithCollector(name: "Muslim", id: 2, pathComponent: "Hadith/Muslim/", chapterRange: 0 ..< 56)
-        let tirmizi = HadithCollector(name: "Tirmizi", id: 3, pathComponent: "Hadith/Tirmizi/", chapterRange: 1 ..< 49)
-        let abuDaud = HadithCollector(name: "AbuDaud", id: 4, pathComponent: "Hadith/AbuDaud/", chapterRange: 1 ..< 43)
-        let ibnMajah = HadithCollector(name: "IbnMajah", id: 5, pathComponent: "Hadith/IbnMaja/", chapterRange: 0 ..< 37)
-        let nasai = HadithCollector(name: "Nasai", id: 6, pathComponent: "Hadith/Nesai/", chapterRange: 1 ..< 51)
+        let bukhari = HadithCollector(name: "Bukhari", id: 1, contentID: .bukhari_1, pathComponent: "Hadith/Bukhari/", chapterRange: 1 ..< 97)
+        let muslim = HadithCollector(name: "Muslim", id: 2, contentID: .muslim_1, pathComponent: "Hadith/Muslim/", chapterRange: 0 ..< 56)
+        let tirmizi = HadithCollector(name: "Tirmizi", id: 3, contentID: .tirmizi_1, pathComponent: "Hadith/Tirmizi/", chapterRange: 1 ..< 49)
+        let abuDaud = HadithCollector(name: "AbuDaud", id: 4, contentID: .abudaud_1, pathComponent: "Hadith/AbuDaud/", chapterRange: 1 ..< 43)
+        let ibnMajah = HadithCollector(name: "IbnMajah", id: 5, contentID: .ibnmajah_1, pathComponent: "Hadith/IbnMaja/", chapterRange: 0 ..< 37)
+        let nasai = HadithCollector(name: "Nasai", id: 6, contentID: .nasai_1, pathComponent: "Hadith/Nesai/", chapterRange: 1 ..< 51)
 
         var collectors = [HadithCollector]()
         collectors.append(bukhari)
@@ -46,58 +55,79 @@ class HadithRepository {
         return collectors
     }
 
-    func getChapter(res: [HadithJson],chapterNo:Int) -> HadithChapter {
+    func getHadithList(of chapter: HadithChapter, collector: HadithCollector) throws -> [Hadith] {
+        let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapter.chapterNo).json", withExtension: "")!
+        let data = try Data(contentsOf: fileUrl)
+        let res = try JSONDecoder().decode([HadithJson].self, from: data)
+
         let hadithList = res.map {
             Hadith(
                 id: $0.Hadith_number,
                 chapterNo: Int(Float($0.Chapter_Number)!),
                 sectionNo: $0.Section_Number,
                 sectionTranslations: [
-                    Translation(lang: .en, translation: $0.Chapter_English),
+                    TextContent(contentID: collector.contentID, lang: .en, text: $0.Chapter_English),
                 ],
                 section: $0.Chapter_Arabic,
                 hadithNo: $0.Hadith_number,
                 hadithTranslations: [
-                    Translation(lang: .en, translation: $0.English_Hadith),
+                    TextContent(contentID: collector.contentID, lang: .en, text: $0.English_Hadith),
                 ],
                 isnadTranslations: [
-                    Translation(lang: .en, translation: $0.English_Isnad),
+                    TextContent(contentID: collector.contentID, lang: .en, text: $0.English_Isnad),
                 ],
                 matnTranslations: [
-                    Translation(lang: .en, translation: $0.English_Matn),
+                    TextContent(contentID: collector.contentID, lang: .en, text: $0.English_Matn),
                 ],
                 hadith: $0.Arabic_Hadith,
                 isnad: $0.Arabic_Isnad,
                 matn: $0.Arabic_Matn,
                 comment: $0.Arabic_Comment,
                 gradeTranslations: [
-                    Translation(lang: .en, translation: $0.English_Grade),
+                    TextContent(contentID: collector.contentID, lang: .en, text: $0.English_Grade),
                 ],
                 grade: $0.Arabic_Grade,
                 bookmark: false,
                 tags: [])
         }
+        return hadithList
+    }
 
-//        let chapterNo = 1
+    func getChapter(collector: HadithCollector, chapterNo: Int, contentID: HadithContentID) throws -> HadithChapter {
+        let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapterNo).json", withExtension: "")!
+        let data = try Data(contentsOf: fileUrl)
+        let res = try JSONDecoder().decode([HadithJson].self, from: data)
+
+        var title = ""
+        var translations = [TextContent]()
+        var firstItemNo = 0
+        var lastItemNo = 0
+        if let item = res.first {
+            title = item.Chapter_Arabic
+            translations = [TextContent(contentID: collector.contentID, lang: .en, text: item.Chapter_English)]
+            firstItemNo = (item.Hadith_number as NSString).integerValue
+        }
+
+        if let item = res.last {
+            lastItemNo = (item.Hadith_number as NSString).integerValue
+        }
+
         let chapter = HadithChapter(
             id: chapterNo,
             chapterNo: chapterNo,
-            title: hadithList.first?.section ?? " ",
-            titleTranslations: hadithList.first?.sectionTranslations ?? [],
-            hadithList: hadithList
+            title: title,
+            titleTranslations: translations,
+            hadithNo: firstItemNo ... lastItemNo
         )
 
         return chapter
     }
 
-    func getHadith(of collector: HadithCollector) -> HadithBook {
+    func getHadith(of collector: HadithCollector) throws -> HadithBook {
         var hadithChapterList = [HadithChapter]()
         for chapterNo in collector.chapterRange {
             do {
-                let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapterNo).json", withExtension: "")!
-                let data = try Data(contentsOf: fileUrl)
-                let res = try JSONDecoder().decode([HadithJson].self, from: data)
-                let chapter = getChapter(res: res,chapterNo: chapterNo)
+                let chapter = try getChapter(collector: collector, chapterNo: chapterNo, contentID: collector.contentID)
                 hadithChapterList.append(chapter)
             } catch {
                 print(error)

@@ -16,7 +16,9 @@ struct QuranContentView: View {
 
         .environmentObject(presenter)
         .onAppear {
-            presenter.getQuran()
+            Task {
+                presenter.getQuran()
+            }
         }
     }
 }
@@ -32,11 +34,11 @@ struct SurahListView: View {
                     HStack {
                         Text("\(surah.surahNo)").frame(width: 50)
                         VStack(alignment: .leading) {
-                            Text(surah.nameTransliterations.first!.transliteration)
+                            Text(surah.nameTransliterations.first!.text)
                                 .font(.system(size: 16))
                                 .frame(alignment: .leading)
                                 .multilineTextAlignment(.leading)
-                            Text(surah.nameTranslations.first!.translation)
+                            Text(surah.nameTranslations.first!.text)
                                 .font(.system(size: 14))
                                 .frame(alignment: .leading)
                                 .multilineTextAlignment(.leading)
@@ -77,7 +79,7 @@ struct SurahContentView: View {
                         .paragraphStyle(.right)
                         .fontSize(fontSize)
 
-                    TextView(.constant(ayah.translations.first?.translation ?? ""), searchString: $searchString)
+                    TextView(.constant(ayah.translations.first?.text ?? ""), searchString: $searchString)
                         .paragraphStyle(.left)
                         .fontSize(fontSize)
                 }.padding(.vertical)
@@ -89,12 +91,12 @@ struct SurahContentView: View {
                 if newValue.isEmpty {
                     surah.ayat = all.ayat
                 } else {
-                    let newList = all.ayat.filter { $0.translations.first?.translation.localizedCaseInsensitiveContains(newValue) ?? false }
+                    let newList = all.ayat.filter { $0.translations.first?.text.localizedCaseInsensitiveContains(newValue) ?? false }
                     surah.ayat = newList
                 }
             }
         }
-        .navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "")"))
+        .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "")"))
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -107,9 +109,6 @@ struct SurahContentView: View {
                     }
             }
         }
-//        .sheet(isPresented: $showingPopover) {
-//            SettingsView()
-//        }
     }
 }
 

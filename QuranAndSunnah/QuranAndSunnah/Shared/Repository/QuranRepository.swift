@@ -7,7 +7,24 @@
 
 import Foundation
 
+protocol ContentID {
+}
+
+enum QuranTranslationID: ContentID {
+    case indonesia_ar
+    case en_hilali_quranenc
+    case en_itani_tanzil
+    case en_sarwar_tanzil
+    case bn_bengali_tanzil
+    case id_litequran
+}
+
+enum SurahNameID: ContentID {
+    case en_tanzil
+}
+
 class QuranRepository {
+    static let shared = QuranRepository()
     let arabicAyah = "indonesia.json"
 
     let englishTranslation1 = "ayah-translation/en-hilali-quranenc.json"
@@ -21,7 +38,14 @@ class QuranRepository {
     let wordBanglaTranslation = "word-translation/bn-wbw.json"
     let wordEnglishTransliteration = "word-transliteration/en-quranwbw.json"
 
+    private init() {}
+
+    private var quran: Quran?
+
     func requestQuran() -> Quran {
+        if quran != nil {
+            return quran!
+        }
         let surahNammeTranslationJson = surahNameTranslations().sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
@@ -42,8 +66,8 @@ class QuranRepository {
         var ayahList = [Ayah]()
 
         for (ayahAr, (ayahTranslation, ayahTrannsliteration)) in zip(ayah, zip(translationsJson, transliterationnJson)) {
-            let translation = Translation(lang: .en, translation: ayahTranslation.value)
-            let transliteration = Transliteration(lang: .en, transliteration: ayahTrannsliteration.value)
+            let translation = TextContent(contentID: QuranTranslationID.en_hilali_quranenc, lang: .en, text: ayahTranslation.value)
+            let transliteration = TextContent(contentID: QuranTranslationID.id_litequran, lang: .en, text: ayahTrannsliteration.value)
             let ayah =
                 Ayah(
                     id: Int(ayahAr.key)!,
@@ -64,8 +88,8 @@ class QuranRepository {
         var surahList = [Surah]()
 
         for (surahInfo, surahName) in zip(surahInfoJson, surahNammeTranslationJson) {
-            let translation = Translation(lang: .en, translation: surahName.value.translation)
-            let transliteration = Transliteration(lang: .en, transliteration: surahName.value.name)
+            let translation = TextContent(contentID: SurahNameID.en_tanzil, lang: .en, text: surahName.value.translation)
+            let transliteration = TextContent(contentID: SurahNameID.en_tanzil, lang: .en, text: surahName.value.name)
 
             let ayat = Array(ayahList[surahInfo.value.start - 1 ... surahInfo.value.end - 1])
             let surah =
@@ -85,8 +109,8 @@ class QuranRepository {
             surahList.append(surah)
         }
 
-        let quran = Quran(surah: surahList)
-        return quran
+        quran = Quran(surah: surahList)
+        return quran!
     }
 
     func surahNameTranslations() -> [String: SurahTranslationJson] {

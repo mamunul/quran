@@ -19,47 +19,28 @@ class TafsirContentPresenter: ObservableObject {
     private var surah: TafsirSurah?
     private var ayah: TafsirAyah?
     private var tafsirRepository = TafsirRepository()
-//    @Published var fontSize: Float = 20 {
-//        didSet {
-//            if previousFontSize == fontSize { return }
-//            previousFontSize = fontSize
-//            DispatchQueue.global().async { [self] in
-//                if surah != nil && ayah != nil {
-//                    self.updateContent(surah: surah!, ayah: ayah!)
-//                }
-//            }
-//        }
-//    }
 
     func updateFontSize(_ value: Double) {
         if previousFontSize == value { return }
         previousFontSize = value
-        DispatchQueue.global().async { [self] in
-            if surah != nil && ayah != nil {
-                self.updateContent(surah: surah!, ayah: ayah!, fontSize: value)
-            }
+        if surah != nil && ayah != nil {
+            updateContent(surah: surah!, ayah: ayah!, fontSize: value)
         }
     }
 
-    private var repository = QuranRepository()
+    private var repository = QuranRepository.shared
     private var previousFontSize: Double = 15.0
 
     func getSurah() {
-        DispatchQueue.global().async {
-            let quran = self.repository.requestQuran()
-            let tafsir = self.tafsirRepository.getTafsir(surah: quran.surah)
-            DispatchQueue.main.async {
-                self.quran = quran
-                self.tafsir = tafsir
-            }
-        }
+        let quran = repository.requestQuran()
+        let tafsir = tafsirRepository.getTafsir(surah: quran.surah)
+        self.quran = quran
+        self.tafsir = tafsir
     }
 
     func onViewAppear(surah: TafsirSurah, ayah: TafsirAyah, fontSize: Double) {
-        DispatchQueue.global().async {
-            self.updateContent(surah: surah, ayah: ayah, fontSize: fontSize)
-            self.setupReader()
-        }
+        updateContent(surah: surah, ayah: ayah, fontSize: fontSize)
+        setupReader()
     }
 
     private func setupReader() {
@@ -80,10 +61,7 @@ class TafsirContentPresenter: ObservableObject {
             )
         do {
             let updatedContent = try tafsirRepository.getContent(ayahUrl: ayah.path, configuraiton: config)
-//            let updatedContent = try TafsirRepository().getContent(surah: surah.surahNo, ayah: 1, configuraiton: config)
-            DispatchQueue.main.async {
-                self.attributedContent = updatedContent
-            }
+            attributedContent = updatedContent
 
         } catch {
             print(error)
