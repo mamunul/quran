@@ -14,7 +14,9 @@ struct TafsirMainView: View {
         NavigationView {
             TafsirSurahListView()
                 .onAppear {
-                    presenter.getSurah()
+                    Task {
+                        presenter.getSurah()
+                    }
                 }
                 .environmentObject(presenter)
         }
@@ -39,7 +41,7 @@ struct TafsirAyahListView: View {
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "")"))
+        .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "")"))
     }
 }
 
@@ -56,11 +58,11 @@ struct TafsirSurahListView: View {
                     HStack {
                         Text("\(surah.surahNo)").frame(width: 50)
                         VStack(alignment: .leading) {
-                            Text(surah.nameTransliterations.first!.transliteration)
+                            Text(surah.nameTransliterations.first!.text)
                                 .font(.system(size: 16))
                                 .frame(alignment: .leading)
                                 .multilineTextAlignment(.leading)
-                            Text(surah.nameTranslations.first!.translation)
+                            Text(surah.nameTranslations.first!.text)
                                 .font(.system(size: 14))
                                 .frame(alignment: .leading)
                                 .multilineTextAlignment(.leading)
@@ -92,11 +94,13 @@ struct TafsirContentView: View {
 //
             TextView($presenter.attributedContent, searchString: $searchString)
                 .onAppear {
-                    presenter.onViewAppear(surah: surah, ayah: ayah, fontSize: fontSize)
+                    Task {
+                        presenter.onViewAppear(surah: surah, ayah: ayah, fontSize: fontSize)
+                    }
                 }
         }
         .searchable(text: $searchString)
-        .navigationTitle(Text("\(surah.nameTransliterations.first?.transliteration ?? "") - \(ayah.text)"))
+        .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "") - \(ayah.text)"))
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
@@ -113,11 +117,10 @@ struct TafsirContentView: View {
                 }
             }
         }
-//        .sheet(isPresented: $showingPopover) {
-//            SettingsView()
-//        }
         .onChange(of: fontSize) { newValue in
-            presenter.updateFontSize(newValue)
+            Task {
+                presenter.updateFontSize(newValue)
+            }
         }
     }
 }
