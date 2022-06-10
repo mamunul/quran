@@ -17,7 +17,10 @@ struct TextViewRepresentable: UIViewRepresentable {
     @Environment(\.colorScheme) var colorScheme
 
     func makeUIView(context: Context) -> CustomUITextView {
-        let textView = CustomUITextView()
+        var textView = CustomUITextView()
+        if #available(iOS 16.0, *) {
+            textView = CustomUITextView(usingTextLayoutManager: true)
+        }
         textView.addCustomMenu()
         textView.backgroundColor = .clear
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -25,6 +28,29 @@ struct TextViewRepresentable: UIViewRepresentable {
     }
 
     func updateUIView(_ view: CustomUITextView, context: Context) {
+        addTextAttributes()
+        view.attributedText = text
+        view.isEditable = false
+        view.isEditable = false
+        view.isScrollEnabled = false
+        if fontSize != nil {
+            view.font = UIFont.systemFont(ofSize: CGFloat(fontSize!))
+        }
+
+//        if #available(iOS 16.0, *) {
+//            let textLayoutManager = view.textLayoutManager
+//            print("16:", textLayoutManager?.textContainer?.size)
+//        } else {
+//            let textLayoutManager = view.layoutManager
+//            print("15:", textLayoutManager.textContainers.first?.size)
+//        }
+
+        searchTexts(view)
+        recalculateHeight(view)
+        view.setNeedsDisplay()
+    }
+
+    private func addTextAttributes() {
         let textColor = colorScheme == .dark ? UIColor.white : UIColor.black
         var attribute1: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: textColor]
         let paragraphStyle = NSMutableParagraphStyle()
@@ -46,18 +72,12 @@ struct TextViewRepresentable: UIViewRepresentable {
             paragraphStyle.alignment = .natural
         }
 
- 
-
         let fullRange = NSRange(location: 0, length: text.length)
-        text.addAttributes(attribute1, range: fullRange)
 
-        view.attributedText = text
-        view.isEditable = false
-        view.isEditable = false
-        view.isScrollEnabled = false
-        if fontSize != nil {
-            view.font = UIFont.systemFont(ofSize: CGFloat(fontSize!))
-        }
+        text.addAttributes(attribute1, range: fullRange)
+    }
+
+    private func searchTexts(_ view: CustomUITextView) {
         if let searchString = searchString?.wrappedValue {
             let searchRange = NSString(string: text.string).range(of: searchString, options: .caseInsensitive)
             view.selectedRange = searchRange // optional
@@ -67,9 +87,6 @@ struct TextViewRepresentable: UIViewRepresentable {
                 view.scrollRangeToVisible(searchRange)
             }
         }
-
-        recalculateHeight(view)
-        view.setNeedsDisplay()
     }
 
     private func recalculateHeight(_ view: CustomUITextView) {
