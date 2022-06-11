@@ -70,45 +70,95 @@ struct SurahContentView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(surah.ayat) { ayah in
-                VStack(spacing: 10) {
-                    Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    TextView(.constant(ayah.arabic))
-                        .paragraphStyle(.right)
-                        .fontSize(fontSize)
+        GeometryReader { proxy in
+            List {
+                ForEach(surah.ayat) { ayah in
+                    VStack(spacing: 10) {
+                        Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        TextViewRepresentable2(
+                            text: .constant(NSMutableAttributedString(string: ayah.arabic)),
+                            searchString: self.$searchString,
+                            paragraphAlignment: .right,
+                            fontSize: fontSize
+                        )
+                        .frame(height: frameSize(for: ayah.arabic, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
 
-                    TextView(.constant(ayah.translations.first?.text ?? ""), searchString: $searchString)
-                        .paragraphStyle(.left)
-                        .fontSize(fontSize)
-                }.padding(.vertical)
+                        TextViewRepresentable2(
+                            text: .constant(NSMutableAttributedString(string: ayah.translations.first?.text ?? "")),
+                            searchString: self.$searchString,
+                            paragraphAlignment: .left,
+                            fontSize: fontSize
+                        )
+                        .frame(height: frameSize(for: ayah.translations.first?.text ?? "", fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
+                    }
+                    .listRowInsets(EdgeInsets())
+                }
             }
-        }
-        .searchable(text: $searchString)
-        .onChange(of: searchString) { newValue in
-            Task {
-                if newValue.isEmpty {
-                    surah.ayat = all.ayat
-                } else {
-                    let newList = all.ayat.filter { $0.translations.first?.text.localizedCaseInsensitiveContains(newValue) ?? false }
-                    surah.ayat = newList
+            .listStyle(PlainListStyle())
+            .searchable(text: $searchString)
+            .onChange(of: searchString) { newValue in
+                Task {
+                    if newValue.isEmpty {
+                        surah.ayat = all.ayat
+                    } else {
+                        let newList = all.ayat.filter { $0.translations.first?.text.localizedCaseInsensitiveContains(newValue) ?? false }
+                        surah.ayat = newList
+                    }
+                }
+            }
+            .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "")"))
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showingPopover = true
+                    }, label: {
+                        Image(systemName: "gear")
+                    })
+                        .alwaysPopover(isPresented: $showingPopover) {
+                            SettingsView()
+                        }
                 }
             }
         }
-        .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "")"))
-        .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Button(action: {
-                    showingPopover = true
-                }, label: {
-                    Image(systemName: "gear")
-                })
-                    .alwaysPopover(isPresented: $showingPopover) {
-                        SettingsView()
-                    }
-            }
+    }
+
+    func frameSize(for text: String, fontSize: Int, width: CGFloat, paragraphAlignment: CustomTextAlignment) -> CGSize {
+        let attributedText = NSMutableAttributedString(string: text)
+        let fullRange = NSRange(location: 0, length: attributedText.length)
+        var attribute: [NSAttributedString.Key: Any] =
+            [NSAttributedString.Key.font: UIFont.systemFont(ofSize: CGFloat(fontSize))]
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        switch paragraphAlignment {
+        case .justify:
+            paragraphStyle.alignment = .justified
+            let attribute2 = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attribute += attribute2
+        case .left:
+            paragraphStyle.alignment = .left
+            let attribute2 = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attribute += attribute2
+        case .right:
+            paragraphStyle.alignment = .right
+            let attribute2 = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attribute += attribute2
+        case .none:
+            paragraphStyle.alignment = .natural
         }
+
+        let attribute3: [NSAttributedString.Key: Any] = [NSAttributedString.Key.kern: 0]
+        attribute += attribute3
+
+        attributedText.addAttributes(attribute, range: fullRange)
+
+        let textView = CustomUITextView()
+        textView.frame.size.width = width
+
+        textView.attributedText = attributedText
+
+        let rect = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: .greatestFiniteMagnitude))
+        return rect
     }
 }
 
