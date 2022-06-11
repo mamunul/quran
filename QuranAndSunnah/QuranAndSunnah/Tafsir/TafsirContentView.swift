@@ -90,38 +90,58 @@ struct TafsirContentView: View {
     var surah: TafsirSurah
     var ayah: TafsirAyah
     var body: some View {
-        ScrollView {
+        GeometryReader { proxy in
+            ScrollView {
 //
-            TextView($presenter.attributedContent, searchString: $searchString)
+//            TextView($presenter.attributedContent, searchString: $searchString)
+                TextViewRepresentable2(
+                    text: $presenter.attributedContent,
+                    searchString: self.$searchString,
+                    paragraphAlignment: .none,
+                    fontSize: nil
+                )
+                .frame(height: frameSize(for: presenter.attributedContent, width: proxy.size.width).height)
                 .onAppear {
                     Task {
                         presenter.onViewAppear(surah: surah, ayah: ayah, fontSize: fontSize)
                     }
                 }
-        }
-        .searchable(text: $searchString)
-        .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "") - \(ayah.text)"))
-        .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Button {
-                    presenter.recite()
-                } label: {
-                    Text("recite")
+            }
+            .searchable(text: $searchString)
+            .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "") - \(ayah.text)"))
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button {
+                        presenter.recite()
+                    } label: {
+                        Text("recite")
+                    }
+                    Button(action: {
+                        showingPopover = true
+                    }, label: {
+                        Image(systemName: "gear")
+                    }).alwaysPopover(isPresented: $showingPopover) {
+                        SettingsView()
+                    }
                 }
-                Button(action: {
-                    showingPopover = true
-                }, label: {
-                    Image(systemName: "gear")
-                }).alwaysPopover(isPresented: $showingPopover) {
-                    SettingsView()
+            }
+            .onChange(of: fontSize) { newValue in
+                Task {
+                    presenter.updateFontSize(newValue)
                 }
             }
         }
-        .onChange(of: fontSize) { newValue in
-            Task {
-                presenter.updateFontSize(newValue)
-            }
-        }
+    }
+
+    func frameSize(for attributedText: NSMutableAttributedString, width: CGFloat) -> CGSize {
+
+        let textView = CustomUITextView()
+        textView.frame.size.width = width
+
+        textView.attributedText = attributedText
+
+        let rect = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: .greatestFiniteMagnitude))
+        return rect
     }
 }
 
