@@ -19,15 +19,23 @@ struct ContentView: View {
         TabView {
             QuranContentView()
                 .tabItem {
-                    Label("Quran", systemImage: "list.dash")
+                    Label("Quran", systemImage: "book")
                 }
             TafsirMainView()
                 .tabItem {
-                    Label("Tafsir", systemImage: "list.dash")
+                    Label("Tafsir", systemImage: "character.book.closed")
                 }
             HadithContentView()
                 .tabItem {
-                    Label("Hadith", systemImage: "list.dash")
+                    Label("Hadith", systemImage: "books.vertical")
+                }
+            NoteBookView()
+                .tabItem {
+                    Label("Bookmarks", systemImage: "bookmark")
+                }
+            SearchView()
+                .tabItem {
+                    Label("Search", systemImage: "magnifyingglass")
                 }
         }
         .searchable(text: $searchString)
