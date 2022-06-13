@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/newone/Documents/ios_workspace/htmlattributes/SqliteConverter/SQLiteConverter.xcodeproj">
+      location = "group:SqliteConverter/SQLiteConverter.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:IbnKathir/IbnKathir.xcodeproj">
