@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Quran {
+struct Quran: Decodable {
     var surah: [Surah]
 }
 
-struct Surah: Identifiable {
-    enum RevelationPlace: String {
+struct Surah: Decodable, Identifiable {
+    enum RevelationPlace: String, Decodable {
         case medinan, meccan
     }
 
@@ -22,36 +22,36 @@ struct Surah: Identifiable {
     var firstAyahNo: Int
     var lastAyahNo: Int
     var name: String
-    var nameTranslations: [TextContent]
-    var nameTransliterations: [TextContent]
+    var nameTranslations: [TextContent<SurahNameID>]
+    var nameTransliterations: [TextContent<SurahNameID>]
     var revelationOrder: Int
     var revelaitonPlace: RevelationPlace
     var ayat: [Ayah]
 }
 
-enum Language {
+enum Language: String, Decodable {
     case en, bn, ar
 }
 
-struct TextContent {
-    var contentID: ContentID
+struct TextContent<T: ContentID>: Decodable {
+    var contentID: T
     var lang: Language
     var text: String
 }
 
-struct Word {
-    var contentID: ContentID
-    var translations: [TextContent]
-    var transliterations: [TextContent]
+struct Word<T: ContentID>: Decodable {
+    var contentID: T
+    var translations: [TextContent<QuranTranslationID>]
+    var transliterations: [TextContent<QuranTranslationID>]
 }
 
-struct Ayah: Identifiable {
+struct Ayah: Decodable, Identifiable {
     var id: Int
     var ayahNo: Int
     var arabic: String
-    var translations: [TextContent]
-    var transliterations: [TextContent]
-    var words: [Word]
+    var translations: [TextContent<QuranTranslationID>]
+    var transliterations: [TextContent<QuranTranslationID>]
+    var words: [Word<QuranTranslationID>]
     var bookmark: Bool
     var tags: [String]
 }

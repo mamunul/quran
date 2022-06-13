@@ -7,13 +7,15 @@
 
 import Foundation
 
-let basePath = "Documents/ios_workspace/htmlattributes/QuranAndSunnah/QuranAndSunnah/Resources/"
-print("path:", basePath)
-let quran = SQLiteConverter().getQuran(basePath: basePath)
-print("No of Surah: ", quran.surah.count)
+// let basePath = "Documents/ios_workspace/htmlattributes/QuranAndSunnah/QuranAndSunnah/Resources/"
+// print("path:", basePath)
+// let quran = SQLiteConverter().getQuran(basePath: basePath)
+// print("No of Surah: ", quran.surah.count)
+
+SQLiteConverter().setupCoreData()
 
 class SQLiteConverter {
-    private let controller = PersistenceController()
+    private let controller = PersistenceController.shared
     private let reppo = QuranRepository.shared
     func getQuran(basePath: String) -> Quran {
         let quran = reppo.requestQuran(basePath: basePath)
@@ -21,5 +23,6 @@ class SQLiteConverter {
     }
 
     func setupCoreData() {
+        controller.setupDatabase(name: "Test", blueprint: Quran.self)
     }
 }

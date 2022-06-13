@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ContentID {
+protocol ContentID: Equatable, Decodable {
 }
 
 enum QuranTranslationID: ContentID {
@@ -82,7 +82,7 @@ class QuranRepository {
         #else
             let ayatTransliterationUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(basePath)\(ayatTransliterationPath)")
         #endif
-   
+
         let transliterationnJson = getAllAyahTransliterations(ayatTransliterationUrl).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
@@ -93,7 +93,7 @@ class QuranRepository {
         #else
             let arabicAyatUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(basePath)\(sarabicAyatPath)")
         #endif
-  
+
         let ayah = getAllAyah(arabicAyatUrl).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
@@ -123,8 +123,8 @@ class QuranRepository {
         var surahList = [Surah]()
 
         for (surahInfo, surahName) in zip(surahInfoJson, surahNammeTranslationJson) {
-            let translation = TextContent(contentID: SurahNameID.en_tanzil, lang: .en, text: surahName.value.translation)
-            let transliteration = TextContent(contentID: SurahNameID.en_tanzil, lang: .en, text: surahName.value.name)
+            let translation = TextContent<SurahNameID>(contentID: SurahNameID.en_tanzil, lang: .en, text: surahName.value.translation)
+            let transliteration = TextContent<SurahNameID>(contentID: SurahNameID.en_tanzil, lang: .en, text: surahName.value.name)
 
             let ayat = Array(ayahList[surahInfo.value.start - 1 ... surahInfo.value.end - 1])
             let surah =

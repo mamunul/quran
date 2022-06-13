@@ -9,19 +9,18 @@ import CoreData
 
 class PersistenceController {
     static let shared = PersistenceController()
-    var container: NSPersistentContainer?
+    private var container: NSPersistentContainer?
 //    var context: NSManagedObjectContext?
 
-    init() {
-        setupStack()
+    private init() {
     }
 
-    func setupStack() {
+    func setupDatabase<T: Decodable>(name: String, blueprint: T.Type) {
         let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
-        let fileURL = URL(string: "SampleDB.sql", relativeTo: dirURL)!
+        let fileURL = URL(string: "\(name).sql", relativeTo: dirURL)!
 
-        let momd = createDBSchema()
-        container = NSPersistentContainer(name: "Sample", managedObjectModel: momd)
+        let momd = createDBSchema(blueprint)
+        container = NSPersistentContainer(name: name, managedObjectModel: momd)
         do {
             _ = try container?.persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: fileURL, options: nil)
         } catch {
@@ -32,7 +31,7 @@ class PersistenceController {
         })
     }
 
-    func writeData() {
+    func writeData(contents: [Decodable]) {
         do {
             for index in 20 ... 30 {
                 let object = NSManagedObject(entity: entity!, insertInto: container?.viewContext)
@@ -87,14 +86,24 @@ class PersistenceController {
         }
     }
 
-    var entity: NSEntityDescription?
-    func createDBSchema() -> NSManagedObjectModel {
+    private var entity: NSEntityDescription?
+
+    private func createDBSchema(_ blueprint: Decodable.Type) -> NSManagedObjectModel {
         let model = NSManagedObjectModel()
 
         // Create the entity
         entity = NSEntityDescription()
-        entity?.name = "CounterTable"
+        let entityName = String(describing: blueprint.self)
+//        print(stringMirror.subjectType)
+        entity?.name = entityName
 //        entity?.managedObjectClassName = "CounterTable"
+
+        let mirror = Mirror(reflecting: blueprint)// this works on instance
+
+        for child in mirror.children {
+            let t = type(of: child.value)
+            print(child.label, child.value, t)
+        }
 
         // Create the attributes
         var properties = Array<NSAttributeDescription>()
