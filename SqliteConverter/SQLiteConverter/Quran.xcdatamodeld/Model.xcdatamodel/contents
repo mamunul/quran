@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Ayah" representedClassName="Ayah" isAbstract="YES" syncable="YES" codeGenerationType="category">
+        <attribute name="ayahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bookmark" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="contentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" attributeType="String"/>
+        <fetchIndex name="byCompoundIndex">
+            <fetchIndexElement property="ayahNo" type="RTree" order="ascending"/>
+            <fetchIndexElement property="contentId" type="RTree" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byBookmarkIndex">
+            <fetchIndexElement property="bookmark" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="AyahTranslation" representedClassName="AyahTranslation" isAbstract="YES" syncable="YES" codeGenerationType="category">
+        <attribute name="ayahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="contentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="language" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" attributeType="String"/>
+        <attribute name="translation" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <fetchIndex name="byPropertyIndex">
+            <fetchIndexElement property="contentId" type="RTree" order="ascending"/>
+            <fetchIndexElement property="language" type="RTree" order="ascending"/>
+            <fetchIndexElement property="ayahNo" type="RTree" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="Surah" representedClassName="Surah" isAbstract="YES" syncable="YES" codeGenerationType="category">
+        <attribute name="ayahCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="firstAyahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lastAyahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="revelaitonPlace" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="revelationOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="surahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <fetchIndex name="byPropertyIndex">
+            <fetchIndexElement property="surahNo" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="SurahTranslation" representedClassName="SurahTranslation" isAbstract="YES" syncable="YES" codeGenerationType="category">
+        <attribute name="contentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="language" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="surahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" attributeType="String"/>
+        <attribute name="translation" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <fetchIndex name="byPropertyIndex">
+            <fetchIndexElement property="surahNo" type="Binary" order="ascending"/>
+            <fetchIndexElement property="translation" type="Binary" order="ascending"/>
+            <fetchIndexElement property="contentId" type="Binary" order="ascending"/>
+            <fetchIndexElement property="language" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="Word" representedClassName="Word" syncable="YES" codeGenerationType="category">
+        <attribute name="ayahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="contentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="language" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="wordNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="Surah" positionX="-148.8046875" positionY="-124.765625" width="128" height="148"/>
+        <element name="Ayah" positionX="-341.03515625" positionY="-12.83203125" width="128" height="103"/>
+        <element name="SurahTranslation" positionX="135.7265625" positionY="-20" width="128" height="118"/>
+        <element name="AyahTranslation" positionX="-53.73828125" positionY="121.32421875" width="128" height="118"/>
+        <element name="Word" positionX="70.546875" positionY="213.921875" width="128" height="14"/>
+    </elements>
+</model>

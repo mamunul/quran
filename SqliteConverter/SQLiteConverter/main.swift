@@ -7,7 +7,7 @@
 
 import Foundation
 
-// let basePath = "Documents/ios_workspace/htmlattributes/QuranAndSunnah/QuranAndSunnah/Resources/"
+let basePath = "Documents/ios_workspace/htmlattributes/QuranAndSunnah/QuranAndSunnah/Resources/"
 // print("path:", basePath)
 // let quran = SQLiteConverter().getQuran(basePath: basePath)
 // print("No of Surah: ", quran.surah.count)
@@ -23,6 +23,10 @@ class SQLiteConverter {
     }
 
     func setupCoreData() {
-        controller.setupDatabase(name: "Test", blueprint: Quran.self)
+//        let q = getQuran(basePath: basePath)
+//        controller.setupDatabase(name: "Test", blueprint: q)
+        
+        let conv = Converter2()
+        conv.createDBSchema("Test")
     }
 }
