@@ -42,24 +42,59 @@ class QuranRepository {
 
     private var quran: Quran?
 
-    func requestQuran() -> Quran {
+    func requestQuran(basePath: String = "") -> Quran {
         if quran != nil {
             return quran!
         }
-        let surahNammeTranslationJson = surahNameTranslations().sorted { left, right in
+        let surahNameTranslationPath = "Quran/surah-translation/en-tanzil.json"
+        #if os(iOS)
+            let surahNameTranslationUrl = Bundle.main.url(forResource: surahNameTranslationPath, withExtension: "")!
+        #else
+            let surahNameTranslationUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(basePath)\(surahNameTranslationPath)")
+        #endif
+        let surahNammeTranslationJson = surahNameTranslations(surahNameTranslationUrl).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
-        let surahInfoJson = surahinfo().sorted { left, right in
+
+        let surahInfoPath = "Quran/surah/surah.json"
+        #if os(iOS)
+            let surahInfoUrl = Bundle.main.url(forResource: surahInfoPath, withExtension: "")!
+        #else
+            let surahInfoUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(basePath)\(surahInfoPath)")
+        #endif
+
+        let surahInfoJson = surahinfo(surahInfoUrl).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
-        let translationsJson = getAllTranslations().sorted { left, right in
+        let ayatTranslationPath = "Quran/ayah-translation/en-hilali-quranenc.json"
+        #if os(iOS)
+            let ayatTranslationUrl = Bundle.main.url(forResource: ayatTranslationPath, withExtension: "")!
+        #else
+            let ayatTranslationUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(basePath)\(ayatTranslationPath)")
+        #endif
+
+        let translationsJson = getAllTranslations(ayatTranslationUrl).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
-        let transliterationnJson = getAllAyahTransliterations().sorted { left, right in
+        let ayatTransliterationPath = "Quran/ayah-transliteration/id-litequran.json"
+        #if os(iOS)
+            let ayatTransliterationUrl = Bundle.main.url(forResource: ayatTransliterationPath, withExtension: "")!
+        #else
+            let ayatTransliterationUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(basePath)\(ayatTransliterationPath)")
+        #endif
+   
+        let transliterationnJson = getAllAyahTransliterations(ayatTransliterationUrl).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
 //        let transliterationnJson = getAllAyahTransliterations()
-        let ayah = getAllAyah().sorted { left, right in
+        let sarabicAyatPath = "Quran/ayah-text/indonesia.json"
+        #if os(iOS)
+            let arabicAyatUrl = Bundle.main.url(forResource: sarabicAyatPath, withExtension: "")!
+        #else
+            let arabicAyatUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(basePath)\(sarabicAyatPath)")
+        #endif
+  
+        let ayah = getAllAyah(arabicAyatUrl).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
 
@@ -113,10 +148,9 @@ class QuranRepository {
         return quran!
     }
 
-    func surahNameTranslations() -> [String: SurahTranslationJson] {
+    func surahNameTranslations(_ surahNameTranslationUrl: URL) -> [String: SurahTranslationJson] {
         do {
-            let url = Bundle.main.url(forResource: "Quran/surah-translation/en-tanzil.json", withExtension: "")!
-            let data = try Data(contentsOf: url)
+            let data = try Data(contentsOf: surahNameTranslationUrl)
             let res = try JSONDecoder().decode([String: SurahTranslationJson].self, from: data)
             return res
         } catch {
@@ -125,10 +159,9 @@ class QuranRepository {
         return [:]
     }
 
-    func surahinfo() -> [String: SurahJson] {
+    func surahinfo(_ surahInfoUrl: URL) -> [String: SurahJson] {
         do {
-            let url = Bundle.main.url(forResource: "Quran/surah/surah.json", withExtension: "")!
-            let data = try Data(contentsOf: url)
+            let data = try Data(contentsOf: surahInfoUrl)
             let res = try JSONDecoder().decode([String: SurahJson].self, from: data)
             return res
         } catch {
@@ -137,10 +170,9 @@ class QuranRepository {
         return [:]
     }
 
-    func getAllTranslations() -> [String: String] {
+    func getAllTranslations(_ ayatTranslationnUrl: URL) -> [String: String] {
         do {
-            let url = Bundle.main.url(forResource: "Quran/ayah-translation/en-hilali-quranenc.json", withExtension: "")!
-            let data = try Data(contentsOf: url)
+            let data = try Data(contentsOf: ayatTranslationnUrl)
             let res = try JSONDecoder().decode(TranslationJson.self, from: data)
             return res.translations
         } catch {
@@ -149,10 +181,9 @@ class QuranRepository {
         return [:]
     }
 
-    func getAllAyahTransliterations() -> [String: String] {
+    func getAllAyahTransliterations(_ ayatTransliterationUrl: URL) -> [String: String] {
         do {
-            let url = Bundle.main.url(forResource: "Quran/ayah-transliteration/id-litequran.json", withExtension: "")! // URL(string: "indonesia.json")!
-            let data = try Data(contentsOf: url)
+            let data = try Data(contentsOf: ayatTransliterationUrl)
             let res = try JSONDecoder().decode([String: String].self, from: data)
             return res
         } catch {
@@ -161,10 +192,9 @@ class QuranRepository {
         return [:]
     }
 
-    func getAllAyah() -> [String: String] {
+    func getAllAyah(_ arabicAyatUrl: URL) -> [String: String] {
         do {
-            let url = Bundle.main.url(forResource: "Quran/ayah-text/indonesia.json", withExtension: "")! // URL(string: "indonesia.json")!
-            let data = try Data(contentsOf: url)
+            let data = try Data(contentsOf: arabicAyatUrl)
             let res = try JSONDecoder().decode([String: String].self, from: data)
             return res
         } catch {
