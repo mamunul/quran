@@ -14,6 +14,10 @@ struct TafsirAyah: Identifiable {
     var path: String
 }
 
+enum TafsirContentID:ContentID{
+    case ibnKathir_shahih
+}
+
 struct TafsirSurah: Identifiable {
     var id: Int
     var surahNo: Int
@@ -21,8 +25,8 @@ struct TafsirSurah: Identifiable {
     var firstAyahNo: Int
     var lastAyahNo: Int
     var name: String
-    var nameTranslations: [TextContent]
-    var nameTransliterations: [TextContent]
+    var nameTranslations: [TextContent<SurahNameID>]
+    var nameTransliterations: [TextContent<SurahNameID>]
     var revelationOrder: Int
     var revelaitonPlace: Surah.RevelationPlace
     var ayat: [TafsirAyah]

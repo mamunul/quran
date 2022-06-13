@@ -11,17 +11,17 @@ struct Hadith: Identifiable {
     var id: String
     var chapterNo: Int
     var sectionNo: String
-    var sectionTranslations: [TextContent]
+    var sectionTranslations: [TextContent<HadithContentID>]
     var section: String
     var hadithNo: String
-    var hadithTranslations: [TextContent]
-    var isnadTranslations: [TextContent]
-    var matnTranslations: [TextContent]
+    var hadithTranslations: [TextContent<HadithContentID>]
+    var isnadTranslations: [TextContent<HadithContentID>]
+    var matnTranslations: [TextContent<HadithContentID>]
     var hadith: String
     var isnad: String
     var matn: String
     var comment: String
-    var gradeTranslations: [TextContent]
+    var gradeTranslations: [TextContent<HadithContentID>]
     var grade: String
     var bookmark: Bool
     var tags: [String]
@@ -31,14 +31,14 @@ struct HadithChapter: Identifiable {
     var id: Int
     var chapterNo: Int
     var title: String
-    var titleTranslations: [TextContent]
+    var titleTranslations: [TextContent<HadithContentID>]
 //    var hadithList: [Hadith]
     var hadithNo: ClosedRange<Int>
 }
 
 protocol IHadithBook {
     var name: String { get set }
-    var nameTranslations: [TextContent] { get set }
+    var nameTranslations: [TextContent<HadithContentID>] { get set }
     var numberOfHadith: Int { get set }
     var type: HadithCollector { get set }
     var chapters: [HadithChapter] { get set }
@@ -46,7 +46,7 @@ protocol IHadithBook {
 
 struct HadithBook: IHadithBook {
     var name: String
-    var nameTranslations: [TextContent]
+    var nameTranslations: [TextContent<HadithContentID>]
     var numberOfHadith: Int
     var type: HadithCollector
     var chapters: [HadithChapter]

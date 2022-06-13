@@ -99,7 +99,7 @@ class HadithRepository {
         let res = try JSONDecoder().decode([HadithJson].self, from: data)
 
         var title = ""
-        var translations = [TextContent]()
+        var translations = [TextContent<HadithContentID>]()
         var firstItemNo = 0
         var lastItemNo = 0
         if let item = res.first {
