@@ -15,12 +15,12 @@ class PersistenceController {
     private init() {
     }
 
-    func setupDatabase<T: Decodable>(name: String, blueprint: T.Type) {
+    func setupDatabase(name: String, blueprint: Decodable) {
         let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
         let fileURL = URL(string: "\(name).sql", relativeTo: dirURL)!
 
-        let momd = createDBSchema(blueprint)
-        container = NSPersistentContainer(name: name, managedObjectModel: momd)
+
+        container = NSPersistentContainer(name: name)
         do {
             _ = try container?.persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: fileURL, options: nil)
         } catch {
@@ -87,46 +87,29 @@ class PersistenceController {
     }
 
     private var entity: NSEntityDescription?
-
-    private func createDBSchema(_ blueprint: Decodable.Type) -> NSManagedObjectModel {
-        let model = NSManagedObjectModel()
-
-        // Create the entity
-        entity = NSEntityDescription()
-        let entityName = String(describing: blueprint.self)
-//        print(stringMirror.subjectType)
-        entity?.name = entityName
-//        entity?.managedObjectClassName = "CounterTable"
-
-        let mirror = Mirror(reflecting: blueprint)// this works on instance
-
-        for child in mirror.children {
-            let t = type(of: child.value)
-            print(child.label, child.value, t)
-        }
-
-        // Create the attributes
-        var properties = Array<NSAttributeDescription>()
-
-        let remoteURLAttribute = NSAttributeDescription()
-        remoteURLAttribute.name = "hundred"
-        remoteURLAttribute.attributeType = .integer16AttributeType
-        remoteURLAttribute.isOptional = false
-        properties.append(remoteURLAttribute)
-
-        // Add attributes to entity
-        entity?.properties = properties
-
-        // Add entity to model
-        model.entities = [entity!]
-
-        let indexDescription1 = NSFetchIndexElementDescription(property: remoteURLAttribute, collationType: .binary)
-        indexDescription1.isAscending = true
-        let index1 = NSFetchIndexDescription(name: "com_mc_index_post_createdDate", elements: [indexDescription1])
-
-        entity?.indexes = [index1]
-        entity?.renamingIdentifier = "com.mc.entity-post"
-
-        return model
+    
+    private func createSurahEntity(){
+        
     }
+    
+    private func createAyahEntity(){
+        
+    }
+    
+    private func createAyahTranslationEntity(){
+        
+    }
+    
+    private func createAyahTransliterationEntity(){
+        
+    }
+    
+    private func createSurahTranslationEntity(){
+        
+    }
+}
+
+
+func cast<T>(value: Any) -> T? {
+    return value as? T
 }
