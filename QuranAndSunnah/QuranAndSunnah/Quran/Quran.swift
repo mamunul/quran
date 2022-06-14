@@ -35,7 +35,7 @@ enum RevelationPlace: String, Decodable {
     case medinan, meccan
 }
 
-enum AyahContentID: ContentID {
+enum AyahContentID: Int, ContentID {
     case content1
 }
 
