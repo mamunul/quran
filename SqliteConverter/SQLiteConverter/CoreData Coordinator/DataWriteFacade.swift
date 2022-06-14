@@ -11,20 +11,20 @@ import Foundation
 protocol IDataWriteFacade {
     func insert(surah: Surah2)
     func insert(ayah: Ayah2)
-    func insert(surahTranslation: TextContent<SurahNameID>, for surah: Surah2)
-    func insert(surahTransliteration: TextContent<SurahNameID>, for surah: Surah2)
-    func insert(ayahTranslation: TextContent<AyahContentID>, for ayah: Ayah2)
-    func insert(ayahTransliteration: TextContent<AyahContentID>, for ayah: Ayah2)
+    func insert(surahTranslation: SurahNameTranslation<SurahNameID>, for surah: Surah2)
+    func insert(surahTransliteration: SurahNameTranslation<SurahNameID>, for surah: Surah2)
+    func insert(ayahTranslation: AyahTraslation<QuranTranslationID>, for ayah: Ayah2)
+    func insert(ayahTransliteration: AyahTraslation<QuranTranslationID>, for ayah: Ayah2)
     func insert(surah: [Surah2])
     func insert(ayah: [Ayah2])
-    func insert(surahTranslation: [TextContent<SurahNameID>], for surah: Surah2)
-    func insert(surahTransliteration: [TextContent<SurahNameID>], for surah: Surah2)
-    func insert(ayahTranslation: [TextContent<AyahContentID>], for ayah: Ayah2)
-    func insert(ayahTransliteration: [TextContent<AyahContentID>], for ayah: Ayah2)
+    func insert(surahTranslation: [SurahNameTranslation<SurahNameID>], for surah: Surah2)
+    func insert(surahTransliteration: [SurahNameTranslation<SurahNameID>], for surah: Surah2)
+    func insert(ayahTranslation: [AyahTraslation<QuranTranslationID>], for ayah: Ayah2)
+    func insert(ayahTransliteration: [AyahTraslation<QuranTranslationID>], for ayah: Ayah2)
 }
 
 extension CoreDataFacade: IDataWriteFacade {
-    func insert(surahTransliteration: TextContent<SurahNameID>, for surah: Surah2) {
+    func insert(surahTransliteration: SurahNameTranslation<SurahNameID>, for surah: Surah2) {
     }
 
     func insert(surah: Surah2) {
@@ -33,9 +33,9 @@ extension CoreDataFacade: IDataWriteFacade {
         coreDataStack.saveContext()
     }
 
-    func insert(surahTranslation: TextContent<SurahNameID>, for surah: Surah2) {
+    func insert(surahTranslation: SurahNameTranslation<SurahNameID>, for surah: Surah2) {
         let translation = SurahTranslationDO(context: coreDataStack.mainContext!)
-        translation.load(text: surahTranslation, surahNo: surah.surahNo)
+        translation.load(text: surahTranslation)
         coreDataStack.saveContext()
     }
 
@@ -45,15 +45,15 @@ extension CoreDataFacade: IDataWriteFacade {
         coreDataStack.saveContext()
     }
 
-    func insert(ayahTranslation: TextContent<AyahContentID>, for ayah: Ayah2) {
+    func insert(ayahTranslation: AyahTraslation<QuranTranslationID>, for ayah: Ayah2) {
         let surahDO = AyahTranslationDO(context: coreDataStack.mainContext!)
-        surahDO.load(text: ayahTranslation, ayahNo: ayah.ayahNo)
+        surahDO.load(text: ayahTranslation)
         coreDataStack.saveContext()
     }
 
-    func insert(ayahTransliteration: TextContent<AyahContentID>, for ayah: Ayah2) {
+    func insert(ayahTransliteration: AyahTraslation<QuranTranslationID>, for ayah: Ayah2) {
         let surahDO = AyahTranslationDO(context: coreDataStack.mainContext!)
-        surahDO.load(text: ayahTransliteration, ayahNo: ayah.ayahNo)
+        surahDO.load(text: ayahTransliteration)
         coreDataStack.saveContext()
     }
 
@@ -75,36 +75,36 @@ extension CoreDataFacade: IDataWriteFacade {
         coreDataStack.saveContext()
     }
 
-    func insert(surahTranslation: [TextContent<SurahNameID>], for surah: Surah2) {
+    func insert(surahTranslation: [SurahNameTranslation<SurahNameID>], for surah: Surah2) {
         surahTranslation.forEach {
             let surahDO = SurahTranslationDO(context: coreDataStack.mainContext!)
-            surahDO.load(text: $0, surahNo: surah.surahNo)
+            surahDO.load(text: $0)
         }
 
         coreDataStack.saveContext()
     }
 
-    func insert(surahTransliteration: [TextContent<SurahNameID>], for surah: Surah2) {
+    func insert(surahTransliteration: [SurahNameTranslation<SurahNameID>], for surah: Surah2) {
         surahTransliteration.forEach {
             let surahDO = SurahTranslationDO(context: coreDataStack.mainContext!)
-            surahDO.load(text: $0, surahNo: surah.surahNo)
+            surahDO.load(text: $0)
         }
         coreDataStack.saveContext()
     }
 
-    func insert(ayahTranslation: [TextContent<AyahContentID>], for ayah: Ayah2) {
+    func insert(ayahTranslation: [AyahTraslation<QuranTranslationID>], for ayah: Ayah2) {
         ayahTranslation.forEach {
             let surahDO = AyahTranslationDO(context: coreDataStack.mainContext!)
-            surahDO.load(text: $0, ayahNo: ayah.ayahNo)
+            surahDO.load(text: $0)
         }
 
         coreDataStack.saveContext()
     }
 
-    func insert(ayahTransliteration: [TextContent<AyahContentID>], for ayah: Ayah2) {
+    func insert(ayahTransliteration: [AyahTraslation<QuranTranslationID>], for ayah: Ayah2) {
         ayahTransliteration.forEach {
             let surahDO = AyahTranslationDO(context: coreDataStack.mainContext!)
-            surahDO.load(text: $0, ayahNo: ayah.ayahNo)
+            surahDO.load(text: $0)
         }
         coreDataStack.saveContext()
     }

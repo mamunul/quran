@@ -15,7 +15,9 @@ struct TafsirMainView: View {
             TafsirSurahListView()
                 .onAppear {
                     Task {
-                        presenter.getSurah()
+                        presenter.getSurahList()
+                        presenter.getSurahTranslationList()
+                        presenter.getSurahTransliterationList()
                     }
                 }
                 .environmentObject(presenter)
@@ -25,12 +27,14 @@ struct TafsirMainView: View {
 
 struct TafsirAyahListView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
-    var surah: TafsirSurah
+    var surah: Surah2
+    var surahTransliteration: SurahNameTranslation<SurahNameID>
+    @State var ayat = [TafsirAyah]()
     var body: some View {
         List {
-            ForEach(surah.ayat) { ayah in
+            ForEach(ayat) { ayah in
                 NavigationLink {
-                    TafsirContentView(surah: surah, ayah: ayah)
+                    TafsirContentView(surah: surah, ayah: ayah, surahTransliteration: surahTransliteration)
                         .environmentObject(presenter)
                 } label: {
                     VStack(spacing: 10) {
@@ -41,7 +45,12 @@ struct TafsirAyahListView: View {
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "")"))
+        .navigationTitle(Text(surahTransliteration.text))
+        .onAppear {
+            Task {
+                ayat = presenter.getAyat(of: surah)
+            }
+        }
     }
 }
 
@@ -50,19 +59,19 @@ struct TafsirSurahListView: View {
 
     var body: some View {
         List {
-            ForEach(self.presenter.tafsir?.surah ?? []) { surah in
+            ForEach(self.presenter.surahList) { surah in
                 NavigationLink {
-                    TafsirAyahListView(surah: surah)
+                    TafsirAyahListView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
                         .environmentObject(presenter)
                 } label: {
                     HStack {
                         Text("\(surah.surahNo)").frame(width: 50)
                         VStack(alignment: .leading) {
-                            Text(surah.nameTransliterations.first!.text)
+                            Text(presenter.surahTranslilerationList[surah.surahNo]!.text)
                                 .font(.system(size: 16))
                                 .frame(alignment: .leading)
                                 .multilineTextAlignment(.leading)
-                            Text(surah.nameTranslations.first!.text)
+                            Text(presenter.surahTranslationList[surah.surahNo]!.text)
                                 .font(.system(size: 14))
                                 .frame(alignment: .leading)
                                 .multilineTextAlignment(.leading)
@@ -87,13 +96,12 @@ struct TafsirContentView: View {
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
     @State private var showingPopover = false
-    var surah: TafsirSurah
+    var surah: Surah2
     var ayah: TafsirAyah
+    var surahTransliteration: SurahNameTranslation<SurahNameID>
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
-//
-//            TextView($presenter.attributedContent, searchString: $searchString)
                 TextViewRepresentable2(
                     text: $presenter.attributedContent,
                     searchString: self.$searchString,
@@ -108,7 +116,7 @@ struct TafsirContentView: View {
                 }
             }
             .searchable(text: $searchString)
-            .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "") - \(ayah.text)"))
+            .navigationTitle(Text("\(surahTransliteration.text) - \(ayah.text)"))
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
@@ -134,7 +142,6 @@ struct TafsirContentView: View {
     }
 
     func frameSize(for attributedText: NSMutableAttributedString, width: CGFloat) -> CGSize {
-
         let textView = CustomUITextView()
         textView.frame.size.width = width
 

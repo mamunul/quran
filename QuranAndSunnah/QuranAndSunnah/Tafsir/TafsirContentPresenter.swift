@@ -10,15 +10,52 @@ import Foundation
 import UIKit
 
 class TafsirContentPresenter: ObservableObject {
-    @Published var quran: Quran = Quran(surah: [])
     @Published var attributedContent = NSMutableAttributedString(string: "")
-    @Published var tafsir: Tafsir?
     private let synthesizer = AVSpeechSynthesizer()
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
-    private var surah: TafsirSurah?
+    private var surah: Surah2?
     private var ayah: TafsirAyah?
     private var tafsirRepository = TafsirRepository()
+    @Published var surahList = [Surah2]()
+    @Published var surahTranslationList = [Int: SurahNameTranslation<SurahNameID>]()
+    @Published var surahTranslilerationList = [Int: SurahNameTranslation<SurahNameID>]()
+    private var repository = QuranJsonFacade.shared
+    private var previousFontSize: Double = 15.0
+
+    func getSurahList() {
+        let surahList = repository.getSurah()
+        self.surahList = surahList
+        surah = surahList.first
+    }
+
+    func getAyat(of surah: Surah2) -> [TafsirAyah] {
+        do {
+            let ayat = try tafsirRepository.getTafsirAyat(surah: surah)
+            return ayat
+        } catch {
+            print(error)
+        }
+        return []
+    }
+
+    func getSurahTransliterationList() {
+        let surahList = repository.getSurahTransliteration(content: SurahNameID.en_tanzil, language: .en)
+
+        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahNameID>]()) {
+            $0[$1.surahNo] = $1
+        }
+        surahTranslilerationList = dict
+    }
+
+    func getSurahTranslationList() {
+        let surahList = repository.getSurahTranslation(content: SurahNameID.en_tanzil, language: .en)
+
+        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahNameID>]()) {
+            $0[$1.surahNo] = $1
+        }
+        surahTranslationList = dict
+    }
 
     func updateFontSize(_ value: Double) {
         if previousFontSize == value { return }
@@ -28,17 +65,7 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
-    private var repository = QuranRepository.shared
-    private var previousFontSize: Double = 15.0
-
-    func getSurah() {
-        let quran = repository.requestQuran()
-        let tafsir = tafsirRepository.getTafsir(surah: quran.surah)
-        self.quran = quran
-        self.tafsir = tafsir
-    }
-
-    func onViewAppear(surah: TafsirSurah, ayah: TafsirAyah, fontSize: Double) {
+    func onViewAppear(surah: Surah2, ayah: TafsirAyah, fontSize: Double) {
         updateContent(surah: surah, ayah: ayah, fontSize: fontSize)
         setupReader()
     }
@@ -49,7 +76,7 @@ class TafsirContentPresenter: ObservableObject {
         utterance?.voice = voice
     }
 
-    private func updateContent(surah: TafsirSurah, ayah: TafsirAyah, fontSize: Double) {
+    private func updateContent(surah: Surah2, ayah: TafsirAyah, fontSize: Double) {
         self.surah = surah
         self.ayah = ayah
         let config =
