@@ -35,6 +35,42 @@ extension SurahDO {
 }
 
 extension AyahDO {
+    func convert() -> Ayah2 {
+        let content = Ayah2(
+            id: id.hashValue,
+            ayahNo: Int(ayahNo),
+            text: text!,
+            bookmark: bookmark,
+            language: .ar,
+            contentID: AyahContentID(rawValue: Int(contentId)) ?? .content1
+        )
+        return content
+    }
+
+    func load(ayah: Ayah2) {
+        ayahNo = Int16(ayah.ayahNo)
+        text = ayah.text
+        bookmark = ayah.bookmark
+        contentId = Int16(ayah.contentID.rawValue)
+    }
+}
+
+extension AyahTranslationDO {
+    func convert() -> TextContent<AyahContentID> {
+        let content = TextContent(
+            contentID: AyahContentID(rawValue: Int(contentId)) ?? .content1,
+            lang: Language(rawValue: Int(language)) ?? .ar,
+            text: text ?? ""
+        )
+        return content
+    }
+
+    func load(text: TextContent<AyahContentID>, ayahNo: Int) {
+        contentId = Int16(text.contentID.rawValue)
+        language = Int16(text.lang.rawValue)
+        self.text = text.text
+        self.ayahNo = Int16(ayahNo)
+    }
 }
 
 extension SurahTranslationDO {
@@ -47,9 +83,10 @@ extension SurahTranslationDO {
         return content
     }
 
-    func load(text: TextContent<SurahNameID>) {
+    func load(text: TextContent<SurahNameID>, surahNo: Int) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text
+        self.surahNo = Int16(surahNo)
     }
 }

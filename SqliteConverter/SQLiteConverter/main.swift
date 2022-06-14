@@ -53,7 +53,7 @@ class SQLiteConverter {
             )
 
         coredata.insert(surah: surah1)
-        coredata.getSurah()
+        print(coredata.getSurah())
 //        let q = getQuran(basePath: basePath)
 //        controller.setupDatabase(name: "Test", blueprint: q)
 
