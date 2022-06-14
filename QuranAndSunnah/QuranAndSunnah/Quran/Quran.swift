@@ -8,7 +8,7 @@
 import Foundation
 
 struct Quran: Decodable {
-    var surah: [Surah]
+    var surah: [Surah2]
 }
 
 struct Surah2: Decodable, Identifiable {
@@ -61,6 +61,20 @@ struct TextContent<T: ContentID>: Decodable {
     var contentID: T
     var lang: Language
     var text: String
+}
+
+struct SurahNameTranslation<T: ContentID>: Decodable {
+    var contentID: T
+    var lang: Language
+    var text: String
+    var surahNo: Int
+}
+
+struct AyahTraslation<T: ContentID>: Decodable {
+    var contentID: T
+    var lang: Language
+    var text: String
+    var ayahNo: Int
 }
 
 struct Word<T: ContentID>: Decodable {

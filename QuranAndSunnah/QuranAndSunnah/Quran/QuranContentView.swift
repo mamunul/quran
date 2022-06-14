@@ -17,7 +17,9 @@ struct QuranContentView: View {
         .environmentObject(presenter)
         .onAppear {
             Task {
-                presenter.getQuran()
+                presenter.getSurahList()
+                presenter.getSurahTranslationList()
+                presenter.getSurahTransliterationList()
             }
         }
     }
@@ -27,18 +29,18 @@ struct SurahListView: View {
     @EnvironmentObject var presenter: QuranPresenter
     var body: some View {
         List {
-            ForEach(self.presenter.quran.surah) { surah in
+            ForEach(self.presenter.surahList) { surah in
                 NavigationLink {
-                    SurahContentView(surah: surah)
+                    SurahContentView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
                 } label: {
                     HStack {
                         Text("\(surah.surahNo)").frame(width: 50)
                         VStack(alignment: .leading) {
-                            Text(surah.nameTransliterations.first!.text)
+                            Text(presenter.surahTranslilerationList[surah.surahNo]!.text)
                                 .font(.system(size: 16))
                                 .frame(alignment: .leading)
                                 .multilineTextAlignment(.leading)
-                            Text(surah.nameTranslations.first!.text)
+                            Text(presenter.surahTranslationList[surah.surahNo]!.text)
                                 .font(.system(size: 14))
                                 .frame(alignment: .leading)
                                 .multilineTextAlignment(.leading)
@@ -60,37 +62,37 @@ struct SurahListView: View {
 struct SurahContentView: View {
     @EnvironmentObject var presenter: QuranPresenter
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
+    @State var surah: Surah2
+    @State var surahTransliteration: SurahNameTranslation<SurahNameID>
     @State var searchString: String = ""
-    @State private var showingPopover = false
-    @State private var surah: Surah
-    private var all: Surah
-    init(surah: Surah) {
-        all = surah
-        self.surah = surah
-    }
+    @State var showingPopover = false
+
+    @State var filteredAyat = [Ayah2]()
+    @State var ayat = [Ayah2]()
+    @State var ayatTranslation = [Int: AyahTraslation<QuranTranslationID>]()
 
     var body: some View {
         GeometryReader { proxy in
             List {
-                ForEach(surah.ayat) { ayah in
+                ForEach(filteredAyat) { ayah in
                     VStack(spacing: 10) {
                         Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
                             .frame(maxWidth: .infinity, alignment: .leading)
                         TextViewRepresentable2(
-                            text: .constant(NSMutableAttributedString(string: ayah.arabic)),
+                            text: .constant(NSMutableAttributedString(string: ayah.text)),
                             searchString: self.$searchString,
                             paragraphAlignment: .right,
                             fontSize: fontSize
                         )
-                        .frame(height: frameSize(for: ayah.arabic, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
+                        .frame(height: frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
 
                         TextViewRepresentable2(
-                            text: .constant(NSMutableAttributedString(string: ayah.translations.first?.text ?? "")),
+                            text: .constant(NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text)),
                             searchString: self.$searchString,
                             paragraphAlignment: .left,
                             fontSize: fontSize
                         )
-                        .frame(height: frameSize(for: ayah.translations.first?.text ?? "", fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
+                        .frame(height: frameSize(for: ayatTranslation[ayah.ayahNo]!.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
                     }
                     .listRowInsets(EdgeInsets())
                 }
@@ -100,14 +102,14 @@ struct SurahContentView: View {
             .onChange(of: searchString) { newValue in
                 Task {
                     if newValue.isEmpty {
-                        surah.ayat = all.ayat
+                        filteredAyat = ayat
                     } else {
-                        let newList = all.ayat.filter { $0.translations.first?.text.localizedCaseInsensitiveContains(newValue) ?? false }
-                        surah.ayat = newList
+                        let newList = ayat.filter { ayatTranslation[$0.ayahNo]?.text.localizedCaseInsensitiveContains(newValue) ?? false }
+                        filteredAyat = newList
                     }
                 }
             }
-            .navigationTitle(Text("\(surah.nameTransliterations.first?.text ?? "")"))
+            .navigationTitle(Text(surahTransliteration.text))
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -118,6 +120,12 @@ struct SurahContentView: View {
                         .alwaysPopover(isPresented: $showingPopover) {
                             SettingsView()
                         }
+                }
+            }.onAppear {
+                Task {
+                    ayat = presenter.getAyat(of: surah)
+                    filteredAyat = ayat
+                    ayatTranslation = presenter.getAyatTranslation(of: surah)
                 }
             }
         }

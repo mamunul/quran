@@ -56,37 +56,39 @@ extension AyahDO {
 }
 
 extension AyahTranslationDO {
-    func convert() -> TextContent<AyahContentID> {
-        let content = TextContent(
-            contentID: AyahContentID(rawValue: Int(contentId)) ?? .content1,
+    func convert() -> AyahTraslation<QuranTranslationID> {
+        let content = AyahTraslation(
+            contentID: QuranTranslationID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
             lang: Language(rawValue: Int(language)) ?? .ar,
-            text: text ?? ""
+            text: text ?? "",
+            ayahNo: Int(ayahNo)
         )
         return content
     }
 
-    func load(text: TextContent<AyahContentID>, ayahNo: Int) {
+    func load(text: AyahTraslation<QuranTranslationID>) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text
-        self.ayahNo = Int16(ayahNo)
+        ayahNo = Int16(text.ayahNo)
     }
 }
 
 extension SurahTranslationDO {
-    func convert() -> TextContent<SurahNameID> {
-        let content = TextContent(
+    func convert() -> SurahNameTranslation<SurahNameID> {
+        let content = SurahNameTranslation(
             contentID: SurahNameID(rawValue: Int(contentId)) ?? .en_tanzil,
             lang: Language(rawValue: Int(language)) ?? .ar,
-            text: text ?? ""
+            text: text ?? "",
+            surahNo: Int(surahNo)
         )
         return content
     }
 
-    func load(text: TextContent<SurahNameID>, surahNo: Int) {
+    func load(text: SurahNameTranslation<SurahNameID>) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text
-        self.surahNo = Int16(surahNo)
+        surahNo = Int16(text.surahNo)
     }
 }
