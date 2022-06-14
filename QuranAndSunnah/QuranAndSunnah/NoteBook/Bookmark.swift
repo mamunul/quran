@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-struct Pin {
-    var quran: [Ayah]
-    var tafsir: [TafsirAyah]
-    var hadith: [Hadith]
-}
+//struct Pin {
+//    var quran: [Ayah]
+//    var tafsir: [TafsirAyah]
+//    var hadith: [Hadith]
+//}
 
 protocol Highlight {
     /// The highlighted range in the whole text.

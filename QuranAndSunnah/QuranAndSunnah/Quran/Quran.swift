@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct Quran: Decodable {
-    var surah: [Surah2]
-}
-
 struct Surah2: Decodable, Identifiable {
     var id: Int
     var surahNo: Int
@@ -37,20 +33,6 @@ enum RevelationPlace: String, Decodable {
 
 enum AyahContentID: Int, ContentID {
     case content1
-}
-
-struct Surah: Decodable, Identifiable {
-    var id: Int
-    var surahNo: Int
-    var ayahCount: Int
-    var firstAyahNo: Int
-    var lastAyahNo: Int
-    var name: String
-    var nameTranslations: [TextContent<SurahNameID>]
-    var nameTransliterations: [TextContent<SurahNameID>]
-    var revelationOrder: Int
-    var revelaitonPlace: RevelationPlace
-    var ayat: [Ayah]
 }
 
 enum Language: Int, Decodable {
@@ -81,15 +63,4 @@ struct Word<T: ContentID>: Decodable {
     var contentID: T
     var translations: [TextContent<QuranTranslationID>]
     var transliterations: [TextContent<QuranTranslationID>]
-}
-
-struct Ayah: Decodable, Identifiable {
-    var id: Int
-    var ayahNo: Int
-    var arabic: String
-    var translations: [TextContent<QuranTranslationID>]
-    var transliterations: [TextContent<QuranTranslationID>]
-    var words: [Word<QuranTranslationID>]
-    var bookmark: Bool
-    var tags: [String]
 }

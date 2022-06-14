@@ -12,9 +12,9 @@ protocol IDataReadFacade {
     func getSurah() -> [Surah2]
     func getSurahTranslation(content: SurahNameID, language: Language) -> [SurahNameTranslation<SurahNameID>]
     func getSurahTransliteration(content: SurahNameID, language: Language) -> [SurahNameTranslation<SurahNameID>]
-    func getAyat(of surah: Surah) -> [Ayah2]
-    func getAyahTranslation(of surah: Surah, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>]
-    func getAyahTransliterations(of surah: Surah, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>]
+    func getAyat(of surah: Surah2) -> [Ayah2]
+    func getAyahTranslation(of surah: Surah2, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>]
+    func getAyahTransliterations(of surah: Surah2, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>]
 }
 
 class CoreDataFacade: IDataReadFacade {
@@ -41,7 +41,7 @@ class CoreDataFacade: IDataReadFacade {
         return translations
     }
 
-    func getAyat(of surah: Surah) -> [Ayah2] {
+    func getAyat(of surah: Surah2) -> [Ayah2] {
         var translations = [Ayah2]()
         let surahFetch = AyahDO.fetchRequest()
         let context = coreDataStack.mainContext
@@ -58,7 +58,7 @@ class CoreDataFacade: IDataReadFacade {
         return translations
     }
 
-    func getAyahTranslation(of surah: Surah, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>] {
+    func getAyahTranslation(of surah: Surah2, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>] {
         var translations = [AyahTraslation<QuranTranslationID>]()
         let surahFetch = SurahTranslationDO.fetchRequest()
         let context = coreDataStack.mainContext
@@ -78,7 +78,7 @@ class CoreDataFacade: IDataReadFacade {
         return translations
     }
 
-    func getAyahTransliterations(of surah: Surah, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>] {
+    func getAyahTransliterations(of surah: Surah2, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>] {
         var translations = [AyahTraslation<QuranTranslationID>]()
         let surahFetch = SurahTranslationDO.fetchRequest()
         let context = coreDataStack.mainContext

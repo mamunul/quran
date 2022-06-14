@@ -40,7 +40,7 @@ class QuranRepository {
 
     private init() {}
 
-    private var quran: Quran?
+//    private var quran: Quran?
     #if os(macOS)
         private let homeDirectory = FileManager.default.homeDirectoryForCurrentUser
     #endif
