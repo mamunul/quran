@@ -19,7 +19,7 @@ enum QuranTranslationID: ContentID {
     case id_litequran
 }
 
-enum SurahNameID: ContentID {
+enum SurahNameID: Int, ContentID {
     case en_tanzil
 }
 
@@ -138,7 +138,7 @@ class QuranRepository {
                     nameTranslations: [translation],
                     nameTransliterations: [transliteration],
                     revelationOrder: surahInfo.value.revelationOrder,
-                    revelaitonPlace: Surah.RevelationPlace(rawValue: surahInfo.value.type)!,
+                    revelaitonPlace: RevelationPlace(rawValue: surahInfo.value.type)!,
                     ayat: ayat)
 
             surahList.append(surah)

@@ -28,7 +28,7 @@ struct TafsirSurah: Identifiable {
     var nameTranslations: [TextContent<SurahNameID>]
     var nameTransliterations: [TextContent<SurahNameID>]
     var revelationOrder: Int
-    var revelaitonPlace: Surah.RevelationPlace
+    var revelaitonPlace: RevelationPlace
     var ayat: [TafsirAyah]
 }
 

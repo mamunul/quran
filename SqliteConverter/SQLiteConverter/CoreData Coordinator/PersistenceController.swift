@@ -9,20 +9,26 @@ import CoreData
 
 class PersistenceController {
     static let shared = PersistenceController()
-    private var container: NSPersistentContainer?
+    var container: NSPersistentContainer?
 //    var context: NSManagedObjectContext?
 
     private init() {
+        setupDatabase(name: "QuranDM")
     }
 
-    func setupDatabase(name: String, blueprint: Decodable) {
+    func setupDatabase(name: String) {
         let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
-        let fileURL = URL(string: "\(name).sql", relativeTo: dirURL)!
+        let storeURL = URL(string: "\(name).sql", relativeTo: dirURL)!
 
+        guard let modelURL = Bundle.main.url(forResource: name, withExtension: "momd"),
+              let model = NSManagedObjectModel(contentsOf: modelURL) else {
+            print("error")
+            return
+        }
 
-        container = NSPersistentContainer(name: name)
+        container = NSPersistentContainer(name: name, managedObjectModel: model)
         do {
-            _ = try container?.persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: fileURL, options: nil)
+            _ = try container?.persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: storeURL, options: nil)
         } catch {
             print(error)
         }
@@ -87,29 +93,4 @@ class PersistenceController {
     }
 
     private var entity: NSEntityDescription?
-    
-    private func createSurahEntity(){
-        
-    }
-    
-    private func createAyahEntity(){
-        
-    }
-    
-    private func createAyahTranslationEntity(){
-        
-    }
-    
-    private func createAyahTransliterationEntity(){
-        
-    }
-    
-    private func createSurahTranslationEntity(){
-        
-    }
-}
-
-
-func cast<T>(value: Any) -> T? {
-    return value as? T
 }

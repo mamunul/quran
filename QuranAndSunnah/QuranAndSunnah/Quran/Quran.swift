@@ -11,11 +11,35 @@ struct Quran: Decodable {
     var surah: [Surah]
 }
 
-struct Surah: Decodable, Identifiable {
-    enum RevelationPlace: String, Decodable {
-        case medinan, meccan
-    }
+struct Surah2: Decodable, Identifiable {
+    var id: Int
+    var surahNo: Int
+    var ayahCount: Int
+    var firstAyahNo: Int
+    var lastAyahNo: Int
+    var name: String
+    var revelationOrder: Int
+    var revelaitonPlace: RevelationPlace
+}
 
+struct Ayah2: Decodable, Identifiable {
+    var id: Int
+    var ayahNo: Int
+    var text: String
+    var bookmark: Bool
+    var language: Language
+    var contentID: AyahContentID
+}
+
+enum RevelationPlace: String, Decodable {
+    case medinan, meccan
+}
+
+enum AyahContentID: ContentID {
+    case content1
+}
+
+struct Surah: Decodable, Identifiable {
     var id: Int
     var surahNo: Int
     var ayahCount: Int
@@ -29,7 +53,7 @@ struct Surah: Decodable, Identifiable {
     var ayat: [Ayah]
 }
 
-enum Language: String, Decodable {
+enum Language: Int, Decodable {
     case en, bn, ar
 }
 
