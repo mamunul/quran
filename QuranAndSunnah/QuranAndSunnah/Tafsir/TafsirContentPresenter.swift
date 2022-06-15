@@ -18,13 +18,13 @@ class TafsirContentPresenter: ObservableObject {
     private var ayah: TafsirAyah?
     private var tafsirRepository = TafsirRepository()
     @Published var surahList = [Surah2]()
-    @Published var surahTranslationList = [Int: SurahNameTranslation<SurahNameID>]()
-    @Published var surahTranslilerationList = [Int: SurahNameTranslation<SurahNameID>]()
+    @Published var surahTranslationList = [Int: SurahNameTranslation<SurahTranslationID>]()
+    @Published var surahTranslilerationList = [Int: SurahNameTranslation<SurahTranslationID>]()
     private var repository = QuranJsonFacade.shared
     private var previousFontSize: Double = 15.0
 
     func getSurahList() {
-        let surahList = repository.getSurah()
+        let surahList = repository.getSurah(contentID: .en_unknown)
         self.surahList = surahList
         surah = surahList.first
     }
@@ -40,18 +40,18 @@ class TafsirContentPresenter: ObservableObject {
     }
 
     func getSurahTransliterationList() {
-        let surahList = repository.getSurahTransliteration(content: SurahNameID.en_tanzil, language: .en)
+        let surahList = repository.getSurahTransliteration(contentID: SurahTranslationID.en_tanzil, language: .en)
 
-        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahNameID>]()) {
+        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
             $0[$1.surahNo] = $1
         }
         surahTranslilerationList = dict
     }
 
     func getSurahTranslationList() {
-        let surahList = repository.getSurahTranslation(content: SurahNameID.en_tanzil, language: .en)
+        let surahList = repository.getSurahTranslation(contentID: SurahTranslationID.en_tanzil, language: .en)
 
-        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahNameID>]()) {
+        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
             $0[$1.surahNo] = $1
         }
         surahTranslationList = dict

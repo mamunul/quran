@@ -57,9 +57,9 @@ extension AyahDO {
 }
 
 extension AyahTranslationDO {
-    func convert() -> AyahTraslation<QuranTranslationID> {
+    func convert() -> AyahTraslation<AyahTranslationID> {
         let content = AyahTraslation(
-            contentID: QuranTranslationID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
+            contentID: AyahTranslationID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
             lang: Language(rawValue: Int(language)) ?? .ar,
             text: text ?? "",
             ayahNo: Int(ayahNo)
@@ -67,7 +67,7 @@ extension AyahTranslationDO {
         return content
     }
 
-    func load(text: AyahTraslation<QuranTranslationID>) {
+    func load(text: AyahTraslation<AyahTranslationID>) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text
@@ -76,9 +76,9 @@ extension AyahTranslationDO {
 }
 
 extension SurahTranslationDO {
-    func convert() -> SurahNameTranslation<SurahNameID> {
+    func convert() -> SurahNameTranslation<SurahTranslationID> {
         let content = SurahNameTranslation(
-            contentID: SurahNameID(rawValue: Int(contentId)) ?? .en_tanzil,
+            contentID: SurahTranslationID(rawValue: Int(contentId)) ?? .en_tanzil,
             lang: Language(rawValue: Int(language)) ?? .ar,
             text: text ?? "",
             surahNo: Int(surahNo)
@@ -86,7 +86,7 @@ extension SurahTranslationDO {
         return content
     }
 
-    func load(text: SurahNameTranslation<SurahNameID>) {
+    func load(text: SurahNameTranslation<SurahTranslationID>) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text

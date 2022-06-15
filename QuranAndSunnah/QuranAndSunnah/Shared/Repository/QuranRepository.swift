@@ -7,58 +7,8 @@
 
 import Foundation
 
-protocol ContentID: Equatable, Decodable {
-    func getFilePath() -> String
-}
-
-enum QuranTranslationID: Int, ContentID {
-    case en_hilali_quranenc
-    case en_itani_tanzil
-    case en_sarwar_tanzil
-    case bn_bengali_tanzil
-    case transliteration_litequran
-
-    func getFilePath() -> String {
-        switch self {
-        case .en_hilali_quranenc:
-            return "Quran/ayah-translation/en-hilali-quranenc.json"
-        case .en_itani_tanzil:
-            return "Quran/ayah-translation/en-itani-tanzil.json"
-        case .en_sarwar_tanzil:
-            return "Quran/ayah-translation/en-sarwar-tanzil.json"
-        case .bn_bengali_tanzil:
-            return "Quran/ayah-translation/bn-bengali-tanzil.json"
-        case .transliteration_litequran:
-            return "Quran/ayah-transliteration/id-litequran.json"
-        }
-    }
-}
-
-enum SurahNameID: Int, ContentID {
-    func getFilePath() -> String {
-        switch self {
-        case .en_tanzil:
-            return "Quran/surah-translation/en-tanzil.json"
-        }
-    }
-
-    case en_tanzil
-}
-
 class QuranRepository {
     static let shared = QuranRepository()
-    let arabicAyah = "indonesia.json"
-
-    let englishTranslation1 = "ayah-translation/en-hilali-quranenc.json"
-    let englishTranslation2 = "ayah-translation/en-sarwar-tanzil.json"
-    let englishTranslation3 = "ayah-translation/en-itani-tanzil.json"
-    let banglaTranslation1 = "ayah-translation/bn-bengali-tanzil.json"
-    let englishTransliteration = "ayah-transliteration/id-litequran.json"
-    let surahTranslation = "surah-translation/en-tanzil.json"
-    let surahInfo = "surah/surah.json"
-    let wordEnglishTranslation = "word-translation/en-wbw.json"
-    let wordBanglaTranslation = "word-translation/bn-wbw.json"
-    let wordEnglishTransliteration = "word-transliteration/en-quranwbw.json"
 
     private init() {}
 
@@ -67,8 +17,8 @@ class QuranRepository {
         private let homeDirectory = FileManager.default.homeDirectoryForCurrentUser
     #endif
 
-    func surahNameTranslations(_ basePath: String) -> [String: SurahTranslationJson] {
-        let surahNameTranslationPath = "Quran/surah-translation/en-tanzil.json"
+    func surahNameTranslations(_ basePath: String, contentId: SurahTranslationID) -> [String: SurahTranslationJson] {
+        let surahNameTranslationPath = contentId.getFilePath()
         #if os(iOS)
             let surahNameTranslationUrl = Bundle.main.url(forResource: surahNameTranslationPath, withExtension: "")!
         #else
@@ -84,8 +34,8 @@ class QuranRepository {
         return [:]
     }
 
-    func surahinfo(_ basePath: String) -> [String: SurahJson] {
-        let surahInfoPath = "Quran/surah/surah.json"
+    func surahinfo(_ basePath: String, contentId: SurahNameContentID) -> [String: SurahJson] {
+        let surahInfoPath = contentId.getFilePath()
         #if os(iOS)
             let surahInfoUrl = Bundle.main.url(forResource: surahInfoPath, withExtension: "")!
         #else
@@ -101,8 +51,8 @@ class QuranRepository {
         return [:]
     }
 
-    func getAllAyahTranslations(_ basePath: String) -> [String: String] {
-        let ayatTranslationPath = "Quran/ayah-translation/en-hilali-quranenc.json"
+    func getAllAyahTranslations(_ basePath: String, contentId: AyahTranslationID) -> [String: String] {
+        let ayatTranslationPath = contentId.getFilePath()
         #if os(iOS)
             let ayatTranslationUrl = Bundle.main.url(forResource: ayatTranslationPath, withExtension: "")!
         #else
@@ -118,8 +68,8 @@ class QuranRepository {
         return [:]
     }
 
-    func getAllAyahTransliterations(_ basePath: String) -> [String: String] {
-        let ayatTransliterationPath = "Quran/ayah-transliteration/id-litequran.json"
+    func getAllAyahTransliterations(_ basePath: String, contentId: AyahTranslationID) -> [String: String] {
+        let ayatTransliterationPath = contentId.getFilePath()
         #if os(iOS)
             let ayatTransliterationUrl = Bundle.main.url(forResource: ayatTransliterationPath, withExtension: "")!
         #else
@@ -135,8 +85,8 @@ class QuranRepository {
         return [:]
     }
 
-    func getAllAyah(_ basePath: String) -> [String: String] {
-        let sarabicAyatPath = "Quran/ayah-text/indonesia.json"
+    func getAllAyah(_ basePath: String, contentId: AyahContentID) -> [String: String] {
+        let sarabicAyatPath = contentId.getFilePath()
         #if os(iOS)
             let arabicAyatUrl = Bundle.main.url(forResource: sarabicAyatPath, withExtension: "")!
         #else
