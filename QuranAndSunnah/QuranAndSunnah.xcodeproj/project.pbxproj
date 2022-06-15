@@ -81,7 +81,6 @@
 		0A32621D283F636500535216 /* MUHAMMADIQURANICFONT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MUHAMMADIQURANICFONT.ttf; sourceTree = "<group>"; };
 		0A326222283F72FA00535216 /* me_quran.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = me_quran.ttf; sourceTree = "<group>"; };
 		0A326226283F77E300535216 /* TafsirContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TafsirContentView.swift; sourceTree = "<group>"; };
-		0A3CAFB12859A49500D4F119 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		0A5E9675284896FB0093C810 /* TafsirRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TafsirRepository.swift; sourceTree = "<group>"; };
 		0A5E9677284897170093C810 /* HadithRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadithRepository.swift; sourceTree = "<group>"; };
 		0A6553102850C5C7006BA6A8 /* View+Modifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Modifiers.swift"; sourceTree = "<group>"; };
@@ -156,6 +155,7 @@
 				0A2A831C283B564D00FD0E80 /* Products */,
 				FACC5024DCC29C174FF6C7B7 /* Frameworks */,
 				4EFC6AEA3988ECBFF2EE97C4 /* Pods */,
+				0A3CAFB92859D34100D4F119 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -192,6 +192,14 @@
 				0A2A8325283B565100FD0E80 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0A3CAFB92859D34100D4F119 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				EEC3250628590B7A002D0393 /* Model.xcdatamodel */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		0A65530F2850C5B6006BA6A8 /* Popover */ = {
@@ -768,8 +776,6 @@
 		EEC3250428590B7A002D0393 /* QuranDM.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0A3CAFB12859A49500D4F119 /* Model 2.xcdatamodel */,
-				EEC3250628590B7A002D0393 /* Model.xcdatamodel */,
 				EEC3250528590B7A002D0393 /* Model.xcdatamodel */,
 			);
 			currentVersion = EEC3250528590B7A002D0393 /* Model.xcdatamodel */;
