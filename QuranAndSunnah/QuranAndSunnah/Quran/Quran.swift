@@ -16,6 +16,7 @@ struct Surah2: Decodable, Identifiable {
     var name: String
     var revelationOrder: Int
     var revelaitonPlace: RevelationPlace
+    var contentID: SurahNameContentID
 }
 
 struct Ayah2: Decodable, Identifiable {
@@ -32,7 +33,25 @@ enum RevelationPlace: String, Decodable {
 }
 
 enum AyahContentID: Int, ContentID {
-    case content1
+    func getFilePath() -> String {
+        switch self {
+        case .indonesia_ar:
+            return "Quran/ayah-text/indonesia.json"
+        }
+    }
+
+    case indonesia_ar
+}
+
+enum SurahNameContentID: Int, ContentID {
+    func getFilePath() -> String {
+        switch self {
+        case .en_unknown:
+            return "Quran/surah/surah.json"
+        }
+    }
+
+    case en_unknown
 }
 
 enum Language: Int, Decodable {

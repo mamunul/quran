@@ -1,8 +1,8 @@
 //
 //  SurahDO+CoreDataProperties.swift
-//  SQLiteConverter
+//  
 //
-//  Created by newone on 14/6/22.
+//  Created by newone on 15/6/22.
 //
 //
 
@@ -24,9 +24,6 @@ extension SurahDO {
     @NSManaged public var revelationOrder: Int16
     @NSManaged public var surahNo: Int16
     @NSManaged public var translationn: Bool
-
-}
-
-extension SurahDO : Identifiable {
+    @NSManaged public var contentId: Int16
 
 }

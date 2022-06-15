@@ -33,6 +33,23 @@ enum HadithContentID: ContentID {
     case abudaud_1
     case ibnmajah_1
     case nasai_1
+    
+    func getFilePath() -> String {
+        switch self {
+        case .bukhari_1:
+            return "Hadith/Bukhari/"
+        case .muslim_1:
+            return "Hadith/Muslim/"
+        case .tirmizi_1:
+            return "Hadith/Tirmizi/"
+        case .abudaud_1:
+            return "Hadith/AbuDaud/"
+        case .ibnmajah_1:
+            return "Hadith/IbnMaja/"
+        case .nasai_1:
+            return "Hadith/Nesai/"
+        }
+    }
 }
 
 class HadithRepository {
