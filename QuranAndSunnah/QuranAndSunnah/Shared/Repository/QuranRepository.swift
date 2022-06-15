@@ -31,36 +31,10 @@ class QuranRepository {
         let res = try JSONDecoder().decode(T.self, from: data)
         return res
     }
-    
-//    private generateUrlAndDecode
 
-    func surahNameTranslations(_ basePath: String, contentId: SurahTranslationID) throws -> [String: SurahTranslationJson] {
+    func getQuranData<T: Decodable, C: ContentID>(_ basePath: String, contentId: C) throws -> T {
         let fileUrl = makeFileUrl(basePath, contentId: contentId)
-        let result: [String: SurahTranslationJson] = try decodeFromUrl(fileUrl)
-        return result
-    }
-
-    func surahinfo(_ basePath: String, contentId: SurahNameContentID) throws -> [String: SurahJson] {
-        let fileUrl = makeFileUrl(basePath, contentId: contentId)
-        let result: [String: SurahJson] = try decodeFromUrl(fileUrl)
-        return result
-    }
-
-    func getAllAyahTranslations(_ basePath: String, contentId: AyahTranslationID) throws -> [String: String] {
-        let fileUrl = makeFileUrl(basePath, contentId: contentId)
-        let result: [String: String] = try decodeFromUrl(fileUrl)
-        return result
-    }
-
-    func getAllAyahTransliterations(_ basePath: String, contentId: AyahTranslationID) throws -> [String: String] {
-        let fileUrl = makeFileUrl(basePath, contentId: contentId)
-        let result: [String: String] = try decodeFromUrl(fileUrl)
-        return result
-    }
-
-    func getAllAyah(_ basePath: String, contentId: AyahContentID) throws -> [String: String] {
-        let fileUrl = makeFileUrl(basePath, contentId: contentId)
-        let result: [String: String] = try decodeFromUrl(fileUrl)
+        let result: T = try decodeFromUrl(fileUrl)
         return result
     }
 }
