@@ -7,30 +7,24 @@
 
 import Foundation
 
-class QuranJsonFacade {
+class QuranJsonFacade: IDataReadFacade {
     static let shared = QuranJsonFacade()
-    #if os(macOS)
-        var basePath = ""
-    #else
-        private let basePath = ""
-    #endif
 
-    func getSurah() -> [Surah2] {
-        let surahNammeTranslationJson = QuranRepository.shared.surahNameTranslations(basePath).sorted { left, right in
-            Int(left.key)! < Int(right.key)!
-        }
+    var basePath = "" // Note: - this is only necessary for macos otherwise statys empty
+    private let repo = QuranRepository.shared
 
-        let surahInfoJson = QuranRepository.shared.surahinfo(basePath).sorted { left, right in
+    func getSurah(contentID: SurahNameContentID) -> [Surah2] {
+        let surahInfoJson = repo.surahinfo(basePath, contentId: contentID).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
 
         var surahList = [Surah2]()
 
-        for (surahInfo, surahName) in zip(surahInfoJson, surahNammeTranslationJson) {
+        for surahInfo in surahInfoJson {
             let surah =
                 Surah2(
-                    id: Int(surahName.key)!,
-                    surahNo: Int(surahName.key)!,
+                    id: Int(surahInfo.key)!,
+                    surahNo: Int(surahInfo.key)!,
                     ayahCount: surahInfo.value.nAyah,
                     firstAyahNo: surahInfo.value.start,
                     lastAyahNo: surahInfo.value.end,
@@ -45,16 +39,20 @@ class QuranJsonFacade {
         return surahList
     }
 
-    func getSurahTranslation(content: SurahNameID, language: Language) -> [SurahNameTranslation<SurahNameID>] {
-        let surahNammeTranslationJson = QuranRepository.shared.surahNameTranslations(basePath).sorted { left, right in
-            Int(left.key)! < Int(right.key)!
-        }
-        var surahTranslationList = [SurahNameTranslation<SurahNameID>]()
+    func getSurahTranslation(
+        contentID: SurahTranslationID,
+        language: Language
+    ) -> [SurahNameTranslation<SurahTranslationID>] {
+        let surahNammeTranslationJson =
+            repo.surahNameTranslations(basePath, contentId: contentID).sorted { left, right in
+                Int(left.key)! < Int(right.key)!
+            }
+        var surahTranslationList = [SurahNameTranslation<SurahTranslationID>]()
 
         for surahName in surahNammeTranslationJson {
             let translation =
-                SurahNameTranslation<SurahNameID>(
-                    contentID: SurahNameID.en_tanzil,
+                SurahNameTranslation<SurahTranslationID>(
+                    contentID: SurahTranslationID.en_tanzil,
                     lang: .en,
                     text: surahName.value.translation,
                     surahNo: (surahName.key as NSString).integerValue
@@ -65,17 +63,21 @@ class QuranJsonFacade {
         return surahTranslationList
     }
 
-    func getSurahTransliteration(content: SurahNameID, language: Language) -> [SurahNameTranslation<SurahNameID>] {
-        let surahNammeTranslationJson = QuranRepository.shared.surahNameTranslations(basePath).sorted { left, right in
-            Int(left.key)! < Int(right.key)!
-        }
+    func getSurahTransliteration(
+        contentID: SurahTranslationID,
+        language: Language
+    ) -> [SurahNameTranslation<SurahTranslationID>] {
+        let surahNammeTranslationJson =
+            repo.surahNameTranslations(basePath, contentId: contentID).sorted { left, right in
+                Int(left.key)! < Int(right.key)!
+            }
 
-        var surahTransliterationList = [SurahNameTranslation<SurahNameID>]()
+        var surahTransliterationList = [SurahNameTranslation<SurahTranslationID>]()
 
         for surahName in surahNammeTranslationJson {
             let transliteration =
-                SurahNameTranslation<SurahNameID>(
-                    contentID: SurahNameID.en_tanzil,
+                SurahNameTranslation<SurahTranslationID>(
+                    contentID: SurahTranslationID.en_tanzil,
                     lang: .en,
                     text: surahName.value.name,
                     surahNo: (surahName.key as NSString).integerValue
@@ -86,8 +88,8 @@ class QuranJsonFacade {
         return surahTransliterationList
     }
 
-    func getAyat(of surah: Surah2) -> [Ayah2] {
-        let ayah = QuranRepository.shared.getAllAyah(basePath).sorted { left, right in
+    func getAyat(of surah: Surah2, contentID: AyahContentID) -> [Ayah2] {
+        let ayah = repo.getAllAyah(basePath, contentId: contentID).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
 
@@ -113,17 +115,17 @@ class QuranJsonFacade {
         return ayat
     }
 
-    func getAyahTranslation(of surah: Surah2, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>] {
-        let translationsJson = QuranRepository.shared.getAllAyahTranslations(basePath).sorted { left, right in
+    func getAyahTranslation(of surah: Surah2, contentID: AyahTranslationID, language: Language) -> [AyahTraslation<AyahTranslationID>] {
+        let translationsJson = repo.getAllAyahTranslations(basePath, contentId: contentID).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
 
-        var ayahTranslationList = [AyahTraslation<QuranTranslationID>]()
+        var ayahTranslationList = [AyahTraslation<AyahTranslationID>]()
 
         for ayahTranslation in translationsJson {
             let translation =
                 AyahTraslation(
-                    contentID: QuranTranslationID.en_hilali_quranenc,
+                    contentID: AyahTranslationID.en_hilali_quranenc,
                     lang: .en,
                     text: ayahTranslation.value,
                     ayahNo: (ayahTranslation.key as NSString).integerValue
@@ -136,17 +138,18 @@ class QuranJsonFacade {
         return ayat
     }
 
-    func getAyahTransliterations(of surah: Surah2, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>] {
-        let transliterationnJson = QuranRepository.shared.getAllAyahTransliterations(basePath).sorted { left, right in
-            Int(left.key)! < Int(right.key)!
-        }
+    func getAyahTransliterations(of surah: Surah2, contentID: AyahTranslationID, language: Language) -> [AyahTraslation<AyahTranslationID>] {
+        let transliterationnJson =
+            repo.getAllAyahTransliterations(basePath, contentId: contentID).sorted { left, right in
+                Int(left.key)! < Int(right.key)!
+            }
 
-        var ayahTransliterationList = [AyahTraslation<QuranTranslationID>]()
+        var ayahTransliterationList = [AyahTraslation<AyahTranslationID>]()
 
         for ayahTrannsliteration in transliterationnJson {
             let transliteration =
                 AyahTraslation(
-                    contentID: QuranTranslationID.transliteration_litequran,
+                    contentID: AyahTranslationID.transliteration_litequran,
                     lang: .en,
                     text: ayahTrannsliteration.value,
                     ayahNo: surah.surahNo

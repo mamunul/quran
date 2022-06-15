@@ -63,13 +63,13 @@ struct SurahContentView: View {
     @EnvironmentObject var presenter: QuranPresenter
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var surah: Surah2
-    @State var surahTransliteration: SurahNameTranslation<SurahNameID>
+    @State var surahTransliteration: SurahNameTranslation<SurahTranslationID>
     @State var searchString: String = ""
     @State var showingPopover = false
 
     @State var filteredAyat = [Ayah2]()
     @State var ayat = [Ayah2]()
-    @State var ayatTranslation = [Int: AyahTraslation<QuranTranslationID>]()
+    @State var ayatTranslation = [Int: AyahTraslation<AyahTranslationID>]()
 
     var body: some View {
         GeometryReader { proxy in

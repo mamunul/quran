@@ -19,7 +19,7 @@ class SQLiteConverter {
     
     func readSurah() {
         jsonRepo.basePath = basePath
-        let surah = jsonRepo.getSurah()
+        let surah = jsonRepo.getSurah(contentID: .en_unknown)
         print(surah)
         
 //        let surahTranslation = jsonRepo.getSurahTranslation(content: <#T##SurahNameID#>, language: <#T##Language#>)
@@ -42,7 +42,7 @@ class SQLiteConverter {
 
         coredata.insert(surah: surah1)
 
-        coredata.getSurah()
+        coredata.getSurah(contentID: .en_unknown)
 
         surah1 =
             Surah2(
@@ -58,7 +58,7 @@ class SQLiteConverter {
             )
 
         coredata.insert(surah: surah1)
-        print(coredata.getSurah())
+        print(coredata.getSurah(contentID: .en_unknown))
 
     }
 }

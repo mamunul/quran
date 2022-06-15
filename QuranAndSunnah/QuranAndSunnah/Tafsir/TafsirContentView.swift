@@ -28,7 +28,7 @@ struct TafsirMainView: View {
 struct TafsirAyahListView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
     var surah: Surah2
-    var surahTransliteration: SurahNameTranslation<SurahNameID>
+    var surahTransliteration: SurahNameTranslation<SurahTranslationID>
     @State var ayat = [TafsirAyah]()
     var body: some View {
         List {
@@ -98,7 +98,7 @@ struct TafsirContentView: View {
     @State private var showingPopover = false
     var surah: Surah2
     var ayah: TafsirAyah
-    var surahTransliteration: SurahNameTranslation<SurahNameID>
+    var surahTransliteration: SurahNameTranslation<SurahTranslationID>
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
