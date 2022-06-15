@@ -36,7 +36,8 @@ class QuranJsonFacade {
                     lastAyahNo: surahInfo.value.end,
                     name: surahInfo.value.name,
                     revelationOrder: surahInfo.value.revelationOrder,
-                    revelaitonPlace: RevelationPlace(rawValue: surahInfo.value.type)!
+                    revelaitonPlace: RevelationPlace(rawValue: surahInfo.value.type)!,
+                    contentID: .en_unknown
                 )
 
             surahList.append(surah)
@@ -100,7 +101,7 @@ class QuranJsonFacade {
                     text: ayahAr.value,
                     bookmark: false,
                     language: .ar,
-                    contentID: AyahContentID.content1
+                    contentID: AyahContentID.indonesia_ar
                 )
 
             ayahList.append(ayah)
@@ -113,7 +114,7 @@ class QuranJsonFacade {
     }
 
     func getAyahTranslation(of surah: Surah2, content: QuranTranslationID, language: Language) -> [AyahTraslation<QuranTranslationID>] {
-        let translationsJson = QuranRepository.shared.getAllTranslations(basePath).sorted { left, right in
+        let translationsJson = QuranRepository.shared.getAllAyahTranslations(basePath).sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
 
@@ -145,7 +146,7 @@ class QuranJsonFacade {
         for ayahTrannsliteration in transliterationnJson {
             let transliteration =
                 AyahTraslation(
-                    contentID: QuranTranslationID.id_litequran,
+                    contentID: QuranTranslationID.transliteration_litequran,
                     lang: .en,
                     text: ayahTrannsliteration.value,
                     ayahNo: surah.surahNo

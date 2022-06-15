@@ -8,18 +8,40 @@
 import Foundation
 
 protocol ContentID: Equatable, Decodable {
+    func getFilePath() -> String
 }
 
 enum QuranTranslationID: Int, ContentID {
-    case indonesia_ar
     case en_hilali_quranenc
     case en_itani_tanzil
     case en_sarwar_tanzil
     case bn_bengali_tanzil
-    case id_litequran
+    case transliteration_litequran
+
+    func getFilePath() -> String {
+        switch self {
+        case .en_hilali_quranenc:
+            return "Quran/ayah-translation/en-hilali-quranenc.json"
+        case .en_itani_tanzil:
+            return "Quran/ayah-translation/en-itani-tanzil.json"
+        case .en_sarwar_tanzil:
+            return "Quran/ayah-translation/en-sarwar-tanzil.json"
+        case .bn_bengali_tanzil:
+            return "Quran/ayah-translation/bn-bengali-tanzil.json"
+        case .transliteration_litequran:
+            return "Quran/ayah-transliteration/id-litequran.json"
+        }
+    }
 }
 
 enum SurahNameID: Int, ContentID {
+    func getFilePath() -> String {
+        switch self {
+        case .en_tanzil:
+            return "Quran/surah-translation/en-tanzil.json"
+        }
+    }
+
     case en_tanzil
 }
 
@@ -79,7 +101,7 @@ class QuranRepository {
         return [:]
     }
 
-    func getAllTranslations(_ basePath: String) -> [String: String] {
+    func getAllAyahTranslations(_ basePath: String) -> [String: String] {
         let ayatTranslationPath = "Quran/ayah-translation/en-hilali-quranenc.json"
         #if os(iOS)
             let ayatTranslationUrl = Bundle.main.url(forResource: ayatTranslationPath, withExtension: "")!

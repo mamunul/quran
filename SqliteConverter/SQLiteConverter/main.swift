@@ -11,13 +11,18 @@ import Foundation
 // let quran = SQLiteConverter().getQuran(basePath: basePath)
 // print("No of Surah: ", quran.surah.count)
 
-SQLiteConverter().setupCoreData()
+SQLiteConverter().readSurah()
 
 class SQLiteConverter {
     private let basePath = "Documents/ios_workspace/htmlattributes/QuranAndSunnah/QuranAndSunnah/Resources/"
-    private let reppo = QuranJsonFacade()
-    func getQuran() {
-        reppo.basePath = basePath
+    private let jsonRepo = QuranJsonFacade()
+    
+    func readSurah() {
+        jsonRepo.basePath = basePath
+        let surah = jsonRepo.getSurah()
+        print(surah)
+        
+//        let surahTranslation = jsonRepo.getSurahTranslation(content: <#T##SurahNameID#>, language: <#T##Language#>)
     }
 
     func setupCoreData() {
@@ -31,7 +36,8 @@ class SQLiteConverter {
                 lastAyahNo: 6,
                 name: "safs",
                 revelationOrder: 9,
-                revelaitonPlace: RevelationPlace.meccan
+                revelaitonPlace: RevelationPlace.meccan,
+                contentID: .en_unknown
             )
 
         coredata.insert(surah: surah1)
@@ -47,7 +53,8 @@ class SQLiteConverter {
                 lastAyahNo: 6,
                 name: "safs",
                 revelationOrder: 9,
-                revelaitonPlace: RevelationPlace.meccan
+                revelaitonPlace: RevelationPlace.meccan,
+                contentID: .en_unknown
             )
 
         coredata.insert(surah: surah1)

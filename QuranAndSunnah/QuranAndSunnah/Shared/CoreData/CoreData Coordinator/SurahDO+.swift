@@ -11,14 +11,15 @@ extension SurahDO {
     func convert() -> Surah2 {
         let surah =
             Surah2(
-                id: id.hashValue,
+                id: self.hashValue,
                 surahNo: Int(surahNo),
                 ayahCount: Int(ayahCount),
                 firstAyahNo: Int(firstAyahNo),
                 lastAyahNo: Int(lastAyahNo),
                 name: name ?? "",
                 revelationOrder: Int(revelationOrder),
-                revelaitonPlace: RevelationPlace(rawValue: revelaitonPlace ?? "") ?? .meccan
+                revelaitonPlace: RevelationPlace(rawValue: revelaitonPlace ?? "") ?? .meccan,
+                contentID: SurahNameContentID(rawValue: Int(contentId)) ?? .en_unknown
             )
         return surah
     }
@@ -42,7 +43,7 @@ extension AyahDO {
             text: text!,
             bookmark: bookmark,
             language: .ar,
-            contentID: AyahContentID(rawValue: Int(contentId)) ?? .content1
+            contentID: AyahContentID(rawValue: Int(contentId)) ?? .indonesia_ar
         )
         return content
     }

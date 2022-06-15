@@ -14,8 +14,11 @@ struct TafsirAyah: Identifiable {
     var path: String
 }
 
-enum TafsirContentID:ContentID{
+enum TafsirContentID: ContentID {
     case ibnKathir_shahih
+    func getFilePath() -> String {
+        ""
+    }
 }
 
 struct TafsirSurah: Identifiable {
