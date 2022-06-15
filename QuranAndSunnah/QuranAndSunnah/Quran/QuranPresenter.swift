@@ -15,41 +15,63 @@ class QuranPresenter: ObservableObject {
     private var repository = QuranJsonFacade.shared
 
     func getSurahList() {
-        let surahList = repository.getSurah(contentID: .en_unknown)
-        self.surahList = surahList
-        surah = surahList.first
+        do {
+            let surahList = try repository.getSurah(contentID: .en_unknown)
+            self.surahList = surahList
+            surah = surahList.first
+        } catch {
+            print(error)
+        }
     }
-    
+
     func getSurahTransliterationList() {
-        let surahList = repository.getSurahTransliteration(contentID: .en_tanzil, language: .en)
-        
-        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
-            $0[$1.surahNo] = $1
+        do {
+            let surahList = try repository.getSurahTransliteration(contentID: .en_tanzil, language: .en)
+
+            let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
+                $0[$1.surahNo] = $1
+            }
+            surahTranslilerationList = dict
+        } catch {
+            print(error)
         }
-        self.surahTranslilerationList = dict
     }
-    
+
     func getSurahTranslationList() {
-        let surahList = repository.getSurahTranslation(contentID: .en_tanzil, language: .en)
-        
-        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
-            $0[$1.surahNo] = $1
+        do {
+            let surahList = try repository.getSurahTranslation(contentID: .en_tanzil, language: .en)
+
+            let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
+                $0[$1.surahNo] = $1
+            }
+            surahTranslationList = dict
+        } catch {
+            print(error)
         }
-        self.surahTranslationList = dict
     }
 
     func getAyat(of surah: Surah2) -> [Ayah2] {
-        let ayahList = repository.getAyat(of: surah, contentID: .indonesia_ar)
-        return ayahList
+        do {
+            let ayahList = try repository.getAyat(of: surah, contentID: .indonesia_ar)
+            return ayahList
+        } catch {
+            print(error)
+        }
+        return []
     }
 
     func getAyatTranslation(of surah: Surah2) -> [Int: AyahTraslation<AyahTranslationID>] {
-        let ayahList = repository.getAyahTranslation(of: surah, contentID: .en_hilali_quranenc, language: .en)
+        do {
+            let ayahList = try repository.getAyahTranslation(of: surah, contentID: .en_hilali_quranenc, language: .en)
 
-        let dict = ayahList.reduce(into: [Int: AyahTraslation<AyahTranslationID>]()) {
-            $0[$1.ayahNo] = $1
+            let dict = ayahList.reduce(into: [Int: AyahTraslation<AyahTranslationID>]()) {
+                $0[$1.ayahNo] = $1
+            }
+
+            return dict
+        } catch {
+            print(error)
         }
-
-        return dict
+        return [:]
     }
 }
