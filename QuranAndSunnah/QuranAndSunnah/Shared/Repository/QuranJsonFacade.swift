@@ -7,7 +7,7 @@
 
 import Foundation
 
-class QuranJsonFacade: IDataReadFacade { // TODO: -convert for loops to map
+class QuranJsonFacade: IDataReadFacade {
     static let shared = QuranJsonFacade()
 
     var basePath = "" // Note: - this is only necessary for macos otherwise statys empty
@@ -20,23 +20,18 @@ class QuranJsonFacade: IDataReadFacade { // TODO: -convert for loops to map
             Int(left.key)! < Int(right.key)!
         }
 
-        var surahList = [Surah2]()
-
-        for surahInfo in surahInfoJsonArray {
-            let surah =
-                Surah2(
-                    id: Int(surahInfo.key)!,
-                    surahNo: Int(surahInfo.key)!,
-                    ayahCount: surahInfo.value.nAyah,
-                    firstAyahNo: surahInfo.value.start,
-                    lastAyahNo: surahInfo.value.end,
-                    name: surahInfo.value.name,
-                    revelationOrder: surahInfo.value.revelationOrder,
-                    revelaitonPlace: RevelationPlace(rawValue: surahInfo.value.type)!,
-                    contentID: .en_unknown
-                )
-
-            surahList.append(surah)
+        let surahList = surahInfoJsonArray.map { (key: String, value: SurahJson) in
+            Surah2(
+                id: Int(key)!,
+                surahNo: Int(key)!,
+                ayahCount: value.nAyah,
+                firstAyahNo: value.start,
+                lastAyahNo: value.end,
+                name: value.name,
+                revelationOrder: value.revelationOrder,
+                revelaitonPlace: RevelationPlace(rawValue: value.type)!,
+                contentID: .en_unknown
+            )
         }
         return surahList
     }
@@ -51,19 +46,16 @@ class QuranJsonFacade: IDataReadFacade { // TODO: -convert for loops to map
         let surahNammeTranslationJsonArray = surahNammeTranslationJsonDict.sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
-        var surahTranslationList = [SurahNameTranslation<SurahTranslationID>]()
 
-        for surahName in surahNammeTranslationJsonArray {
-            let translation =
-                SurahNameTranslation<SurahTranslationID>(
-                    contentID: SurahTranslationID.en_tanzil,
-                    lang: .en,
-                    text: surahName.value.translation,
-                    surahNo: (surahName.key as NSString).integerValue
-                )
+        let surahTranslationList = surahNammeTranslationJsonArray.map({ (key: String, value: SurahTranslationJson) in
+            SurahNameTranslation<SurahTranslationID>(
+                contentID: SurahTranslationID.en_tanzil,
+                lang: .en,
+                text: value.translation,
+                surahNo: (key as NSString).integerValue
+            )
+        })
 
-            surahTranslationList.append(translation)
-        }
         return surahTranslationList
     }
 
@@ -78,19 +70,16 @@ class QuranJsonFacade: IDataReadFacade { // TODO: -convert for loops to map
             Int(left.key)! < Int(right.key)!
         }
 
-        var surahTransliterationList = [SurahNameTranslation<SurahTranslationID>]()
+        let surahTransliterationList = surahNammeTranslationJsonArray.map { (key: String, value: SurahTranslationJson) in
 
-        for surahName in surahNammeTranslationJsonArray {
-            let transliteration =
-                SurahNameTranslation<SurahTranslationID>(
-                    contentID: SurahTranslationID.en_tanzil,
-                    lang: .en,
-                    text: surahName.value.name,
-                    surahNo: (surahName.key as NSString).integerValue
-                )
-
-            surahTransliterationList.append(transliteration)
+            SurahNameTranslation<SurahTranslationID>(
+                contentID: SurahTranslationID.en_tanzil,
+                lang: .en,
+                text: value.name,
+                surahNo: (key as NSString).integerValue
+            )
         }
+
         return surahTransliterationList
     }
 
@@ -101,20 +90,15 @@ class QuranJsonFacade: IDataReadFacade { // TODO: -convert for loops to map
             Int(left.key)! < Int(right.key)!
         }
 
-        var ayahList = [Ayah2]()
-
-        for ayahAr in ayahArray {
-            let ayah =
-                Ayah2(
-                    id: Int(ayahAr.key)!,
-                    ayahNo: Int(ayahAr.key)!,
-                    text: ayahAr.value,
-                    bookmark: false,
-                    language: .ar,
-                    contentID: AyahContentID.indonesia_ar
-                )
-
-            ayahList.append(ayah)
+        var ayahList = ayahArray.map { (key: String, value: String) in
+            Ayah2(
+                id: Int(key)!,
+                ayahNo: Int(key)!,
+                text: value,
+                bookmark: false,
+                language: .ar,
+                contentID: AyahContentID.indonesia_ar
+            )
         }
 
         ayahList.sort { $0.ayahNo < $1.ayahNo }
@@ -123,24 +107,21 @@ class QuranJsonFacade: IDataReadFacade { // TODO: -convert for loops to map
         return ayat
     }
 
-    func getAyahTranslation(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws -> [AyahTraslation<AyahTranslationID>] {
+    func getAyahTranslation(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws
+        -> [AyahTraslation<AyahTranslationID>] {
         let translationsJson: TranslationJson = try repo.getQuranData(basePath, contentId: contentID)
 
         let translationsJsonArray = translationsJson.translations.sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
 
-        var ayahTranslationList = [AyahTraslation<AyahTranslationID>]()
-
-        for ayahTranslation in translationsJsonArray {
-            let translation =
-                AyahTraslation(
-                    contentID: AyahTranslationID.en_hilali_quranenc,
-                    lang: .en,
-                    text: ayahTranslation.value,
-                    ayahNo: (ayahTranslation.key as NSString).integerValue
-                )
-            ayahTranslationList.append(translation)
+        var ayahTranslationList = translationsJsonArray.map { (key: String, value: String) in
+            AyahTraslation(
+                contentID: AyahTranslationID.en_hilali_quranenc,
+                lang: .en,
+                text: value,
+                ayahNo: (key as NSString).integerValue
+            )
         }
         ayahTranslationList.sort { $0.ayahNo < $1.ayahNo }
 
@@ -148,25 +129,21 @@ class QuranJsonFacade: IDataReadFacade { // TODO: -convert for loops to map
         return ayat
     }
 
-    func getAyahTransliterations(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws -> [AyahTraslation<AyahTranslationID>] {
+    func getAyahTransliterations(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws
+        -> [AyahTraslation<AyahTranslationID>] {
         let transliterationnJsonDict: [String: String] = try repo.getQuranData(basePath, contentId: contentID)
 
         let transliterationnJsonArray = transliterationnJsonDict.sorted { left, right in
             Int(left.key)! < Int(right.key)!
         }
 
-        var ayahTransliterationList = [AyahTraslation<AyahTranslationID>]()
-
-        for ayahTrannsliteration in transliterationnJsonArray {
-            let transliteration =
-                AyahTraslation(
-                    contentID: AyahTranslationID.transliteration_litequran,
-                    lang: .en,
-                    text: ayahTrannsliteration.value,
-                    ayahNo: surah.surahNo
-                )
-
-            ayahTransliterationList.append(transliteration)
+        var ayahTransliterationList = transliterationnJsonArray.map { (key: String, value: String) in
+            AyahTraslation(
+                contentID: AyahTranslationID.transliteration_litequran,
+                lang: .en,
+                text: value,
+                ayahNo: (key as NSString).integerValue
+            )
         }
         ayahTransliterationList.sort { $0.ayahNo < $1.ayahNo }
 
