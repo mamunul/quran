@@ -24,9 +24,13 @@ class TafsirContentPresenter: ObservableObject {
     private var previousFontSize: Double = 15.0
 
     func getSurahList() {
-        let surahList = repository.getSurah(contentID: .en_unknown)
-        self.surahList = surahList
-        surah = surahList.first
+        do {
+            let surahList = try repository.getSurah(contentID: .en_unknown)
+            self.surahList = surahList
+            surah = surahList.first
+        } catch {
+            print(error)
+        }
     }
 
     func getAyat(of surah: Surah2) -> [TafsirAyah] {
@@ -40,21 +44,29 @@ class TafsirContentPresenter: ObservableObject {
     }
 
     func getSurahTransliterationList() {
-        let surahList = repository.getSurahTransliteration(contentID: SurahTranslationID.en_tanzil, language: .en)
+        do {
+            let surahList = try repository.getSurahTransliteration(contentID: SurahTranslationID.en_tanzil, language: .en)
 
-        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
-            $0[$1.surahNo] = $1
+            let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
+                $0[$1.surahNo] = $1
+            }
+            surahTranslilerationList = dict
+        } catch {
+            print(error)
         }
-        surahTranslilerationList = dict
     }
 
     func getSurahTranslationList() {
-        let surahList = repository.getSurahTranslation(contentID: SurahTranslationID.en_tanzil, language: .en)
+        do {
+            let surahList = try repository.getSurahTranslation(contentID: SurahTranslationID.en_tanzil, language: .en)
 
-        let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
-            $0[$1.surahNo] = $1
+            let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
+                $0[$1.surahNo] = $1
+            }
+            surahTranslationList = dict
+        } catch {
+            print(error)
         }
-        surahTranslationList = dict
     }
 
     func updateFontSize(_ value: Double) {

@@ -11,95 +11,57 @@ class QuranRepository {
     static let shared = QuranRepository()
 
     private init() {}
-
-//    private var quran: Quran?
     #if os(macOS)
         private let homeDirectory = FileManager.default.homeDirectoryForCurrentUser
     #endif
 
-    func surahNameTranslations(_ basePath: String, contentId: SurahTranslationID) -> [String: SurahTranslationJson] {
-        let surahNameTranslationPath = contentId.getFilePath()
+    private func makeFileUrl<T: ContentID>(_ basePath: String, contentId: T) -> URL {
+        let path = contentId.getFilePath()
         #if os(iOS)
-            let surahNameTranslationUrl = Bundle.main.url(forResource: surahNameTranslationPath, withExtension: "")!
+            let url = Bundle.main.url(forResource: path, withExtension: "")!
         #else
-            let surahNameTranslationUrl = homeDirectory.appendingPathComponent("\(basePath)\(surahNameTranslationPath)")
+            let url = homeDirectory.appendingPathComponent("\(basePath)\(path)")
         #endif
-        do {
-            let data = try Data(contentsOf: surahNameTranslationUrl)
-            let res = try JSONDecoder().decode([String: SurahTranslationJson].self, from: data)
-            return res
-        } catch {
-            print(error)
-        }
-        return [:]
+
+        return url
     }
 
-    func surahinfo(_ basePath: String, contentId: SurahNameContentID) -> [String: SurahJson] {
-        let surahInfoPath = contentId.getFilePath()
-        #if os(iOS)
-            let surahInfoUrl = Bundle.main.url(forResource: surahInfoPath, withExtension: "")!
-        #else
-            let surahInfoUrl = homeDirectory.appendingPathComponent("\(basePath)\(surahInfoPath)")
-        #endif
-        do {
-            let data = try Data(contentsOf: surahInfoUrl)
-            let res = try JSONDecoder().decode([String: SurahJson].self, from: data)
-            return res
-        } catch {
-            print(error)
-        }
-        return [:]
+    private func decodeFromUrl<T: Decodable>(_ url: URL) throws -> T {
+        let data = try Data(contentsOf: url)
+        let res = try JSONDecoder().decode(T.self, from: data)
+        return res
+    }
+    
+//    private generateUrlAndDecode
+
+    func surahNameTranslations(_ basePath: String, contentId: SurahTranslationID) throws -> [String: SurahTranslationJson] {
+        let fileUrl = makeFileUrl(basePath, contentId: contentId)
+        let result: [String: SurahTranslationJson] = try decodeFromUrl(fileUrl)
+        return result
     }
 
-    func getAllAyahTranslations(_ basePath: String, contentId: AyahTranslationID) -> [String: String] {
-        let ayatTranslationPath = contentId.getFilePath()
-        #if os(iOS)
-            let ayatTranslationUrl = Bundle.main.url(forResource: ayatTranslationPath, withExtension: "")!
-        #else
-            let ayatTranslationUrl = homeDirectory.appendingPathComponent("\(basePath)\(ayatTranslationPath)")
-        #endif
-        do {
-            let data = try Data(contentsOf: ayatTranslationUrl)
-            let res = try JSONDecoder().decode(TranslationJson.self, from: data)
-            return res.translations
-        } catch {
-            print(error)
-        }
-        return [:]
+    func surahinfo(_ basePath: String, contentId: SurahNameContentID) throws -> [String: SurahJson] {
+        let fileUrl = makeFileUrl(basePath, contentId: contentId)
+        let result: [String: SurahJson] = try decodeFromUrl(fileUrl)
+        return result
     }
 
-    func getAllAyahTransliterations(_ basePath: String, contentId: AyahTranslationID) -> [String: String] {
-        let ayatTransliterationPath = contentId.getFilePath()
-        #if os(iOS)
-            let ayatTransliterationUrl = Bundle.main.url(forResource: ayatTransliterationPath, withExtension: "")!
-        #else
-            let ayatTransliterationUrl = homeDirectory.appendingPathComponent("\(basePath)\(ayatTransliterationPath)")
-        #endif
-        do {
-            let data = try Data(contentsOf: ayatTransliterationUrl)
-            let res = try JSONDecoder().decode([String: String].self, from: data)
-            return res
-        } catch {
-            print(error)
-        }
-        return [:]
+    func getAllAyahTranslations(_ basePath: String, contentId: AyahTranslationID) throws -> [String: String] {
+        let fileUrl = makeFileUrl(basePath, contentId: contentId)
+        let result: [String: String] = try decodeFromUrl(fileUrl)
+        return result
     }
 
-    func getAllAyah(_ basePath: String, contentId: AyahContentID) -> [String: String] {
-        let sarabicAyatPath = contentId.getFilePath()
-        #if os(iOS)
-            let arabicAyatUrl = Bundle.main.url(forResource: sarabicAyatPath, withExtension: "")!
-        #else
-            let arabicAyatUrl = homeDirectory.appendingPathComponent("\(basePath)\(sarabicAyatPath)")
-        #endif
-        do {
-            let data = try Data(contentsOf: arabicAyatUrl)
-            let res = try JSONDecoder().decode([String: String].self, from: data)
-            return res
-        } catch {
-            print(error)
-        }
-        return [:]
+    func getAllAyahTransliterations(_ basePath: String, contentId: AyahTranslationID) throws -> [String: String] {
+        let fileUrl = makeFileUrl(basePath, contentId: contentId)
+        let result: [String: String] = try decodeFromUrl(fileUrl)
+        return result
+    }
+
+    func getAllAyah(_ basePath: String, contentId: AyahContentID) throws -> [String: String] {
+        let fileUrl = makeFileUrl(basePath, contentId: contentId)
+        let result: [String: String] = try decodeFromUrl(fileUrl)
+        return result
     }
 }
 

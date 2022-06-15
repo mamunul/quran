@@ -16,12 +16,16 @@ SQLiteConverter().readSurah()
 class SQLiteConverter {
     private let basePath = "Documents/ios_workspace/htmlattributes/QuranAndSunnah/QuranAndSunnah/Resources/"
     private let jsonRepo = QuranJsonFacade()
-    
+
     func readSurah() {
         jsonRepo.basePath = basePath
-        let surah = jsonRepo.getSurah(contentID: .en_unknown)
-        print(surah)
-        
+        do {
+            let surah = try jsonRepo.getSurah(contentID: .en_unknown)
+            print(surah)
+        } catch {
+            print(error)
+        }
+
 //        let surahTranslation = jsonRepo.getSurahTranslation(content: <#T##SurahNameID#>, language: <#T##Language#>)
     }
 
@@ -42,7 +46,7 @@ class SQLiteConverter {
 
         coredata.insert(surah: surah1)
 
-        coredata.getSurah(contentID: .en_unknown)
+        try! coredata.getSurah(contentID: .en_unknown)
 
         surah1 =
             Surah2(
@@ -58,7 +62,6 @@ class SQLiteConverter {
             )
 
         coredata.insert(surah: surah1)
-        print(coredata.getSurah(contentID: .en_unknown))
-
+        print(try! coredata.getSurah(contentID: .en_unknown))
     }
 }
