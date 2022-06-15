@@ -129,7 +129,7 @@ class QuranJsonFacade: IDataReadFacade {
         return ayat
     }
 
-    func getAyahTransliterations(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws
+    func getAyahTransliteration(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws
         -> [AyahTraslation<AyahTranslationID>] {
         let transliterationnJsonDict: [String: String] = try repo.getQuranData(basePath, contentId: contentID)
 

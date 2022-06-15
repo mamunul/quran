@@ -32,9 +32,9 @@ class CoreDataStack {
         } catch {
             print(error)
         }
-        container?.loadPersistentStores(completionHandler: { description, error in
-            print(description, error as Any)
-        })
+//        container?.loadPersistentStores(completionHandler: { description, error in
+//            print(description, error as Any)
+//        })
         
         privateContext.persistentStoreCoordinator = container?.persistentStoreCoordinator
         mainContext = container?.viewContext

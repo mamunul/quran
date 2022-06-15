@@ -11,7 +11,7 @@ extension SurahDO {
     func convert() -> Surah2 {
         let surah =
             Surah2(
-                id: self.hashValue,
+                id: hashValue,
                 surahNo: Int(surahNo),
                 ayahCount: Int(ayahCount),
                 firstAyahNo: Int(firstAyahNo),
@@ -67,11 +67,12 @@ extension AyahTranslationDO {
         return content
     }
 
-    func load(text: AyahTraslation<AyahTranslationID>) {
+    func load(text: AyahTraslation<AyahTranslationID>, translation: Bool) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text
         ayahNo = Int16(text.ayahNo)
+        self.translation = translation
     }
 }
 
@@ -86,10 +87,11 @@ extension SurahTranslationDO {
         return content
     }
 
-    func load(text: SurahNameTranslation<SurahTranslationID>) {
+    func load(text: SurahNameTranslation<SurahTranslationID>, translation: Bool) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text
         surahNo = Int16(text.surahNo)
+        self.translation = translation
     }
 }
