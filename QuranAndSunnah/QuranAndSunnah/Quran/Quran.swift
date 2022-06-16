@@ -11,6 +11,17 @@ protocol ContentID: Equatable, Decodable {
     func getFilePath() -> String
 }
 
+enum AyahContentID: Int, ContentID { // AyahTranslationID and AyahContentID should be one
+    func getFilePath() -> String {
+        switch self {
+        case .indonesia_ar:
+            return "Quran/ayah-text/indonesia.json"
+        }
+    }
+
+    case indonesia_ar
+}
+
 enum AyahTranslationID: Int, ContentID {
     case en_hilali_quranenc
     case en_itani_tanzil
@@ -34,6 +45,17 @@ enum AyahTranslationID: Int, ContentID {
     }
 }
 
+enum SurahNameContentID: Int, ContentID { // SurahTranslationID, SurahNameContentID should be one
+    func getFilePath() -> String {
+        switch self {
+        case .en_unknown:
+            return "Quran/surah/surah.json"
+        }
+    }
+
+    case en_unknown
+}
+
 enum SurahTranslationID: Int, ContentID {
     func getFilePath() -> String {
         switch self {
@@ -51,13 +73,21 @@ struct Surah2: Decodable, Identifiable {
     var ayahCount: Int
     var firstAyahNo: Int
     var lastAyahNo: Int
-    var name: String
+    var name: String // comment this variable
     var revelationOrder: Int
     var revelaitonPlace: RevelationPlace
     var contentID: SurahNameContentID
 }
 
-struct Ayah2: Decodable, Identifiable {
+struct SurahNameTranslation<T: ContentID>: Decodable { // this should be renamed to SurahName
+    var contentID: T
+    var lang: Language
+    var text: String
+    var surahNo: Int
+//    var contentType: ContentType
+}
+
+struct Ayah2: Decodable, Identifiable { // this is not needed at this moment
     var id: Int
     var ayahNo: Int
     var text: String
@@ -66,54 +96,24 @@ struct Ayah2: Decodable, Identifiable {
     var contentID: AyahContentID
 }
 
-enum RevelationPlace: String, Decodable {
-    case medinan, meccan
+enum ContentType: Int {
+    case translation, transliteration, original
 }
 
-enum AyahContentID: Int, ContentID {
-    func getFilePath() -> String {
-        switch self {
-        case .indonesia_ar:
-            return "Quran/ayah-text/indonesia.json"
-        }
-    }
-
-    case indonesia_ar
-}
-
-enum SurahNameContentID: Int, ContentID {
-    func getFilePath() -> String {
-        switch self {
-        case .en_unknown:
-            return "Quran/surah/surah.json"
-        }
-    }
-
-    case en_unknown
-}
-
-enum Language: Int, Decodable {
-    case en, bn, ar
-}
-
-struct TextContent<T: ContentID>: Decodable {
-    var contentID: T
-    var lang: Language
-    var text: String
-}
-
-struct SurahNameTranslation<T: ContentID>: Decodable {
-    var contentID: T
-    var lang: Language
-    var text: String
-    var surahNo: Int
-}
-
-struct AyahTraslation<T: ContentID>: Decodable {
+struct AyahTraslation<T: ContentID>: Decodable { // this should be renamed to AyahContent
     var contentID: T
     var lang: Language
     var text: String
     var ayahNo: Int
+//    var contentType: ContentType
+}
+
+enum RevelationPlace: String, Decodable {
+    case medinan, meccan
+}
+
+enum Language: Int, Decodable {
+    case en, bn, ar
 }
 
 enum WordContentID: Int, ContentID {

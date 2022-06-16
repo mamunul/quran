@@ -8,56 +8,98 @@
 import Foundation
 import SwiftUI
 
-//struct Pin {
-//    var quran: [Ayah]
-//    var tafsir: [TafsirAyah]
-//    var hadith: [Hadith]
-//}
-
-protocol Highlight {
-    /// The highlighted range in the whole text.
-    var range: Range<Int> { get set }
-    var highlightedText: String { get set }
-    var note: String { get set }
-    /// The contentId will be used to differentiate various writers and language
-    var writerId: Int { get set }
-    /// The language of the highlighted text .
-    var language: Language { get set }
+struct Tag {
+    var tagText: String
+    var ayat: [AyahTraslation<AyahTranslationID>]
+    var tafsirAyat: [TafsirAyah]
+    var hadith: [Hadith]
 }
 
-/// A single highlight mark on a range of text of the Quran / Tafsir / Hadith.
-// struct Highlight {
-//    enum HighlightType {
-//        case quran, hadith, tafsir
-//    }
-//
-//    /// The highlighted range in the whole text.
-//    var range: Range<Int>
-//    /// The highlighted text
-//    var text: String
-//    /// The color used to mark the highlighted portion of the text.
-//    var number: Int
-//    /// The type of book - hadith/tafsir/quran where this highlight is applied.
-//    var type: HighlightType
-//    /// The language of the highlighted text .
-//    var language: Language
-//    /// The type of hadith / tafsir, as there are a multitude of collector of hadith and tafsir.
-//    var subType: Int
-// }
+struct QuranNote {
+    var note: String
+    var range: Range<Int>
+    var highlightedText: String
+    var contentID: AyahTranslationID
+    var language: Language
+    var ayat: AyahTraslation<AyahTranslationID>
+//    var contentType: ContentType
+}
 
-// struct Note {
-//    /// The highlighted range in the whole text.
-//    var range: Range<Int>
-//    /// The highlighted text
-//    var text: String
-//    /// The number of the ayah in Quran or the number of the ayah in tafsir or the number of the hadith.
-//    var number: Int
-//    /// The type of book - hadith/tafsir/quran where this highlight is applied.
-//    var type: Highlight.HighlightType
-//    /// The language of the highlighted text .
-//    var language: Language
-//    /// The type of hadith / tafsir, as there are a multitude of collector of hadith and tafsir.
-//    var subType: Int
-//    /// The written notes of the highlighted text
-//    var note: String
-// }
+struct HadithNote {
+    var note: String
+    var range: Range<Int>
+    var highlightedText: String
+    var contentID: HadithContentID
+    var language: Language
+    var hadith: Hadith
+//    var contentType: ContentType
+}
+
+struct TafsirNote {
+    var note: String
+    var range: Range<Int>
+    var highlightedText: String
+    var contentID: TafsirContentID
+    var language: Language
+    var tafsirAyat: TafsirAyah
+//    var contentType: ContentType
+}
+
+struct QuranHighlight {
+    var range: Range<Int>
+    var highlightedText: String
+    var contentID: AyahTranslationID
+    var language: Language
+    var surahNo: Int
+    var ayahNo: Int
+    var contentType: ContentType
+}
+
+struct HadithHighlight {
+    var range: Range<Int>
+    var highlightedText: String
+    var contentID: HadithContentID
+    var language: Language
+    var hadithCollector: Int
+    var chapterNo: Int
+    var hadithNo: Int
+    var contentType: ContentType
+}
+
+struct TafsirHighlight {
+    var range: Range<Int>
+    var highlightedText: String
+    var contentID: TafsirContentID
+    var language: Language
+    var surahNo: Int
+    var ayahNo: Int
+    var contentType: ContentType
+}
+
+struct QuranBookmark {
+    var contentID: AyahTranslationID
+    var language: Language
+    var surahNo: Int
+    var ayahNo: Int
+    var contentType: ContentType
+}
+
+struct HadithBookmark {
+    var contentID: HadithContentID
+    var language: Language
+    var hadithCollector: Int
+    var chapterNo: Int
+    var hadithNo: Int
+    var contentType: ContentType
+}
+
+struct QuranPin { // same for tafsir; doesnt require db - @appstorage is sufficient
+    var ayahNo: Int
+    var surahNo: Int
+}
+
+struct HadithPin { // doesnt require db - appstore is sufficient
+    var hadithCollector: Int
+    var chapterNo: Int
+    var hadithNo: Int
+}

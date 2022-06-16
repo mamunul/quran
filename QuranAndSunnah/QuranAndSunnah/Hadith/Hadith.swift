@@ -7,7 +7,28 @@
 
 import Foundation
 
-struct Hadith: Identifiable {
+struct TextContent<T: ContentID>: Decodable {
+    var contentID: T
+    var lang: Language
+    var text: String
+}
+
+struct HadithText<T: ContentID> {
+    var chapterNo: Int
+    var sectionNo: String
+    var section: String
+    var hadithNo: String
+    var isnad: String
+    var matn: String
+    var comment: String
+    var grade: String
+
+    var contentID: T
+    var lang: Language
+    var contentType: ContentType
+}
+
+struct Hadith: Identifiable { // this should be replaced with HadithText
     var id: String
     var chapterNo: Int
     var sectionNo: String
