@@ -45,8 +45,6 @@
 		EE7180B5284655BA000D16FB /* Quran.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B4284655BA000D16FB /* Quran.swift */; };
 		EE7180B728465B7B000D16FB /* Tafsir.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B628465B7B000D16FB /* Tafsir.swift */; };
 		EE7180BA28465C61000D16FB /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7180B928465C61000D16FB /* Bookmark.swift */; };
-		EEC3250728590B7A002D0393 /* QuranDM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EEC3250428590B7A002D0393 /* QuranDM.xcdatamodeld */; };
-		EEC3250828590B7A002D0393 /* Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = EEC3250628590B7A002D0393 /* Model.xcdatamodel */; };
 		EEC3251228590B83002D0393 /* CoreDataFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3251028590B83002D0393 /* CoreDataFacade.swift */; };
 		EEC3251428590B83002D0393 /* DataWriteFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3250A28590B83002D0393 /* DataWriteFacade.swift */; };
 		EEC3251628590B83002D0393 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3250F28590B83002D0393 /* CoreDataStack.swift */; };
@@ -113,8 +111,6 @@
 		EE7180B4284655BA000D16FB /* Quran.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quran.swift; sourceTree = "<group>"; };
 		EE7180B628465B7B000D16FB /* Tafsir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tafsir.swift; sourceTree = "<group>"; };
 		EE7180B928465C61000D16FB /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
-		EEC3250528590B7A002D0393 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		EEC3250628590B7A002D0393 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		EEC3250A28590B83002D0393 /* DataWriteFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataWriteFacade.swift; sourceTree = "<group>"; };
 		EEC3250E28590B83002D0393 /* SurahDO+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SurahDO+.swift"; sourceTree = "<group>"; };
 		EEC3250F28590B83002D0393 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -192,14 +188,6 @@
 				0A2A8325283B565100FD0E80 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		0A3CAFB92859D34100D4F119 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				EEC3250628590B7A002D0393 /* Model.xcdatamodel */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		0A65530F2850C5B6006BA6A8 /* Popover */ = {
@@ -336,7 +324,6 @@
 			children = (
 				EEC3254328590BDF002D0393 /* CoreDataEntity */,
 				EEC3250928590B83002D0393 /* CoreData Coordinator */,
-				EEC3250428590B7A002D0393 /* QuranDM.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -534,7 +521,6 @@
 				0A2A8321283B564E00FD0E80 /* ContentView.swift in Sources */,
 				0A326227283F77E300535216 /* TafsirContentView.swift in Sources */,
 				0A2A831F283B564E00FD0E80 /* HTMLAttributeApp.swift in Sources */,
-				EEC3250828590B7A002D0393 /* Model.xcdatamodel in Sources */,
 				0A67A4652855B461003700ED /* AppImage.swift in Sources */,
 				EE45DED52849CC2400770279 /* HadithContentView.swift in Sources */,
 				EE45DED92849CCA500770279 /* QuranPresenter.swift in Sources */,
@@ -543,7 +529,6 @@
 				EEC3255428590BDF002D0393 /* SurahDO+CoreDataClass.swift in Sources */,
 				0A6553112850C5C7006BA6A8 /* View+Modifiers.swift in Sources */,
 				0A6553152850C5DD006BA6A8 /* AlwaysPopoverModifier.swift in Sources */,
-				EEC3250728590B7A002D0393 /* QuranDM.xcdatamodeld in Sources */,
 				0A5E9678284897170093C810 /* HadithRepository.swift in Sources */,
 				EEDC0516284E3E6100201203 /* CustomUITextView.swift in Sources */,
 				EEC3254F28590BDF002D0393 /* WordDO+CoreDataClass.swift in Sources */,
@@ -771,19 +756,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		EEC3250428590B7A002D0393 /* QuranDM.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				EEC3250528590B7A002D0393 /* Model.xcdatamodel */,
-			);
-			currentVersion = EEC3250528590B7A002D0393 /* Model.xcdatamodel */;
-			path = QuranDM.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 0A2A8313283B564D00FD0E80 /* Project object */;
 }
