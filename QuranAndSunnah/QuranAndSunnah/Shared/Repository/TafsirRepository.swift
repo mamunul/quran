@@ -48,8 +48,18 @@ class TafsirRepository: ITafsirRead {
                 nextayahNo -= 1
             }
             let ayayPath = "Tafsir/IbnKathir/".appending("\(surah.surahNo)/").appending(ayahFileName)
-
-            let ayah = TafsirAyah2(id: ayahNo, ayahRange: ayahNo ... nextayahNo, filePath: ayayPath, contentID: .ibnKathir_shahih, lang: .en, contentType: .translation)
+            let contentID =
+                ContentIdentity<TafsirContentID>(
+                    contentID: .ibnKathir_shahih,
+                    lang: .en,
+                    contentType: .translation
+                )
+            let ayah = TafsirAyah2(
+                id: ayahNo,
+                ayahRange: ayahNo ... nextayahNo,
+                filePath: ayayPath,
+                contentID: contentID
+            )
             ayat.append(ayah)
         }
         return ayat

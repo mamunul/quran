@@ -18,9 +18,7 @@ struct HadithText: Identifiable {
     var comment: String
     var grade: String
 
-    var contentID: HadithContentID
-    var lang: Language
-    var contentType: ContentType
+    var contentID: ContentIdentity<HadithContentID>
 }
 
 struct HadithChapter2: Identifiable, Decodable {
@@ -29,9 +27,7 @@ struct HadithChapter2: Identifiable, Decodable {
     var chapterNo: Int
     var hadithNo: ClosedRange<Int>
 
-    var contentID: HadithContentID
-    var lang: Language
-    var contentType: ContentType
+    var contentID: ContentIdentity<HadithContentID>
 }
 
 struct HadithCollector: Identifiable {
@@ -41,9 +37,12 @@ struct HadithCollector: Identifiable {
             id: 0,
             pathComponent: "",
             chapterRange: 0 ..< 0,
-            contentID: .bukhari_1,
-            lang: .en,
-            contentType: .translation
+
+            contentID: ContentIdentity<HadithContentID>(
+                contentID: .bukhari_1,
+                lang: .en,
+                contentType: .translation
+            )
         )
     var name: String
     var id: Int
@@ -51,7 +50,5 @@ struct HadithCollector: Identifiable {
     var pathComponent: String
     var chapterRange: Range<Int>
 
-    var contentID: HadithContentID
-    var lang: Language
-    var contentType: ContentType
+    var contentID: ContentIdentity<HadithContentID>
 }

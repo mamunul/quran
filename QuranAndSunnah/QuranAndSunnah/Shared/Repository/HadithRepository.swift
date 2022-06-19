@@ -77,15 +77,14 @@ class HadithRepository: IHadithDataReadFacade {
         if let item = res.last {
             lastItemNo = (item.Hadith_number as NSString).integerValue
         }
-
+        var contentID = collector.contentID
+        contentID.lang = language
         let chapter = HadithChapter2(
             id: chapterNo,
             title: language == .ar ? title : translations,
             chapterNo: chapterNo,
             hadithNo: firstItemNo ... lastItemNo,
-            contentID: collector.contentID,
-            lang: language,
-            contentType: .translation
+            contentID: contentID
         )
 
         return chapter
@@ -103,7 +102,10 @@ class HadithRepository: IHadithDataReadFacade {
         let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapter.chapterNo).json", withExtension: "")!
         let data = try Data(contentsOf: fileUrl)
         let res = try JSONDecoder().decode([HadithJson].self, from: data)
-
+        
+        var contentID = collector.contentID
+        contentID.lang = language
+        
         let hadithList = res.map {
             HadithText(
                 id: ($0.Hadith_number as NSString).integerValue,
@@ -115,9 +117,7 @@ class HadithRepository: IHadithDataReadFacade {
                 matn: language == .ar ? $0.Arabic_Matn : $0.English_Matn,
                 comment: language == .ar ? $0.Arabic_Comment : $0.Arabic_Comment,
                 grade: language == .ar ? $0.Arabic_Grade : $0.English_Grade,
-                contentID: collector.contentID,
-                lang: language,
-                contentType: collector.contentType
+                contentID: contentID
             )
         }
         return hadithList
@@ -129,9 +129,9 @@ class HadithRepository: IHadithDataReadFacade {
             id: 1,
             pathComponent: "Hadith/Bukhari/",
             chapterRange: 1 ..< 97,
-            contentID: .bukhari_1,
-            lang: .en,
-            contentType: .translation
+            contentID: ContentIdentity(contentID: .bukhari_1,
+                                       lang: .en,
+                                       contentType: .translation)
         )
         let muslim = HadithCollector(
             name: "Muslim",
@@ -139,9 +139,9 @@ class HadithRepository: IHadithDataReadFacade {
 
             pathComponent: "Hadith/Muslim/",
             chapterRange: 0 ..< 56,
-            contentID: .muslim_1,
-            lang: .en,
-            contentType: .translation
+            contentID: ContentIdentity(contentID: .muslim_1,
+                                       lang: .en,
+                                       contentType: .translation)
         )
         let tirmizi = HadithCollector(
             name: "Tirmizi",
@@ -149,9 +149,9 @@ class HadithRepository: IHadithDataReadFacade {
 
             pathComponent: "Hadith/Tirmizi/",
             chapterRange: 1 ..< 49,
-            contentID: .tirmizi_1,
-            lang: .en,
-            contentType: .translation
+            contentID: ContentIdentity(contentID: .tirmizi_1,
+                                       lang: .en,
+                                       contentType: .translation)
         )
         let abuDaud = HadithCollector(
             name: "AbuDaud",
@@ -159,9 +159,9 @@ class HadithRepository: IHadithDataReadFacade {
 
             pathComponent: "Hadith/AbuDaud/",
             chapterRange: 1 ..< 43,
-            contentID: .abudaud_1,
-            lang: .en,
-            contentType: .translation
+            contentID: ContentIdentity(contentID: .abudaud_1,
+                                       lang: .en,
+                                       contentType: .translation)
         )
         let ibnMajah = HadithCollector(
             name: "IbnMajah",
@@ -169,9 +169,9 @@ class HadithRepository: IHadithDataReadFacade {
 
             pathComponent: "Hadith/IbnMaja/",
             chapterRange: 0 ..< 37,
-            contentID: .ibnmajah_1,
-            lang: .en,
-            contentType: .translation
+            contentID: ContentIdentity(contentID: .ibnmajah_1,
+                                       lang: .en,
+                                       contentType: .translation)
         )
         let nasai = HadithCollector(
             name: "Nasai",
@@ -179,9 +179,9 @@ class HadithRepository: IHadithDataReadFacade {
 
             pathComponent: "Hadith/Nesai/",
             chapterRange: 1 ..< 51,
-            contentID: .nasai_1,
-            lang: .en,
-            contentType: .translation
+            contentID: ContentIdentity(contentID: .nasai_1,
+                                       lang: .en,
+                                       contentType: .translation)
         )
 
         var collectors = [HadithCollector]()

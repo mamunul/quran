@@ -20,10 +20,8 @@ struct QuranNote {
     var range: Range<Int>
     var highlightedText: String
     var ayatNo: Int
-    
-    var contentID: AyahContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<AyahContentID>
 }
 
 struct HadithNote {
@@ -31,10 +29,8 @@ struct HadithNote {
     var range: Range<Int>
     var highlightedText: String
     var hadithNo: Int
-    
-    var contentID: HadithContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<HadithContentID>
 }
 
 struct TafsirNote {
@@ -49,10 +45,8 @@ struct QuranHighlight {
     var range: Range<Int>
     var highlightedText: String
     var ayatNo: Int
-    
-    var contentID: AyahContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<AyahContentID>
 }
 
 struct HadithHighlight {
@@ -60,10 +54,8 @@ struct HadithHighlight {
     var highlightedText: String
     var hadithCollector: HadithCollector
     var hadithNo: Int
-    
-    var contentID: HadithContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<HadithContentID>
 }
 
 struct TafsirHighlight {
@@ -74,18 +66,14 @@ struct TafsirHighlight {
 
 struct QuranBookmark {
     var ayatNo: Int
-    
-    var contentID: AyahContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<AyahContentID>
 }
 
 struct HadithBookmark {
     var hadithNo: Int
-    
-    var contentID: HadithContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<HadithContentID>
 }
 
 struct QuranPin { // same for tafsir; doesnt require db - @appstorage is sufficient
