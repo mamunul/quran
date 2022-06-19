@@ -45,9 +45,10 @@ class QuranJsonFacade: IDataReadFacade {
             SurahName(
                 text: value.name,
                 surahNo: (key as NSString).integerValue,
-                contentID: SurahNameContentID.en_unknown,
-                lang: .ar,
-                contentType: .original
+                contentID: ContentIdentity<SurahNameContentID>(
+                    contentID: SurahNameContentID.en_unknown,
+                    lang: .ar,
+                    contentType: .original)
             )
         }
         return surahList
@@ -68,9 +69,11 @@ class QuranJsonFacade: IDataReadFacade {
             SurahName(
                 text: value.translation,
                 surahNo: (key as NSString).integerValue,
-                contentID: SurahNameContentID.en_tanzil,
-                lang: .en,
-                contentType: .translation
+                contentID: ContentIdentity<SurahNameContentID>(
+                    contentID: SurahNameContentID.en_tanzil,
+                    lang: .en,
+                    contentType: .translation
+                )
             )
         })
 
@@ -93,9 +96,10 @@ class QuranJsonFacade: IDataReadFacade {
             SurahName(
                 text: value.name,
                 surahNo: (key as NSString).integerValue,
-                contentID: SurahNameContentID.en_tanzil,
-                lang: .en,
-                contentType: .transliteration
+                contentID: ContentIdentity<SurahNameContentID>(
+                    contentID: SurahNameContentID.en_tanzil,
+                    lang: .en,
+                    contentType: .transliteration)
             )
         }
 
@@ -115,9 +119,10 @@ class QuranJsonFacade: IDataReadFacade {
                 text: value,
                 ayahNo: Int(key)!,
                 surahNo: surah.surahNo,
-                contentID: AyahContentID.indonesia_ar,
-                lang: .ar,
-                contentType: .original
+                contentID: ContentIdentity<AyahContentID>(
+                    contentID: AyahContentID.indonesia_ar,
+                    lang: .ar,
+                    contentType: .original)
             )
         }
 
@@ -141,9 +146,10 @@ class QuranJsonFacade: IDataReadFacade {
                 text: value,
                 ayahNo: (key as NSString).integerValue,
                 surahNo: surah.surahNo,
-                contentID: AyahContentID.en_hilali_quranenc,
-                lang: .en,
-                contentType: .translation
+                contentID: ContentIdentity<AyahContentID>(
+                    contentID: AyahContentID.en_hilali_quranenc,
+                    lang: .en,
+                    contentType: .translation)
             )
         }
         ayahTranslationList.sort { $0.ayahNo < $1.ayahNo }
@@ -166,9 +172,10 @@ class QuranJsonFacade: IDataReadFacade {
                 text: value,
                 ayahNo: (key as NSString).integerValue,
                 surahNo: surah.surahNo,
-                contentID: AyahContentID.transliteration_litequran,
-                lang: .en,
-                contentType: .transliteration
+                contentID: ContentIdentity<AyahContentID>(
+                    contentID: AyahContentID.transliteration_litequran,
+                    lang: .en,
+                    contentType: .transliteration)
             )
         }
         ayahTransliterationList.sort { $0.ayahNo < $1.ayahNo }

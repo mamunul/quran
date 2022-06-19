@@ -7,28 +7,12 @@
 
 import Foundation
 
-
-//struct TextContent<T: ContentID>: Decodable {
-//    var contentID: T
-//    var lang: Language
-//    var text: String
-//}
-
-//struct TafsirAyah: Identifiable {
-//    var id: Int
-//    var bookmark: Bool
-//    var text: String
-//    var path: String
-//}
-
 struct TafsirAyah2: Identifiable {
     var id: Int
     var ayahRange: ClosedRange<Int>
     var filePath: String
-    
-    var contentID: TafsirContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<TafsirContentID>
 }
 
 enum TafsirContentID: ContentID {
@@ -37,27 +21,3 @@ enum TafsirContentID: ContentID {
         ""
     }
 }
-
-//struct TafsirSurah: Identifiable {
-//    var id: Int
-//    var surahNo: Int
-//    var ayahCount: Int
-//    var firstAyahNo: Int
-//    var lastAyahNo: Int
-//    var name: String
-//    var nameTranslations: [TextContent<SurahNameContentID>]
-//    var nameTransliterations: [TextContent<SurahNameContentID>]
-//    var revelationOrder: Int
-//    var revelaitonPlace: RevelationPlace
-//    var ayat: [TafsirAyah]
-//}
-
-//struct Tafsir {
-//    enum TafsirWriter {
-//        case ibnKathir
-//    }
-//
-//    var name: String
-//    var type: TafsirWriter
-//    var surah: [TafsirSurah]
-//}

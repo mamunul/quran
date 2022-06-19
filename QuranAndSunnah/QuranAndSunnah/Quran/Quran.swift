@@ -11,6 +11,12 @@ protocol ContentID: Equatable, Decodable {
     func getFilePath() -> String
 }
 
+struct ContentIdentity<T: ContentID>: Decodable {
+    var contentID: T
+    var lang: Language
+    var contentType: ContentType
+}
+
 enum AyahContentID: Int, ContentID {
     case en_hilali_quranenc
     case en_itani_tanzil
@@ -64,10 +70,8 @@ struct SurahInfo: Decodable, Identifiable {
 struct SurahName: Decodable {
     var text: String
     var surahNo: Int
-    
-    var contentID: SurahNameContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<SurahNameContentID>
 }
 
 enum ContentType: Int, Decodable {
@@ -79,10 +83,8 @@ struct Ayah: Decodable, Identifiable {
     var text: String
     var ayahNo: Int
     var surahNo: Int
-    
-    var contentID: AyahContentID
-    var lang: Language
-    var contentType: ContentType
+
+    var contentID: ContentIdentity<AyahContentID>
 }
 
 enum RevelationPlace: String, Decodable {
