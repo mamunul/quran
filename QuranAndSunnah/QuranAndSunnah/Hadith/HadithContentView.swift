@@ -43,44 +43,45 @@ struct HadithListView: View {
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
     @State private var showingPopover = false
-    @State var chapter: HadithChapter
+    @State var chapter: HadithChapter2
     var collector: HadithCollector
-    @State var hadithList = [Hadith]()
-    @State var allHadithList = [Hadith]()
+    @State var hadithArabicList = [Int:HadithText]()
+    @State var hadithEnglishList = [HadithText]()
+    @State var allHadithEnglishList = [HadithText]()
 
     var body: some View {
         GeometryReader { proxy in
             List {
-                ForEach(self.$hadithList) { hadith in
+                ForEach(self.$hadithEnglishList) { hadith in
                     VStack(spacing: 10) {
                         HStack {
-                            Text(hadith.wrappedValue.hadithNo)
+                            Text("\(hadith.wrappedValue.hadithNo)")
                                 .frame(alignment: .leading)
                             Spacer()
-                            Text(hadith.wrappedValue.gradeTranslations.first?.text ?? "")
+                            Text(hadith.wrappedValue.grade)
                                 .frame(alignment: .trailing)
                         }
                         TextViewRepresentable2(
                             text: Binding<NSMutableAttributedString>(
-                                get: { NSMutableAttributedString(string: hadith.wrappedValue.hadith) },
-                                set: { hadith.wrappedValue.hadith = $0.string }
+                                get: { NSMutableAttributedString(string: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn) },
+                                set: { hadith.wrappedValue.matn = $0.string }
                             ),
                             searchString: self.$searchString,
                             paragraphAlignment: .right,
                             fontSize: fontSize
                         )
-                        .frame(height: frameSize(for: hadith.wrappedValue.hadith, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
+                        .frame(height: frameSize(for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
 
                         TextViewRepresentable2(
                             text: Binding<NSMutableAttributedString>(
-                                get: { NSMutableAttributedString(string: hadith.wrappedValue.hadithTranslations.first!.text) },
-                                set: { hadith.wrappedValue.hadith = $0.string }
+                                get: { NSMutableAttributedString(string: hadith.wrappedValue.matn) },
+                                set: { hadith.wrappedValue.matn = $0.string }
                             ),
                             searchString: self.$searchString,
                             paragraphAlignment: .left,
                             fontSize: fontSize
                         )
-                        .frame(height: frameSize(for: hadith.wrappedValue.hadithTranslations.first!.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
+                        .frame(height: frameSize(for: hadith.wrappedValue.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
                     }.listRowInsets(EdgeInsets())
                 }
             }
@@ -89,15 +90,15 @@ struct HadithListView: View {
             .onChange(of: searchString) { newValue in
                 Task {
                     if newValue.isEmpty {
-                        hadithList = allHadithList
+                        hadithEnglishList = allHadithEnglishList
                     } else {
-                        let newList = allHadithList.filter { $0.hadithTranslations.first!.text.localizedCaseInsensitiveContains(newValue) }
-                        hadithList = newList
+                        let newList = hadithEnglishList.filter { $0.matn.localizedCaseInsensitiveContains(newValue) }
+                        hadithEnglishList = newList
                     }
                 }
             }
             .listStyle(.sidebar)
-            .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.titleTranslations.first?.text ?? "")"))
+            .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.title)"))
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -112,8 +113,9 @@ struct HadithListView: View {
             }
             .onAppear {
                 Task {
-                    allHadithList = presenter.getHadithList(of: chapter, collector: collector)
-                    hadithList = allHadithList
+                    hadithArabicList = presenter.getHadithArabicList(of: chapter, collector: collector)
+                    allHadithEnglishList = presenter.getHadithEnglishList(of: chapter, collector: collector)
+                    hadithEnglishList = allHadithEnglishList
                 }
             }
         }
@@ -161,17 +163,17 @@ struct HadithListView: View {
 struct HadithChapterListView: View {
     @EnvironmentObject var presenter: HadithPresenter
     var collector: HadithCollector
-    @State var book = HadithBook.empty
+    @State var chapterList = [HadithChapter2]()
     var body: some View {
         List {
-            ForEach(self.book.chapters) { chapter in
+            ForEach(self.chapterList) { chapter in
                 NavigationLink {
                     HadithListView(chapter: chapter, collector: collector)
                 } label: {
                     HStack {
                         Text("\(chapter.chapterNo)").frame(width: 25)
                         VStack(alignment: .leading, spacing: 5) {
-                            Text(chapter.titleTranslations.first?.text ?? "")
+                            Text(chapter.title)
                             Text("\(chapter.hadithNo.lowerBound) - \(chapter.hadithNo.upperBound)")
                                 .font(.system(size: 14))
                         }
@@ -180,10 +182,10 @@ struct HadithChapterListView: View {
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle(Text("\(self.book.name)"))
+        .navigationTitle(Text("\(self.collector.name)"))
         .onAppear {
             Task {
-                book = presenter.getHadithBook(of: collector)
+                chapterList = presenter.getChapterList(collector: collector)
             }
         }
     }
