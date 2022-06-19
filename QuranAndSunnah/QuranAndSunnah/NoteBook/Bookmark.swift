@@ -11,7 +11,7 @@ import SwiftUI
 struct Tag {
     var tagText: String
     var ayat: [Ayah]
-    var tafsirAyat: [TafsirAyah]
+    var tafsirAyat: [TafsirAyah2]
     var hadith: [HadithText]
 }
 
