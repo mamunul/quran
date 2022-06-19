@@ -13,7 +13,7 @@ struct TextContent<T: ContentID>: Decodable {
     var text: String
 }
 
-struct HadithText<T: ContentID> {
+struct HadithText {
     var id: String
     var chapterNo: Int
     var sectionNo: String
@@ -24,7 +24,18 @@ struct HadithText<T: ContentID> {
     var comment: String
     var grade: String
 
-    var contentID: T
+    var contentID: HadithContentID
+    var lang: Language
+    var contentType: ContentType
+}
+
+struct HadithChapter2: Decodable {
+    var id: Int
+    var title: String
+    var chapterNo: Int
+    var hadithNo: ClosedRange<Int>
+    
+    var contentID: HadithContentID
     var lang: Language
     var contentType: ContentType
 }

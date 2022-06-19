@@ -8,14 +8,13 @@
 import Foundation
 
 class QuranJsonFacade: IDataReadFacade {
-    
     static let shared = QuranJsonFacade()
 
     var basePath = "" // Note: - this is only necessary for macos otherwise statys empty
     private let repo = QuranRepository.shared
 
     func getSurah() throws -> [SurahInfo] {
-        let surahInfoJsonDict: [String: SurahJson] = try repo.getQuranData(basePath,contentId: SurahNameContentID.en_unknown)
+        let surahInfoJsonDict: [String: SurahJson] = try repo.getQuranData(basePath, contentId: SurahNameContentID.en_unknown)
 
         let surahInfoJsonArray = surahInfoJsonDict.sorted { left, right in
             Int(left.key)! < Int(right.key)!
@@ -34,7 +33,7 @@ class QuranJsonFacade: IDataReadFacade {
         }
         return surahList
     }
-    
+
     func getSurahArabic(contentID: SurahNameContentID) throws -> [SurahName] {
         let surahInfoJsonDict: [String: SurahJson] = try repo.getQuranData(basePath, contentId: contentID)
 
@@ -44,10 +43,10 @@ class QuranJsonFacade: IDataReadFacade {
 
         let surahList = surahInfoJsonArray.map { (key: String, value: SurahJson) in
             SurahName(
-                contentID: SurahNameContentID.en_unknown,
-                lang: .ar,
                 text: value.name,
                 surahNo: (key as NSString).integerValue,
+                contentID: SurahNameContentID.en_unknown,
+                lang: .ar,
                 contentType: .original
             )
         }
@@ -67,10 +66,10 @@ class QuranJsonFacade: IDataReadFacade {
 
         let surahTranslationList = surahNammeTranslationJsonArray.map({ (key: String, value: SurahTranslationJson) in
             SurahName(
-                contentID: SurahNameContentID.en_tanzil,
-                lang: .en,
                 text: value.translation,
                 surahNo: (key as NSString).integerValue,
+                contentID: SurahNameContentID.en_tanzil,
+                lang: .en,
                 contentType: .translation
             )
         })
@@ -92,10 +91,10 @@ class QuranJsonFacade: IDataReadFacade {
         let surahTransliterationList = surahNammeTranslationJsonArray.map { (key: String, value: SurahTranslationJson) in
 
             SurahName(
-                contentID: SurahNameContentID.en_tanzil,
-                lang: .en,
                 text: value.name,
                 surahNo: (key as NSString).integerValue,
+                contentID: SurahNameContentID.en_tanzil,
+                lang: .en,
                 contentType: .transliteration
             )
         }
@@ -113,11 +112,11 @@ class QuranJsonFacade: IDataReadFacade {
         var ayahList = ayahArray.map { (key: String, value: String) in
             Ayah(
                 id: Int(key)!,
-                contentID: AyahContentID.indonesia_ar,
-                lang: .ar,
                 text: value,
                 ayahNo: Int(key)!,
                 surahNo: surah.surahNo,
+                contentID: AyahContentID.indonesia_ar,
+                lang: .ar,
                 contentType: .original
             )
         }
@@ -139,11 +138,11 @@ class QuranJsonFacade: IDataReadFacade {
         var ayahTranslationList = translationsJsonArray.map { (key: String, value: String) in
             Ayah(
                 id: (key as NSString).integerValue,
-                contentID: AyahContentID.en_hilali_quranenc,
-                lang: .en,
                 text: value,
                 ayahNo: (key as NSString).integerValue,
                 surahNo: surah.surahNo,
+                contentID: AyahContentID.en_hilali_quranenc,
+                lang: .en,
                 contentType: .translation
             )
         }
@@ -164,10 +163,11 @@ class QuranJsonFacade: IDataReadFacade {
         var ayahTransliterationList = transliterationnJsonArray.map { (key: String, value: String) in
             Ayah(
                 id: (key as NSString).integerValue,
+                text: value,
+                ayahNo: (key as NSString).integerValue,
+                surahNo: surah.surahNo,
                 contentID: AyahContentID.transliteration_litequran,
                 lang: .en,
-                text: value,
-                ayahNo: (key as NSString).integerValue, surahNo: surah.surahNo,
                 contentType: .transliteration
             )
         }

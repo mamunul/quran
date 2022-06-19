@@ -36,11 +36,11 @@ extension AyahDO {
     func convert() -> Ayah {
         let content = Ayah(
             id: Int(ayahNo),
-            contentID: AyahContentID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
-            lang: Language(rawValue: Int(language)) ?? .ar,
             text: text ?? "",
             ayahNo: Int(ayahNo),
             surahNo: Int(surahNo),
+            contentID: AyahContentID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
+            lang: Language(rawValue: Int(language)) ?? .ar,
             contentType: ContentType(rawValue: Int(0)) ?? .original
         )
         return content
@@ -59,10 +59,10 @@ extension AyahDO {
 extension SurahNameDO {
     func convert() -> SurahName {
         let content = SurahName(
-            contentID: SurahNameContentID(rawValue: Int(contentId)) ?? .en_tanzil,
-            lang: Language(rawValue: Int(language)) ?? .ar,
             text: text ?? "",
             surahNo: Int(surahNo),
+            contentID: SurahNameContentID(rawValue: Int(contentId)) ?? .en_tanzil,
+            lang: Language(rawValue: Int(language)) ?? .ar,
             contentType: ContentType(rawValue: Int(0)) ?? .original
         )
         return content
