@@ -9,14 +9,14 @@ import CoreData
 import Foundation
 
 protocol IDataReadFacade {
-    func getSurah(contentID: SurahNameContentID) throws -> [Surah2]
-    func getSurahTranslation(contentID: SurahTranslationID, language: Language) throws ->
-        [SurahNameTranslation<SurahTranslationID>]
-    func getSurahTransliteration(contentID: SurahTranslationID, language: Language) throws ->
-        [SurahNameTranslation<SurahTranslationID>]
-    func getAyat(of surah: Surah2, contentID: AyahContentID) throws -> [Ayah2]
-    func getAyahTranslation(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws -> [AyahTraslation<AyahTranslationID>]
-    func getAyahTransliteration(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws -> [AyahTraslation<AyahTranslationID>]
+    func getSurah() throws -> [SurahInfo]
+    func getSurahTranslation(contentID: SurahNameContentID, language: Language) throws ->
+        [SurahName]
+    func getSurahTransliteration(contentID: SurahNameContentID, language: Language) throws ->
+        [SurahName]
+    func getAyat(of surah: SurahInfo, contentID: AyahContentID) throws -> [Ayah]
+    func getAyahTranslation(of surah: SurahInfo, contentID: AyahContentID, language: Language) throws -> [Ayah]
+    func getAyahTransliteration(of surah: SurahInfo, contentID: AyahContentID, language: Language) throws -> [Ayah]
 }
 
 class CoreDataFacade: IDataReadFacade {
@@ -26,10 +26,10 @@ class CoreDataFacade: IDataReadFacade {
 
     private init() {}
 
-    func getSurahTransliteration(contentID: SurahTranslationID, language: Language) throws
-        -> [SurahNameTranslation<SurahTranslationID>] {
-        var translations = [SurahNameTranslation<SurahTranslationID>]()
-        let surahFetch = SurahTranslationDO.fetchRequest()
+    func getSurahTransliteration(contentID: SurahNameContentID, language: Language) throws
+        -> [SurahName] {
+        var translations = [SurahName]()
+        let surahFetch = SurahNameDO.fetchRequest()
         let context = coreDataStack.mainContext
 
         let predicate =
@@ -42,8 +42,8 @@ class CoreDataFacade: IDataReadFacade {
         return translations
     }
 
-    func getAyat(of surah: Surah2, contentID: AyahContentID) throws -> [Ayah2] {
-        var translations = [Ayah2]()
+    func getAyat(of surah: SurahInfo, contentID: AyahContentID) throws -> [Ayah] {
+        var translations = [Ayah]()
         let surahFetch = AyahDO.fetchRequest()
         let context = coreDataStack.mainContext
         let predicate =
@@ -56,9 +56,9 @@ class CoreDataFacade: IDataReadFacade {
         return translations
     }
 
-    func getAyahTranslation(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws -> [AyahTraslation<AyahTranslationID>] {
-        var translations = [AyahTraslation<AyahTranslationID>]()
-        let surahFetch = AyahTranslationDO.fetchRequest()
+    func getAyahTranslation(of surah: SurahInfo, contentID: AyahContentID, language: Language) throws -> [Ayah] {
+        var translations = [Ayah]()
+        let surahFetch = AyahDO.fetchRequest()
         let context = coreDataStack.mainContext
 
         let predicate =
@@ -66,14 +66,14 @@ class CoreDataFacade: IDataReadFacade {
         surahFetch.predicate = predicate
 
         let surahObject = try context?.fetch(surahFetch)
-        translations = surahObject?.map { $0.convert() } as? [AyahTraslation<AyahTranslationID>] ?? [AyahTraslation<AyahTranslationID>]()
+        translations = surahObject?.map { $0.convert() } as? [Ayah] ?? [Ayah]()
 
         return translations
     }
 
-    func getAyahTransliteration(of surah: Surah2, contentID: AyahTranslationID, language: Language) throws -> [AyahTraslation<AyahTranslationID>] {
-        var translations = [AyahTraslation<AyahTranslationID>]()
-        let surahFetch = AyahTranslationDO.fetchRequest()
+    func getAyahTransliteration(of surah: SurahInfo, contentID: AyahContentID, language: Language) throws -> [Ayah] {
+        var translations = [Ayah]()
+        let surahFetch = AyahDO.fetchRequest()
         let context = coreDataStack.mainContext
 
         let predicate =
@@ -81,16 +81,14 @@ class CoreDataFacade: IDataReadFacade {
         surahFetch.predicate = predicate
 
         let surahObject = try context?.fetch(surahFetch)
-        translations = surahObject?.map { $0.convert() } as? [AyahTraslation<AyahTranslationID>] ?? [AyahTraslation<AyahTranslationID>]()
+        translations = surahObject?.map { $0.convert() } as? [Ayah] ?? [Ayah]()
 
         return translations
     }
 
-    func getSurah(contentID: SurahNameContentID) throws -> [Surah2] {
-        var surah = [Surah2]()
-        let surahFetch = SurahDO.fetchRequest()
-        let predicate = NSPredicate(format: "contentId == \(contentID.rawValue)")
-        surahFetch.predicate = predicate
+    func getSurah() throws -> [SurahInfo] {
+        var surah = [SurahInfo]()
+        let surahFetch = SurahInfoDO.fetchRequest()
         let context = coreDataStack.mainContext
 
         let surahObject = try context?.fetch(surahFetch)
@@ -99,10 +97,10 @@ class CoreDataFacade: IDataReadFacade {
         return surah
     }
 
-    func getSurahTranslation(contentID: SurahTranslationID, language: Language) throws ->
-        [SurahNameTranslation<SurahTranslationID>] {
-        var translations = [SurahNameTranslation<SurahTranslationID>]()
-        let surahFetch = SurahTranslationDO.fetchRequest()
+    func getSurahTranslation(contentID: SurahNameContentID, language: Language) throws ->
+        [SurahName] {
+        var translations = [SurahName]()
+        let surahFetch = SurahNameDO.fetchRequest()
         let context = coreDataStack.mainContext
 
         let predicate =

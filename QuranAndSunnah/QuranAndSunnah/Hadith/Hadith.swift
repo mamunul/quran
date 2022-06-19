@@ -14,6 +14,7 @@ struct TextContent<T: ContentID>: Decodable {
 }
 
 struct HadithText<T: ContentID> {
+    var id: String
     var chapterNo: Int
     var sectionNo: String
     var section: String

@@ -2,53 +2,37 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AyahDO" representedClassName=".AyahDO" isAbstract="YES" syncable="YES">
         <attribute name="ayahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="bookmark" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="contentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="text" attributeType="String"/>
-        <fetchIndex name="byCompoundIndex">
-            <fetchIndexElement property="ayahNo" type="RTree" order="ascending"/>
-            <fetchIndexElement property="contentId" type="RTree" order="ascending"/>
-        </fetchIndex>
-        <fetchIndex name="byBookmarkIndex">
-            <fetchIndexElement property="bookmark" type="Binary" order="ascending"/>
-        </fetchIndex>
-    </entity>
-    <entity name="AyahTranslationDO" representedClassName=".AyahTranslationDO" isAbstract="YES" syncable="YES">
-        <attribute name="ayahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="contentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="contentType" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="language" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="surahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="text" attributeType="String"/>
-        <attribute name="translation" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <fetchIndex name="byPropertyIndex">
             <fetchIndexElement property="contentId" type="RTree" order="ascending"/>
             <fetchIndexElement property="language" type="RTree" order="ascending"/>
             <fetchIndexElement property="ayahNo" type="RTree" order="ascending"/>
         </fetchIndex>
     </entity>
-    <entity name="SurahDO" representedClassName=".SurahDO" isAbstract="YES" syncable="YES">
+    <entity name="SurahInfoDO" representedClassName=".SurahInfoDO" isAbstract="YES" syncable="YES">
         <attribute name="ayahCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="contentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="firstAyahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lastAyahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="revelaitonPlace" optional="YES" attributeType="String"/>
         <attribute name="revelationOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="surahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="translationn" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <fetchIndex name="byPropertyIndex">
             <fetchIndexElement property="surahNo" type="Binary" order="ascending"/>
-            <fetchIndexElement property="contentId" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
-    <entity name="SurahTranslationDO" representedClassName=".SurahTranslationDO" isAbstract="YES" syncable="YES">
+    <entity name="SurahNameDO" representedClassName=".SurahNameDO" isAbstract="YES" syncable="YES">
         <attribute name="contentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="contentType" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="language" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="surahNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="text" attributeType="String"/>
-        <attribute name="translation" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <fetchIndex name="byPropertyIndex">
             <fetchIndexElement property="surahNo" type="Binary" order="ascending"/>
-            <fetchIndexElement property="translation" type="Binary" order="ascending"/>
+            <fetchIndexElement property="contentType" type="Binary" order="ascending"/>
             <fetchIndexElement property="contentId" type="Binary" order="ascending"/>
             <fetchIndexElement property="language" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -62,10 +46,9 @@
         <attribute name="wordNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="AyahDO" positionX="-341.03515625" positionY="-12.83203125" width="128" height="89"/>
-        <element name="AyahTranslationDO" positionX="-53.73828125" positionY="121.32421875" width="128" height="104"/>
-        <element name="SurahDO" positionX="-148.8046875" positionY="-124.765625" width="128" height="164"/>
-        <element name="SurahTranslationDO" positionX="135.7265625" positionY="-20" width="128" height="104"/>
+        <element name="AyahDO" positionX="-53.73828125" positionY="121.32421875" width="128" height="119"/>
+        <element name="SurahInfoDO" positionX="-148.8046875" positionY="-124.765625" width="128" height="119"/>
+        <element name="SurahNameDO" positionX="135.7265625" positionY="-20" width="128" height="104"/>
         <element name="WordDO" positionX="70.546875" positionY="213.921875" width="128" height="119"/>
     </elements>
 </model>

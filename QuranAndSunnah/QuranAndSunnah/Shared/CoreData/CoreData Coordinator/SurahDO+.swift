@@ -1,5 +1,5 @@
 //
-//  SurahDO+.swift
+//  SurahInfoDO+.swift
 //  SQLiteConverter
 //
 //  Created by newone on 14/6/22.
@@ -7,91 +7,72 @@
 
 import Foundation
 
-extension SurahDO {
-    func convert() -> Surah2 {
+extension SurahInfoDO {
+    func convert() -> SurahInfo {
         let surah =
-            Surah2(
+            SurahInfo(
                 id: hashValue,
                 surahNo: Int(surahNo),
                 ayahCount: Int(ayahCount),
                 firstAyahNo: Int(firstAyahNo),
                 lastAyahNo: Int(lastAyahNo),
-                name: name ?? "",
                 revelationOrder: Int(revelationOrder),
-                revelaitonPlace: RevelationPlace(rawValue: revelaitonPlace ?? "") ?? .meccan,
-                contentID: SurahNameContentID(rawValue: Int(contentId)) ?? .en_unknown
+                revelaitonPlace: RevelationPlace(rawValue: revelaitonPlace ?? "") ?? .meccan
             )
         return surah
     }
 
-    func load(surah: Surah2) {
+    func load(surah: SurahInfo) {
         surahNo = Int16(surah.surahNo)
         ayahCount = Int16(surah.ayahCount)
         firstAyahNo = Int16(surah.firstAyahNo)
         lastAyahNo = Int16(surah.lastAyahNo)
-        name = surah.name
         revelationOrder = Int16(surah.revelationOrder)
         revelaitonPlace = surah.revelaitonPlace.rawValue
     }
 }
 
 extension AyahDO {
-    func convert() -> Ayah2 {
-        let content = Ayah2(
-            id: id.hashValue,
-            ayahNo: Int(ayahNo),
-            text: text!,
-            bookmark: bookmark,
-            language: .ar,
-            contentID: AyahContentID(rawValue: Int(contentId)) ?? .indonesia_ar
-        )
-        return content
-    }
-
-    func load(ayah: Ayah2) {
-        ayahNo = Int16(ayah.ayahNo)
-        text = ayah.text
-        bookmark = ayah.bookmark
-        contentId = Int16(ayah.contentID.rawValue)
-    }
-}
-
-extension AyahTranslationDO {
-    func convert() -> AyahTraslation<AyahTranslationID> {
-        let content = AyahTraslation(
-            contentID: AyahTranslationID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
+    func convert() -> Ayah {
+        let content = Ayah(
+            id: Int(ayahNo),
+            contentID: AyahContentID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
             lang: Language(rawValue: Int(language)) ?? .ar,
             text: text ?? "",
-            ayahNo: Int(ayahNo)
+            ayahNo: Int(ayahNo),
+            surahNo: Int(surahNo),
+            contentType: ContentType(rawValue: Int(0)) ?? .original
         )
         return content
     }
 
-    func load(text: AyahTraslation<AyahTranslationID>, translation: Bool) {
+    func load(text: Ayah) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text
         ayahNo = Int16(text.ayahNo)
-        self.translation = translation
+        contentType = Int16(text.contentType.rawValue)
+        surahNo = Int16(surahNo)
     }
 }
 
-extension SurahTranslationDO {
-    func convert() -> SurahNameTranslation<SurahTranslationID> {
-        let content = SurahNameTranslation(
-            contentID: SurahTranslationID(rawValue: Int(contentId)) ?? .en_tanzil,
+extension SurahNameDO {
+    func convert() -> SurahName {
+        let content = SurahName(
+            contentID: SurahNameContentID(rawValue: Int(contentId)) ?? .en_tanzil,
             lang: Language(rawValue: Int(language)) ?? .ar,
             text: text ?? "",
-            surahNo: Int(surahNo)
+            surahNo: Int(surahNo),
+            contentType: ContentType(rawValue: Int(0)) ?? .original
         )
         return content
     }
 
-    func load(text: SurahNameTranslation<SurahTranslationID>, translation: Bool) {
+    func load(text: SurahName) {
         contentId = Int16(text.contentID.rawValue)
         language = Int16(text.lang.rawValue)
         self.text = text.text
         surahNo = Int16(text.surahNo)
-        self.translation = translation
+        contentType = Int16(text.contentType.rawValue)
     }
 }

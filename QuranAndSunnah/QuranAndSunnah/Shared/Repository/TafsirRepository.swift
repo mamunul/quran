@@ -19,7 +19,7 @@ class TafsirRepository {
         case nilData
     }
 
-    func getTafsirAyat(surah: Surah2) throws -> [TafsirAyah] {
+    func getTafsirAyat(surah: SurahInfo) throws -> [TafsirAyah] {
         let folder = "/Tafsir/IbnKathir/"
 
         let surahFolder = folder.appending("\(surah.surahNo)/")

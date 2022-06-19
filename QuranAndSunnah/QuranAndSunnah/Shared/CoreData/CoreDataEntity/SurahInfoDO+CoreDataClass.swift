@@ -1,5 +1,5 @@
 //
-//  AyahDO+CoreDataClass.swift
+//  SurahInfoDO+CoreDataClass.swift
 //  QuranAndSunnah
 //
 //  Created by newone on 19/6/22.
@@ -10,6 +10,6 @@ import Foundation
 import CoreData
 
 
-public class AyahDO: NSManagedObject {
+public class SurahInfoDO: NSManagedObject {
 
 }

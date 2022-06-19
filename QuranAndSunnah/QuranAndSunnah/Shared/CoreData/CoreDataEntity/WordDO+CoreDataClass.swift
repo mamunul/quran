@@ -1,8 +1,8 @@
 //
 //  WordDO+CoreDataClass.swift
-//  SQLiteConverter
+//  QuranAndSunnah
 //
-//  Created by newone on 14/6/22.
+//  Created by newone on 19/6/22.
 //
 //
 
