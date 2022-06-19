@@ -15,8 +15,8 @@ class TafsirContentPresenter: ObservableObject {
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
     private var surah: SurahInfo?
-    private var ayah: TafsirAyah?
-    private var tafsirRepository = TafsirRepository()
+    private var ayah: TafsirAyah2?
+    private var tafsirRepository: ITafsirRead = TafsirRepository()
     @Published var surahList = [SurahInfo]()
     @Published var surahArabicList = [Int: SurahName]()
     @Published var surahTranslationList = [Int: SurahName]()
@@ -34,7 +34,7 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
-    func getAyat(of surah: SurahInfo) -> [TafsirAyah] {
+    func getAyat(of surah: SurahInfo) -> [TafsirAyah2] {
         do {
             let ayat = try tafsirRepository.getTafsirAyat(surah: surah)
             return ayat
@@ -43,7 +43,7 @@ class TafsirContentPresenter: ObservableObject {
         }
         return []
     }
-    
+
     func getSurahArabicList() {
         do {
             let surahList = try repository.getSurahArabic(contentID: SurahNameContentID.en_unknown)
@@ -91,7 +91,7 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
-    func onViewAppear(surah: SurahInfo, ayah: TafsirAyah, fontSize: Double) {
+    func onViewAppear(surah: SurahInfo, ayah: TafsirAyah2, fontSize: Double) {
         updateContent(surah: surah, ayah: ayah, fontSize: fontSize)
         setupReader()
     }
@@ -102,7 +102,7 @@ class TafsirContentPresenter: ObservableObject {
         utterance?.voice = voice
     }
 
-    private func updateContent(surah: SurahInfo, ayah: TafsirAyah, fontSize: Double) {
+    private func updateContent(surah: SurahInfo, ayah: TafsirAyah2, fontSize: Double) {
         self.surah = surah
         self.ayah = ayah
         let config =
@@ -113,7 +113,7 @@ class TafsirContentPresenter: ObservableObject {
                 arabicBackgroundColor: ""
             )
         do {
-            let updatedContent = try tafsirRepository.getContent(ayahUrl: ayah.path, configuraiton: config)
+            let updatedContent = try tafsirRepository.getContent(ayah: ayah, configuraiton: config)
             attributedContent = updatedContent
 
         } catch {

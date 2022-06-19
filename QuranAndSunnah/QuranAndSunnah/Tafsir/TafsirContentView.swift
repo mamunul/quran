@@ -30,7 +30,7 @@ struct TafsirAyahListView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
     var surah: SurahInfo
     var surahTransliteration: SurahName
-    @State var ayat = [TafsirAyah]()
+    @State var ayat = [TafsirAyah2]()
     var body: some View {
         List {
             ForEach(ayat) { ayah in
@@ -39,7 +39,7 @@ struct TafsirAyahListView: View {
                         .environmentObject(presenter)
                 } label: {
                     VStack(spacing: 10) {
-                        Text("\(ayah.text)")
+                        Text(getAyahNo(ayah: ayah))
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }.padding(.vertical)
                 }
@@ -51,6 +51,14 @@ struct TafsirAyahListView: View {
             Task {
                 ayat = presenter.getAyat(of: surah)
             }
+        }
+    }
+
+    func getAyahNo(ayah: TafsirAyah2) -> String {
+        if ayah.ayahRange.count == 1 {
+            return "\(ayah.ayahRange.lowerBound)"
+        } else {
+            return "\(ayah.ayahRange.lowerBound)-\(ayah.ayahRange.upperBound)"
         }
     }
 }
@@ -98,7 +106,7 @@ struct TafsirContentView: View {
     @State var searchString: String = ""
     @State private var showingPopover = false
     var surah: SurahInfo
-    var ayah: TafsirAyah
+    var ayah: TafsirAyah2
     var surahTransliteration: SurahName
     var body: some View {
         GeometryReader { proxy in
@@ -117,7 +125,7 @@ struct TafsirContentView: View {
                 }
             }
             .searchable(text: $searchString)
-            .navigationTitle(Text("\(surahTransliteration.text) - \(ayah.text)"))
+            .navigationTitle(Text(getAyahNo(ayah: ayah)))
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
@@ -139,6 +147,14 @@ struct TafsirContentView: View {
                     presenter.updateFontSize(newValue)
                 }
             }
+        }
+    }
+
+    func getAyahNo(ayah: TafsirAyah2) -> String {
+        if ayah.ayahRange.count == 1 {
+            return "\(surahTransliteration.text)  - \(ayah.ayahRange.lowerBound)"
+        } else {
+            return "\(surahTransliteration.text)  - \(ayah.ayahRange.lowerBound)-\(ayah.ayahRange.upperBound)"
         }
     }
 

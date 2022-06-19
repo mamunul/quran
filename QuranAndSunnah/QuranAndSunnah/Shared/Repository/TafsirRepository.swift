@@ -14,12 +14,17 @@ struct TafsirContentConfiguration {
     var arabicBackgroundColor: String
 }
 
-class TafsirRepository {
+protocol ITafsirRead {
+    func getTafsirAyat(surah: SurahInfo) throws -> [TafsirAyah2]
+    func getContent(ayah: TafsirAyah2, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString
+}
+
+class TafsirRepository: ITafsirRead {
     enum TafsirError: Error {
         case nilData
     }
 
-    func getTafsirAyat(surah: SurahInfo) throws -> [TafsirAyah] {
+    func getTafsirAyat(surah: SurahInfo) throws -> [TafsirAyah2] {
         let folder = "/Tafsir/IbnKathir/"
 
         let surahFolder = folder.appending("\(surah.surahNo)/")
@@ -31,35 +36,30 @@ class TafsirRepository {
                     let rightayahNo = Int((right as NSString).deletingPathExtension)!
                     return leftayahNo < rightayahNo
                 })
-        var ayat = [TafsirAyah]()
+        var ayat = [TafsirAyah2]()
         for index in 0 ..< contents.count {
             let ayahFileName = contents[index]
             let ayahNo = Int((ayahFileName as NSString).deletingPathExtension)!
+            var nextayahNo = ayahNo
 
-            var ayahNoText = "\(ayahNo)"
-
-            if ayahNo == 0 {
-                ayahNoText = "Introduction"
-            } else if index + 1 < contents.count {
+            if index + 1 < contents.count {
                 let nextayahFileName = contents[index + 1]
-                let nextayahNo = Int((nextayahFileName as NSString).deletingPathExtension)!
-                if nextayahNo - 1 != ayahNo {
-                    ayahNoText = "\(ayahNo)-\(nextayahNo - 1)"
-                }
+                nextayahNo = Int((nextayahFileName as NSString).deletingPathExtension)!
+                nextayahNo -= 1
             }
             let ayayPath = "Tafsir/IbnKathir/".appending("\(surah.surahNo)/").appending(ayahFileName)
 
-            let ayah = TafsirAyah(id: ayahNo, bookmark: false, text: ayahNoText, path: ayayPath)
+            let ayah = TafsirAyah2(id: ayahNo, ayahRange: ayahNo ... nextayahNo, filePath: ayayPath, contentID: .ibnKathir_shahih, lang: .en, contentType: .translation)
             ayat.append(ayah)
         }
         return ayat
     }
 
-    func getContent(ayahUrl: String, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString {
+    func getContent(ayah: TafsirAyah2, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString {
         let header = getHeader(configuraiton)
         let footer = getFooter()
 
-        let fileUrl = Bundle.main.url(forResource: ayahUrl, withExtension: "")!
+        let fileUrl = Bundle.main.url(forResource: ayah.filePath, withExtension: "")!
 
         let body = try String(contentsOf: fileUrl)
 
@@ -75,12 +75,12 @@ class TafsirRepository {
         return nsAttributedString
     }
 
-    func getContent(surah: Int, ayah: Int, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString {
-        let fileName = "Tafsir/IbnKathir/\(surah)/\(ayah).html"
-//        let fileUrl = Bundle.main.url(forResource: fileName, withExtension: "")!
-
-        return try getContent(ayahUrl: fileName, configuraiton: configuraiton)
-    }
+//    func getContent(ayah: TafsirAyah2, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString {
+//        let fileName = "Tafsir/IbnKathir/\(ayah.surahNo)/\(ayah.ayahRange.lowerBound).html"
+    ////        let fileUrl = Bundle.main.url(forResource: fileName, withExtension: "")!
+//
+//        return try getContent(ayahUrl: fileName, configuraiton: configuraiton)
+//    }
 
     private func getHeader(_ configuraiton: TafsirContentConfiguration) -> String {
         let header =
