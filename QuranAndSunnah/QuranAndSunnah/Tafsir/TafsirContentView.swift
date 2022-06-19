@@ -18,6 +18,7 @@ struct TafsirMainView: View {
                         presenter.getSurahList()
                         presenter.getSurahTranslationList()
                         presenter.getSurahTransliterationList()
+                        presenter.getSurahArabicList()
                     }
                 }
                 .environmentObject(presenter)
@@ -27,8 +28,8 @@ struct TafsirMainView: View {
 
 struct TafsirAyahListView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
-    var surah: Surah2
-    var surahTransliteration: SurahNameTranslation<SurahTranslationID>
+    var surah: SurahInfo
+    var surahTransliteration: SurahName
     @State var ayat = [TafsirAyah]()
     var body: some View {
         List {
@@ -78,7 +79,7 @@ struct TafsirSurahListView: View {
                         }
                         Spacer()
                         VStack(alignment: .trailing) {
-                            Text(surah.name)
+                            Text(presenter.surahArabicList[surah.surahNo]!.text)
                             Text("\(surah.ayahCount)")
                                 .font(.system(size: 13))
                         }
@@ -96,9 +97,9 @@ struct TafsirContentView: View {
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
     @State private var showingPopover = false
-    var surah: Surah2
+    var surah: SurahInfo
     var ayah: TafsirAyah
-    var surahTransliteration: SurahNameTranslation<SurahTranslationID>
+    var surahTransliteration: SurahName
     var body: some View {
         GeometryReader { proxy in
             ScrollView {

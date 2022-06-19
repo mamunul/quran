@@ -14,18 +14,19 @@ class TafsirContentPresenter: ObservableObject {
     private let synthesizer = AVSpeechSynthesizer()
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
-    private var surah: Surah2?
+    private var surah: SurahInfo?
     private var ayah: TafsirAyah?
     private var tafsirRepository = TafsirRepository()
-    @Published var surahList = [Surah2]()
-    @Published var surahTranslationList = [Int: SurahNameTranslation<SurahTranslationID>]()
-    @Published var surahTranslilerationList = [Int: SurahNameTranslation<SurahTranslationID>]()
+    @Published var surahList = [SurahInfo]()
+    @Published var surahArabicList = [Int: SurahName]()
+    @Published var surahTranslationList = [Int: SurahName]()
+    @Published var surahTranslilerationList = [Int: SurahName]()
     private var repository = QuranJsonFacade.shared
     private var previousFontSize: Double = 15.0
 
     func getSurahList() {
         do {
-            let surahList = try repository.getSurah(contentID: .en_unknown)
+            let surahList = try repository.getSurah()
             self.surahList = surahList
             surah = surahList.first
         } catch {
@@ -33,7 +34,7 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
-    func getAyat(of surah: Surah2) -> [TafsirAyah] {
+    func getAyat(of surah: SurahInfo) -> [TafsirAyah] {
         do {
             let ayat = try tafsirRepository.getTafsirAyat(surah: surah)
             return ayat
@@ -42,12 +43,25 @@ class TafsirContentPresenter: ObservableObject {
         }
         return []
     }
+    
+    func getSurahArabicList() {
+        do {
+            let surahList = try repository.getSurahArabic(contentID: SurahNameContentID.en_unknown)
+
+            let dict = surahList.reduce(into: [Int: SurahName]()) {
+                $0[$1.surahNo] = $1
+            }
+            surahArabicList = dict
+        } catch {
+            print(error)
+        }
+    }
 
     func getSurahTransliterationList() {
         do {
-            let surahList = try repository.getSurahTransliteration(contentID: SurahTranslationID.en_tanzil, language: .en)
+            let surahList = try repository.getSurahTransliteration(contentID: SurahNameContentID.en_tanzil, language: .en)
 
-            let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
+            let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
             }
             surahTranslilerationList = dict
@@ -58,9 +72,9 @@ class TafsirContentPresenter: ObservableObject {
 
     func getSurahTranslationList() {
         do {
-            let surahList = try repository.getSurahTranslation(contentID: SurahTranslationID.en_tanzil, language: .en)
+            let surahList = try repository.getSurahTranslation(contentID: SurahNameContentID.en_tanzil, language: .en)
 
-            let dict = surahList.reduce(into: [Int: SurahNameTranslation<SurahTranslationID>]()) {
+            let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
             }
             surahTranslationList = dict
@@ -77,7 +91,7 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
-    func onViewAppear(surah: Surah2, ayah: TafsirAyah, fontSize: Double) {
+    func onViewAppear(surah: SurahInfo, ayah: TafsirAyah, fontSize: Double) {
         updateContent(surah: surah, ayah: ayah, fontSize: fontSize)
         setupReader()
     }
@@ -88,7 +102,7 @@ class TafsirContentPresenter: ObservableObject {
         utterance?.voice = voice
     }
 
-    private func updateContent(surah: Surah2, ayah: TafsirAyah, fontSize: Double) {
+    private func updateContent(surah: SurahInfo, ayah: TafsirAyah, fontSize: Double) {
         self.surah = surah
         self.ayah = ayah
         let config =

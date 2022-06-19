@@ -28,8 +28,8 @@ struct TafsirSurah: Identifiable {
     var firstAyahNo: Int
     var lastAyahNo: Int
     var name: String
-    var nameTranslations: [TextContent<SurahTranslationID>]
-    var nameTransliterations: [TextContent<SurahTranslationID>]
+    var nameTranslations: [TextContent<SurahNameContentID>]
+    var nameTransliterations: [TextContent<SurahNameContentID>]
     var revelationOrder: Int
     var revelaitonPlace: RevelationPlace
     var ayat: [TafsirAyah]

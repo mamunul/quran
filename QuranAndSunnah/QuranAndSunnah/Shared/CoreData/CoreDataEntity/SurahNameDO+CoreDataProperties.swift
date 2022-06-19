@@ -1,5 +1,5 @@
 //
-//  AyahDO+CoreDataProperties.swift
+//  SurahNameDO+CoreDataProperties.swift
 //  QuranAndSunnah
 //
 //  Created by newone on 19/6/22.
@@ -10,13 +10,12 @@ import Foundation
 import CoreData
 
 
-extension AyahDO {
+extension SurahNameDO {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<AyahDO> {
-        return NSFetchRequest<AyahDO>(entityName: "AyahDO")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<SurahNameDO> {
+        return NSFetchRequest<SurahNameDO>(entityName: "SurahNameDO")
     }
 
-    @NSManaged public var ayahNo: Int16
     @NSManaged public var contentId: Int16
     @NSManaged public var contentType: Int16
     @NSManaged public var language: Int16
@@ -25,6 +24,6 @@ extension AyahDO {
 
 }
 
-extension AyahDO : Identifiable {
+extension SurahNameDO : Identifiable {
 
 }

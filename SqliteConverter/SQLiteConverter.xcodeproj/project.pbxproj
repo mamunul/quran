@@ -10,18 +10,16 @@
 		0A6F62B2285751F900D244B1 /* Quran.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6F62B1285751F900D244B1 /* Quran.swift */; };
 		0A7562ED28574FFF00ECD0AB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7562EC28574FFF00ECD0AB /* main.swift */; };
 		0A7562F42857508700ECD0AB /* QuranRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7562F32857508700ECD0AB /* QuranRepository.swift */; };
+		0AB95B3B285F1E2800A23803 /* SurahInfoDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B33285F1E2800A23803 /* SurahInfoDO+CoreDataProperties.swift */; };
+		0AB95B3C285F1E2800A23803 /* WordDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B34285F1E2800A23803 /* WordDO+CoreDataProperties.swift */; };
+		0AB95B3D285F1E2800A23803 /* SurahNameDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B35285F1E2800A23803 /* SurahNameDO+CoreDataProperties.swift */; };
+		0AB95B3E285F1E2800A23803 /* AyahDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B36285F1E2800A23803 /* AyahDO+CoreDataProperties.swift */; };
+		0AB95B3F285F1E2800A23803 /* SurahNameDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B37285F1E2800A23803 /* SurahNameDO+CoreDataClass.swift */; };
+		0AB95B40285F1E2800A23803 /* AyahDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B38285F1E2800A23803 /* AyahDO+CoreDataClass.swift */; };
+		0AB95B41285F1E2800A23803 /* WordDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B39285F1E2800A23803 /* WordDO+CoreDataClass.swift */; };
+		0AB95B42285F1E2800A23803 /* SurahInfoDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B3A285F1E2800A23803 /* SurahInfoDO+CoreDataClass.swift */; };
 		EEC3255C28590C1C002D0393 /* QuranDM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EEC3255828590C1C002D0393 /* QuranDM.xcdatamodeld */; };
 		EEC3255E28590CA6002D0393 /* QuranJsonFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3255D28590CA6002D0393 /* QuranJsonFacade.swift */; };
-		EEC3256B28590D74002D0393 /* SurahTranslationDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256128590D74002D0393 /* SurahTranslationDO+CoreDataClass.swift */; };
-		EEC3256C28590D74002D0393 /* SurahDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256228590D74002D0393 /* SurahDO+CoreDataProperties.swift */; };
-		EEC3256D28590D74002D0393 /* AyahDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256328590D74002D0393 /* AyahDO+CoreDataProperties.swift */; };
-		EEC3256E28590D74002D0393 /* WordDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256428590D74002D0393 /* WordDO+CoreDataClass.swift */; };
-		EEC3256F28590D74002D0393 /* WordDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256528590D74002D0393 /* WordDO+CoreDataProperties.swift */; };
-		EEC3257028590D74002D0393 /* AyahDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256628590D74002D0393 /* AyahDO+CoreDataClass.swift */; };
-		EEC3257128590D74002D0393 /* AyahTranslationDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256728590D74002D0393 /* AyahTranslationDO+CoreDataClass.swift */; };
-		EEC3257228590D74002D0393 /* SurahDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256828590D74002D0393 /* SurahDO+CoreDataClass.swift */; };
-		EEC3257328590D74002D0393 /* AyahTranslationDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256928590D74002D0393 /* AyahTranslationDO+CoreDataProperties.swift */; };
-		EEC3257428590D74002D0393 /* SurahTranslationDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3256A28590D74002D0393 /* SurahTranslationDO+CoreDataProperties.swift */; };
 		EEC3257928590D94002D0393 /* SurahDO+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3257528590D94002D0393 /* SurahDO+.swift */; };
 		EEC3257A28590D94002D0393 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3257628590D94002D0393 /* CoreDataStack.swift */; };
 		EEC3257B28590D94002D0393 /* CoreDataFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3257728590D94002D0393 /* CoreDataFacade.swift */; };
@@ -45,18 +43,16 @@
 		0A7562E928574FFF00ECD0AB /* SQLiteConverter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SQLiteConverter; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7562EC28574FFF00ECD0AB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		0A7562F32857508700ECD0AB /* QuranRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuranRepository.swift; path = ../../QuranAndSunnah/QuranAndSunnah/Shared/Repository/QuranRepository.swift; sourceTree = "<group>"; };
+		0AB95B33285F1E2800A23803 /* SurahInfoDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahInfoDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/SurahInfoDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0AB95B34285F1E2800A23803 /* WordDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WordDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/WordDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0AB95B35285F1E2800A23803 /* SurahNameDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahNameDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/SurahNameDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0AB95B36285F1E2800A23803 /* AyahDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AyahDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/AyahDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0AB95B37285F1E2800A23803 /* SurahNameDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahNameDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/SurahNameDO+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0AB95B38285F1E2800A23803 /* AyahDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AyahDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/AyahDO+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0AB95B39285F1E2800A23803 /* WordDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WordDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/WordDO+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0AB95B3A285F1E2800A23803 /* SurahInfoDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahInfoDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/SurahInfoDO+CoreDataClass.swift"; sourceTree = "<group>"; };
 		EEC3255928590C1C002D0393 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		EEC3255D28590CA6002D0393 /* QuranJsonFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QuranJsonFacade.swift; path = ../../QuranAndSunnah/QuranAndSunnah/Shared/Repository/QuranJsonFacade.swift; sourceTree = "<group>"; };
-		EEC3256128590D74002D0393 /* SurahTranslationDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahTranslationDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/SurahTranslationDO+CoreDataClass.swift"; sourceTree = "<group>"; };
-		EEC3256228590D74002D0393 /* SurahDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/SurahDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		EEC3256328590D74002D0393 /* AyahDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AyahDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/AyahDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		EEC3256428590D74002D0393 /* WordDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WordDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/WordDO+CoreDataClass.swift"; sourceTree = "<group>"; };
-		EEC3256528590D74002D0393 /* WordDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WordDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/WordDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		EEC3256628590D74002D0393 /* AyahDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AyahDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/AyahDO+CoreDataClass.swift"; sourceTree = "<group>"; };
-		EEC3256728590D74002D0393 /* AyahTranslationDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AyahTranslationDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/AyahTranslationDO+CoreDataClass.swift"; sourceTree = "<group>"; };
-		EEC3256828590D74002D0393 /* SurahDO+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahDO+CoreDataClass.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/SurahDO+CoreDataClass.swift"; sourceTree = "<group>"; };
-		EEC3256928590D74002D0393 /* AyahTranslationDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AyahTranslationDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/AyahTranslationDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		EEC3256A28590D74002D0393 /* SurahTranslationDO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahTranslationDO+CoreDataProperties.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreDataEntity/SurahTranslationDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		EEC3257528590D94002D0393 /* SurahDO+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SurahDO+.swift"; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreData Coordinator/SurahDO+.swift"; sourceTree = "<group>"; };
 		EEC3257628590D94002D0393 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreData Coordinator/CoreDataStack.swift"; sourceTree = "<group>"; };
 		EEC3257728590D94002D0393 /* CoreDataFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataFacade.swift; path = "../../QuranAndSunnah/QuranAndSunnah/Shared/CoreData/CoreData Coordinator/CoreDataFacade.swift"; sourceTree = "<group>"; };
@@ -110,16 +106,14 @@
 		EEC3257D28590DB3002D0393 /* CoreDataEntity */ = {
 			isa = PBXGroup;
 			children = (
-				EEC3256128590D74002D0393 /* SurahTranslationDO+CoreDataClass.swift */,
-				EEC3256428590D74002D0393 /* WordDO+CoreDataClass.swift */,
-				EEC3256528590D74002D0393 /* WordDO+CoreDataProperties.swift */,
-				EEC3256A28590D74002D0393 /* SurahTranslationDO+CoreDataProperties.swift */,
-				EEC3256628590D74002D0393 /* AyahDO+CoreDataClass.swift */,
-				EEC3256328590D74002D0393 /* AyahDO+CoreDataProperties.swift */,
-				EEC3256728590D74002D0393 /* AyahTranslationDO+CoreDataClass.swift */,
-				EEC3256928590D74002D0393 /* AyahTranslationDO+CoreDataProperties.swift */,
-				EEC3256828590D74002D0393 /* SurahDO+CoreDataClass.swift */,
-				EEC3256228590D74002D0393 /* SurahDO+CoreDataProperties.swift */,
+				0AB95B38285F1E2800A23803 /* AyahDO+CoreDataClass.swift */,
+				0AB95B36285F1E2800A23803 /* AyahDO+CoreDataProperties.swift */,
+				0AB95B3A285F1E2800A23803 /* SurahInfoDO+CoreDataClass.swift */,
+				0AB95B33285F1E2800A23803 /* SurahInfoDO+CoreDataProperties.swift */,
+				0AB95B37285F1E2800A23803 /* SurahNameDO+CoreDataClass.swift */,
+				0AB95B35285F1E2800A23803 /* SurahNameDO+CoreDataProperties.swift */,
+				0AB95B39285F1E2800A23803 /* WordDO+CoreDataClass.swift */,
+				0AB95B34285F1E2800A23803 /* WordDO+CoreDataProperties.swift */,
 			);
 			name = CoreDataEntity;
 			sourceTree = "<group>";
@@ -152,7 +146,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					0A7562E828574FFF00ECD0AB = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -183,23 +177,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EEC3256B28590D74002D0393 /* SurahTranslationDO+CoreDataClass.swift in Sources */,
 				0A7562ED28574FFF00ECD0AB /* main.swift in Sources */,
-				EEC3257228590D74002D0393 /* SurahDO+CoreDataClass.swift in Sources */,
+				0AB95B42285F1E2800A23803 /* SurahInfoDO+CoreDataClass.swift in Sources */,
 				EEC3255E28590CA6002D0393 /* QuranJsonFacade.swift in Sources */,
-				EEC3256E28590D74002D0393 /* WordDO+CoreDataClass.swift in Sources */,
-				EEC3257328590D74002D0393 /* AyahTranslationDO+CoreDataProperties.swift in Sources */,
-				EEC3256D28590D74002D0393 /* AyahDO+CoreDataProperties.swift in Sources */,
-				EEC3257128590D74002D0393 /* AyahTranslationDO+CoreDataClass.swift in Sources */,
 				EEC3257B28590D94002D0393 /* CoreDataFacade.swift in Sources */,
-				EEC3256C28590D74002D0393 /* SurahDO+CoreDataProperties.swift in Sources */,
-				EEC3256F28590D74002D0393 /* WordDO+CoreDataProperties.swift in Sources */,
 				EEC3257928590D94002D0393 /* SurahDO+.swift in Sources */,
-				EEC3257428590D74002D0393 /* SurahTranslationDO+CoreDataProperties.swift in Sources */,
+				0AB95B3E285F1E2800A23803 /* AyahDO+CoreDataProperties.swift in Sources */,
+				0AB95B40285F1E2800A23803 /* AyahDO+CoreDataClass.swift in Sources */,
+				0AB95B3F285F1E2800A23803 /* SurahNameDO+CoreDataClass.swift in Sources */,
+				0AB95B3B285F1E2800A23803 /* SurahInfoDO+CoreDataProperties.swift in Sources */,
+				0AB95B41285F1E2800A23803 /* WordDO+CoreDataClass.swift in Sources */,
+				0AB95B3D285F1E2800A23803 /* SurahNameDO+CoreDataProperties.swift in Sources */,
 				EEC3257A28590D94002D0393 /* CoreDataStack.swift in Sources */,
+				0AB95B3C285F1E2800A23803 /* WordDO+CoreDataProperties.swift in Sources */,
 				0A6F62B2285751F900D244B1 /* Quran.swift in Sources */,
 				EEC3257C28590D94002D0393 /* DataWriteFacade.swift in Sources */,
-				EEC3257028590D74002D0393 /* AyahDO+CoreDataClass.swift in Sources */,
 				0A7562F42857508700ECD0AB /* QuranRepository.swift in Sources */,
 				EEC3255C28590C1C002D0393 /* QuranDM.xcdatamodeld in Sources */,
 			);
@@ -325,6 +317,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -345,6 +338,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

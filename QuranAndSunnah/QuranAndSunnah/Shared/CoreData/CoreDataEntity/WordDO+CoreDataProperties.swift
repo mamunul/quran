@@ -1,8 +1,8 @@
 //
 //  WordDO+CoreDataProperties.swift
-//  SQLiteConverter
+//  QuranAndSunnah
 //
-//  Created by newone on 14/6/22.
+//  Created by newone on 19/6/22.
 //
 //
 
@@ -20,8 +20,8 @@ extension WordDO {
     @NSManaged public var contentId: Int16
     @NSManaged public var language: Int16
     @NSManaged public var text: String?
-    @NSManaged public var wordNo: Int16
     @NSManaged public var translation: Bool
+    @NSManaged public var wordNo: Int16
 
 }
 

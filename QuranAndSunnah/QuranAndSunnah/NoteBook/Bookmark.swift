@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Tag {
     var tagText: String
-    var ayat: [AyahTraslation<AyahTranslationID>]
+    var ayat: [Ayah]
     var tafsirAyat: [TafsirAyah]
     var hadith: [Hadith]
 }
@@ -19,10 +19,10 @@ struct QuranNote {
     var note: String
     var range: Range<Int>
     var highlightedText: String
-    var contentID: AyahTranslationID
+    var contentID: AyahContentID
     var language: Language
-    var ayat: AyahTraslation<AyahTranslationID>
-//    var contentType: ContentType
+    var ayat: Ayah
+    var contentType: ContentType
 }
 
 struct HadithNote {
@@ -32,7 +32,7 @@ struct HadithNote {
     var contentID: HadithContentID
     var language: Language
     var hadith: Hadith
-//    var contentType: ContentType
+    var contentType: ContentType
 }
 
 struct TafsirNote {
@@ -42,17 +42,17 @@ struct TafsirNote {
     var contentID: TafsirContentID
     var language: Language
     var tafsirAyat: TafsirAyah
-//    var contentType: ContentType
+    var contentType: ContentType
 }
 
 struct QuranHighlight {
     var range: Range<Int>
     var highlightedText: String
-    var contentID: AyahTranslationID
+    var contentID: AyahContentID
     var language: Language
     var surahNo: Int
     var ayahNo: Int
-    var contentType: ContentType
+//    var contentType: ContentType
 }
 
 struct HadithHighlight {
@@ -63,7 +63,7 @@ struct HadithHighlight {
     var hadithCollector: Int
     var chapterNo: Int
     var hadithNo: Int
-    var contentType: ContentType
+//    var contentType: ContentType
 }
 
 struct TafsirHighlight {
@@ -73,11 +73,11 @@ struct TafsirHighlight {
     var language: Language
     var surahNo: Int
     var ayahNo: Int
-    var contentType: ContentType
+//    var contentType: ContentType
 }
 
 struct QuranBookmark {
-    var contentID: AyahTranslationID
+    var contentID: AyahContentID
     var language: Language
     var surahNo: Int
     var ayahNo: Int

@@ -28,8 +28,12 @@ class SQLiteConverter {
 
     func insertSurahFromJsonToSQLite() {
         do {
-            let surah = try jsonRepo.getSurah(contentID: .en_unknown)
+            let surah = try jsonRepo.getSurah()
             coredata.insert(surah: surah)
+            if showLog {
+                let ss = try coredata.getSurah()
+                print(ss)
+            }
         } catch {
             print(error)
         }
@@ -63,7 +67,7 @@ class SQLiteConverter {
 
     func insertAyatOfAllSurah() {
         do {
-            let surahList = try coredata.getSurah(contentID: .en_unknown)
+            let surahList = try coredata.getSurah()
 
             try surahList.forEach { surah in
                 try insertAyatFromJsonToSQLite(surah: surah)
@@ -73,12 +77,12 @@ class SQLiteConverter {
         }
     }
 
-    private func insertAyatFromJsonToSQLite(surah: Surah2) throws {
+    private func insertAyatFromJsonToSQLite(surah: SurahInfo) throws {
         let ayah = try jsonRepo.getAyat(of: surah, contentID: .indonesia_ar)
         let ayahTranslation = try jsonRepo.getAyahTranslation(of: surah, contentID: .en_hilali_quranenc, language: .en)
         let ayahTransliteration = try jsonRepo.getAyahTransliteration(of: surah, contentID: .transliteration_litequran, language: .en)
 
-        coredata.insert(ayah: ayah)
+        coredata.insert(ayahTranslation: ayah)
         coredata.insert(ayahTranslation: ayahTranslation)
         coredata.insert(ayahTransliteration: ayahTransliteration)
         if showLog {
