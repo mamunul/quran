@@ -7,6 +7,13 @@
 
 import Foundation
 
+
+struct TextContent<T: ContentID>: Decodable {
+    var contentID: T
+    var lang: Language
+    var text: String
+}
+
 struct TafsirAyah: Identifiable {
     var id: Int
     var bookmark: Bool

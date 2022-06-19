@@ -9,28 +9,36 @@ import Foundation
 
 class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
-    private var repo = HadithRepository()
+    private var repo: IHadithDataReadFacade = HadithRepository()
     func getHadithCollectorList() {
         collectors = repo.getCollectorList()
     }
 
-    func getHadithList(of chapter: HadithChapter, collector: HadithCollector) -> [Hadith] {
+    func getChapterList(collector: HadithCollector) -> [HadithChapter2] {
+        repo.getChapterList(of: collector, language: .en)
+    }
+
+    func getHadithArabicList(of chapter: HadithChapter2, collector: HadithCollector) -> [Int:HadithText] {
         do {
-            let list = try repo.getHadithList(of: chapter, collector: collector)
+            let list = try repo.getHadithList(of: chapter, collector: collector, language: .ar)
+            
+            let dict = list.reduce(into: [Int: HadithText]()) {
+                $0[$1.hadithNo] = $1
+            }
+            return dict
+        } catch {
+            print(error)
+            return [:]
+        }
+    }
+
+    func getHadithEnglishList(of chapter: HadithChapter2, collector: HadithCollector) -> [HadithText] {
+        do {
+            let list = try repo.getHadithList(of: chapter, collector: collector, language: .en)
             return list
         } catch {
             print(error)
             return []
         }
-    }
-
-    func getHadithBook(of collector: HadithCollector) -> HadithBook {
-        do {
-            let book = try repo.getHadith(of: collector)
-            return book
-        } catch {
-            print(error)
-        }
-        return HadithBook.empty
     }
 }
