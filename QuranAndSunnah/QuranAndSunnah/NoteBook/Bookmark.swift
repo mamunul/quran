@@ -12,16 +12,17 @@ struct Tag {
     var tagText: String
     var ayat: [Ayah]
     var tafsirAyat: [TafsirAyah]
-    var hadith: [Hadith]
+    var hadith: [HadithText]
 }
 
 struct QuranNote {
     var note: String
     var range: Range<Int>
     var highlightedText: String
+    var ayatNo: Int
+    
     var contentID: AyahContentID
-    var language: Language
-    var ayat: Ayah
+    var lang: Language
     var contentType: ContentType
 }
 
@@ -29,9 +30,10 @@ struct HadithNote {
     var note: String
     var range: Range<Int>
     var highlightedText: String
+    var hadithNo: Int
+    
     var contentID: HadithContentID
-    var language: Language
-    var hadith: Hadith
+    var lang: Language
     var contentType: ContentType
 }
 
@@ -39,67 +41,58 @@ struct TafsirNote {
     var note: String
     var range: Range<Int>
     var highlightedText: String
-    var contentID: TafsirContentID
-    var language: Language
-    var tafsirAyat: TafsirAyah
-    var contentType: ContentType
+
+    var tafsirAyah: TafsirAyah2
 }
 
 struct QuranHighlight {
     var range: Range<Int>
     var highlightedText: String
+    var ayatNo: Int
+    
     var contentID: AyahContentID
-    var language: Language
-    var surahNo: Int
-    var ayahNo: Int
-//    var contentType: ContentType
+    var lang: Language
+    var contentType: ContentType
 }
 
 struct HadithHighlight {
     var range: Range<Int>
     var highlightedText: String
-    var contentID: HadithContentID
-    var language: Language
-    var hadithCollector: Int
-    var chapterNo: Int
+    var hadithCollector: HadithCollector
     var hadithNo: Int
-//    var contentType: ContentType
+    
+    var contentID: HadithContentID
+    var lang: Language
+    var contentType: ContentType
 }
 
 struct TafsirHighlight {
     var range: Range<Int>
     var highlightedText: String
-    var contentID: TafsirContentID
-    var language: Language
-    var surahNo: Int
-    var ayahNo: Int
-//    var contentType: ContentType
+    var tafsirAyah: TafsirAyah2
 }
 
 struct QuranBookmark {
+    var ayatNo: Int
+    
     var contentID: AyahContentID
-    var language: Language
-    var surahNo: Int
-    var ayahNo: Int
+    var lang: Language
     var contentType: ContentType
 }
 
 struct HadithBookmark {
-    var contentID: HadithContentID
-    var language: Language
-    var hadithCollector: Int
-    var chapterNo: Int
     var hadithNo: Int
+    
+    var contentID: HadithContentID
+    var lang: Language
     var contentType: ContentType
 }
 
 struct QuranPin { // same for tafsir; doesnt require db - @appstorage is sufficient
-    var ayahNo: Int
-    var surahNo: Int
+    var ayah: Ayah
 }
 
 struct HadithPin { // doesnt require db - appstore is sufficient
-    var hadithCollector: Int
-    var chapterNo: Int
-    var hadithNo: Int
+    var hadithCollector: HadithCollector
+    var hadith: HadithText
 }

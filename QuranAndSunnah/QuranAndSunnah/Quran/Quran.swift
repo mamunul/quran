@@ -62,10 +62,11 @@ struct SurahInfo: Decodable, Identifiable {
 }
 
 struct SurahName: Decodable {
-    var contentID: SurahNameContentID
-    var lang: Language
     var text: String
     var surahNo: Int
+    
+    var contentID: SurahNameContentID
+    var lang: Language
     var contentType: ContentType
 }
 
@@ -75,11 +76,12 @@ enum ContentType: Int, Decodable {
 
 struct Ayah: Decodable, Identifiable {
     var id: Int
-    var contentID: AyahContentID
-    var lang: Language
     var text: String
     var ayahNo: Int
     var surahNo: Int
+    
+    var contentID: AyahContentID
+    var lang: Language
     var contentType: ContentType
 }
 
