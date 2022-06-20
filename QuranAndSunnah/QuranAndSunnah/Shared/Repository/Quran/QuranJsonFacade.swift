@@ -11,7 +11,7 @@ class QuranJsonFacade: IDataReadFacade {
     static let shared = QuranJsonFacade()
 
     var basePath = "" // Note: - this is only necessary for macos otherwise statys empty
-    private let repo = QuranRepository.shared
+    private let repo = QuranJSONParser.shared
 
     func getSurah() throws -> [SurahInfo] {
         let surahInfoJsonDict: [String: SurahJson] = try repo.getQuranData(basePath, contentId: SurahNameContentID.en_unknown)

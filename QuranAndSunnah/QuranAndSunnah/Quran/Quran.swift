@@ -79,6 +79,17 @@ enum ContentType: Int, Decodable {
 }
 
 struct Ayah: Decodable, Identifiable {
+    static let empty = Ayah(
+        id: 0,
+        text: "",
+        ayahNo: 0,
+        surahNo: 0,
+        contentID: ContentIdentity<AyahContentID>(
+            contentID: .transliteration_litequran,
+            lang: .en,
+            contentType: .translation
+        )
+    )
     var id: Int
     var text: String
     var ayahNo: Int

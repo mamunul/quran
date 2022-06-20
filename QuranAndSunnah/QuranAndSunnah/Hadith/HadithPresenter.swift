@@ -14,11 +14,11 @@ class HadithPresenter: ObservableObject {
         collectors = repo.getCollectorList()
     }
 
-    func getChapterList(collector: HadithCollector) -> [HadithChapter2] {
+    func getChapterList(collector: HadithCollector) -> [HadithChapter] {
         repo.getChapterList(of: collector, language: .en)
     }
 
-    func getHadithArabicList(of chapter: HadithChapter2, collector: HadithCollector) -> [Int:HadithText] {
+    func getHadithArabicList(of chapter: HadithChapter, collector: HadithCollector) -> [Int:HadithText] {
         do {
             let list = try repo.getHadithList(of: chapter, collector: collector, language: .ar)
             
@@ -32,7 +32,7 @@ class HadithPresenter: ObservableObject {
         }
     }
 
-    func getHadithEnglishList(of chapter: HadithChapter2, collector: HadithCollector) -> [HadithText] {
+    func getHadithEnglishList(of chapter: HadithChapter, collector: HadithCollector) -> [HadithText] {
         do {
             let list = try repo.getHadithList(of: chapter, collector: collector, language: .en)
             return list

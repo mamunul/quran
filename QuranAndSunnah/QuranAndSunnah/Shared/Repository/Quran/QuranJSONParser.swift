@@ -7,8 +7,8 @@
 
 import Foundation
 
-class QuranRepository {
-    static let shared = QuranRepository()
+class QuranJSONParser {
+    static let shared = QuranJSONParser()
 
     private init() {}
     #if os(macOS)

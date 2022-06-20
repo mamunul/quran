@@ -30,7 +30,7 @@ struct TafsirAyahListView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
     var surah: SurahInfo
     var surahTransliteration: SurahName
-    @State var ayat = [TafsirAyah2]()
+    @State var ayat = [TafsirAyah]()
     var body: some View {
         List {
             ForEach(ayat) { ayah in
@@ -54,7 +54,7 @@ struct TafsirAyahListView: View {
         }
     }
 
-    func getAyahNo(ayah: TafsirAyah2) -> String {
+    func getAyahNo(ayah: TafsirAyah) -> String {
         if ayah.ayahRange.count == 1 {
             return "\(ayah.ayahRange.lowerBound)"
         } else {
@@ -106,7 +106,7 @@ struct TafsirContentView: View {
     @State var searchString: String = ""
     @State private var showingPopover = false
     var surah: SurahInfo
-    var ayah: TafsirAyah2
+    var ayah: TafsirAyah
     var surahTransliteration: SurahName
     var body: some View {
         GeometryReader { proxy in
@@ -150,7 +150,7 @@ struct TafsirContentView: View {
         }
     }
 
-    func getAyahNo(ayah: TafsirAyah2) -> String {
+    func getAyahNo(ayah: TafsirAyah) -> String {
         if ayah.ayahRange.count == 1 {
             return "\(surahTransliteration.text)  - \(ayah.ayahRange.lowerBound)"
         } else {
