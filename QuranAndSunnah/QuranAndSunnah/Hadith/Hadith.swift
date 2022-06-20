@@ -8,6 +8,22 @@
 import Foundation
 
 struct HadithText: Identifiable {
+    static let empty = HadithText(
+        id: 0,
+        chapterNo: 0,
+        sectionNo: 0,
+        section: "",
+        hadithNo: 0,
+        isnad: "",
+        matn: "",
+        comment: "",
+        grade: "",
+        contentID: ContentIdentity<HadithContentID>(
+            contentID: .abudaud_1,
+            lang: .en,
+            contentType: .translation
+        )
+    )
     var id: Int
     var chapterNo: Int
     var sectionNo: Int
@@ -21,7 +37,7 @@ struct HadithText: Identifiable {
     var contentID: ContentIdentity<HadithContentID>
 }
 
-struct HadithChapter2: Identifiable, Decodable {
+struct HadithChapter: Identifiable, Decodable {
     var id: Int
     var title: String
     var chapterNo: Int

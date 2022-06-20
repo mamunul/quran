@@ -43,7 +43,7 @@ struct HadithListView: View {
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
     @State private var showingPopover = false
-    @State var chapter: HadithChapter2
+    @State var chapter: HadithChapter
     var collector: HadithCollector
     @State var hadithArabicList = [Int:HadithText]()
     @State var hadithEnglishList = [HadithText]()
@@ -163,7 +163,7 @@ struct HadithListView: View {
 struct HadithChapterListView: View {
     @EnvironmentObject var presenter: HadithPresenter
     var collector: HadithCollector
-    @State var chapterList = [HadithChapter2]()
+    @State var chapterList = [HadithChapter]()
     var body: some View {
         List {
             ForEach(self.chapterList) { chapter in

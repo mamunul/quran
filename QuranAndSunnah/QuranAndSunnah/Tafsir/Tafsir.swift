@@ -7,7 +7,19 @@
 
 import Foundation
 
-struct TafsirAyah2: Identifiable {
+struct TafsirAyah: Identifiable {
+    static let empty =
+        TafsirAyah(
+            id: 0,
+            ayahRange: 0 ... 0,
+            filePath: "",
+            contentID:
+            ContentIdentity<TafsirContentID>(
+                contentID: .ibnKathir_shahih,
+                lang: .en,
+                contentType: .translation
+            )
+        )
     var id: Int
     var ayahRange: ClosedRange<Int>
     var filePath: String

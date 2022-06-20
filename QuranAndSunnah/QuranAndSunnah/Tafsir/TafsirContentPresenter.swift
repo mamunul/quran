@@ -15,7 +15,7 @@ class TafsirContentPresenter: ObservableObject {
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
     private var surah: SurahInfo?
-    private var ayah: TafsirAyah2?
+    private var ayah: TafsirAyah?
     private var tafsirRepository: ITafsirRead = TafsirRepository()
     @Published var surahList = [SurahInfo]()
     @Published var surahArabicList = [Int: SurahName]()
@@ -34,7 +34,7 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
-    func getAyat(of surah: SurahInfo) -> [TafsirAyah2] {
+    func getAyat(of surah: SurahInfo) -> [TafsirAyah] {
         do {
             let ayat = try tafsirRepository.getTafsirAyat(surah: surah)
             return ayat
@@ -91,7 +91,7 @@ class TafsirContentPresenter: ObservableObject {
         }
     }
 
-    func onViewAppear(surah: SurahInfo, ayah: TafsirAyah2, fontSize: Double) {
+    func onViewAppear(surah: SurahInfo, ayah: TafsirAyah, fontSize: Double) {
         updateContent(surah: surah, ayah: ayah, fontSize: fontSize)
         setupReader()
     }
@@ -102,7 +102,7 @@ class TafsirContentPresenter: ObservableObject {
         utterance?.voice = voice
     }
 
-    private func updateContent(surah: SurahInfo, ayah: TafsirAyah2, fontSize: Double) {
+    private func updateContent(surah: SurahInfo, ayah: TafsirAyah, fontSize: Double) {
         self.surah = surah
         self.ayah = ayah
         let config =

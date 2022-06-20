@@ -15,8 +15,8 @@ struct TafsirContentConfiguration {
 }
 
 protocol ITafsirRead {
-    func getTafsirAyat(surah: SurahInfo) throws -> [TafsirAyah2]
-    func getContent(ayah: TafsirAyah2, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString
+    func getTafsirAyat(surah: SurahInfo) throws -> [TafsirAyah]
+    func getContent(ayah: TafsirAyah, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString
 }
 
 class TafsirRepository: ITafsirRead {
@@ -24,7 +24,7 @@ class TafsirRepository: ITafsirRead {
         case nilData
     }
 
-    func getTafsirAyat(surah: SurahInfo) throws -> [TafsirAyah2] {
+    func getTafsirAyat(surah: SurahInfo) throws -> [TafsirAyah] {
         let folder = "/Tafsir/IbnKathir/"
 
         let surahFolder = folder.appending("\(surah.surahNo)/")
@@ -36,7 +36,7 @@ class TafsirRepository: ITafsirRead {
                     let rightayahNo = Int((right as NSString).deletingPathExtension)!
                     return leftayahNo < rightayahNo
                 })
-        var ayat = [TafsirAyah2]()
+        var ayat = [TafsirAyah]()
         for index in 0 ..< contents.count {
             let ayahFileName = contents[index]
             let ayahNo = Int((ayahFileName as NSString).deletingPathExtension)!
@@ -54,7 +54,7 @@ class TafsirRepository: ITafsirRead {
                     lang: .en,
                     contentType: .translation
                 )
-            let ayah = TafsirAyah2(
+            let ayah = TafsirAyah(
                 id: ayahNo,
                 ayahRange: ayahNo ... nextayahNo,
                 filePath: ayayPath,
@@ -65,7 +65,7 @@ class TafsirRepository: ITafsirRead {
         return ayat
     }
 
-    func getContent(ayah: TafsirAyah2, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString {
+    func getContent(ayah: TafsirAyah, configuraiton: TafsirContentConfiguration) throws -> NSMutableAttributedString {
         let header = getHeader(configuraiton)
         let footer = getFooter()
 
