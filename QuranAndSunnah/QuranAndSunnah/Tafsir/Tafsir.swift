@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TafsirAyah: Identifiable {
+struct TafsirAyah: Codable, Identifiable {
     static let empty =
         TafsirAyah(
             id: 0,

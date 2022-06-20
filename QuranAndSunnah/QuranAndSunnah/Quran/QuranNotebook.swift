@@ -8,16 +8,17 @@
 import Foundation
 import SwiftUI
 
-struct QuranTag {
+struct QuranTag: Codable {
     var tag: Tag
     var ayat: [QuranBookmark]
 }
 
-struct QuranPin { // same for tafsir; doesnt require db - @appstorage is sufficient
+struct QuranPin: Codable { // same for tafsir; doesnt require db - @appstorage is sufficient
     static let empty = QuranPin(ayah: Ayah.empty)
     var ayah: Ayah
 }
-struct QuranNote {
+
+struct QuranNote: Codable {
     var note: String
     var range: Range<Int>
     var highlightedText: String
@@ -25,14 +26,16 @@ struct QuranNote {
 
     var contentID: ContentIdentity<AyahContentID>
 }
-struct QuranHighlight {
+
+struct QuranHighlight: Codable {
     var range: Range<Int>
     var highlightedText: String
     var ayatNo: Int
 
     var contentID: ContentIdentity<AyahContentID>
 }
-struct QuranBookmark {
+
+struct QuranBookmark: Codable {
     var ayatNo: Int
 
     var contentID: ContentIdentity<AyahContentID>

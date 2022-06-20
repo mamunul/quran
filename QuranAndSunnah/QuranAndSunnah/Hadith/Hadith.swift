@@ -37,7 +37,7 @@ struct HadithText: Identifiable {
     var contentID: ContentIdentity<HadithContentID>
 }
 
-struct HadithChapter: Identifiable, Decodable {
+struct HadithChapter: Identifiable, Codable {
     var id: Int
     var title: String
     var chapterNo: Int
@@ -46,7 +46,7 @@ struct HadithChapter: Identifiable, Decodable {
     var contentID: ContentIdentity<HadithContentID>
 }
 
-struct HadithCollector: Identifiable {
+struct HadithCollector: Codable, Identifiable {
     static let none =
         HadithCollector(
             name: "",
