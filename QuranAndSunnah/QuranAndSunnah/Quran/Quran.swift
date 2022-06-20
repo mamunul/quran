@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol ContentID: Equatable, Decodable {
+protocol ContentID: Equatable, Codable {
     func getFilePath() -> String
 }
 
-struct ContentIdentity<T: ContentID>: Decodable {
+struct ContentIdentity<T: ContentID>: Codable {
     var contentID: T
     var lang: Language
     var contentType: ContentType
@@ -57,7 +57,7 @@ enum SurahNameContentID: Int, ContentID { // SurahNameContentID, SurahNameConten
     case en_tanzil
 }
 
-struct SurahInfo: Decodable, Identifiable {
+struct SurahInfo: Codable, Identifiable {
     var id: Int
     var surahNo: Int
     var ayahCount: Int
@@ -67,18 +67,18 @@ struct SurahInfo: Decodable, Identifiable {
     var revelaitonPlace: RevelationPlace
 }
 
-struct SurahName: Decodable {
+struct SurahName: Codable {
     var text: String
     var surahNo: Int
 
     var contentID: ContentIdentity<SurahNameContentID>
 }
 
-enum ContentType: Int, Decodable {
+enum ContentType: Int, Codable {
     case translation, transliteration, original
 }
 
-struct Ayah: Decodable, Identifiable {
+struct Ayah: Codable, Identifiable {
     static let empty = Ayah(
         id: 0,
         text: "",
@@ -98,11 +98,11 @@ struct Ayah: Decodable, Identifiable {
     var contentID: ContentIdentity<AyahContentID>
 }
 
-enum RevelationPlace: String, Decodable {
+enum RevelationPlace: String, Codable {
     case medinan, meccan
 }
 
-enum Language: Int, Decodable {
+enum Language: Int, Codable {
     case en, bn, ar
 }
 
@@ -121,7 +121,7 @@ enum WordContentID: Int, ContentID {
     }
 }
 
-struct Word<T: ContentID>: Decodable {
+struct Word<T: ContentID>: Codable {
     var contentID: T
     var lang: Language
     var text: String

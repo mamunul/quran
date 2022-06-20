@@ -8,36 +8,40 @@
 import Foundation
 import SwiftUI
 
-struct HadithTag {
+struct HadithTag: Codable {
     var tag: Tag
     var hadith: [HadithHighlight]
 }
 
-struct HadithPin { // doesnt require db - appstore is sufficient
-    static let empty = HadithPin(hadithCollector: .none, hadith: HadithText.empty)
+struct HadithPin: Codable { // doesnt require db - appstore is sufficient
+    static let empty = HadithPin(hadithCollector: .none, hadithNo: 0, chapterNo: 0)
     var hadithCollector: HadithCollector
-    var hadith: HadithText
+    var hadithNo: Int
+    var chapterNo: Int
 }
 
-struct HadithNote {
+struct HadithNote: Codable {
     var note: String
     var range: Range<Int>
     var highlightedText: String
     var hadithNo: Int
+    var chapterNo: Int
 
     var contentID: ContentIdentity<HadithContentID>
 }
 
-struct HadithHighlight {
+struct HadithHighlight: Codable {
     var range: Range<Int>
     var highlightedText: String
     var hadithNo: Int
+    var chapterNo: Int
 
     var contentID: ContentIdentity<HadithContentID>
 }
 
-struct HadithBookmark {
+struct HadithBookmark: Codable {
     var hadithNo: Int
+    var chapterNo: Int
 
     var contentID: ContentIdentity<HadithContentID>
 }

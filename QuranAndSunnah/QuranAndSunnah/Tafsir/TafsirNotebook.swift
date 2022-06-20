@@ -8,23 +8,23 @@
 import Foundation
 import SwiftUI
 
-struct Tag {
+struct Tag: Codable {
     var text: String
     var id: Int
 }
 
-struct TafsirTag {
+struct TafsirTag: Codable {
     var tag: Tag
     var tafsirAyat: [TafsirHighlight]
 }
 
-struct TafsirHighlight {
+struct TafsirHighlight: Codable {
     var range: Range<Int>
     var highlightedText: String
     var tafsirAyah: TafsirAyah
 }
 
-struct TafsirNote {
+struct TafsirNote: Codable {
     var note: String
     var range: Range<Int>
     var highlightedText: String
@@ -32,7 +32,7 @@ struct TafsirNote {
     var tafsirAyah: TafsirAyah
 }
 
-struct TafsirPin { // same for tafsir; doesnt require db - @appstorage is sufficient
+struct TafsirPin: Codable { // same for tafsir; doesnt require db - @appstorage is sufficient
     static let empty = TafsirPin(ayah: TafsirAyah.empty, position: 0)
     var ayah: TafsirAyah
     var position: Int

@@ -26,24 +26,24 @@ class QuranJSONParser {
         return url
     }
 
-    private func decodeFromUrl<T: Decodable>(_ url: URL) throws -> T {
+    private func decodeFromUrl<T: Codable>(_ url: URL) throws -> T {
         let data = try Data(contentsOf: url)
         let res = try JSONDecoder().decode(T.self, from: data)
         return res
     }
 
-    func getQuranData<T: Decodable, C: ContentID>(_ basePath: String, contentId: C) throws -> T {
+    func getQuranData<T: Codable, C: ContentID>(_ basePath: String, contentId: C) throws -> T {
         let fileUrl = makeFileUrl(basePath, contentId: contentId)
         let result: T = try decodeFromUrl(fileUrl)
         return result
     }
 }
 
-struct TranslationJson: Decodable {
+struct TranslationJson: Codable {
     var translations: [String: String]
 }
 
-struct SurahJson: Decodable {
+struct SurahJson: Codable {
     var name: String
     var nAyah: Int
     var revelationOrder: Int
@@ -52,7 +52,7 @@ struct SurahJson: Decodable {
     var end: Int
 }
 
-struct SurahTranslationJson: Decodable {
+struct SurahTranslationJson: Codable {
     var name: String
     var translation: String
 }

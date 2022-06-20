@@ -8,20 +8,20 @@
 import Foundation
 
 protocol IHadithNotebookFacade {
-    func getNotes(for hadithChapter: HadithChapter) -> [HadithNote]
-    func getNotes(for hadithCollector: HadithCollector) -> [HadithNote]
-    func getAllNotes() -> [HadithNote]
-    func save(note: HadithNote)
+    func getNotes(for hadithChapter: HadithChapter) throws -> [HadithNote]
+    func getNotes(for hadithCollector: HadithCollector) throws -> [HadithNote]
+    func getAllNotes() throws -> [HadithNote]
+    func save(note: HadithNote) throws
 
-    func getBookmarks(for hadithChapter: HadithChapter) -> [HadithBookmark]
-    func getBookmarks(for hadithCollector: HadithCollector) -> [HadithBookmark]
-    func getAllBookmarks() -> [HadithBookmark]
-    func save(bookmark: HadithBookmark)
+    func getBookmarks(for hadithChapter: HadithChapter) throws -> [HadithBookmark]
+    func getBookmarks(for hadithCollector: HadithCollector) throws -> [HadithBookmark]
+    func getAllBookmarks() throws -> [HadithBookmark]
+    func save(bookmark: HadithBookmark) throws
 
-    func getHighlights(for hadithChapter: HadithChapter) -> [HadithHighlight]
-    func getHighlights(for hadithCollector: HadithCollector) -> [HadithHighlight]
-    func getAllHighlights() -> [HadithHighlight]
-    func save(highlight: HadithHighlight)
+    func getHighlights(for hadithChapter: HadithChapter) throws -> [HadithHighlight]
+    func getHighlights(for hadithCollector: HadithCollector) throws -> [HadithHighlight]
+    func getAllHighlights() throws -> [HadithHighlight]
+    func save(highlight: HadithHighlight) throws
 
     func getPin() -> HadithPin
 
@@ -29,59 +29,101 @@ protocol IHadithNotebookFacade {
 }
 
 class HadithNotebookRepository: IHadithNotebookFacade {
-    func getNotes(for hadithChapter: HadithChapter) -> [HadithNote] {
-        []
+    private let notesPath = "/Hadith/notes.json"
+    private let bookmarksPath = "/Hadith/bookmarks.json"
+    private let highlightsPath = "/Hadith/highlights.json"
+
+    private let userDefaultPinKey = "hadith.pin"
+    private let fileHandler = FileHandler()
+    func getNotes(for hadithChapter: HadithChapter) throws -> [HadithNote] {
+        let notes = try getAllNotes()
+        let filteredNotes = notes.filter { highlight in
+            hadithChapter.chapterNo == highlight.chapterNo
+        }
+        return filteredNotes
     }
-    
-    func getNotes(for hadithCollector: HadithCollector) -> [HadithNote] {
-        []
+
+    func getNotes(for hadithCollector: HadithCollector) throws -> [HadithNote] {
+        let notes = try getAllNotes()
+        let filteredNotes = notes.filter { highlight in
+            hadithCollector.contentID.contentID == highlight.contentID.contentID
+        }
+        return filteredNotes
     }
-    
-    func getAllNotes() -> [HadithNote] {
-        []
+
+    func getAllNotes() throws -> [HadithNote] {
+        let notes: [HadithNote] = try fileHandler.read(relativePath: highlightsPath)
+        return notes
     }
-    
-    func save(note: HadithNote) {
-        
+
+    func save(note: HadithNote) throws {
+        var notes = try getAllNotes()
+        notes.append(note)
+        try fileHandler.save(model: notes, relativePath: notesPath)
     }
-    
-    func getBookmarks(for hadithChapter: HadithChapter) -> [HadithBookmark] {
-        []
+
+    func getBookmarks(for hadithChapter: HadithChapter) throws -> [HadithBookmark] {
+        let notes: [HadithBookmark] = try getAllBookmarks()
+        let filteredNotes = notes.filter { highlight in
+            hadithChapter.chapterNo == highlight.chapterNo
+        }
+        return filteredNotes
     }
-    
-    func getBookmarks(for hadithCollector: HadithCollector) -> [HadithBookmark] {
-        []
+
+    func getBookmarks(for hadithCollector: HadithCollector) throws -> [HadithBookmark] {
+        let notes: [HadithBookmark] = try getAllBookmarks()
+        let filteredNotes = notes.filter { highlight in
+            hadithCollector.contentID.contentID == highlight.contentID.contentID
+        }
+        return filteredNotes
     }
-    
-    func getAllBookmarks() -> [HadithBookmark] {
-        []
+
+    func getAllBookmarks() throws -> [HadithBookmark] {
+        let notes: [HadithBookmark] = try fileHandler.read(relativePath: highlightsPath)
+        return notes
     }
-    
-    func save(bookmark: HadithBookmark) {
-        
+
+    func save(bookmark: HadithBookmark) throws {
+        var notes = try getAllBookmarks()
+        notes.append(bookmark)
+        try fileHandler.save(model: notes, relativePath: bookmarksPath)
     }
-    
-    func getHighlights(for hadithChapter: HadithChapter) -> [HadithHighlight] {
-        []
+
+    func getHighlights(for hadithChapter: HadithChapter) throws -> [HadithHighlight] {
+        let notes: [HadithHighlight] = try getAllHighlights()
+
+        let filteredNotes = notes.filter { highlight in
+            hadithChapter.chapterNo == highlight.chapterNo
+        }
+        return filteredNotes
     }
-    
-    func getHighlights(for hadithCollector: HadithCollector) -> [HadithHighlight] {
-        []
+
+    func getHighlights(for hadithCollector: HadithCollector) throws -> [HadithHighlight] {
+        let notes: [HadithHighlight] = try getAllHighlights()
+
+        let filteredNotes = notes.filter { highlight in
+            hadithCollector.contentID.contentID == highlight.contentID.contentID
+        }
+        return filteredNotes
     }
-    
-    func getAllHighlights() -> [HadithHighlight] {
-        []
+
+    func getAllHighlights() throws -> [HadithHighlight] {
+        let notes: [HadithHighlight] = try fileHandler.read(relativePath: highlightsPath)
+        return notes
     }
-    
-    func save(highlight: HadithHighlight) {
-        
+
+    func save(highlight: HadithHighlight) throws {
+        var notes = try getAllHighlights()
+        notes.append(highlight)
+        try fileHandler.save(model: notes, relativePath: highlightsPath)
     }
-    
+
     func getPin() -> HadithPin {
-        HadithPin.empty
+        let pin = UserDefaults.standard.object(forKey: userDefaultPinKey) as? HadithPin ?? .empty
+        return pin
     }
-    
+
     func save(pin: HadithPin) {
+        UserDefaults.standard.set(pin, forKey: userDefaultPinKey)
     }
-    
 }

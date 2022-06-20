@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HadithJson: Decodable {
+struct HadithJson: Codable {
     var Chapter_Number: String
     var Chapter_English: String
     var Chapter_Arabic: String
