@@ -12,7 +12,7 @@ enum StorageName {
     static let fontSize = "fontSize"
 }
 
-struct ContentView: View {
+struct MainView: View {
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
     var body: some View {
@@ -31,7 +31,7 @@ struct ContentView: View {
                 }
             NoteBookView()
                 .tabItem {
-                    Label("Bookmarks", systemImage: "bookmark")
+                    Label("Notebook", systemImage: "bookmark")
                 }
             SearchView()
                 .tabItem {
@@ -72,10 +72,10 @@ struct SettingsView_Previews: PreviewProvider {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        MainView()
             .previewDevice(PreviewDevice(rawValue: "iPhone 12"))
             .previewDisplayName("iPhone 12")
-        ContentView()
+        MainView()
             .previewDevice(PreviewDevice(rawValue: "iPad Pro (11-inch)"))
             .previewDisplayName("iPad Pro (11-inch)")
     }

@@ -7,9 +7,86 @@
 
 import SwiftUI
 
+struct HighlightsView: View {
+    var body: some View {
+        Text("")
+    }
+}
+
+struct FrequentlyUsedView: View {
+    var body: some View {
+        TabView {
+            HStack {
+                Text("FrequentlyUsedView 1")
+            }
+
+            HStack {
+                Text("FrequentlyUsedView 2")
+            }
+
+            HStack {
+                Text("FrequentlyUsedView 3")
+            }
+        }
+        .frame(height: 200)
+        .tabViewStyle(.page)
+    }
+}
+
+struct SuggestedView: View {
+    var body: some View {
+        TabView {
+            HStack {
+                Text("SuggestedView 1")
+            }
+
+            HStack {
+                Text("SuggestedView 2")
+            }
+
+            HStack {
+                Text("SuggestedView 3")
+            }
+        }
+        .frame(height: 200)
+        .tabViewStyle(.page)
+    }
+}
+
 struct NoteBookView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List {
+                NavigationLink {
+                    HighlightsView()
+                } label: {
+                    Text("Highlights")
+                        .padding()
+                }
+                NavigationLink {
+                    HighlightsView()
+                } label: {
+                    Text("Tags")
+                        .padding()
+                }
+                NavigationLink {
+                    HighlightsView()
+                } label: {
+                    Text("Notes")
+                        .padding()
+                }
+                NavigationLink {
+                    HighlightsView()
+                } label: {
+                    Text("Bookmarks")
+                        .padding()
+                }
+                FrequentlyUsedView()
+                SuggestedView()
+                Spacer()
+            }
+            .listStyle(PlainListStyle())
+        }
     }
 }
 
