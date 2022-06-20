@@ -30,6 +30,7 @@ class TafsirNotebookRepository: ITafsirNotebookFacade {
 
     private let userDefaultPinKey = "tafsir.pin"
     private let fileHandler = FileHandler()
+    
     func getNotes(for surah: SurahInfo) throws -> [TafsirNote] {
         let notes = try getAllNotes()
         let filteredNotes = notes.filter { highlight in
