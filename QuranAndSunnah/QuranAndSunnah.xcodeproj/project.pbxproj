@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A2A831F283B564E00FD0E80 /* HTMLAttributeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A831E283B564E00FD0E80 /* HTMLAttributeApp.swift */; };
-		0A2A8321283B564E00FD0E80 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A8320283B564E00FD0E80 /* ContentView.swift */; };
+		0A2A8321283B564E00FD0E80 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A8320283B564E00FD0E80 /* MainView.swift */; };
 		0A2A8323283B565100FD0E80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2A8322283B565100FD0E80 /* Assets.xcassets */; };
 		0A2A8326283B565100FD0E80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2A8325283B565100FD0E80 /* Preview Assets.xcassets */; };
 		0A326219283F5C5800535216 /* CassandraPersonalUseRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A326218283F5C2600535216 /* CassandraPersonalUseRegular.ttf */; };
@@ -73,7 +73,7 @@
 /* Begin PBXFileReference section */
 		0A2A831B283B564D00FD0E80 /* QuranAndSunnah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuranAndSunnah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2A831E283B564E00FD0E80 /* HTMLAttributeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLAttributeApp.swift; sourceTree = "<group>"; };
-		0A2A8320283B564E00FD0E80 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0A2A8320283B564E00FD0E80 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0A2A8322283B565100FD0E80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A2A8325283B565100FD0E80 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A326218283F5C2600535216 /* CassandraPersonalUseRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CassandraPersonalUseRegular.ttf; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 				EE7180AE28465215000D16FB /* Hadith */,
 				0AA8B0A2284383D700DDA17B /* Resources */,
 				0AD42DB0283E3FAE00D8526E /* Info.plist */,
-				0A2A8320283B564E00FD0E80 /* ContentView.swift */,
+				0A2A8320283B564E00FD0E80 /* MainView.swift */,
 				0A2A8322283B565100FD0E80 /* Assets.xcassets */,
 				0A2A8324283B565100FD0E80 /* Preview Content */,
 			);
@@ -558,7 +558,7 @@
 				0ABD841C28604DF000260151 /* TafsirNotebookRepository.swift in Sources */,
 				0AA7916428473E2B00B5C567 /* StreamReader.swift in Sources */,
 				0AB95B2E285F1E0400A23803 /* AyahDO+CoreDataProperties.swift in Sources */,
-				0A2A8321283B564E00FD0E80 /* ContentView.swift in Sources */,
+				0A2A8321283B564E00FD0E80 /* MainView.swift in Sources */,
 				0AB95B2B285F1E0400A23803 /* WordDO+CoreDataClass.swift in Sources */,
 				0A5A7BB0286064D700CEBDDE /* FileHandler.swift in Sources */,
 				0A326227283F77E300535216 /* TafsirContentView.swift in Sources */,
