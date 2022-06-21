@@ -13,9 +13,9 @@ struct TafsirAyah: Codable, Identifiable {
             id: 0,
             ayahRange: 0 ... 0,
             filePath: "",
-            contentID:
+            contentId:
             ContentIdentity<TafsirContentID>(
-                contentID: .ibnKathir_shahih,
+                contentId: .ibnKathir_shahih,
                 lang: .en,
                 contentType: .translation
             )
@@ -24,10 +24,10 @@ struct TafsirAyah: Codable, Identifiable {
     var ayahRange: ClosedRange<Int>
     var filePath: String
 
-    var contentID: ContentIdentity<TafsirContentID>
+    var contentId: ContentIdentity<TafsirContentID>
 }
 
-enum TafsirContentID: ContentID {
+enum TafsirContentID: Int, ContentID {
     case ibnKathir_shahih
     func getFilePath() -> String {
         ""

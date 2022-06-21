@@ -1,48 +1,91 @@
 import SwiftUI
 
-/// A SwiftUI TextView implementation that supports both scrolling and auto-sizing layouts
-public struct TextView: View {
-    @Environment(\.layoutDirection) private var layoutDirection
+extension Dictionary {
+    static func += (lhs: inout Dictionary, rhs: Dictionary) {
+        lhs.merge(rhs) { _, new in new }
+    }
+}
 
-    @Binding private var text: NSMutableAttributedString
-    private var searchString: Binding<String>?
-    @State private var calculatedHeight: CGFloat = 44
+struct TextView: UIViewRepresentable {
+    @Binding var text: NSMutableAttributedString
+    var searchString: Binding<String>?
+//    @Binding var calculatedHeight: CGFloat
 
     var paragraphAlignment: CustomTextAlignment = .none
+    var fontSize: Double? = nil
+    var onHighLight: ((_ highlightedString: ClosedRange<Int>) -> Void)?
 
-    static let fontRange: ClosedRange<Double> = 15.0 ... 30.0
+    @Environment(\.colorScheme) var colorScheme
 
-    var fontSize: Double?
-
-    /// Makes a new TextView with the specified configuration
-    /// - Parameters:
-    ///   - text: A binding to the text
-    public init(_ text: Binding<String>, searchString: Binding<String>? = nil) {
-        _text = Binding(
-            get: { NSMutableAttributedString(string: text.wrappedValue) },
-            set: { text.wrappedValue = $0.string }
-        )
-        self.searchString = searchString
+    func makeUIView(context: Context) -> CustomUITextView {
+        let textView = CustomUITextView()
+        textView.addCustomMenu()
+        textView.backgroundColor = .clear
+        textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        textView.onHighLight = onHighLight
+        return textView
     }
 
-    /// Makes a new TextView that supports `NSMutableAttributedString`
-    /// - Parameters:
-    ///   - text: A binding to the attributed text
-    public init(_ text: Binding<NSMutableAttributedString>, searchString: Binding<String>? = nil) {
-        _text = text
-        self.searchString = searchString
+    func updateUIView(_ view: CustomUITextView, context: Context) {
+        addTextAttributes()
+        view.attributedText = text
+        view.isEditable = false
+        view.isEditable = false
+        view.isScrollEnabled = false
+        if fontSize != nil {
+            view.font = UIFont.systemFont(ofSize: CGFloat(fontSize!))
+        }
+
+        searchTexts(view)
+//        recalculateHeight(view)
+        view.setNeedsDisplay()
     }
 
-    public var body: some View {
-        TextViewRepresentable(
-            text: $text, searchString: self.searchString,
-            calculatedHeight: $calculatedHeight,
-            paragraphAlignment: paragraphAlignment,
-            fontSize: fontSize
-        )
-        .frame(
-            minHeight: calculatedHeight,
-            maxHeight: calculatedHeight
-        )
+    private func addTextAttributes() {
+        let textColor = colorScheme == .dark ? UIColor.white : UIColor.black
+        var attribute1: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: textColor]
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        switch paragraphAlignment {
+        case .justify:
+            paragraphStyle.alignment = .justified
+            let attribute2 = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attribute1 += attribute2
+        case .left:
+            paragraphStyle.alignment = .left
+            let attribute2 = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attribute1 += attribute2
+        case .right:
+            paragraphStyle.alignment = .right
+            let attribute2 = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attribute1 += attribute2
+        case .none:
+            paragraphStyle.alignment = .natural
+        }
+
+        let fullRange = NSRange(location: 0, length: text.length)
+
+        text.addAttributes(attribute1, range: fullRange)
     }
+
+    private func searchTexts(_ view: CustomUITextView) {
+        if let searchString = searchString?.wrappedValue {
+            let searchRange = NSString(string: text.string).range(of: searchString, options: .caseInsensitive)
+            view.selectedRange = searchRange // optional
+            let attributes = [NSAttributedString.Key.backgroundColor: UIColor.lightGray]
+            view.textStorage.addAttributes(attributes, range: searchRange)
+            if searchRange.length != 0 {
+                view.scrollRangeToVisible(searchRange)
+            }
+        }
+    }
+
+//    private func recalculateHeight(_ view: CustomUITextView) {
+//        let newSize = view.sizeThatFits(CGSize(width: view.frame.width, height: .greatestFiniteMagnitude))
+//        guard $calculatedHeight.wrappedValue != newSize.height else { return }
+//
+//        DispatchQueue.main.async { // call in next render cycle.
+//            self.$calculatedHeight.wrappedValue = newSize.height
+//        }
+//    }
 }

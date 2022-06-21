@@ -29,9 +29,9 @@ protocol IHadithNotebookFacade {
 }
 
 class HadithNotebookRepository: IHadithNotebookFacade {
-    private let notesPath = "/Hadith/notes.json"
-    private let bookmarksPath = "/Hadith/bookmarks.json"
-    private let highlightsPath = "/Hadith/highlights.json"
+    private let notesPath = "Hadith/notes.json"
+    private let bookmarksPath = "Hadith/bookmarks.json"
+    private let highlightsPath = "Hadith/highlights.json"
 
     private let userDefaultPinKey = "hadith.pin"
     private let fileHandler = FileHandler()
@@ -46,7 +46,7 @@ class HadithNotebookRepository: IHadithNotebookFacade {
     func getNotes(for hadithCollector: HadithCollector) throws -> [HadithNote] {
         let notes = try getAllNotes()
         let filteredNotes = notes.filter { highlight in
-            hadithCollector.contentID.contentID == highlight.contentID.contentID
+            hadithCollector.contentId.contentId == highlight.contentId.contentId
         }
         return filteredNotes
     }
@@ -73,7 +73,7 @@ class HadithNotebookRepository: IHadithNotebookFacade {
     func getBookmarks(for hadithCollector: HadithCollector) throws -> [HadithBookmark] {
         let notes: [HadithBookmark] = try getAllBookmarks()
         let filteredNotes = notes.filter { highlight in
-            hadithCollector.contentID.contentID == highlight.contentID.contentID
+            hadithCollector.contentId.contentId == highlight.contentId.contentId
         }
         return filteredNotes
     }
@@ -102,13 +102,18 @@ class HadithNotebookRepository: IHadithNotebookFacade {
         let notes: [HadithHighlight] = try getAllHighlights()
 
         let filteredNotes = notes.filter { highlight in
-            hadithCollector.contentID.contentID == highlight.contentID.contentID
+            hadithCollector.contentId.contentId == highlight.contentId.contentId
         }
         return filteredNotes
     }
 
     func getAllHighlights() throws -> [HadithHighlight] {
-        let notes: [HadithHighlight] = try fileHandler.read(relativePath: highlightsPath)
+        var notes = [HadithHighlight]()
+        do {
+            notes = try fileHandler.read(relativePath: highlightsPath)
+        } catch {
+            print(error)
+        }
         return notes
     }
 

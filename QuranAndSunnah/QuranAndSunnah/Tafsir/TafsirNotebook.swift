@@ -19,7 +19,7 @@ struct TafsirTag: Codable {
 }
 
 struct TafsirHighlight: Codable {
-    var range: Range<Int>
+    var range: ClosedRange<Int>
     var highlightedText: String
     var tafsirAyah: TafsirAyah
     var surahNo: Int
@@ -27,7 +27,7 @@ struct TafsirHighlight: Codable {
 
 struct TafsirNote: Codable {
     var note: String
-    var range: Range<Int>
+    var range: ClosedRange<Int>
     var highlightedText: String
     var surahNo: Int
 

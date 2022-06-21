@@ -8,8 +8,22 @@
 import SwiftUI
 
 struct HighlightsView: View {
+    @EnvironmentObject var presenter: NotebooksPresenter
     var body: some View {
-        Text("")
+        List {
+            ForEach(presenter.highlights) { highlight in
+                VStack {
+                    Text("\(highlight.markedText)")
+                    Text("\(highlight.chapterTitle)")
+                    HStack {
+                        Text("\(highlight.contentNo)")
+                        Text("\(highlight.bookName)")
+                    }
+                }
+            }
+        }.onAppear{
+            presenter.getHighlights()
+        }
     }
 }
 
@@ -54,6 +68,7 @@ struct SuggestedView: View {
 }
 
 struct NoteBookView: View {
+    @StateObject var presenter = NotebooksPresenter()
     var body: some View {
         NavigationView {
             List {
@@ -87,6 +102,7 @@ struct NoteBookView: View {
             }
             .listStyle(PlainListStyle())
         }
+        .environmentObject(presenter)
     }
 }
 

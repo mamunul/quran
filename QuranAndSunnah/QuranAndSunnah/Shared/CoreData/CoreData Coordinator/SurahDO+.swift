@@ -39,8 +39,8 @@ extension AyahDO {
             text: text ?? "",
             ayahNo: Int(ayahNo),
             surahNo: Int(surahNo),
-            contentID: ContentIdentity<AyahContentID>(
-                contentID: AyahContentID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
+            contentId: ContentIdentity<AyahContentID>(
+                contentId: AyahContentID(rawValue: Int(contentId)) ?? .en_hilali_quranenc,
                 lang: Language(rawValue: Int(language)) ?? .ar,
                 contentType: ContentType(rawValue: Int(0)) ?? .original
             )
@@ -49,11 +49,11 @@ extension AyahDO {
     }
 
     func load(text: Ayah) {
-        contentId = Int16(text.contentID.contentID.rawValue)
-        language = Int16(text.contentID.lang.rawValue)
+        contentId = Int16(text.contentId.contentId.rawValue)
+        language = Int16(text.contentId.lang.rawValue)
         self.text = text.text
         ayahNo = Int16(text.ayahNo)
-        contentType = Int16(text.contentID.contentType.rawValue)
+        contentType = Int16(text.contentId.contentType.rawValue)
         surahNo = Int16(surahNo)
     }
 }
@@ -63,8 +63,8 @@ extension SurahNameDO {
         let content = SurahName(
             text: text ?? "",
             surahNo: Int(surahNo),
-            contentID: ContentIdentity<SurahNameContentID>(
-                contentID: SurahNameContentID(rawValue: Int(contentId)) ?? .en_tanzil,
+            contentId: ContentIdentity<SurahNameContentID>(
+                contentId: SurahNameContentID(rawValue: Int(contentId)) ?? .en_tanzil,
                 lang: Language(rawValue: Int(language)) ?? .ar,
                 contentType: ContentType(rawValue: Int(0)) ?? .original
             )
@@ -73,10 +73,10 @@ extension SurahNameDO {
     }
 
     func load(text: SurahName) {
-        contentId = Int16(text.contentID.contentID.rawValue)
-        language = Int16(text.contentID.lang.rawValue)
+        contentId = Int16(text.contentId.contentId.rawValue)
+        language = Int16(text.contentId.lang.rawValue)
         self.text = text.text
         surahNo = Int16(text.surahNo)
-        contentType = Int16(text.contentID.contentType.rawValue)
+        contentType = Int16(text.contentId.contentType.rawValue)
     }
 }

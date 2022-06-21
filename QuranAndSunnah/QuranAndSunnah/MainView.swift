@@ -13,6 +13,7 @@ enum StorageName {
 }
 
 struct MainView: View {
+    static let fontRange: ClosedRange<Double> = 15.0 ... 30.0
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     @State var searchString: String = ""
     var body: some View {
@@ -47,13 +48,13 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             Text("FontSize").padding()
-            Slider(value: $fontSize, in: TextView.fontRange, step: 1.0) {
+            Slider(value: $fontSize, in: MainView.fontRange, step: 1.0) {
                 Text("FontSize").padding()
             } minimumValueLabel: {
-                Text("\(TextView.fontRange.lowerBound.formatted())").padding()
+                Text("\(MainView.fontRange.lowerBound.formatted())").padding()
 
             } maximumValueLabel: {
-                Text("\(TextView.fontRange.upperBound.formatted())").padding()
+                Text("\(MainView.fontRange.upperBound.formatted())").padding()
             }
         }
     }

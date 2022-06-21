@@ -18,8 +18,8 @@ struct HadithText: Identifiable {
         matn: "",
         comment: "",
         grade: "",
-        contentID: ContentIdentity<HadithContentID>(
-            contentID: .abudaud_1,
+        contentId: ContentIdentity<HadithContentID>(
+            contentId: .abudaud_1,
             lang: .en,
             contentType: .translation
         )
@@ -34,7 +34,7 @@ struct HadithText: Identifiable {
     var comment: String
     var grade: String
 
-    var contentID: ContentIdentity<HadithContentID>
+    var contentId: ContentIdentity<HadithContentID>
 }
 
 struct HadithChapter: Identifiable, Codable {
@@ -43,7 +43,7 @@ struct HadithChapter: Identifiable, Codable {
     var chapterNo: Int
     var hadithNo: ClosedRange<Int>
 
-    var contentID: ContentIdentity<HadithContentID>
+    var contentId: ContentIdentity<HadithContentID>
 }
 
 struct HadithCollector: Codable, Identifiable {
@@ -54,8 +54,8 @@ struct HadithCollector: Codable, Identifiable {
             pathComponent: "",
             chapterRange: 0 ..< 0,
 
-            contentID: ContentIdentity<HadithContentID>(
-                contentID: .bukhari_1,
+            contentId: ContentIdentity<HadithContentID>(
+                contentId: .bukhari_1,
                 lang: .en,
                 contentType: .translation
             )
@@ -66,5 +66,5 @@ struct HadithCollector: Codable, Identifiable {
     var pathComponent: String
     var chapterRange: Range<Int>
 
-    var contentID: ContentIdentity<HadithContentID>
+    var contentId: ContentIdentity<HadithContentID>
 }

@@ -111,11 +111,14 @@ struct TafsirContentView: View {
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
-                TextViewRepresentable2(
+                TextView(
                     text: $presenter.attributedContent,
                     searchString: self.$searchString,
                     paragraphAlignment: .none,
-                    fontSize: nil
+                    fontSize: nil,
+                    onHighLight: { highlightedString in
+                        presenter.onHighlightEvent(textRange: highlightedString)
+                    }
                 )
                 .frame(height: frameSize(for: presenter.attributedContent, width: proxy.size.width).height)
                 .onAppear {

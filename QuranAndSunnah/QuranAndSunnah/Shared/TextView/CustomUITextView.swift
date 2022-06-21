@@ -9,15 +9,18 @@ import SwiftUI
 import UIKit
 
 class CustomUITextView: UITextView {
+    var onHighLight: ((_ highlightedString: ClosedRange<Int>) -> Void)?
+
     override var keyCommands: [UIKeyCommand]? {
         return (super.keyCommands ?? []) + [
-            UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(escape(_:)))
+            UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(escape(_:))),
         ]
     }
 
     @objc private func escape(_ sender: Any) {
         resignFirstResponder()
     }
+
     func addCustomMenu() {
         let highlightMenuItem = UIMenuItem(title: "Highlight", action: #selector(hightlight(_:)))
         let noteMenuItem = UIMenuItem(title: "Note", action: #selector(note(_:)))
@@ -31,6 +34,7 @@ class CustomUITextView: UITextView {
         }
         let attributes = [NSAttributedString.Key.backgroundColor: color]
         textStorage.addAttributes(attributes, range: selectedRange)
+        onHighLight?(selectedRange.lowerBound ... selectedRange.upperBound)
     }
 
     @objc func note(_ sender: Any?) {

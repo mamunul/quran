@@ -65,9 +65,8 @@
 		EEC3251628590B83002D0393 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3250F28590B83002D0393 /* CoreDataStack.swift */; };
 		EEC3251828590B83002D0393 /* SurahDO+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3250E28590B83002D0393 /* SurahDO+.swift */; };
 		EEC3256028590CB7002D0393 /* QuranJsonFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3255F28590CB6002D0393 /* QuranJsonFacade.swift */; };
-		EEDC0511284E3E2600201203 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC050D284E3DEA00201203 /* TextView.swift */; };
 		EEDC0512284E3E2900201203 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC050F284E3DEA00201203 /* Modifiers.swift */; };
-		EEDC0513284E3E2C00201203 /* TextViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC0510284E3DEA00201203 /* TextViewRepresentable.swift */; };
+		EEDC0513284E3E2C00201203 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC0510284E3DEA00201203 /* TextView.swift */; };
 		EEDC0516284E3E6100201203 /* CustomUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC0515284E3E6100201203 /* CustomUITextView.swift */; };
 /* End PBXBuildFile section */
 
@@ -136,9 +135,8 @@
 		EEC3250F28590B83002D0393 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		EEC3251028590B83002D0393 /* CoreDataFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataFacade.swift; sourceTree = "<group>"; };
 		EEC3255F28590CB6002D0393 /* QuranJsonFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuranJsonFacade.swift; sourceTree = "<group>"; };
-		EEDC050D284E3DEA00201203 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		EEDC050F284E3DEA00201203 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
-		EEDC0510284E3DEA00201203 /* TextViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewRepresentable.swift; sourceTree = "<group>"; };
+		EEDC0510284E3DEA00201203 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		EEDC0515284E3E6100201203 /* CustomUITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUITextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -399,8 +397,7 @@
 			children = (
 				EEDC0515284E3E6100201203 /* CustomUITextView.swift */,
 				EEDC050F284E3DEA00201203 /* Modifiers.swift */,
-				EEDC050D284E3DEA00201203 /* TextView.swift */,
-				EEDC0510284E3DEA00201203 /* TextViewRepresentable.swift */,
+				EEDC0510284E3DEA00201203 /* TextView.swift */,
 			);
 			path = TextView;
 			sourceTree = "<group>";
@@ -580,11 +577,10 @@
 				0A5E9678284897170093C810 /* HadithRepository.swift in Sources */,
 				0ABD841A28604DE400260151 /* HadithNotebookRepository.swift in Sources */,
 				EEDC0516284E3E6100201203 /* CustomUITextView.swift in Sources */,
-				EEDC0511284E3E2600201203 /* TextView.swift in Sources */,
 				0ABD84142860433700260151 /* QuranNotebookRepository.swift in Sources */,
 				EE7180BA28465C61000D16FB /* QuranNotebook.swift in Sources */,
 				0ABE19372855B94D006D79CE /* SearchView.swift in Sources */,
-				EEDC0513284E3E2C00201203 /* TextViewRepresentable.swift in Sources */,
+				EEDC0513284E3E2C00201203 /* TextView.swift in Sources */,
 				0A6553172850C5E0006BA6A8 /* UIView+Extension.swift in Sources */,
 				EE61D5DD2847D94D003381B7 /* QuranJSONParser.swift in Sources */,
 			);

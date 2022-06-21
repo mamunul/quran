@@ -61,7 +61,7 @@ struct HadithListView: View {
                             Text(hadith.wrappedValue.grade)
                                 .frame(alignment: .trailing)
                         }
-                        TextViewRepresentable2(
+                        TextView(
                             text: Binding<NSMutableAttributedString>(
                                 get: { NSMutableAttributedString(string: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn) },
                                 set: { hadith.wrappedValue.matn = $0.string }
@@ -72,7 +72,7 @@ struct HadithListView: View {
                         )
                         .frame(height: frameSize(for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
 
-                        TextViewRepresentable2(
+                        TextView(
                             text: Binding<NSMutableAttributedString>(
                                 get: { NSMutableAttributedString(string: hadith.wrappedValue.matn) },
                                 set: { hadith.wrappedValue.matn = $0.string }

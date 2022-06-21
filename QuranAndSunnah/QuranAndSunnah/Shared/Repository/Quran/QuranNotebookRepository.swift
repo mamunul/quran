@@ -26,9 +26,9 @@ protocol IQuranNotebookFacade {
 }
 
 class QuranNotebookRepository: IQuranNotebookFacade {
-    private let notesPath = "/Quran/notes.json"
-    private let bookmarksPath = "/Quran/bookmarks.json"
-    private let highlightsPath = "/Quran/highlights.json"
+    private let notesPath = "Quran/notes.json"
+    private let bookmarksPath = "Quran/bookmarks.json"
+    private let highlightsPath = "Quran/highlights.json"
 
     private let userDefaultPinKey = "quran.pin"
 
@@ -81,7 +81,12 @@ class QuranNotebookRepository: IQuranNotebookFacade {
     }
 
     func getAllHighlights() throws -> [QuranHighlight] {
-        let notes: [QuranHighlight] = try fileHandler.read(relativePath: highlightsPath)
+        var notes = [QuranHighlight]()
+        do {
+            notes = try fileHandler.read(relativePath: highlightsPath)
+        } catch {
+            print(error)
+        }
         return notes
     }
 
