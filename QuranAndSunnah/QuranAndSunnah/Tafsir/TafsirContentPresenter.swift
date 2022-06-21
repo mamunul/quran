@@ -25,6 +25,28 @@ class TafsirContentPresenter: ObservableObject {
     private var previousFontSize: Double = 15.0
     private var notebookRepo = TafsirNotebookRepository()
 
+    func getHighlights(of ayah: TafsirAyah) -> [Highlight] {
+        var highlights = [Highlight]()
+        do {
+            let tafsirHighlights = try notebookRepo.getHighlights(for: ayah)
+
+            highlights = tafsirHighlights.map { hadith in
+                Highlight(
+                    id: UUID(),
+                    range: hadith.range,
+                    markedText: hadith.highlightedText,
+                    chapterTitle: "\(hadith.surahNo)",
+                    contentNo: "AyatNo:\(hadith.tafsirAyah.ayahRange.lowerBound)",
+                    bookName: "IbnKathir:\(hadith.tafsirAyah.contentId.contentId.getFilePath())"
+                )
+            }
+        } catch {
+            print(error)
+        }
+
+        return highlights
+    }
+
     func onHighlightEvent(textRange: ClosedRange<Int>) {
 //        print(textRange)
 

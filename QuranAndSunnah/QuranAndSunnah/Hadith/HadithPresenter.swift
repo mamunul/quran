@@ -11,6 +11,29 @@ class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
     private var repo: IHadithDataReadFacade = HadithRepository()
     private var notebookRepo = HadithNotebookRepository()
+    
+    func getHighlights(of hadith: HadithText) -> [Highlight] {
+        var highlights = [Highlight]()
+        do {
+            let hadithHighlights = try notebookRepo.getHighlights(for: hadith)
+
+            highlights = hadithHighlights.map { hadith in
+                Highlight(
+                    id: UUID(),
+                    range: hadith.range,
+                    markedText: hadith.highlightedText,
+                    chapterTitle: "Chapter:\(hadith.chapterNo)",
+                    contentNo: "HadithNo:\(hadith.hadithNo)",
+                    bookName: "Hadith:\(hadith.contentId.contentId.getFilePath())"
+                )
+            }
+            
+        } catch {
+            print(error)
+        }
+
+        return highlights
+    }
 
     func onHighlightEvent(hadith: HadithText, textRange: ClosedRange<Int>) {
 //        print(textRange)

@@ -88,6 +88,15 @@ class HadithNotebookRepository: IHadithNotebookFacade {
         notes.append(bookmark)
         try fileHandler.save(model: notes, relativePath: bookmarksPath)
     }
+    
+    func getHighlights(for hadith: HadithText) throws -> [HadithHighlight] {
+        let notes: [HadithHighlight] = try getAllHighlights()
+
+        let filteredNotes = notes.filter { highlight in
+            hadith.hadithNo == highlight.hadithNo && hadith.chapterNo == highlight.chapterNo
+        }
+        return filteredNotes
+    }
 
     func getHighlights(for hadithChapter: HadithChapter) throws -> [HadithHighlight] {
         let notes: [HadithHighlight] = try getAllHighlights()

@@ -12,6 +12,7 @@ struct TextView: UIViewRepresentable {
 
     var paragraphAlignment: CustomTextAlignment = .none
     var fontSize: Double? = nil
+    var highlights: [Highlight]
     var onHighLight: ((_ highlightedRange: ClosedRange<Int>) -> Void)?
 
     @Environment(\.colorScheme) var colorScheme
@@ -27,7 +28,9 @@ struct TextView: UIViewRepresentable {
 
     func updateUIView(_ view: CustomUITextView, context: Context) {
         addTextAttributes()
+       
         view.attributedText = text
+        view.setHighlights(highlights)
         view.isEditable = false
         view.isEditable = false
         view.isScrollEnabled = false
@@ -77,5 +80,4 @@ struct TextView: UIViewRepresentable {
             }
         }
     }
-
 }

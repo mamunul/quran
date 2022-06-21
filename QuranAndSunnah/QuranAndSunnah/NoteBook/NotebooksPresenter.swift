@@ -9,6 +9,7 @@ import Foundation
 
 struct Note: Identifiable {
     var id: Int
+    var range: ClosedRange<Int>
     var markedText: String
     var chapterTitle: String
     var contentNo: String
@@ -18,6 +19,7 @@ struct Note: Identifiable {
 
 struct Highlight: Identifiable {
     var id: UUID
+    var range: ClosedRange<Int>
     var markedText: String
     var chapterTitle: String
     var contentNo: String
@@ -46,6 +48,7 @@ class NotebooksPresenter: ObservableObject {
             var highlight = hadithHighlights.map { hadith in
                 Highlight(
                     id: UUID(),
+                    range: hadith.range,
                     markedText: hadith.highlightedText,
                     chapterTitle: "Chapter:\(hadith.chapterNo)",
                     contentNo: "HadithNo:\(hadith.hadithNo)",
@@ -56,6 +59,7 @@ class NotebooksPresenter: ObservableObject {
             highlight = quranHighlights.map { hadith in
                 Highlight(
                     id: UUID(),
+                    range: hadith.range,
                     markedText: hadith.highlightedText,
                     chapterTitle: "AyatNo:\(hadith.ayatNo)",
                     contentNo: "Surah:\(hadith.surahNo)",
@@ -66,6 +70,7 @@ class NotebooksPresenter: ObservableObject {
             highlight = tafsirHighlights.map { hadith in
                 Highlight(
                     id: UUID(),
+                    range: hadith.range,
                     markedText: hadith.highlightedText,
                     chapterTitle: "\(hadith.surahNo)",
                     contentNo: "AyatNo:\(hadith.tafsirAyah.ayahRange.lowerBound)",
