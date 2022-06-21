@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct Tag: Codable {
+    var text: String
+    var id: Int
+}
+
 struct Note: Identifiable {
     var id: Int
     var range: ClosedRange<Int>

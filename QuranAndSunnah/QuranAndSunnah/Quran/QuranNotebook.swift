@@ -37,7 +37,22 @@ struct QuranHighlight: Codable {
     var contentId: ContentIdentity<AyahContentID>
 }
 
-struct QuranBookmark: Codable {
+struct QuranBookmark: Identifiable, Equatable, Codable {
+    static func == (lhs: QuranBookmark, rhs: QuranBookmark) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    static let empty =
+        QuranBookmark(
+            ayatNo: 0,
+            surahNo: 0,
+            contentId: ContentIdentity<AyahContentID>(
+                contentId: .bn_bengali_tanzil,
+                lang: .ar,
+                contentType: .original
+            )
+        )
+    var id = UUID()
     var ayatNo: Int
     var surahNo: Int
     var contentId: ContentIdentity<AyahContentID>

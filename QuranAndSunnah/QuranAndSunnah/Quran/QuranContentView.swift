@@ -77,8 +77,21 @@ struct SurahContentView: View {
             List {
                 ForEach(filteredAyat) { ayah in
                     VStack(spacing: 10) {
-                        Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        HStack {
+                            Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding()
+                            Spacer()
+                            Button {
+                                presenter.bookmark(ayah: ayah)
+                            } label: {
+                                if presenter.isBookmarked(ayah: ayah) {
+                                    Image(systemName: "bookmark.fill").padding()
+                                } else {
+                                    Image(systemName: "bookmark").padding()
+                                }
+                            }.buttonStyle(PlainButtonStyle())
+                        }
                         TextView(
                             text: .constant(NSMutableAttributedString(string: ayah.text)),
                             searchString: self.$searchString,

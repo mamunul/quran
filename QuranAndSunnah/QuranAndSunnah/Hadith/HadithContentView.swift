@@ -57,9 +57,21 @@ struct HadithListView: View {
                         HStack {
                             Text("\(hadith.wrappedValue.hadithNo)")
                                 .frame(alignment: .leading)
+                                .padding()
                             Spacer()
+                            Button {
+                                presenter.bookmark(hadith: hadith.wrappedValue)
+                            } label: {
+                                if presenter.isBookmarked(hadith: hadith.wrappedValue) {
+                                    Image(systemName: "bookmark.fill").padding()
+                                } else {
+                                    Image(systemName: "bookmark").padding()
+                                }
+                            }.buttonStyle(PlainButtonStyle())
+
                             Text(hadith.wrappedValue.grade)
                                 .frame(alignment: .trailing)
+                                .padding()
                         }
                         TextView(
                             text: Binding<NSMutableAttributedString>(

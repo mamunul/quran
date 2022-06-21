@@ -12,6 +12,7 @@ protocol IQuranNotebookFacade {
     func getAllNotes() throws -> [QuranNote]
     func save(note: QuranNote) throws
 
+    func getBookmark(for ayah: Ayah) throws -> QuranBookmark
     func getBookmarks(for surah: SurahInfo) throws -> [QuranBookmark]
     func getAllBookmarks() throws -> [QuranBookmark]
     func save(bookmark: QuranBookmark) throws
@@ -53,6 +54,14 @@ class QuranNotebookRepository: IQuranNotebookFacade {
         try fileHandler.save(model: notes, relativePath: notesPath)
     }
 
+    func getBookmark(for ayah: Ayah) throws -> QuranBookmark {
+        let notes: [QuranBookmark] = try getAllBookmarks()
+        let filteredNotes = notes.filter { highlight in
+            ayah.ayahNo == highlight.ayatNo && ayah.surahNo == highlight.surahNo
+        }
+        return filteredNotes.first ?? QuranBookmark.empty
+    }
+
     func getBookmarks(for surah: SurahInfo) throws -> [QuranBookmark] {
         let notes: [QuranBookmark] = try getAllBookmarks()
         let filteredNotes = notes.filter { highlight in
@@ -62,7 +71,12 @@ class QuranNotebookRepository: IQuranNotebookFacade {
     }
 
     func getAllBookmarks() throws -> [QuranBookmark] {
-        let notes: [QuranBookmark] = try fileHandler.read(relativePath: bookmarksPath)
+        var notes = [QuranBookmark]()
+        do {
+            notes = try fileHandler.read(relativePath: bookmarksPath)
+        } catch {
+            print(error)
+        }
         return notes
     }
 

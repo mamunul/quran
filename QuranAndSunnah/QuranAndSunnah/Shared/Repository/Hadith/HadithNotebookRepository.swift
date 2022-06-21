@@ -62,6 +62,14 @@ class HadithNotebookRepository: IHadithNotebookFacade {
         try fileHandler.save(model: notes, relativePath: notesPath)
     }
 
+    func getBookmark(for hadith: HadithText) throws -> HadithBookmark {
+        let notes: [HadithBookmark] = try getAllBookmarks()
+        let filteredNotes = notes.filter { highlight in
+            hadith.chapterNo == highlight.chapterNo && hadith.hadithNo == highlight.hadithNo
+        }
+        return filteredNotes.first ?? HadithBookmark.empty
+    }
+
     func getBookmarks(for hadithChapter: HadithChapter) throws -> [HadithBookmark] {
         let notes: [HadithBookmark] = try getAllBookmarks()
         let filteredNotes = notes.filter { highlight in
@@ -79,7 +87,12 @@ class HadithNotebookRepository: IHadithNotebookFacade {
     }
 
     func getAllBookmarks() throws -> [HadithBookmark] {
-        let notes: [HadithBookmark] = try fileHandler.read(relativePath: highlightsPath)
+        var notes = [HadithBookmark]()
+        do {
+            notes = try fileHandler.read(relativePath: bookmarksPath)
+        } catch {
+            print(error)
+        }
         return notes
     }
 
@@ -88,7 +101,7 @@ class HadithNotebookRepository: IHadithNotebookFacade {
         notes.append(bookmark)
         try fileHandler.save(model: notes, relativePath: bookmarksPath)
     }
-    
+
     func getHighlights(for hadith: HadithText) throws -> [HadithHighlight] {
         let notes: [HadithHighlight] = try getAllHighlights()
 
