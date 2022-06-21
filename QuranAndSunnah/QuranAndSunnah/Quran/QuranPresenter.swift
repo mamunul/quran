@@ -15,6 +15,28 @@ class QuranPresenter: ObservableObject {
 //    @Published var surah: SurahInfo?
     private var repository = QuranJsonFacade.shared
     private var notebookRepo = QuranNotebookRepository()
+    
+    func getHighlights(of ayah: Ayah) -> [Highlight] {
+        var highlights = [Highlight]()
+        do {
+            let quranHighlights = try notebookRepo.getHighlights(for: ayah)
+
+            highlights = quranHighlights.map { hadith in
+                Highlight(
+                    id: UUID(),
+                    range: hadith.range,
+                    markedText: hadith.highlightedText,
+                    chapterTitle: "AyatNo:\(hadith.ayatNo)",
+                    contentNo: "Surah:\(hadith.surahNo)",
+                    bookName: "Quran:\(hadith.contentId.contentId.getFilePath())"
+                )
+            }
+        } catch {
+            print(error)
+        }
+
+        return highlights
+    }
 
     func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, text: String) {
 //        print(textRange)

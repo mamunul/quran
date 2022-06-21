@@ -116,6 +116,7 @@ struct TafsirContentView: View {
                     searchString: self.$searchString,
                     paragraphAlignment: .none,
                     fontSize: nil,
+                    highlights: presenter.getHighlights(of: ayah),
                     onHighLight: { highlightedString in
                         presenter.onHighlightEvent(textRange: highlightedString)
                     }

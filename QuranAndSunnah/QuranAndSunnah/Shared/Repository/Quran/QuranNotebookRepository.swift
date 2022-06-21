@@ -18,6 +18,7 @@ protocol IQuranNotebookFacade {
 
     func getHighlights(for surah: SurahInfo) throws -> [QuranHighlight]
     func getAllHighlights() throws -> [QuranHighlight]
+    func getHighlights(for ayah: Ayah) throws -> [QuranHighlight]
     func save(highlight: QuranHighlight) throws
 
     func getPin() -> QuranPin
@@ -69,6 +70,15 @@ class QuranNotebookRepository: IQuranNotebookFacade {
         var notes = try getAllBookmarks()
         notes.append(bookmark)
         try fileHandler.save(model: notes, relativePath: bookmarksPath)
+    }
+
+    func getHighlights(for ayah: Ayah) throws -> [QuranHighlight] {
+        let notes: [QuranHighlight] = try getAllHighlights()
+
+        let filteredNotes = notes.filter { highlight in
+            ayah.ayahNo == highlight.ayatNo && ayah.surahNo == highlight.surahNo
+        }
+        return filteredNotes
     }
 
     func getHighlights(for surah: SurahInfo) throws -> [QuranHighlight] {

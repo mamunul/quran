@@ -83,7 +83,8 @@ struct SurahContentView: View {
                             text: .constant(NSMutableAttributedString(string: ayah.text)),
                             searchString: self.$searchString,
                             paragraphAlignment: .right,
-                            fontSize: fontSize
+                            fontSize: fontSize,
+                            highlights: [Highlight]()
                         )
                         .frame(height: frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
 
@@ -96,6 +97,7 @@ struct SurahContentView: View {
                             searchString: self.$searchString,
                             paragraphAlignment: .left,
                             fontSize: fontSize,
+                            highlights: presenter.getHighlights(of: ayah),
                             onHighLight: { highlightedRange in
                                 presenter.onHighlightEvent(
                                     textRange: highlightedRange,

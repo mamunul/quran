@@ -27,14 +27,29 @@ class CustomUITextView: UITextView {
         UIMenuController.shared.menuItems = [highlightMenuItem, noteMenuItem]
     }
 
-    @objc func hightlight(_ sender: Any?) {
+    func setHighlights(_ highlights: [Highlight]) {
+        highlights.forEach { highlight in
+            let color = getHighlighColor()
+            let attributes = [NSAttributedString.Key.backgroundColor: color]
+            if attributedText.length < highlight.range.upperBound { return }
+//            print(attributedText.size(), highlight.range)
+            textStorage.addAttributes(attributes, range: NSRange(highlight.range))
+        }
+    }
+
+    private func getHighlighColor() -> UIColor {
         var color = UIColor.yellow
         if traitCollection.userInterfaceStyle == .dark {
             color = UIColor.purple
         }
+        return color
+    }
+
+    @objc func hightlight(_ sender: Any?) {
+        let color = getHighlighColor()
         let attributes = [NSAttributedString.Key.backgroundColor: color]
         textStorage.addAttributes(attributes, range: selectedRange)
-        onHighLight?(selectedRange.lowerBound ... selectedRange.upperBound-1)
+        onHighLight?(selectedRange.lowerBound ... selectedRange.upperBound - 1)
     }
 
     @objc func note(_ sender: Any?) {

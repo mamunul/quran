@@ -68,7 +68,8 @@ struct HadithListView: View {
                             ),
                             searchString: self.$searchString,
                             paragraphAlignment: .right,
-                            fontSize: fontSize
+                            fontSize: fontSize,
+                            highlights: [Highlight]()
                         )
                         .frame(height: frameSize(for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
 
@@ -80,6 +81,7 @@ struct HadithListView: View {
                             searchString: self.$searchString,
                             paragraphAlignment: .left,
                             fontSize: fontSize,
+                            highlights: presenter.getHighlights(of: hadith.wrappedValue),
                             onHighLight: { highlightedRange in
                                 presenter.onHighlightEvent(
                                     hadith: hadith.wrappedValue,
