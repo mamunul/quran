@@ -45,7 +45,7 @@ struct HadithListView: View {
     @State private var showingPopover = false
     @State var chapter: HadithChapter
     var collector: HadithCollector
-    @State var hadithArabicList = [Int:HadithText]()
+    @State var hadithArabicList = [Int: HadithText]()
     @State var hadithEnglishList = [HadithText]()
     @State var allHadithEnglishList = [HadithText]()
 
@@ -79,7 +79,13 @@ struct HadithListView: View {
                             ),
                             searchString: self.$searchString,
                             paragraphAlignment: .left,
-                            fontSize: fontSize
+                            fontSize: fontSize,
+                            onHighLight: { highlightedRange in
+                                presenter.onHighlightEvent(
+                                    hadith: hadith.wrappedValue,
+                                    textRange: highlightedRange
+                                )
+                            }
                         )
                         .frame(height: frameSize(for: hadith.wrappedValue.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
                     }.listRowInsets(EdgeInsets())

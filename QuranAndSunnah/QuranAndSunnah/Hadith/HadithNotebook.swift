@@ -31,7 +31,7 @@ struct HadithNote: Codable {
 }
 
 struct HadithHighlight: Codable {
-    var range: Range<Int>
+    var range: ClosedRange<Int>
     var highlightedText: String
     var hadithNo: Int
     var chapterNo: Int

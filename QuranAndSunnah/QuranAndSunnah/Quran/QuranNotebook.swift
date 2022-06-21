@@ -29,7 +29,7 @@ struct QuranNote: Codable {
 }
 
 struct QuranHighlight: Codable {
-    var range: Range<Int>
+    var range: ClosedRange<Int>
     var highlightedText: String
     var ayatNo: Int
     var surahNo: Int
