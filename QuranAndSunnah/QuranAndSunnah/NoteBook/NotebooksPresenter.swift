@@ -40,6 +40,8 @@ class NotebooksPresenter: ObservableObject {
     private let tafsirNotebookRepository = TafsirNotebookRepository()
 
     func getHighlights() {
+        
+        highlights.removeAll()
         do {
             let hadithHighlights = try hadithNotebookRepository.getAllHighlights()
             let quranHighlights = try quranNotebookRepository.getAllHighlights()
