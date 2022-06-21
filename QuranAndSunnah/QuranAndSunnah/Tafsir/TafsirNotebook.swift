@@ -8,11 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct Tag: Codable {
-    var text: String
-    var id: Int
-}
-
 struct TafsirTag: Codable {
     var tag: Tag
     var tafsirAyat: [TafsirHighlight]

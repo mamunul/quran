@@ -11,7 +11,26 @@ class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
     private var repo: IHadithDataReadFacade = HadithRepository()
     private var notebookRepo = HadithNotebookRepository()
-    
+
+    func bookmark(hadith: HadithText) {
+        do {
+            let bookmark = HadithBookmark(hadithNo: hadith.hadithNo, chapterNo: hadith.chapterNo, contentId: hadith.contentId)
+            try notebookRepo.save(bookmark: bookmark)
+        } catch {
+            print(error)
+        }
+    }
+
+    func isBookmarked(hadith: HadithText) -> Bool {
+        do {
+            let status = try notebookRepo.getBookmark(for: hadith) != .empty
+            return status
+        } catch {
+            print(error)
+        }
+        return false
+    }
+
     func getHighlights(of hadith: HadithText) -> [Highlight] {
         var highlights = [Highlight]()
         do {
@@ -27,7 +46,7 @@ class HadithPresenter: ObservableObject {
                     bookName: "Hadith:\(hadith.contentId.contentId.getFilePath())"
                 )
             }
-            
+
         } catch {
             print(error)
         }

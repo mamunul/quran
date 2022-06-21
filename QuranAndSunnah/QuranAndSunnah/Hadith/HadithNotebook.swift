@@ -39,7 +39,22 @@ struct HadithHighlight: Codable {
     var contentId: ContentIdentity<HadithContentID>
 }
 
-struct HadithBookmark: Codable {
+struct HadithBookmark: Equatable, Codable {
+    static func == (lhs: HadithBookmark, rhs: HadithBookmark) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    static let empty =
+        HadithBookmark(
+            hadithNo: 0,
+            chapterNo: 0,
+            contentId: ContentIdentity<HadithContentID>(
+                contentId: .abudaud_1,
+                lang: .ar,
+                contentType: .original
+            )
+        )
+    var id = UUID()
     var hadithNo: Int
     var chapterNo: Int
 

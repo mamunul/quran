@@ -16,6 +16,24 @@ class QuranPresenter: ObservableObject {
     private var repository = QuranJsonFacade.shared
     private var notebookRepo = QuranNotebookRepository()
     
+    func bookmark(ayah: Ayah) {
+        do {
+            let bookmark = QuranBookmark(ayatNo: ayah.ayahNo, surahNo: ayah.surahNo, contentId: ayah.contentId)
+            try notebookRepo.save(bookmark: bookmark)
+        } catch {
+            print(error)
+        }
+    }
+    func isBookmarked(ayah: Ayah) -> Bool {
+        do {
+            let status = try notebookRepo.getBookmark(for: ayah) != .empty
+            return status
+        } catch {
+            print(error)
+        }
+        return false
+    }
+
     func getHighlights(of ayah: Ayah) -> [Highlight] {
         var highlights = [Highlight]()
         do {
