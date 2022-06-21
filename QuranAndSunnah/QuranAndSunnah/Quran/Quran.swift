@@ -12,7 +12,7 @@ protocol ContentID: Equatable, Codable {
 }
 
 struct ContentIdentity<T: ContentID>: Codable {
-    var contentID: T
+    var contentId: T
     var lang: Language
     var contentType: ContentType
 }
@@ -71,7 +71,7 @@ struct SurahName: Codable {
     var text: String
     var surahNo: Int
 
-    var contentID: ContentIdentity<SurahNameContentID>
+    var contentId: ContentIdentity<SurahNameContentID>
 }
 
 enum ContentType: Int, Codable {
@@ -84,8 +84,8 @@ struct Ayah: Codable, Identifiable {
         text: "",
         ayahNo: 0,
         surahNo: 0,
-        contentID: ContentIdentity<AyahContentID>(
-            contentID: .transliteration_litequran,
+        contentId: ContentIdentity<AyahContentID>(
+            contentId: .transliteration_litequran,
             lang: .en,
             contentType: .translation
         )
@@ -95,7 +95,7 @@ struct Ayah: Codable, Identifiable {
     var ayahNo: Int
     var surahNo: Int
 
-    var contentID: ContentIdentity<AyahContentID>
+    var contentId: ContentIdentity<AyahContentID>
 }
 
 enum RevelationPlace: String, Codable {
@@ -122,7 +122,7 @@ enum WordContentID: Int, ContentID {
 }
 
 struct Word<T: ContentID>: Codable {
-    var contentID: T
+    var contentId: T
     var lang: Language
     var text: String
     var ayahNo: Int

@@ -25,7 +25,7 @@ struct QuranNote: Codable {
     var ayatNo: Int
     var surahNo: Int
 
-    var contentID: ContentIdentity<AyahContentID>
+    var contentId: ContentIdentity<AyahContentID>
 }
 
 struct QuranHighlight: Codable {
@@ -34,11 +34,11 @@ struct QuranHighlight: Codable {
     var ayatNo: Int
     var surahNo: Int
 
-    var contentID: ContentIdentity<AyahContentID>
+    var contentId: ContentIdentity<AyahContentID>
 }
 
 struct QuranBookmark: Codable {
     var ayatNo: Int
     var surahNo: Int
-    var contentID: ContentIdentity<AyahContentID>
+    var contentId: ContentIdentity<AyahContentID>
 }

@@ -23,6 +23,20 @@ class TafsirContentPresenter: ObservableObject {
     @Published var surahTranslilerationList = [Int: SurahName]()
     private var repository = QuranJsonFacade.shared
     private var previousFontSize: Double = 15.0
+    private var notebookRepo = TafsirNotebookRepository()
+
+    func onHighlightEvent(textRange: ClosedRange<Int>) {
+//        print(textRange)
+
+        let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
+        let highlight =
+            TafsirHighlight(range: textRange, highlightedText: markedString, tafsirAyah: ayah!, surahNo: surah!.surahNo)
+        do {
+            try notebookRepo.save(highlight: highlight)
+        } catch {
+            print(error)
+        }
+    }
 
     func getSurahList() {
         do {
@@ -46,7 +60,7 @@ class TafsirContentPresenter: ObservableObject {
 
     func getSurahArabicList() {
         do {
-            let surahList = try repository.getSurahArabic(contentID: SurahNameContentID.en_unknown)
+            let surahList = try repository.getSurahArabic(contentId: SurahNameContentID.en_unknown)
 
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
@@ -59,7 +73,7 @@ class TafsirContentPresenter: ObservableObject {
 
     func getSurahTransliterationList() {
         do {
-            let surahList = try repository.getSurahTransliteration(contentID: SurahNameContentID.en_tanzil, language: .en)
+            let surahList = try repository.getSurahTransliteration(contentId: SurahNameContentID.en_tanzil, language: .en)
 
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
@@ -72,7 +86,7 @@ class TafsirContentPresenter: ObservableObject {
 
     func getSurahTranslationList() {
         do {
-            let surahList = try repository.getSurahTranslation(contentID: SurahNameContentID.en_tanzil, language: .en)
+            let surahList = try repository.getSurahTranslation(contentId: SurahNameContentID.en_tanzil, language: .en)
 
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
@@ -156,7 +170,9 @@ class TafsirContentPresenter: ObservableObject {
             print("Family: \(family)  names: \(names) size:\(String(describing: scaledFont))")
         }
     }
+}
 
+extension TafsirContentPresenter {
     func addAttributeFonts(nsAttributedString: NSMutableAttributedString) {
         nsAttributedString.beginEditing()
         let attributes = [NSAttributedString.Key.font: UIFont(name: "_PDMS_Saleem_QuranFont", size: UIFont.labelFontSize)!]

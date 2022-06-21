@@ -27,7 +27,7 @@ struct HadithNote: Codable {
     var hadithNo: Int
     var chapterNo: Int
 
-    var contentID: ContentIdentity<HadithContentID>
+    var contentId: ContentIdentity<HadithContentID>
 }
 
 struct HadithHighlight: Codable {
@@ -36,12 +36,12 @@ struct HadithHighlight: Codable {
     var hadithNo: Int
     var chapterNo: Int
 
-    var contentID: ContentIdentity<HadithContentID>
+    var contentId: ContentIdentity<HadithContentID>
 }
 
 struct HadithBookmark: Codable {
     var hadithNo: Int
     var chapterNo: Int
 
-    var contentID: ContentIdentity<HadithContentID>
+    var contentId: ContentIdentity<HadithContentID>
 }

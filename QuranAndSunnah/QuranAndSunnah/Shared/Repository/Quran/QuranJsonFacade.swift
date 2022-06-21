@@ -34,8 +34,8 @@ class QuranJsonFacade: IDataReadFacade {
         return surahList
     }
 
-    func getSurahArabic(contentID: SurahNameContentID) throws -> [SurahName] {
-        let surahInfoJsonDict: [String: SurahJson] = try repo.getQuranData(basePath, contentId: contentID)
+    func getSurahArabic(contentId: SurahNameContentID) throws -> [SurahName] {
+        let surahInfoJsonDict: [String: SurahJson] = try repo.getQuranData(basePath, contentId: contentId)
 
         let surahInfoJsonArray = surahInfoJsonDict.sorted { left, right in
             Int(left.key)! < Int(right.key)!
@@ -45,8 +45,8 @@ class QuranJsonFacade: IDataReadFacade {
             SurahName(
                 text: value.name,
                 surahNo: (key as NSString).integerValue,
-                contentID: ContentIdentity<SurahNameContentID>(
-                    contentID: SurahNameContentID.en_unknown,
+                contentId: ContentIdentity<SurahNameContentID>(
+                    contentId: SurahNameContentID.en_unknown,
                     lang: .ar,
                     contentType: .original)
             )
@@ -55,11 +55,11 @@ class QuranJsonFacade: IDataReadFacade {
     }
 
     func getSurahTranslation(
-        contentID: SurahNameContentID,
+        contentId: SurahNameContentID,
         language: Language
     ) throws -> [SurahName] {
         let surahNammeTranslationJsonDict: [String: SurahTranslationJson] =
-            try repo.getQuranData(basePath, contentId: contentID)
+            try repo.getQuranData(basePath, contentId: contentId)
 
         let surahNammeTranslationJsonArray = surahNammeTranslationJsonDict.sorted { left, right in
             Int(left.key)! < Int(right.key)!
@@ -69,8 +69,8 @@ class QuranJsonFacade: IDataReadFacade {
             SurahName(
                 text: value.translation,
                 surahNo: (key as NSString).integerValue,
-                contentID: ContentIdentity<SurahNameContentID>(
-                    contentID: SurahNameContentID.en_tanzil,
+                contentId: ContentIdentity<SurahNameContentID>(
+                    contentId: SurahNameContentID.en_tanzil,
                     lang: .en,
                     contentType: .translation
                 )
@@ -81,11 +81,11 @@ class QuranJsonFacade: IDataReadFacade {
     }
 
     func getSurahTransliteration(
-        contentID: SurahNameContentID,
+        contentId: SurahNameContentID,
         language: Language
     ) throws -> [SurahName] {
         let surahNammeTranslationJsonDict: [String: SurahTranslationJson] =
-            try repo.getQuranData(basePath, contentId: contentID)
+            try repo.getQuranData(basePath, contentId: contentId)
 
         let surahNammeTranslationJsonArray = surahNammeTranslationJsonDict.sorted { left, right in
             Int(left.key)! < Int(right.key)!
@@ -96,8 +96,8 @@ class QuranJsonFacade: IDataReadFacade {
             SurahName(
                 text: value.name,
                 surahNo: (key as NSString).integerValue,
-                contentID: ContentIdentity<SurahNameContentID>(
-                    contentID: SurahNameContentID.en_tanzil,
+                contentId: ContentIdentity<SurahNameContentID>(
+                    contentId: SurahNameContentID.en_tanzil,
                     lang: .en,
                     contentType: .transliteration)
             )
@@ -106,8 +106,8 @@ class QuranJsonFacade: IDataReadFacade {
         return surahTransliterationList
     }
 
-    func getAyat(of surah: SurahInfo, contentID: AyahContentID) throws -> [Ayah] {
-        let ayahDict: [String: String] = try repo.getQuranData(basePath, contentId: contentID)
+    func getAyat(of surah: SurahInfo, contentId: AyahContentID) throws -> [Ayah] {
+        let ayahDict: [String: String] = try repo.getQuranData(basePath, contentId: contentId)
 
         let ayahArray = ayahDict.sorted { left, right in
             Int(left.key)! < Int(right.key)!
@@ -119,8 +119,8 @@ class QuranJsonFacade: IDataReadFacade {
                 text: value,
                 ayahNo: Int(key)!,
                 surahNo: surah.surahNo,
-                contentID: ContentIdentity<AyahContentID>(
-                    contentID: AyahContentID.indonesia_ar,
+                contentId: ContentIdentity<AyahContentID>(
+                    contentId: AyahContentID.indonesia_ar,
                     lang: .ar,
                     contentType: .original)
             )
@@ -132,9 +132,9 @@ class QuranJsonFacade: IDataReadFacade {
         return ayat
     }
 
-    func getAyahTranslation(of surah: SurahInfo, contentID: AyahContentID, language: Language) throws
+    func getAyahTranslation(of surah: SurahInfo, contentId: AyahContentID, language: Language) throws
         -> [Ayah] {
-        let translationsJson: TranslationJson = try repo.getQuranData(basePath, contentId: contentID)
+        let translationsJson: TranslationJson = try repo.getQuranData(basePath, contentId: contentId)
 
         let translationsJsonArray = translationsJson.translations.sorted { left, right in
             Int(left.key)! < Int(right.key)!
@@ -146,8 +146,8 @@ class QuranJsonFacade: IDataReadFacade {
                 text: value,
                 ayahNo: (key as NSString).integerValue,
                 surahNo: surah.surahNo,
-                contentID: ContentIdentity<AyahContentID>(
-                    contentID: AyahContentID.en_hilali_quranenc,
+                contentId: ContentIdentity<AyahContentID>(
+                    contentId: AyahContentID.en_hilali_quranenc,
                     lang: .en,
                     contentType: .translation)
             )
@@ -158,9 +158,9 @@ class QuranJsonFacade: IDataReadFacade {
         return ayat
     }
 
-    func getAyahTransliteration(of surah: SurahInfo, contentID: AyahContentID, language: Language) throws
+    func getAyahTransliteration(of surah: SurahInfo, contentId: AyahContentID, language: Language) throws
         -> [Ayah] {
-        let transliterationnJsonDict: [String: String] = try repo.getQuranData(basePath, contentId: contentID)
+        let transliterationnJsonDict: [String: String] = try repo.getQuranData(basePath, contentId: contentId)
 
         let transliterationnJsonArray = transliterationnJsonDict.sorted { left, right in
             Int(left.key)! < Int(right.key)!
@@ -172,8 +172,8 @@ class QuranJsonFacade: IDataReadFacade {
                 text: value,
                 ayahNo: (key as NSString).integerValue,
                 surahNo: surah.surahNo,
-                contentID: ContentIdentity<AyahContentID>(
-                    contentID: AyahContentID.transliteration_litequran,
+                contentId: ContentIdentity<AyahContentID>(
+                    contentId: AyahContentID.transliteration_litequran,
                     lang: .en,
                     contentType: .transliteration)
             )

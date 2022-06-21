@@ -79,7 +79,7 @@ struct SurahContentView: View {
                     VStack(spacing: 10) {
                         Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        TextViewRepresentable2(
+                        TextView(
                             text: .constant(NSMutableAttributedString(string: ayah.text)),
                             searchString: self.$searchString,
                             paragraphAlignment: .right,
@@ -87,7 +87,7 @@ struct SurahContentView: View {
                         )
                         .frame(height: frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
 
-                        TextViewRepresentable2(
+                        TextView(
                             text: .constant(NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text)),
                             searchString: self.$searchString,
                             paragraphAlignment: .left,

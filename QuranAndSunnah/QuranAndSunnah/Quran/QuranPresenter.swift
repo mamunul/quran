@@ -26,7 +26,7 @@ class QuranPresenter: ObservableObject {
     }
     func getSurahArabicList() {
         do {
-            let surahList = try repository.getSurahArabic(contentID: .en_unknown)
+            let surahList = try repository.getSurahArabic(contentId: .en_unknown)
 
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
@@ -39,7 +39,7 @@ class QuranPresenter: ObservableObject {
 
     func getSurahTransliterationList() {
         do {
-            let surahList = try repository.getSurahTransliteration(contentID: .en_tanzil, language: .en)
+            let surahList = try repository.getSurahTransliteration(contentId: .en_tanzil, language: .en)
 
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
@@ -52,7 +52,7 @@ class QuranPresenter: ObservableObject {
 
     func getSurahTranslationList() {
         do {
-            let surahList = try repository.getSurahTranslation(contentID: .en_tanzil, language: .en)
+            let surahList = try repository.getSurahTranslation(contentId: .en_tanzil, language: .en)
 
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
@@ -65,7 +65,7 @@ class QuranPresenter: ObservableObject {
 
     func getAyat(of surah: SurahInfo) -> [Ayah] {
         do {
-            let ayahList = try repository.getAyat(of: surah, contentID: .indonesia_ar)
+            let ayahList = try repository.getAyat(of: surah, contentId: .indonesia_ar)
             return ayahList
         } catch {
             print(error)
@@ -75,7 +75,7 @@ class QuranPresenter: ObservableObject {
 
     func getAyatTranslation(of surah: SurahInfo) -> [Int: Ayah] {
         do {
-            let ayahList = try repository.getAyahTranslation(of: surah, contentID: .en_hilali_quranenc, language: .en)
+            let ayahList = try repository.getAyahTranslation(of: surah, contentId: .en_hilali_quranenc, language: .en)
 
             let dict = ayahList.reduce(into: [Int: Ayah]()) {
                 $0[$1.ayahNo] = $1

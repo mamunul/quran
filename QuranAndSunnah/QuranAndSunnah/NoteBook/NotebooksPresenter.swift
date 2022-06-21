@@ -17,7 +17,7 @@ struct Note: Identifiable {
 }
 
 struct Highlight: Identifiable {
-    var id: Int
+    var id: UUID
     var markedText: String
     var chapterTitle: String
     var contentNo: String
@@ -37,46 +37,46 @@ class NotebooksPresenter: ObservableObject {
     private let quranNotebookRepository = QuranNotebookRepository()
     private let tafsirNotebookRepository = TafsirNotebookRepository()
 
-    func getHighlights() -> [QuranHighlight] {
+    func getHighlights() {
         do {
             let hadithHighlights = try hadithNotebookRepository.getAllHighlights()
             let quranHighlights = try quranNotebookRepository.getAllHighlights()
             let tafsirHighlights = try tafsirNotebookRepository.getAllHighlights()
 
-            var highlights = hadithHighlights.map { hadith in
+            var highlight = hadithHighlights.map { hadith in
                 Highlight(
-                    id: 0,
+                    id: UUID(),
                     markedText: hadith.highlightedText,
-                    chapterTitle: "\(hadith.chapterNo)",
-                    contentNo: "\(hadith.hadithNo)",
-                    bookName: "\(hadith.contentID.contentID.getFilePath())"
+                    chapterTitle: "Surah:\(hadith.chapterNo)",
+                    contentNo: "HadithNo:\(hadith.hadithNo)",
+                    bookName: "Hadith:\(hadith.contentId.contentId.getFilePath())"
                 )
             }
-            
-             highlights = quranHighlights.map { hadith in
+            highlights.append(contentsOf: highlight)
+            highlight = quranHighlights.map { hadith in
                 Highlight(
-                    id: 0,
+                    id: UUID(),
                     markedText: hadith.highlightedText,
-                    chapterTitle: "\(hadith.ayatNo)",
-                    contentNo: "\(hadith.surahNo)",
-                    bookName: "\(hadith.contentID.contentID.getFilePath())"
+                    chapterTitle: "AyatNo:\(hadith.ayatNo)",
+                    contentNo: "Surah:\(hadith.surahNo)",
+                    bookName: "Quran:\(hadith.contentId.contentId.getFilePath())"
                 )
             }
-            
-             highlights = tafsirHighlights.map { hadith in
+            highlights.append(contentsOf: highlight)
+            highlight = tafsirHighlights.map { hadith in
                 Highlight(
-                    id: 0,
+                    id: UUID(),
                     markedText: hadith.highlightedText,
                     chapterTitle: "\(hadith.surahNo)",
-                    contentNo: "\(hadith.tafsirAyah.ayahRange.lowerBound)",
-                    bookName: "\(hadith.tafsirAyah.contentID.contentID.getFilePath())"
+                    contentNo: "AyatNo:\(hadith.tafsirAyah.ayahRange.lowerBound)",
+                    bookName: "IbnKathir:\(hadith.tafsirAyah.contentId.contentId.getFilePath())"
                 )
             }
 
-            self.highlights = highlights
+            highlights.append(contentsOf: highlight)
 
         } catch {
+            print(error)
         }
-        return []
     }
 }
