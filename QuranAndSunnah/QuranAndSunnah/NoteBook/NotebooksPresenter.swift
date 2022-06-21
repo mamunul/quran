@@ -47,7 +47,7 @@ class NotebooksPresenter: ObservableObject {
                 Highlight(
                     id: UUID(),
                     markedText: hadith.highlightedText,
-                    chapterTitle: "Surah:\(hadith.chapterNo)",
+                    chapterTitle: "Chapter:\(hadith.chapterNo)",
                     contentNo: "HadithNo:\(hadith.hadithNo)",
                     bookName: "Hadith:\(hadith.contentId.contentId.getFilePath())"
                 )

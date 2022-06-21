@@ -12,18 +12,39 @@ class QuranPresenter: ObservableObject {
     @Published var surahArabicList = [Int: SurahName]()
     @Published var surahTranslationList = [Int: SurahName]()
     @Published var surahTranslilerationList = [Int: SurahName]()
-    @Published var surah: SurahInfo?
+//    @Published var surah: SurahInfo?
     private var repository = QuranJsonFacade.shared
+    private var notebookRepo = QuranNotebookRepository()
+
+    func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, text: String) {
+//        print(textRange)
+        let attributedContent = NSMutableAttributedString(string: text)
+        let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
+        let highlight =
+            QuranHighlight(
+                range: textRange,
+                highlightedText: markedString,
+                ayatNo: ayah.ayahNo,
+                surahNo: ayah.surahNo,
+                contentId: ayah.contentId
+            )
+        do {
+            try notebookRepo.save(highlight: highlight)
+        } catch {
+            print(error)
+        }
+    }
 
     func getSurahList() {
         do {
             let surahList = try repository.getSurah()
             self.surahList = surahList
-            surah = surahList.first
+//            surah = surahList.first
         } catch {
             print(error)
         }
     }
+
     func getSurahArabicList() {
         do {
             let surahList = try repository.getSurahArabic(contentId: .en_unknown)

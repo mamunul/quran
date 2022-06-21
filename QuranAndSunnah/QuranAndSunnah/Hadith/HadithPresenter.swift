@@ -10,6 +10,29 @@ import Foundation
 class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
     private var repo: IHadithDataReadFacade = HadithRepository()
+    private var notebookRepo = HadithNotebookRepository()
+
+    func onHighlightEvent(hadith: HadithText, textRange: ClosedRange<Int>) {
+//        print(textRange)
+
+        let attributedContent = NSMutableAttributedString(string: hadith.matn)
+
+        let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
+        let highlight =
+            HadithHighlight(
+                range: textRange,
+                highlightedText: markedString,
+                hadithNo: hadith.hadithNo,
+                chapterNo: hadith.chapterNo,
+                contentId: hadith.contentId
+            )
+        do {
+            try notebookRepo.save(highlight: highlight)
+        } catch {
+            print(error)
+        }
+    }
+
     func getHadithCollectorList() {
         collectors = repo.getCollectorList()
     }
@@ -18,10 +41,10 @@ class HadithPresenter: ObservableObject {
         repo.getChapterList(of: collector, language: .en)
     }
 
-    func getHadithArabicList(of chapter: HadithChapter, collector: HadithCollector) -> [Int:HadithText] {
+    func getHadithArabicList(of chapter: HadithChapter, collector: HadithCollector) -> [Int: HadithText] {
         do {
             let list = try repo.getHadithList(of: chapter, collector: collector, language: .ar)
-            
+
             let dict = list.reduce(into: [Int: HadithText]()) {
                 $0[$1.hadithNo] = $1
             }

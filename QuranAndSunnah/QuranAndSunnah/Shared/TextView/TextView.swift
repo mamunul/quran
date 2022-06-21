@@ -9,11 +9,10 @@ extension Dictionary {
 struct TextView: UIViewRepresentable {
     @Binding var text: NSMutableAttributedString
     var searchString: Binding<String>?
-//    @Binding var calculatedHeight: CGFloat
 
     var paragraphAlignment: CustomTextAlignment = .none
     var fontSize: Double? = nil
-    var onHighLight: ((_ highlightedString: ClosedRange<Int>) -> Void)?
+    var onHighLight: ((_ highlightedRange: ClosedRange<Int>) -> Void)?
 
     @Environment(\.colorScheme) var colorScheme
 
@@ -37,7 +36,6 @@ struct TextView: UIViewRepresentable {
         }
 
         searchTexts(view)
-//        recalculateHeight(view)
         view.setNeedsDisplay()
     }
 
@@ -80,12 +78,4 @@ struct TextView: UIViewRepresentable {
         }
     }
 
-//    private func recalculateHeight(_ view: CustomUITextView) {
-//        let newSize = view.sizeThatFits(CGSize(width: view.frame.width, height: .greatestFiniteMagnitude))
-//        guard $calculatedHeight.wrappedValue != newSize.height else { return }
-//
-//        DispatchQueue.main.async { // call in next render cycle.
-//            self.$calculatedHeight.wrappedValue = newSize.height
-//        }
-//    }
 }

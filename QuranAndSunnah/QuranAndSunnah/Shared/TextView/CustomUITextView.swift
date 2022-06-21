@@ -34,7 +34,7 @@ class CustomUITextView: UITextView {
         }
         let attributes = [NSAttributedString.Key.backgroundColor: color]
         textStorage.addAttributes(attributes, range: selectedRange)
-        onHighLight?(selectedRange.lowerBound ... selectedRange.upperBound)
+        onHighLight?(selectedRange.lowerBound ... selectedRange.upperBound-1)
     }
 
     @objc func note(_ sender: Any?) {

@@ -26,7 +26,7 @@ struct HadithJson: Codable {
     var Arabic_Grade: String
 }
 
-enum HadithContentID: ContentID {
+enum HadithContentID: Int, ContentID {
     case bukhari_1
     case muslim_1
     case tirmizi_1
@@ -102,10 +102,10 @@ class HadithRepository: IHadithDataReadFacade {
         let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapter.chapterNo).json", withExtension: "")!
         let data = try Data(contentsOf: fileUrl)
         let res = try JSONDecoder().decode([HadithJson].self, from: data)
-        
+
         var contentId = collector.contentId
         contentId.lang = language
-        
+
         let hadithList = res.map {
             HadithText(
                 id: ($0.Hadith_number as NSString).integerValue,

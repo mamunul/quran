@@ -88,10 +88,21 @@ struct SurahContentView: View {
                         .frame(height: frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
 
                         TextView(
-                            text: .constant(NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text)),
+                            text: Binding<NSMutableAttributedString>(
+                                get: { NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text) },
+                                set: { ayatTranslation[ayah.ayahNo]!.text = $0.string }
+                            ),
+//                            text: .constant(NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text)),
                             searchString: self.$searchString,
                             paragraphAlignment: .left,
-                            fontSize: fontSize
+                            fontSize: fontSize,
+                            onHighLight: { highlightedRange in
+                                presenter.onHighlightEvent(
+                                    textRange: highlightedRange,
+                                    ayah: ayah,
+                                    text: ayatTranslation[ayah.ayahNo]!.text
+                                )
+                            }
                         )
                         .frame(height: frameSize(for: ayatTranslation[ayah.ayahNo]!.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
                     }
