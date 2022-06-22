@@ -48,6 +48,8 @@ struct HadithListView: View {
     @State var hadithArabicList = [Int: HadithText]()
     @State var hadithEnglishList = [HadithText]()
     @State var allHadithEnglishList = [HadithText]()
+    @State var hadithBookmarks = [Int: Bool]()
+    @State var hadithHighlights = [Int: [Highlight]]()
 
     var body: some View {
         GeometryReader { proxy in
@@ -60,9 +62,10 @@ struct HadithListView: View {
                                 .padding()
                             Spacer()
                             Button {
-                                presenter.bookmark(hadith: hadith.wrappedValue)
+                                hadithBookmarks[hadith.wrappedValue.hadithNo]!.toggle()
+                                presenter.bookmark(hadith: hadith.wrappedValue,hadithBookmarks[hadith.wrappedValue.hadithNo]!)
                             } label: {
-                                if presenter.isBookmarked(hadith: hadith.wrappedValue) {
+                                if hadithBookmarks[hadith.wrappedValue.hadithNo]! {
                                     Image(systemName: "bookmark.fill").padding()
                                 } else {
                                     Image(systemName: "bookmark").padding()
@@ -93,7 +96,7 @@ struct HadithListView: View {
                             searchString: self.$searchString,
                             paragraphAlignment: .left,
                             fontSize: fontSize,
-                            highlights: presenter.getHighlights(of: hadith.wrappedValue),
+                            highlights: hadithHighlights[hadith.wrappedValue.hadithNo]!,
                             onHighLight: { highlightedRange in
                                 presenter.onHighlightEvent(
                                     hadith: hadith.wrappedValue,
@@ -136,6 +139,8 @@ struct HadithListView: View {
                     hadithArabicList = presenter.getHadithArabicList(of: chapter, collector: collector)
                     allHadithEnglishList = presenter.getHadithEnglishList(of: chapter, collector: collector)
                     hadithEnglishList = allHadithEnglishList
+                    hadithBookmarks = presenter.getBookmarks(of: chapter)
+                    hadithHighlights = presenter.getHighlights(of: chapter)
                 }
             }
         }
