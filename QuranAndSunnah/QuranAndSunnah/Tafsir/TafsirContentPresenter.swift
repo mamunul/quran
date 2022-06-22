@@ -14,7 +14,7 @@ class TafsirContentPresenter: ObservableObject {
     private let synthesizer = AVSpeechSynthesizer()
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
-    private var surah: SurahInfo?
+//    private var surah: SurahInfo?
     private var ayah: TafsirAyah?
     private var tafsirRepository: ITafsirRead = TafsirRepository()
     @Published var surahList = [SurahInfo]()
@@ -51,10 +51,23 @@ class TafsirContentPresenter: ObservableObject {
 //        print(textRange)
 
         let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
-        let highlight =
-            TafsirHighlight(range: textRange, highlightedText: markedString, tafsirAyah: ayah!, surahNo: surah!.surahNo)
+//        let highlight =
+//            TafsirHighlight(range: textRange, highlightedText: markedString, tafsirAyah: ayah!, surahNo: ayah!.surahNo)
         do {
-            try notebookRepo.save(highlight: highlight)
+            var ayatHighlights: [IHighlight] = try notebookRepo.getHighlights(for: ayah!)
+
+            let highlight =
+                TafsirHighlight(
+                    range: textRange,
+                    highlightedText: markedString,
+                    tafsirAyah: ayah!,
+                    surahNo: ayah!.surahNo
+                )
+
+            ayatHighlights.append(highlight)
+            MergeVisitor().mergeOverlapped(collection: &ayatHighlights)
+
+            try notebookRepo.save(highlights: ayatHighlights as! [TafsirHighlight], for: ayah!)
         } catch {
             print(error)
         }
@@ -64,7 +77,7 @@ class TafsirContentPresenter: ObservableObject {
         do {
             let surahList = try repository.getSurah()
             self.surahList = surahList
-            surah = surahList.first
+//            surah = surahList.first
         } catch {
             print(error)
         }
@@ -122,13 +135,13 @@ class TafsirContentPresenter: ObservableObject {
     func updateFontSize(_ value: Double) {
         if previousFontSize == value { return }
         previousFontSize = value
-        if surah != nil && ayah != nil {
-            updateContent(surah: surah!, ayah: ayah!, fontSize: value)
+        if ayah != nil {
+            updateContent(ayah: ayah!, fontSize: value)
         }
     }
 
-    func onViewAppear(surah: SurahInfo, ayah: TafsirAyah, fontSize: Double) {
-        updateContent(surah: surah, ayah: ayah, fontSize: fontSize)
+    func onViewAppear(ayah: TafsirAyah, fontSize: Double) {
+        updateContent(ayah: ayah, fontSize: fontSize)
         setupReader()
     }
 
@@ -138,8 +151,8 @@ class TafsirContentPresenter: ObservableObject {
         utterance?.voice = voice
     }
 
-    private func updateContent(surah: SurahInfo, ayah: TafsirAyah, fontSize: Double) {
-        self.surah = surah
+    private func updateContent(ayah: TafsirAyah, fontSize: Double) {
+//        self.surah = surah
         self.ayah = ayah
         let config =
             TafsirContentConfiguration(

@@ -58,6 +58,7 @@ class TafsirRepository: ITafsirRead {
                 id: ayahNo,
                 ayahRange: ayahNo ... nextayahNo,
                 filePath: ayayPath,
+                surahNo: surah.surahNo,
                 contentId: contentId
             )
             ayat.append(ayah)

@@ -13,6 +13,7 @@ struct TafsirAyah: Codable, Identifiable {
             id: 0,
             ayahRange: 0 ... 0,
             filePath: "",
+            surahNo: 0,
             contentId:
             ContentIdentity<TafsirContentID>(
                 contentId: .ibnKathir_shahih,
@@ -23,7 +24,7 @@ struct TafsirAyah: Codable, Identifiable {
     var id: Int
     var ayahRange: ClosedRange<Int>
     var filePath: String
-
+    var surahNo: Int
     var contentId: ContentIdentity<TafsirContentID>
 }
 

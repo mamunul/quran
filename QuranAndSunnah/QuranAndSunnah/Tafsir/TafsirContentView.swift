@@ -108,6 +108,7 @@ struct TafsirContentView: View {
     var surah: SurahInfo
     var ayah: TafsirAyah
     var surahTransliteration: SurahName
+    @State var highlights = [Highlight]()
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
@@ -116,7 +117,7 @@ struct TafsirContentView: View {
                     searchString: self.$searchString,
                     paragraphAlignment: .none,
                     fontSize: nil,
-                    highlights: presenter.getHighlights(of: ayah),
+                    highlights: highlights,
                     onHighLight: { highlightedString in
                         presenter.onHighlightEvent(textRange: highlightedString)
                     }
@@ -124,7 +125,8 @@ struct TafsirContentView: View {
                 .frame(height: frameSize(for: presenter.attributedContent, width: proxy.size.width).height)
                 .onAppear {
                     Task {
-                        presenter.onViewAppear(surah: surah, ayah: ayah, fontSize: fontSize)
+                        presenter.onViewAppear(ayah: ayah, fontSize: fontSize)
+                        highlights = presenter.getHighlights(of: ayah)
                     }
                 }
             }

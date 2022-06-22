@@ -13,7 +13,7 @@ struct TafsirTag: Codable {
     var tafsirAyat: [TafsirHighlight]
 }
 
-struct TafsirHighlight: Codable {
+struct TafsirHighlight: IHighlight, Codable {
     var range: ClosedRange<Int>
     var highlightedText: String
     var tafsirAyah: TafsirAyah
