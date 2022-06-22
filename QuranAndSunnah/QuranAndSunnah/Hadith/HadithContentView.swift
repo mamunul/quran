@@ -53,107 +53,107 @@ struct HadithListView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            List {
-                ForEach(self.$hadithEnglishList) { hadith in
-                    VStack(spacing: 10) {
-                        HStack {
-                            Text("\(hadith.wrappedValue.hadithNo)")
-                                .frame(alignment: .leading)
-                                .padding()
-                            Spacer()
-                            Button {
-                                hadithBookmarks[hadith.wrappedValue.hadithNo]!.toggle()
-                                presenter.bookmark(hadith: hadith.wrappedValue, hadithBookmarks[hadith.wrappedValue.hadithNo]!)
-                            } label: {
-                                if hadithBookmarks[hadith.wrappedValue.hadithNo]! {
-                                    Image(systemName: "bookmark.fill").padding()
-                                } else {
-                                    Image(systemName: "bookmark").padding()
-                                }
-                            }.buttonStyle(PlainButtonStyle())
-
-                            Text(hadith.wrappedValue.grade)
-                                .frame(alignment: .trailing)
-                                .padding()
-                        }
-                        TextView(
-                            text: Binding<NSMutableAttributedString>(
-                                get: { NSMutableAttributedString(string: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn) },
-                                set: { hadith.wrappedValue.matn = $0.string }
-                            ),
-                            searchString: self.$searchString,
-                            paragraphAlignment: .right,
-                            fontSize: fontSize,
-                            highlights: [Highlight]()
-                        )
-                        .frame(height: frameSize(for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
-
-                        TextView(
-                            text: Binding<NSMutableAttributedString>(
-                                get: { NSMutableAttributedString(string: hadith.wrappedValue.matn) },
-                                set: { hadith.wrappedValue.matn = $0.string }
-                            ),
-                            searchString: self.$searchString,
-                            paragraphAlignment: .left,
-                            fontSize: fontSize,
-                            highlights: hadithHighlights[hadith.wrappedValue.hadithNo]!,
-                            onHighlight: { highlightedRange in
-                                presenter.onHighlightEvent(
-                                    hadith: hadith.wrappedValue,
-                                    textRange: highlightedRange
-                                )
-
-                                hadithHighlights[hadith.wrappedValue.hadithNo] = presenter.getHighlights(of: hadith.wrappedValue)
-                            },
-                            onUnhighlight: { highlight in
-                                presenter.remove(highlight: highlight, from: hadith.wrappedValue)
+//            List {
+            List(self.$hadithEnglishList) { hadith in
+                VStack(spacing: 10) {
+                    HStack {
+                        Text("\(hadith.wrappedValue.hadithNo)")
+                            .frame(alignment: .leading)
+                            .padding()
+                        Spacer()
+                        Button {
+                            hadithBookmarks[hadith.wrappedValue.hadithNo]!.toggle()
+                            presenter.bookmark(hadith: hadith.wrappedValue, hadithBookmarks[hadith.wrappedValue.hadithNo]!)
+                        } label: {
+                            if hadithBookmarks[hadith.wrappedValue.hadithNo]! {
+                                Image(systemName: "bookmark.fill").padding()
+                            } else {
+                                Image(systemName: "bookmark").padding()
                             }
-                        )
-                        .frame(height: frameSize(for: hadith.wrappedValue.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
-                    }.listRowInsets(EdgeInsets())
-                }
-            }
-            .listStyle(PlainListStyle())
-            .searchable(text: $searchString)
-            .onChange(of: searchString) { newValue in
-                Task {
-                    if newValue.isEmpty {
-                        hadithEnglishList = allHadithEnglishList
-                    } else {
-                        let newList = hadithEnglishList.filter { $0.matn.localizedCaseInsensitiveContains(newValue) }
-                        hadithEnglishList = newList
+                        }.buttonStyle(PlainButtonStyle())
+
+                        Text(hadith.wrappedValue.grade)
+                            .frame(alignment: .trailing)
+                            .padding()
                     }
-                }
-            }
-            .listStyle(.sidebar)
-            .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.title)"))
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        showingPopover = true
-                    }, label: {
-                        Image(systemName: "gear")
-                    })
-                        .alwaysPopover(isPresented: $showingPopover) {
-                            SettingsView()
+                    TextView(
+                        text: Binding<NSMutableAttributedString>(
+                            get: { NSMutableAttributedString(string: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn) },
+                            set: { hadith.wrappedValue.matn = $0.string }
+                        ),
+                        searchString: self.$searchString,
+                        paragraphAlignment: .right,
+                        fontSize: fontSize,
+                        highlights: [Highlight]()
+                    )
+                    .frame(height: frameSize(for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
+
+                    TextView(
+                        text: Binding<NSMutableAttributedString>(
+                            get: { NSMutableAttributedString(string: hadith.wrappedValue.matn) },
+                            set: { hadith.wrappedValue.matn = $0.string }
+                        ),
+                        searchString: self.$searchString,
+                        paragraphAlignment: .left,
+                        fontSize: fontSize,
+                        highlights: hadithHighlights[hadith.wrappedValue.hadithNo]!,
+                        onHighlight: { highlightedRange in
+                            presenter.onHighlightEvent(
+                                hadith: hadith.wrappedValue,
+                                textRange: highlightedRange
+                            )
+
+                            hadithHighlights[hadith.wrappedValue.hadithNo] = presenter.getHighlights(of: hadith.wrappedValue)
+                        },
+                        onUnhighlight: { highlight in
+                            presenter.remove(highlight: highlight, from: hadith.wrappedValue)
                         }
+                    )
+                    .frame(height: frameSize(for: hadith.wrappedValue.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
+                }.listRowInsets(EdgeInsets())
+            }
+        }
+        .listStyle(PlainListStyle())
+        .searchable(text: $searchString)
+        .onChange(of: searchString) { newValue in
+            Task {
+                if newValue.isEmpty {
+                    hadithEnglishList = allHadithEnglishList
+                } else {
+                    let newList = hadithEnglishList.filter { $0.matn.localizedCaseInsensitiveContains(newValue) }
+                    hadithEnglishList = newList
                 }
             }
-            .onAppear {
-                DispatchQueue.global().async {
-                    let hadithArabicList = presenter.getHadithArabicList(of: chapter, collector: collector)
-                    let allHadithEnglishList = presenter.getHadithEnglishList(of: chapter, collector: collector)
-                    let hadithEnglishList = allHadithEnglishList
-                    let hadithBookmarks = presenter.getBookmarks(of: chapter)
-                    let hadithHighlights = presenter.getHighlights(of: chapter)
-                    DispatchQueue.main.async {
-                        self.hadithArabicList = hadithArabicList
-                        self.allHadithEnglishList = allHadithEnglishList
-                        self.hadithEnglishList = hadithEnglishList
-                        self.hadithBookmarks = hadithBookmarks
-                        self.hadithHighlights = hadithHighlights
+        }
+        .listStyle(.sidebar)
+        .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.title)"))
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button(action: {
+                    showingPopover = true
+                }, label: {
+                    Image(systemName: "gear")
+                })
+                    .alwaysPopover(isPresented: $showingPopover) {
+                        SettingsView()
                     }
+            }
+        }
+        .onAppear {
+            DispatchQueue.global().async {
+                let hadithArabicList = presenter.getHadithArabicList(of: chapter, collector: collector)
+                let allHadithEnglishList = presenter.getHadithEnglishList(of: chapter, collector: collector)
+                let hadithEnglishList = allHadithEnglishList
+                let hadithBookmarks = presenter.getBookmarks(of: chapter)
+                let hadithHighlights = presenter.getHighlights(of: chapter)
+                DispatchQueue.main.async {
+                    self.hadithArabicList = hadithArabicList
+                    self.allHadithEnglishList = allHadithEnglishList
+                    self.hadithEnglishList = hadithEnglishList
+                    self.hadithBookmarks = hadithBookmarks
+                    self.hadithHighlights = hadithHighlights
                 }
+//                }
             }
         }
     }
@@ -202,22 +202,22 @@ struct HadithChapterListView: View {
     var collector: HadithCollector
     @State var chapterList = [HadithChapter]()
     var body: some View {
-        List {
-            ForEach(self.chapterList) { chapter in
-                NavigationLink {
-                    HadithListView(chapter: chapter, collector: collector)
-                } label: {
-                    HStack {
-                        Text("\(chapter.chapterNo)").frame(width: 25)
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(chapter.title)
-                            Text("\(chapter.hadithNo.lowerBound) - \(chapter.hadithNo.upperBound)")
-                                .font(.system(size: 14))
-                        }
+//        List {
+        List(self.chapterList) { chapter in
+            NavigationLink {
+                HadithListView(chapter: chapter, collector: collector)
+            } label: {
+                HStack {
+                    Text("\(chapter.chapterNo)").frame(width: 25)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(chapter.title)
+                        Text("\(chapter.hadithNo.lowerBound) - \(chapter.hadithNo.upperBound)")
+                            .font(.system(size: 14))
                     }
                 }
             }
         }
+//        }
         .listStyle(.sidebar)
         .navigationTitle(Text("\(self.collector.name)"))
         .onAppear {

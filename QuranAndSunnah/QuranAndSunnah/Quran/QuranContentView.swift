@@ -29,33 +29,33 @@ struct QuranContentView: View {
 struct SurahListView: View {
     @EnvironmentObject var presenter: QuranPresenter
     var body: some View {
-        List {
-            ForEach(self.presenter.surahList) { surah in
-                NavigationLink {
-                    SurahContentView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
-                } label: {
-                    HStack {
-                        Text("\(surah.surahNo)").frame(width: 50)
-                        VStack(alignment: .leading) {
-                            Text(presenter.surahTranslilerationList[surah.surahNo]!.text)
-                                .font(.system(size: 16))
-                                .frame(alignment: .leading)
-                                .multilineTextAlignment(.leading)
-                            Text(presenter.surahTranslationList[surah.surahNo]!.text)
-                                .font(.system(size: 14))
-                                .frame(alignment: .leading)
-                                .multilineTextAlignment(.leading)
-                        }
-                        Spacer()
-                        VStack(alignment: .trailing) {
-                            Text(presenter.surahArabicList[surah.surahNo]!.text)
-                            Text("\(surah.ayahCount)")
-                                .font(.system(size: 13))
-                        }
+//        List {
+        List(self.presenter.surahList) { surah in
+            NavigationLink {
+                SurahContentView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
+            } label: {
+                HStack {
+                    Text("\(surah.surahNo)").frame(width: 50)
+                    VStack(alignment: .leading) {
+                        Text(presenter.surahTranslilerationList[surah.surahNo]!.text)
+                            .font(.system(size: 16))
+                            .frame(alignment: .leading)
+                            .multilineTextAlignment(.leading)
+                        Text(presenter.surahTranslationList[surah.surahNo]!.text)
+                            .font(.system(size: 14))
+                            .frame(alignment: .leading)
+                            .multilineTextAlignment(.leading)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text(presenter.surahArabicList[surah.surahNo]!.text)
+                        Text("\(surah.ayahCount)")
+                            .font(.system(size: 13))
                     }
                 }
             }
         }
+//        }
         .listStyle(.sidebar)
     }
 }
@@ -76,63 +76,63 @@ struct SurahContentView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            List {
-                ForEach(filteredAyat) { ayah in
-                    VStack(spacing: 10) {
-                        HStack {
-                            Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding()
-                            Spacer()
-                            Button {
-                                bookmarks[ayah.ayahNo]!.toggle()
-                                presenter.bookmark(ayah: ayah, bookmarks[ayah.ayahNo]!)
-                            } label: {
-                                if bookmarks[ayah.ayahNo]! {
-                                    Image(systemName: "bookmark.fill").padding()
-                                } else {
-                                    Image(systemName: "bookmark").padding()
-                                }
-                            }.buttonStyle(PlainButtonStyle())
-                        }
-                        TextView(
-                            text: .constant(NSMutableAttributedString(string: ayah.text)),
-                            searchString: self.$searchString,
-                            paragraphAlignment: .right,
-                            fontSize: fontSize,
-                            highlights: [Highlight]()
-                        )
-                        .frame(height: frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
-
-                        TextView(
-                            text: Binding<NSMutableAttributedString>(
-                                get: { NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text) },
-                                set: { ayatTranslation[ayah.ayahNo]!.text = $0.string }
-                            ),
-//                            text: .constant(NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text)),
-                            searchString: self.$searchString,
-                            paragraphAlignment: .left,
-                            fontSize: fontSize,
-                            highlights: highlights[ayah.ayahNo]!,
-                            onHighlight: { highlightedRange in
-
-                                presenter.onHighlightEvent(
-                                    textRange: highlightedRange,
-                                    ayah: ayah,
-                                    fullString: ayatTranslation[ayah.ayahNo]!.text
-                                )
-                                let ayahHighlights = presenter.getHighlights(of: ayah)
-                                highlights[ayah.ayahNo] = ayahHighlights
-                            },
-                            onUnhighlight: { highlight in
-                                presenter.remove(highlight: highlight, from: ayah)
+//            List {
+            List(filteredAyat) { ayah in
+                VStack(spacing: 10) {
+                    HStack {
+                        Text("\(ayah.ayahNo - surah.firstAyahNo + 1)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                        Spacer()
+                        Button {
+                            bookmarks[ayah.ayahNo]!.toggle()
+                            presenter.bookmark(ayah: ayah, bookmarks[ayah.ayahNo]!)
+                        } label: {
+                            if bookmarks[ayah.ayahNo]! {
+                                Image(systemName: "bookmark.fill").padding()
+                            } else {
+                                Image(systemName: "bookmark").padding()
                             }
-                        )
-                        .frame(height: frameSize(for: ayatTranslation[ayah.ayahNo]!.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
+                        }.buttonStyle(PlainButtonStyle())
                     }
-                    .listRowInsets(EdgeInsets())
+                    TextView(
+                        text: .constant(NSMutableAttributedString(string: ayah.text)),
+                        searchString: self.$searchString,
+                        paragraphAlignment: .right,
+                        fontSize: fontSize,
+                        highlights: [Highlight]()
+                    )
+                    .frame(height: frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
+
+                    TextView(
+                        text: Binding<NSMutableAttributedString>(
+                            get: { NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text) },
+                            set: { ayatTranslation[ayah.ayahNo]!.text = $0.string }
+                        ),
+//                            text: .constant(NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text)),
+                        searchString: self.$searchString,
+                        paragraphAlignment: .left,
+                        fontSize: fontSize,
+                        highlights: highlights[ayah.ayahNo]!,
+                        onHighlight: { highlightedRange in
+
+                            presenter.onHighlightEvent(
+                                textRange: highlightedRange,
+                                ayah: ayah,
+                                fullString: ayatTranslation[ayah.ayahNo]!.text
+                            )
+                            let ayahHighlights = presenter.getHighlights(of: ayah)
+                            highlights[ayah.ayahNo] = ayahHighlights
+                        },
+                        onUnhighlight: { highlight in
+                            presenter.remove(highlight: highlight, from: ayah)
+                        }
+                    )
+                    .frame(height: frameSize(for: ayatTranslation[ayah.ayahNo]!.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
                 }
+                .listRowInsets(EdgeInsets())
             }
+//            }
             .listStyle(PlainListStyle())
             .searchable(text: $searchString)
             .onChange(of: searchString) { newValue in
