@@ -140,12 +140,19 @@ struct HadithListView: View {
                 }
             }
             .onAppear {
-                Task {
-                    hadithArabicList = presenter.getHadithArabicList(of: chapter, collector: collector)
-                    allHadithEnglishList = presenter.getHadithEnglishList(of: chapter, collector: collector)
-                    hadithEnglishList = allHadithEnglishList
-                    hadithBookmarks = presenter.getBookmarks(of: chapter)
-                    hadithHighlights = presenter.getHighlights(of: chapter)
+                DispatchQueue.global().async {
+                    let hadithArabicList = presenter.getHadithArabicList(of: chapter, collector: collector)
+                    let allHadithEnglishList = presenter.getHadithEnglishList(of: chapter, collector: collector)
+                    let hadithEnglishList = allHadithEnglishList
+                    let hadithBookmarks = presenter.getBookmarks(of: chapter)
+                    let hadithHighlights = presenter.getHighlights(of: chapter)
+                    DispatchQueue.main.async {
+                        self.hadithArabicList = hadithArabicList
+                        self.allHadithEnglishList = allHadithEnglishList
+                        self.hadithEnglishList = hadithEnglishList
+                        self.hadithBookmarks = hadithBookmarks
+                        self.hadithHighlights = hadithHighlights
+                    }
                 }
             }
         }
@@ -214,8 +221,11 @@ struct HadithChapterListView: View {
         .listStyle(.sidebar)
         .navigationTitle(Text("\(self.collector.name)"))
         .onAppear {
-            Task {
-                chapterList = presenter.getChapterList(collector: collector)
+            DispatchQueue.global().async {
+                let chapterList = presenter.getChapterList(collector: collector)
+                DispatchQueue.main.async {
+                    self.chapterList = chapterList
+                }
             }
         }
     }

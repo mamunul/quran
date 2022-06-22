@@ -149,7 +149,9 @@ class QuranPresenter: ObservableObject {
     func getSurahList() {
         do {
             let surahList = try repository.getSurah()
-            self.surahList = surahList
+            DispatchQueue.main.async {
+                self.surahList = surahList
+            }
 //            surah = surahList.first
         } catch {
             print(error)
@@ -163,7 +165,9 @@ class QuranPresenter: ObservableObject {
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
             }
-            surahArabicList = dict
+            DispatchQueue.main.async {
+                self.surahArabicList = dict
+            }
         } catch {
             print(error)
         }
@@ -176,7 +180,9 @@ class QuranPresenter: ObservableObject {
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
             }
-            surahTranslilerationList = dict
+            DispatchQueue.main.async {
+                self.surahTranslilerationList = dict
+            }
         } catch {
             print(error)
         }
@@ -189,7 +195,9 @@ class QuranPresenter: ObservableObject {
             let dict = surahList.reduce(into: [Int: SurahName]()) {
                 $0[$1.surahNo] = $1
             }
-            surahTranslationList = dict
+            DispatchQueue.main.async {
+                self.surahTranslationList = dict
+            }
         } catch {
             print(error)
         }

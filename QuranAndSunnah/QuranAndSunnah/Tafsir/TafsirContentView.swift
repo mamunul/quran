@@ -48,8 +48,11 @@ struct TafsirAyahListView: View {
         .listStyle(.sidebar)
         .navigationTitle(Text(surahTransliteration.text))
         .onAppear {
-            Task {
-                ayat = presenter.getAyat(of: surah)
+            DispatchQueue.global().async {
+                let ayat = presenter.getAyat(of: surah)
+                DispatchQueue.main.async {
+                    self.ayat = ayat
+                }
             }
         }
     }
@@ -127,9 +130,12 @@ struct TafsirContentView: View {
                 )
                 .frame(height: frameSize(for: presenter.attributedContent, width: proxy.size.width).height)
                 .onAppear {
-                    Task {
+                    DispatchQueue.global().async {
                         presenter.onViewAppear(ayah: ayah, fontSize: fontSize)
-                        highlights = presenter.getHighlights(of: ayah)
+                        let highlights = presenter.getHighlights(of: ayah)
+                        DispatchQueue.main.async {
+                            self.highlights = highlights
+                        }
                     }
                 }
             }
@@ -152,7 +158,7 @@ struct TafsirContentView: View {
                 }
             }
             .onChange(of: fontSize) { newValue in
-                Task {
+                DispatchQueue.global().async {
                     presenter.updateFontSize(newValue)
                 }
             }
