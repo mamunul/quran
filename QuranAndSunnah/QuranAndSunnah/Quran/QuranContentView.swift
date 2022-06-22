@@ -16,7 +16,7 @@ struct QuranContentView: View {
 
         .environmentObject(presenter)
         .onAppear {
-            Task {
+            DispatchQueue.global().async {
                 presenter.getSurahList()
                 presenter.getSurahTranslationList()
                 presenter.getSurahTransliterationList()
@@ -158,12 +158,20 @@ struct SurahContentView: View {
                         }
                 }
             }.onAppear {
-                Task {
-                    ayat = presenter.getAyat(of: surah)
-                    filteredAyat = ayat
-                    ayatTranslation = presenter.getAyatTranslation(of: surah)
-                    bookmarks = presenter.getBookmarks(surah: surah)
-                    highlights = presenter.getHighlights(of: surah)
+                DispatchQueue.global().async {
+                    let ayat = presenter.getAyat(of: surah)
+                    let filteredAyat = ayat
+                    let ayatTranslation = presenter.getAyatTranslation(of: surah)
+                    let bookmarks = presenter.getBookmarks(surah: surah)
+                    let highlights = presenter.getHighlights(of: surah)
+
+                    DispatchQueue.main.async {
+                        self.ayat = ayat
+                        self.filteredAyat = filteredAyat
+                        self.ayatTranslation = ayatTranslation
+                        self.bookmarks = bookmarks
+                        self.highlights = highlights
+                    }
                 }
             }
         }
