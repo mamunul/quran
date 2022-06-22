@@ -29,12 +29,12 @@ struct QuranNote: Codable {
 }
 
 protocol IHighlight {
-    var range: ClosedRange<Int> { get set }
+    var markedRange: ClosedRange<Int> { get set }
     var highlightedText: String { get set }
 }
 
 struct QuranHighlight: IHighlight, Codable {
-    var range: ClosedRange<Int>
+    var markedRange: ClosedRange<Int>
     var highlightedText: String
     var ayatNo: Int
     var surahNo: Int

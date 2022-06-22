@@ -33,7 +33,7 @@ class TafsirContentPresenter: ObservableObject {
             highlights = tafsirHighlights.map { hadith in
                 Highlight(
                     id: UUID(),
-                    range: hadith.range,
+                    range: hadith.markedRange,
                     markedText: hadith.highlightedText,
                     chapterTitle: "\(hadith.surahNo)",
                     contentNo: "AyatNo:\(hadith.tafsirAyah.ayahRange.lowerBound)",
@@ -47,6 +47,21 @@ class TafsirContentPresenter: ObservableObject {
         return highlights
     }
 
+    func remove(highlight: Highlight, from ayah: TafsirAyah) {
+        let quranHighlight =
+            TafsirHighlight(
+                markedRange: highlight.range,
+                highlightedText: highlight.markedText,
+                tafsirAyah: ayah,
+                surahNo: ayah.surahNo
+            )
+        do {
+            try notebookRepo.remove(highlight: quranHighlight)
+        } catch {
+            print(error)
+        }
+    }
+
     func onHighlightEvent(textRange: ClosedRange<Int>) {
 //        print(textRange)
 
@@ -58,7 +73,7 @@ class TafsirContentPresenter: ObservableObject {
 
             let highlight =
                 TafsirHighlight(
-                    range: textRange,
+                    markedRange: textRange,
                     highlightedText: markedString,
                     tafsirAyah: ayah!,
                     surahNo: ayah!.surahNo

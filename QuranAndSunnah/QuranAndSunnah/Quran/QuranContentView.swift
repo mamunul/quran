@@ -114,7 +114,7 @@ struct SurahContentView: View {
                             paragraphAlignment: .left,
                             fontSize: fontSize,
                             highlights: highlights[ayah.ayahNo]!,
-                            onHighLight: { highlightedRange in
+                            onHighlight: { highlightedRange in
 
                                 presenter.onHighlightEvent(
                                     textRange: highlightedRange,
@@ -123,6 +123,9 @@ struct SurahContentView: View {
                                 )
                                 let ayahHighlights = presenter.getHighlights(of: ayah)
                                 highlights[ayah.ayahNo] = ayahHighlights
+                            },
+                            onUnhighlight: { highlight in
+                                presenter.remove(highlight: highlight, from: ayah)
                             }
                         )
                         .frame(height: frameSize(for: ayatTranslation[ayah.ayahNo]!.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)

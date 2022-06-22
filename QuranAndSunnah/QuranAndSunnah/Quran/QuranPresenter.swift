@@ -69,7 +69,7 @@ class QuranPresenter: ObservableObject {
             hadithHighlights.forEach { hadithHighlight in
 
                 let highlight = Highlight(
-                    range: hadithHighlight.range,
+                    range: hadithHighlight.markedRange,
                     markedText: hadithHighlight.highlightedText,
                     chapterTitle: "AyatNo:\(hadithHighlight.ayatNo)",
                     contentNo: "Surah:\(hadithHighlight.surahNo)",
@@ -91,7 +91,7 @@ class QuranPresenter: ObservableObject {
 
             highlights = quranHighlights.map { hadith in
                 Highlight(
-                    range: hadith.range,
+                    range: hadith.markedRange,
                     markedText: hadith.highlightedText,
                     chapterTitle: "AyatNo:\(hadith.ayatNo)",
                     contentNo: "Surah:\(hadith.surahNo)",
@@ -105,6 +105,22 @@ class QuranPresenter: ObservableObject {
         return highlights
     }
 
+    func remove(highlight: Highlight, from ayah: Ayah) {
+        let quranHighlight =
+            QuranHighlight(
+                markedRange: highlight.range,
+                highlightedText: highlight.markedText,
+                ayatNo: ayah.ayahNo,
+                surahNo: ayah.surahNo,
+                contentId: ayah.contentId
+            )
+        do {
+            try notebookRepo.remove(highlight: quranHighlight)
+        } catch {
+            print(error)
+        }
+    }
+
     func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, fullString: String) {
         let attributedContent = NSMutableAttributedString(string: fullString)
         let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
@@ -114,7 +130,7 @@ class QuranPresenter: ObservableObject {
 
             let highlight =
                 QuranHighlight(
-                    range: textRange,
+                    markedRange: textRange,
                     highlightedText: markedString,
                     ayatNo: ayah.ayahNo,
                     surahNo: ayah.surahNo,
@@ -212,7 +228,7 @@ protocol IVisitor {
 class MergeVisitor: IVisitor {
     func mergeOverlapped(collection: inout [IHighlight]) {
         collection.sort { left, right in
-            left.range.lowerBound < right.range.lowerBound
+            left.markedRange.lowerBound < right.markedRange.lowerBound
         }
 
         var newArray = [IHighlight]()
@@ -222,9 +238,9 @@ class MergeVisitor: IVisitor {
         }
 
         collection.forEach { highlight in
-            if newArray[newArray.count - 1].range.upperBound >= highlight.range.lowerBound-1 {
-                newArray[newArray.count - 1].range =
-                    newArray[newArray.count - 1].range.lowerBound ... highlight.range.upperBound
+            if newArray[newArray.count - 1].markedRange.upperBound >= highlight.markedRange.lowerBound - 1 {
+                newArray[newArray.count - 1].markedRange =
+                    newArray[newArray.count - 1].markedRange.lowerBound ... highlight.markedRange.upperBound
             } else {
                 newArray.append(highlight)
             }

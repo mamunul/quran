@@ -55,7 +55,7 @@ class NotebooksPresenter: ObservableObject {
             var highlight = hadithHighlights.map { hadith in
                 Highlight(
                     id: UUID(),
-                    range: hadith.range,
+                    range: hadith.markedRange,
                     markedText: hadith.highlightedText,
                     chapterTitle: "Chapter:\(hadith.chapterNo)",
                     contentNo: "HadithNo:\(hadith.hadithNo)",
@@ -66,7 +66,7 @@ class NotebooksPresenter: ObservableObject {
             highlight = quranHighlights.map { hadith in
                 Highlight(
                     id: UUID(),
-                    range: hadith.range,
+                    range: hadith.markedRange,
                     markedText: hadith.highlightedText,
                     chapterTitle: "AyatNo:\(hadith.ayatNo)",
                     contentNo: "Surah:\(hadith.surahNo)",
@@ -77,7 +77,7 @@ class NotebooksPresenter: ObservableObject {
             highlight = tafsirHighlights.map { hadith in
                 Highlight(
                     id: UUID(),
-                    range: hadith.range,
+                    range: hadith.markedRange,
                     markedText: hadith.highlightedText,
                     chapterTitle: "\(hadith.surahNo)",
                     contentNo: "AyatNo:\(hadith.tafsirAyah.ayahRange.lowerBound)",
