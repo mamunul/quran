@@ -21,7 +21,7 @@ struct HighlightsView: View {
                     }
                 }
             }
-        }.onAppear{
+        }.onAppear {
             presenter.getHighlights()
         }
     }

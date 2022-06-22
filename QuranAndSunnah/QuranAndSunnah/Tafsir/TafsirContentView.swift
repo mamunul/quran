@@ -32,19 +32,19 @@ struct TafsirAyahListView: View {
     var surahTransliteration: SurahName
     @State var ayat = [TafsirAyah]()
     var body: some View {
-        List {
-            ForEach(ayat) { ayah in
-                NavigationLink {
-                    TafsirContentView(surah: surah, ayah: ayah, surahTransliteration: surahTransliteration)
-                        .environmentObject(presenter)
-                } label: {
-                    VStack(spacing: 10) {
-                        Text(getAyahNo(ayah: ayah))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }.padding(.vertical)
-                }
+//        List {
+        List(ayat) { ayah in
+            NavigationLink {
+                TafsirContentView(surah: surah, ayah: ayah, surahTransliteration: surahTransliteration)
+                    .environmentObject(presenter)
+            } label: {
+                VStack(spacing: 10) {
+                    Text(getAyahNo(ayah: ayah))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }.padding(.vertical)
             }
         }
+//        }
         .listStyle(.sidebar)
         .navigationTitle(Text(surahTransliteration.text))
         .onAppear {
@@ -70,35 +70,35 @@ struct TafsirSurahListView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
 
     var body: some View {
-        List {
-            ForEach(self.presenter.surahList) { surah in
-                NavigationLink {
-                    TafsirAyahListView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
-                        .environmentObject(presenter)
-                } label: {
-                    HStack {
-                        Text("\(surah.surahNo)").frame(width: 50)
-                        VStack(alignment: .leading) {
-                            Text(presenter.surahTranslilerationList[surah.surahNo]!.text)
-                                .font(.system(size: 16))
-                                .frame(alignment: .leading)
-                                .multilineTextAlignment(.leading)
-                            Text(presenter.surahTranslationList[surah.surahNo]!.text)
-                                .font(.system(size: 14))
-                                .frame(alignment: .leading)
-                                .multilineTextAlignment(.leading)
-                        }
-                        Spacer()
-                        VStack(alignment: .trailing) {
-                            Text(presenter.surahArabicList[surah.surahNo]!.text)
-                            Text("\(surah.ayahCount)")
-                                .font(.system(size: 13))
-                        }
+//        List {
+        List(self.presenter.surahList) { surah in
+            NavigationLink {
+                TafsirAyahListView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
+                    .environmentObject(presenter)
+            } label: {
+                HStack {
+                    Text("\(surah.surahNo)").frame(width: 50)
+                    VStack(alignment: .leading) {
+                        Text(presenter.surahTranslilerationList[surah.surahNo]!.text)
+                            .font(.system(size: 16))
+                            .frame(alignment: .leading)
+                            .multilineTextAlignment(.leading)
+                        Text(presenter.surahTranslationList[surah.surahNo]!.text)
+                            .font(.system(size: 14))
+                            .frame(alignment: .leading)
+                            .multilineTextAlignment(.leading)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text(presenter.surahArabicList[surah.surahNo]!.text)
+                        Text("\(surah.ayahCount)")
+                            .font(.system(size: 13))
                     }
                 }
-                .isDetailLink(false)
             }
+            .isDetailLink(false)
         }
+//        }
         .listStyle(.sidebar)
     }
 }

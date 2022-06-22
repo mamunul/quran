@@ -178,7 +178,9 @@ class TafsirContentPresenter: ObservableObject {
             )
         do {
             let updatedContent = try tafsirRepository.getContent(ayah: ayah, configuraiton: config)
-            attributedContent = updatedContent
+            DispatchQueue.main.async {
+                self.attributedContent = updatedContent
+            }
 
         } catch {
             print(error)
