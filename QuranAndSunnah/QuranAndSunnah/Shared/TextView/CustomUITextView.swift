@@ -14,6 +14,8 @@ class CustomUITextView: UITextView {
 
     private var highlights = [Highlight]()
 
+    private var unhighlightItem: Highlight?
+
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
@@ -33,7 +35,13 @@ class CustomUITextView: UITextView {
         }
 
         if firstMatch != nil {
-            print("matched")
+            unhighlightItem = firstMatch
+            let mnuController = UIMenuController.shared
+            let lookupMenu = UIMenuItem(title: "Unhighlight", action: #selector(unhighlight))
+            mnuController.menuItems = [lookupMenu]
+
+            becomeFirstResponder()
+            UIMenuController.shared.showMenu(from: self, rect: frame)
         }
     }
 
@@ -53,13 +61,10 @@ class CustomUITextView: UITextView {
         UIMenuController.shared.menuItems = [highlightMenuItem, noteMenuItem]
     }
 
-    func unhighlight(_ highlight: Highlight) {
-//        let color = getHighlighColor()
-//        let attributes = [NSAttributedString.Key.backgroundColor: color]
-        textStorage.removeAttribute(NSAttributedString.Key.backgroundColor, range: NSRange(highlight.range))
-//        textStorage.addAttributes(attributes, range: selectedRange)
-//        onHighLight?(selectedRange.lowerBound ... selectedRange.upperBound - 1)
-        onUnhighlight?(highlight)
+    @objc func unhighlight(_ sender: Any?) {
+        print(unhighlightItem)
+        textStorage.removeAttribute(NSAttributedString.Key.backgroundColor, range: NSRange(unhighlightItem!.range))
+        onUnhighlight?(unhighlightItem!)
     }
 
     func setHighlights(_ highlights: [Highlight]) {
@@ -124,7 +129,8 @@ class CustomUITextView: UITextView {
             action == #selector(note(_:)) ||
             action == #selector(hightlight(_:)) ||
             action == Selector(("_lookup:")) ||
-            action == Selector(("_define:"))
+            action == Selector(("_define:")) ||
+            action == #selector(unhighlight(_:))
         {
             return true
         }
