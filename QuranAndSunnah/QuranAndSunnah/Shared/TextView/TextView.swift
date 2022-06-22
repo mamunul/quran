@@ -13,7 +13,8 @@ struct TextView: UIViewRepresentable {
     var paragraphAlignment: CustomTextAlignment = .none
     var fontSize: Double? = nil
     var highlights: [Highlight]
-    var onHighLight: ((_ highlightedRange: ClosedRange<Int>) -> Void)?
+    var onHighlight: ((_ highlightedRange: ClosedRange<Int>) -> Void)?
+    var onUnhighlight: ((_ highlight: Highlight) -> Void)?
 
     @Environment(\.colorScheme) var colorScheme
 
@@ -22,7 +23,8 @@ struct TextView: UIViewRepresentable {
         textView.addCustomMenu()
         textView.backgroundColor = .clear
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        textView.onHighLight = onHighLight
+        textView.onHighlight = onHighlight
+        textView.onUnhighlight = onUnhighlight
         return textView
     }
 

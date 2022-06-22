@@ -9,7 +9,33 @@ import SwiftUI
 import UIKit
 
 class CustomUITextView: UITextView {
-    var onHighLight: ((_ highlightedString: ClosedRange<Int>) -> Void)?
+    var onHighlight: ((_ highlightedString: ClosedRange<Int>) -> Void)?
+    var onUnhighlight: ((_ highlight: Highlight) -> Void)?
+
+    private var highlights = [Highlight]()
+
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+        addGestureRecognizer(tapGestureRecognizer)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    @objc func labelTapped(_ gesture: UITapGestureRecognizer) {
+        let location: CGPoint = gesture.location(in: self)
+        let charIndex = layoutManager.characterIndex(for: location, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        let firstMatch = highlights.first { highlight in
+            highlight.range.contains(charIndex)
+        }
+
+        if firstMatch != nil {
+            print("matched")
+        }
+    }
 
     override var keyCommands: [UIKeyCommand]? {
         return (super.keyCommands ?? []) + [
@@ -27,7 +53,17 @@ class CustomUITextView: UITextView {
         UIMenuController.shared.menuItems = [highlightMenuItem, noteMenuItem]
     }
 
+    func unhighlight(_ highlight: Highlight) {
+//        let color = getHighlighColor()
+//        let attributes = [NSAttributedString.Key.backgroundColor: color]
+        textStorage.removeAttribute(NSAttributedString.Key.backgroundColor, range: NSRange(highlight.range))
+//        textStorage.addAttributes(attributes, range: selectedRange)
+//        onHighLight?(selectedRange.lowerBound ... selectedRange.upperBound - 1)
+        onUnhighlight?(highlight)
+    }
+
     func setHighlights(_ highlights: [Highlight]) {
+        self.highlights = highlights
         highlights.forEach { highlight in
             let color = getHighlighColor()
             let attributes = [NSAttributedString.Key.backgroundColor: color]
@@ -49,7 +85,7 @@ class CustomUITextView: UITextView {
         let color = getHighlighColor()
         let attributes = [NSAttributedString.Key.backgroundColor: color]
         textStorage.addAttributes(attributes, range: selectedRange)
-        onHighLight?(selectedRange.lowerBound ... selectedRange.upperBound - 1)
+        onHighlight?(selectedRange.lowerBound ... selectedRange.upperBound - 1)
     }
 
     @objc func note(_ sender: Any?) {

@@ -74,7 +74,7 @@ class TafsirNotebookRepository: ITafsirNotebookFacade {
 
         let filteredNotes = notes.filter { highlight in
             ayah.surahNo == highlight.surahNo &&
-            ayah.ayahRange == highlight.tafsirAyah.ayahRange
+                ayah.ayahRange == highlight.tafsirAyah.ayahRange
         }
         return filteredNotes
     }
@@ -89,15 +89,27 @@ class TafsirNotebookRepository: ITafsirNotebookFacade {
         return notes
     }
 
-    func save(highlights: [TafsirHighlight], for ayah: TafsirAyah) throws {
+    func remove(highlight: TafsirHighlight) throws {
         var notes = try getAllHighlights()
         
+        notes.removeAll { element in
+            element.surahNo ==  highlight.surahNo &&
+            element.markedRange == highlight.markedRange &&
+            element.tafsirAyah.ayahRange == highlight.tafsirAyah.ayahRange
+        }
+
+        try fileHandler.save(model: notes, relativePath: highlightsPath)
+    }
+
+    func save(highlights: [TafsirHighlight], for ayah: TafsirAyah) throws {
+        var notes = try getAllHighlights()
+
         notes.removeAll { highlight in
             highlight.surahNo == ayah.surahNo &&
-            highlight.tafsirAyah.ayahRange == ayah.ayahRange
+                highlight.tafsirAyah.ayahRange == ayah.ayahRange
         }
-        
-        notes.append(contentsOf:highlights)
+
+        notes.append(contentsOf: highlights)
         try fileHandler.save(model: notes, relativePath: highlightsPath)
     }
 

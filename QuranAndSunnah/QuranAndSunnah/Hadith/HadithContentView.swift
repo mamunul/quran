@@ -63,7 +63,7 @@ struct HadithListView: View {
                             Spacer()
                             Button {
                                 hadithBookmarks[hadith.wrappedValue.hadithNo]!.toggle()
-                                presenter.bookmark(hadith: hadith.wrappedValue,hadithBookmarks[hadith.wrappedValue.hadithNo]!)
+                                presenter.bookmark(hadith: hadith.wrappedValue, hadithBookmarks[hadith.wrappedValue.hadithNo]!)
                             } label: {
                                 if hadithBookmarks[hadith.wrappedValue.hadithNo]! {
                                     Image(systemName: "bookmark.fill").padding()
@@ -97,13 +97,16 @@ struct HadithListView: View {
                             paragraphAlignment: .left,
                             fontSize: fontSize,
                             highlights: hadithHighlights[hadith.wrappedValue.hadithNo]!,
-                            onHighLight: { highlightedRange in
+                            onHighlight: { highlightedRange in
                                 presenter.onHighlightEvent(
                                     hadith: hadith.wrappedValue,
                                     textRange: highlightedRange
                                 )
-                                
+
                                 hadithHighlights[hadith.wrappedValue.hadithNo] = presenter.getHighlights(of: hadith.wrappedValue)
+                            },
+                            onUnhighlight: { highlight in
+                                presenter.remove(highlight: highlight, from: hadith.wrappedValue)
                             }
                         )
                         .frame(height: frameSize(for: hadith.wrappedValue.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)

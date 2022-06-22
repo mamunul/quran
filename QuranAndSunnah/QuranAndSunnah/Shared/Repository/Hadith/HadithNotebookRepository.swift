@@ -155,7 +155,7 @@ class HadithNotebookRepository: IHadithNotebookFacade {
             element.hadithNo == highlight.hadithNo &&
                 element.chapterNo == highlight.chapterNo &&
                 element.contentId.contentId == highlight.contentId.contentId &&
-                element.range == highlight.range
+                element.markedRange == highlight.markedRange
         }
         try fileHandler.save(model: notes, relativePath: highlightsPath)
     }

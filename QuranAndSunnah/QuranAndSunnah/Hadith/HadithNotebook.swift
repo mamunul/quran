@@ -32,7 +32,7 @@ struct HadithNote: Codable {
 
 struct HadithHighlight: IHighlight, Codable {
     var id = UUID()
-    var range: ClosedRange<Int>
+    var markedRange: ClosedRange<Int>
     var highlightedText: String
     var hadithNo: Int
     var chapterNo: Int

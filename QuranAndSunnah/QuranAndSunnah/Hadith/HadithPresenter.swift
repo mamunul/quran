@@ -66,7 +66,7 @@ class HadithPresenter: ObservableObject {
 
                 let highlight = Highlight(
                     id: UUID(),
-                    range: hadithHighlight.range,
+                    range: hadithHighlight.markedRange,
                     markedText: hadithHighlight.highlightedText,
                     chapterTitle: "Chapter:\(hadithHighlight.chapterNo)",
                     contentNo: "HadithNo:\(hadithHighlight.hadithNo)",
@@ -87,7 +87,7 @@ class HadithPresenter: ObservableObject {
             let hadithHighlights = try notebookRepo.getHighlights(for: hadith)
             highlights = hadithHighlights.map { hadithHighlight in
                 Highlight(
-                    range: hadithHighlight.range,
+                    range: hadithHighlight.markedRange,
                     markedText: hadithHighlight.highlightedText,
                     chapterTitle: "Chapter:\(hadithHighlight.chapterNo)",
                     contentNo: "HadithNo:\(hadithHighlight.hadithNo)",
@@ -99,6 +99,22 @@ class HadithPresenter: ObservableObject {
         }
 
         return highlights
+    }
+
+    func remove(highlight: Highlight, from hadith: HadithText) {
+        let quranHighlight =
+            HadithHighlight(
+                markedRange: highlight.range,
+                highlightedText: highlight.markedText,
+                hadithNo: hadith.hadithNo,
+                chapterNo: hadith.chapterNo,
+                contentId: hadith.contentId
+            )
+        do {
+            try notebookRepo.remove(highlight: quranHighlight)
+        } catch {
+            print(error)
+        }
     }
 
     func onHighlightEvent(hadith: HadithText, textRange: ClosedRange<Int>) {
@@ -113,7 +129,7 @@ class HadithPresenter: ObservableObject {
 
             let highlight =
                 HadithHighlight(
-                    range: textRange,
+                    markedRange: textRange,
                     highlightedText: markedString,
                     hadithNo: hadith.hadithNo,
                     chapterNo: hadith.chapterNo,

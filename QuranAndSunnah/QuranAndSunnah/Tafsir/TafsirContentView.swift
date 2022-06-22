@@ -118,8 +118,11 @@ struct TafsirContentView: View {
                     paragraphAlignment: .none,
                     fontSize: nil,
                     highlights: highlights,
-                    onHighLight: { highlightedString in
+                    onHighlight: { highlightedString in
                         presenter.onHighlightEvent(textRange: highlightedString)
+                    },
+                    onUnhighlight: { highlight in
+                        presenter.remove(highlight: highlight, from: ayah)
                     }
                 )
                 .frame(height: frameSize(for: presenter.attributedContent, width: proxy.size.width).height)
