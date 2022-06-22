@@ -41,7 +41,8 @@ class CustomUITextView: UITextView {
             mnuController.menuItems = [lookupMenu]
 
             becomeFirstResponder()
-            UIMenuController.shared.showMenu(from: self, rect: frame)
+            let rect = CGRect(origin: location, size: CGSize(width: 10, height: 5))
+            UIMenuController.shared.showMenu(from: self, rect: rect)
         }
     }
 
@@ -62,7 +63,6 @@ class CustomUITextView: UITextView {
     }
 
     @objc func unhighlight(_ sender: Any?) {
-        print(unhighlightItem)
         textStorage.removeAttribute(NSAttributedString.Key.backgroundColor, range: NSRange(unhighlightItem!.range))
         onUnhighlight?(unhighlightItem!)
     }
@@ -73,7 +73,6 @@ class CustomUITextView: UITextView {
             let color = getHighlighColor()
             let attributes = [NSAttributedString.Key.backgroundColor: color]
             if attributedText.length < highlight.range.upperBound { return }
-//            print(attributedText.size(), highlight.range)
             textStorage.addAttributes(attributes, range: NSRange(highlight.range))
         }
     }

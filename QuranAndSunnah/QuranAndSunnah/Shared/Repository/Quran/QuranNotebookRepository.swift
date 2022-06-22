@@ -126,7 +126,9 @@ class QuranNotebookRepository: IQuranNotebookFacade {
         var notes = try getAllHighlights()
 
         notes.removeAll { element in
-            highlight.ayatNo == element.ayatNo && highlight.surahNo == element.surahNo
+            highlight.ayatNo == element.ayatNo &&
+            highlight.surahNo == element.surahNo &&
+            highlight.markedRange == element.markedRange
         }
         try fileHandler.save(model: notes, relativePath: highlightsPath)
     }
