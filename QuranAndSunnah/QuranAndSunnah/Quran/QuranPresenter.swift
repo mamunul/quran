@@ -15,15 +15,38 @@ class QuranPresenter: ObservableObject {
 //    @Published var surah: SurahInfo?
     private var repository = QuranJsonFacade.shared
     private var notebookRepo = QuranNotebookRepository()
-    
-    func bookmark(ayah: Ayah) {
+
+    func bookmark(ayah: Ayah, _ add: Bool) {
         do {
             let bookmark = QuranBookmark(ayatNo: ayah.ayahNo, surahNo: ayah.surahNo, contentId: ayah.contentId)
-            try notebookRepo.save(bookmark: bookmark)
+            if add {
+                try notebookRepo.save(bookmark: bookmark)
+            } else {
+                try notebookRepo.remove(bookmark: bookmark)
+            }
         } catch {
             print(error)
         }
     }
+
+    func getBookmarks(surah: SurahInfo) -> [Int: Bool] {
+        var bookmarks = [Int: Bool]()
+
+        (surah.firstAyahNo ... surah.lastAyahNo).forEach { ayahNo in
+            bookmarks[ayahNo] = false
+        }
+        do {
+            let bookmarksList = try notebookRepo.getBookmarks(for: surah)
+
+            bookmarksList.forEach { bookmark in
+                bookmarks[bookmark.ayatNo] = true
+            }
+        } catch {
+            print(error)
+        }
+        return bookmarks
+    }
+
     func isBookmarked(ayah: Ayah) -> Bool {
         do {
             let status = try notebookRepo.getBookmark(for: ayah) != .empty
@@ -32,6 +55,34 @@ class QuranPresenter: ObservableObject {
             print(error)
         }
         return false
+    }
+
+    func getHighlights(of surah: SurahInfo) -> [Int: [Highlight]] {
+        var highlightsDict = [Int: [Highlight]]()
+        (surah.firstAyahNo ... surah.lastAyahNo).forEach { ayatNo in
+            highlightsDict[ayatNo] = [Highlight]()
+        }
+
+        do {
+            let hadithHighlights = try notebookRepo.getHighlights(for: surah)
+
+            hadithHighlights.forEach { hadithHighlight in
+
+                let highlight = Highlight(
+                    id: UUID(),
+                    range: hadithHighlight.range,
+                    markedText: hadithHighlight.highlightedText,
+                    chapterTitle: "AyatNo:\(hadithHighlight.ayatNo)",
+                    contentNo: "Surah:\(hadithHighlight.surahNo)",
+                    bookName: "Quran:\(hadithHighlight.contentId.contentId.getFilePath())"
+                )
+                highlightsDict[hadithHighlight.ayatNo]?.append(highlight)
+            }
+        } catch {
+            print(error)
+        }
+
+        return highlightsDict
     }
 
     func getHighlights(of ayah: Ayah) -> [Highlight] {
@@ -56,10 +107,9 @@ class QuranPresenter: ObservableObject {
         return highlights
     }
 
-    func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, text: String) {
+    func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, markedString: String) {
 //        print(textRange)
-        let attributedContent = NSMutableAttributedString(string: text)
-        let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
+
         let highlight =
             QuranHighlight(
                 range: textRange,

@@ -71,6 +71,8 @@ struct SurahContentView: View {
     @State var filteredAyat = [Ayah]()
     @State var ayat = [Ayah]()
     @State var ayatTranslation = [Int: Ayah]()
+    @State var bookmarks = [Int: Bool]()
+    @State var highlights = [Int: [Highlight]]()
 
     var body: some View {
         GeometryReader { proxy in
@@ -83,9 +85,10 @@ struct SurahContentView: View {
                                 .padding()
                             Spacer()
                             Button {
-                                presenter.bookmark(ayah: ayah)
+                                bookmarks[ayah.ayahNo]!.toggle()
+                                presenter.bookmark(ayah: ayah, bookmarks[ayah.ayahNo]!)
                             } label: {
-                                if presenter.isBookmarked(ayah: ayah) {
+                                if bookmarks[ayah.ayahNo]! {
                                     Image(systemName: "bookmark.fill").padding()
                                 } else {
                                     Image(systemName: "bookmark").padding()
@@ -110,12 +113,24 @@ struct SurahContentView: View {
                             searchString: self.$searchString,
                             paragraphAlignment: .left,
                             fontSize: fontSize,
-                            highlights: presenter.getHighlights(of: ayah),
+                            highlights: highlights[ayah.ayahNo]!,
                             onHighLight: { highlightedRange in
+                                let attributedContent = NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text)
+                                let markedString = attributedContent.attributedSubstring(from: NSRange(highlightedRange)).string
+
+                                let highlight =
+                                    Highlight(
+                                        range: highlightedRange,
+                                        markedText: markedString,
+                                        chapterTitle: "\(ayah.surahNo)",
+                                        contentNo: "\(ayah.ayahNo)",
+                                        bookName: ayah.contentId.contentId.getFilePath()
+                                    )
+                                highlights[ayah.ayahNo]?.append(highlight)
                                 presenter.onHighlightEvent(
                                     textRange: highlightedRange,
                                     ayah: ayah,
-                                    text: ayatTranslation[ayah.ayahNo]!.text
+                                    markedString: markedString
                                 )
                             }
                         )
@@ -153,6 +168,8 @@ struct SurahContentView: View {
                     ayat = presenter.getAyat(of: surah)
                     filteredAyat = ayat
                     ayatTranslation = presenter.getAyatTranslation(of: surah)
+                    bookmarks = presenter.getBookmarks(surah: surah)
+                    highlights = presenter.getHighlights(of: surah)
                 }
             }
         }
