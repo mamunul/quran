@@ -160,6 +160,17 @@ class HadithNotebookRepository: IHadithNotebookFacade {
         try fileHandler.save(model: notes, relativePath: highlightsPath)
     }
 
+    func save(highlights: [HadithHighlight], of hadith: HadithText) throws {
+        var notes = try getAllHighlights()
+        notes.removeAll { highlight in
+            highlight.hadithNo == hadith.hadithNo &&
+            highlight.chapterNo == hadith.chapterNo &&
+            hadith.contentId.contentId == highlight.contentId.contentId
+        }
+        notes.append(contentsOf: highlights)
+        try fileHandler.save(model: notes, relativePath: highlightsPath)
+    }
+
     func save(highlight: HadithHighlight) throws {
         var notes = try getAllHighlights()
         notes.append(highlight)

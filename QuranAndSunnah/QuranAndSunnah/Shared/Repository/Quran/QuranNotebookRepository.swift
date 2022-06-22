@@ -122,6 +122,16 @@ class QuranNotebookRepository: IQuranNotebookFacade {
         return notes
     }
 
+    func save(highlights: [QuranHighlight], for ayah: Ayah) throws {
+        var notes = try getAllHighlights()
+        notes.removeAll { highlight in
+            highlight.ayatNo == ayah.ayahNo && highlight.surahNo == ayah.surahNo
+        }
+
+        notes.append(contentsOf: highlights)
+        try fileHandler.save(model: notes, relativePath: highlightsPath)
+    }
+
     func save(highlight: QuranHighlight) throws {
         var notes = try getAllHighlights()
         notes.append(highlight)

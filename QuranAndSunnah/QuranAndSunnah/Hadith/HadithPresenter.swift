@@ -81,10 +81,19 @@ class HadithPresenter: ObservableObject {
         return highlightsDict
     }
 
-    func getHighlights(of hadith: HadithText) -> [HadithHighlight] {
-        var highlights = [HadithHighlight]()
+    func getHighlights(of hadith: HadithText) -> [Highlight] {
+        var highlights = [Highlight]()
         do {
-            highlights = try notebookRepo.getHighlights(for: hadith)
+            let hadithHighlights = try notebookRepo.getHighlights(for: hadith)
+            highlights = hadithHighlights.map { hadithHighlight in
+                Highlight(
+                    range: hadithHighlight.range,
+                    markedText: hadithHighlight.highlightedText,
+                    chapterTitle: "Chapter:\(hadithHighlight.chapterNo)",
+                    contentNo: "HadithNo:\(hadithHighlight.hadithNo)",
+                    bookName: "Hadith:\(hadithHighlight.contentId.contentId.getFilePath())"
+                )
+            }
         } catch {
             print(error)
         }
@@ -98,16 +107,23 @@ class HadithPresenter: ObservableObject {
         let attributedContent = NSMutableAttributedString(string: hadith.matn)
 
         let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
-        let highlight =
-            HadithHighlight(
-                range: textRange,
-                highlightedText: markedString,
-                hadithNo: hadith.hadithNo,
-                chapterNo: hadith.chapterNo,
-                contentId: hadith.contentId
-            )
+
         do {
-            try notebookRepo.save(highlight: highlight)
+            var ayatHighlights: [IHighlight] = try notebookRepo.getHighlights(for: hadith)
+
+            let highlight =
+                HadithHighlight(
+                    range: textRange,
+                    highlightedText: markedString,
+                    hadithNo: hadith.hadithNo,
+                    chapterNo: hadith.chapterNo,
+                    contentId: hadith.contentId
+                )
+
+            ayatHighlights.append(highlight)
+            MergeVisitor().mergeOverlapped(collection: &ayatHighlights)
+
+            try notebookRepo.save(highlights: ayatHighlights as! [HadithHighlight], of: hadith)
         } catch {
             print(error)
         }

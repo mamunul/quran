@@ -115,23 +115,14 @@ struct SurahContentView: View {
                             fontSize: fontSize,
                             highlights: highlights[ayah.ayahNo]!,
                             onHighLight: { highlightedRange in
-                                let attributedContent = NSMutableAttributedString(string: ayatTranslation[ayah.ayahNo]!.text)
-                                let markedString = attributedContent.attributedSubstring(from: NSRange(highlightedRange)).string
 
-                                let highlight =
-                                    Highlight(
-                                        range: highlightedRange,
-                                        markedText: markedString,
-                                        chapterTitle: "\(ayah.surahNo)",
-                                        contentNo: "\(ayah.ayahNo)",
-                                        bookName: ayah.contentId.contentId.getFilePath()
-                                    )
-                                highlights[ayah.ayahNo]?.append(highlight)
                                 presenter.onHighlightEvent(
                                     textRange: highlightedRange,
                                     ayah: ayah,
-                                    markedString: markedString
+                                    fullString: ayatTranslation[ayah.ayahNo]!.text
                                 )
+                                let ayahHighlights = presenter.getHighlights(of: ayah)
+                                highlights[ayah.ayahNo] = ayahHighlights
                             }
                         )
                         .frame(height: frameSize(for: ayatTranslation[ayah.ayahNo]!.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
