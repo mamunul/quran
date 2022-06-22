@@ -112,6 +112,7 @@ struct TafsirContentView: View {
     var ayah: TafsirAyah
     var surahTransliteration: SurahName
     @State var highlights = [Highlight]()
+    var padding: CGFloat = 5
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
@@ -128,7 +129,8 @@ struct TafsirContentView: View {
                         presenter.remove(highlight: highlight, from: ayah)
                     }
                 )
-                .frame(height: frameSize(for: presenter.attributedContent, width: proxy.size.width).height)
+                .padding(.horizontal, padding)
+                .frame(height: frameSize(for: presenter.attributedContent, width: proxy.size.width - padding * 2).height)
                 .onAppear {
                     DispatchQueue.global().async {
                         presenter.onViewAppear(ayah: ayah, fontSize: fontSize)

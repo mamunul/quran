@@ -50,6 +50,7 @@ struct HadithListView: View {
     @State var allHadithEnglishList = [HadithText]()
     @State var hadithBookmarks = [Int: Bool]()
     @State var hadithHighlights = [Int: [Highlight]]()
+    var padding: CGFloat = 5
 
     var body: some View {
         GeometryReader { proxy in
@@ -86,7 +87,8 @@ struct HadithListView: View {
                         fontSize: fontSize,
                         highlights: [Highlight]()
                     )
-                    .frame(height: frameSize(for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
+                    .padding(.horizontal, padding)
+                    .frame(height: frameSize(for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .right).height)
 
                     TextView(
                         text: Binding<NSMutableAttributedString>(
@@ -109,7 +111,15 @@ struct HadithListView: View {
                             presenter.remove(highlight: highlight, from: hadith.wrappedValue)
                         }
                     )
-                    .frame(height: frameSize(for: hadith.wrappedValue.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
+                    .padding(.horizontal, padding)
+                    .frame(height:
+                        frameSize(
+                            for: hadith.wrappedValue.matn,
+                            fontSize: Int(fontSize),
+                            width: proxy.size.width - padding * 2,
+                            paragraphAlignment: .left
+                        ).height
+                    )
                 }.listRowInsets(EdgeInsets())
             }
         }
