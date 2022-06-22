@@ -28,7 +28,12 @@ struct QuranNote: Codable {
     var contentId: ContentIdentity<AyahContentID>
 }
 
-struct QuranHighlight: Codable {
+protocol IHighlight {
+    var range: ClosedRange<Int> { get set }
+    var highlightedText: String { get set }
+}
+
+struct QuranHighlight: IHighlight, Codable {
     var range: ClosedRange<Int>
     var highlightedText: String
     var ayatNo: Int

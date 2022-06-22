@@ -69,7 +69,6 @@ class QuranPresenter: ObservableObject {
             hadithHighlights.forEach { hadithHighlight in
 
                 let highlight = Highlight(
-                    id: UUID(),
                     range: hadithHighlight.range,
                     markedText: hadithHighlight.highlightedText,
                     chapterTitle: "AyatNo:\(hadithHighlight.ayatNo)",
@@ -92,7 +91,6 @@ class QuranPresenter: ObservableObject {
 
             highlights = quranHighlights.map { hadith in
                 Highlight(
-                    id: UUID(),
                     range: hadith.range,
                     markedText: hadith.highlightedText,
                     chapterTitle: "AyatNo:\(hadith.ayatNo)",
@@ -107,19 +105,26 @@ class QuranPresenter: ObservableObject {
         return highlights
     }
 
-    func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, markedString: String) {
-//        print(textRange)
+    func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, fullString: String) {
+        let attributedContent = NSMutableAttributedString(string: fullString)
+        let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
 
-        let highlight =
-            QuranHighlight(
-                range: textRange,
-                highlightedText: markedString,
-                ayatNo: ayah.ayahNo,
-                surahNo: ayah.surahNo,
-                contentId: ayah.contentId
-            )
         do {
-            try notebookRepo.save(highlight: highlight)
+            var ayatHighlights: [IHighlight] = try notebookRepo.getHighlights(for: ayah)
+
+            let highlight =
+                QuranHighlight(
+                    range: textRange,
+                    highlightedText: markedString,
+                    ayatNo: ayah.ayahNo,
+                    surahNo: ayah.surahNo,
+                    contentId: ayah.contentId
+                )
+
+            ayatHighlights.append(highlight)
+            MergeVisitor().mergeOverlapped(collection: &ayatHighlights)
+
+            try notebookRepo.save(highlights: ayatHighlights as! [QuranHighlight], for: ayah)
         } catch {
             print(error)
         }
@@ -197,5 +202,34 @@ class QuranPresenter: ObservableObject {
             print(error)
         }
         return [:]
+    }
+}
+
+protocol IVisitor {
+    func mergeOverlapped(collection: inout [IHighlight])
+}
+
+class MergeVisitor: IVisitor {
+    func mergeOverlapped(collection: inout [IHighlight]) {
+        collection.sort { left, right in
+            left.range.lowerBound < right.range.lowerBound
+        }
+
+        var newArray = [IHighlight]()
+
+        if let first = collection.first {
+            newArray.append(first)
+        }
+
+        collection.forEach { highlight in
+            if newArray[newArray.count - 1].range.upperBound >= highlight.range.lowerBound-1 {
+                newArray[newArray.count - 1].range =
+                    newArray[newArray.count - 1].range.lowerBound ... highlight.range.upperBound
+            } else {
+                newArray.append(highlight)
+            }
+        }
+
+        collection = newArray
     }
 }

@@ -102,6 +102,8 @@ struct HadithListView: View {
                                     hadith: hadith.wrappedValue,
                                     textRange: highlightedRange
                                 )
+                                
+                                hadithHighlights[hadith.wrappedValue.hadithNo] = presenter.getHighlights(of: hadith.wrappedValue)
                             }
                         )
                         .frame(height: frameSize(for: hadith.wrappedValue.matn, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
