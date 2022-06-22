@@ -12,13 +12,36 @@ class HadithPresenter: ObservableObject {
     private var repo: IHadithDataReadFacade = HadithRepository()
     private var notebookRepo = HadithNotebookRepository()
 
-    func bookmark(hadith: HadithText) {
+    func bookmark(hadith: HadithText, _ add: Bool) {
         do {
-            let bookmark = HadithBookmark(hadithNo: hadith.hadithNo, chapterNo: hadith.chapterNo, contentId: hadith.contentId)
-            try notebookRepo.save(bookmark: bookmark)
+            let bookmark =
+                HadithBookmark(hadithNo: hadith.hadithNo, chapterNo: hadith.chapterNo, contentId: hadith.contentId)
+            if add {
+                try notebookRepo.save(bookmark: bookmark)
+            } else {
+                try notebookRepo.remove(bookmark: bookmark)
+            }
         } catch {
             print(error)
         }
+    }
+
+    func getBookmarks(of chapter: HadithChapter) -> [Int: Bool] {
+        var bookmarks = [Int: Bool]()
+
+        chapter.hadithNo.forEach { hadithNo in
+            bookmarks[hadithNo] = false
+        }
+        do {
+            let bookmarksList = try notebookRepo.getBookmarks(for: chapter)
+
+            bookmarksList.forEach { bookmark in
+                bookmarks[bookmark.hadithNo] = true
+            }
+        } catch {
+            print(error)
+        }
+        return bookmarks
     }
 
     func isBookmarked(hadith: HadithText) -> Bool {
@@ -31,22 +54,37 @@ class HadithPresenter: ObservableObject {
         return false
     }
 
-    func getHighlights(of hadith: HadithText) -> [Highlight] {
-        var highlights = [Highlight]()
+    func getHighlights(of chapter: HadithChapter) -> [Int: [Highlight]] {
+        var highlightsDict = [Int: [Highlight]]()
+        chapter.hadithNo.forEach { hadithNo in
+            highlightsDict[hadithNo] = [Highlight]()
+        }
         do {
-            let hadithHighlights = try notebookRepo.getHighlights(for: hadith)
+            let hadithHighlights = try notebookRepo.getHighlights(for: chapter)
 
-            highlights = hadithHighlights.map { hadith in
-                Highlight(
+            hadithHighlights.forEach { hadithHighlight in
+
+                let highlight = Highlight(
                     id: UUID(),
-                    range: hadith.range,
-                    markedText: hadith.highlightedText,
-                    chapterTitle: "Chapter:\(hadith.chapterNo)",
-                    contentNo: "HadithNo:\(hadith.hadithNo)",
-                    bookName: "Hadith:\(hadith.contentId.contentId.getFilePath())"
+                    range: hadithHighlight.range,
+                    markedText: hadithHighlight.highlightedText,
+                    chapterTitle: "Chapter:\(hadithHighlight.chapterNo)",
+                    contentNo: "HadithNo:\(hadithHighlight.hadithNo)",
+                    bookName: "Hadith:\(hadithHighlight.contentId.contentId.getFilePath())"
                 )
+                highlightsDict[hadithHighlight.hadithNo]?.append(highlight)
             }
+        } catch {
+            print(error)
+        }
 
+        return highlightsDict
+    }
+
+    func getHighlights(of hadith: HadithText) -> [HadithHighlight] {
+        var highlights = [HadithHighlight]()
+        do {
+            highlights = try notebookRepo.getHighlights(for: hadith)
         } catch {
             print(error)
         }

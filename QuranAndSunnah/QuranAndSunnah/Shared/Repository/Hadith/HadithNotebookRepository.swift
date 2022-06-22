@@ -96,6 +96,16 @@ class HadithNotebookRepository: IHadithNotebookFacade {
         return notes
     }
 
+    func remove(bookmark: HadithBookmark) throws {
+        var notes = try getAllBookmarks()
+        notes.removeAll { element in
+            element.hadithNo == bookmark.hadithNo &&
+                element.chapterNo == bookmark.chapterNo &&
+                element.contentId.contentId == bookmark.contentId.contentId
+        }
+        try fileHandler.save(model: notes, relativePath: bookmarksPath)
+    }
+
     func save(bookmark: HadithBookmark) throws {
         var notes = try getAllBookmarks()
         notes.append(bookmark)
@@ -137,6 +147,17 @@ class HadithNotebookRepository: IHadithNotebookFacade {
             print(error)
         }
         return notes
+    }
+
+    func remove(highlight: HadithHighlight) throws {
+        var notes = try getAllHighlights()
+        notes.removeAll { element in
+            element.hadithNo == highlight.hadithNo &&
+                element.chapterNo == highlight.chapterNo &&
+                element.contentId.contentId == highlight.contentId.contentId &&
+                element.range == highlight.range
+        }
+        try fileHandler.save(model: notes, relativePath: highlightsPath)
     }
 
     func save(highlight: HadithHighlight) throws {
