@@ -23,7 +23,7 @@ struct Note: Identifiable {
 }
 
 struct Highlight: Identifiable {
-    var id: UUID
+    var id = UUID()
     var range: ClosedRange<Int>
     var markedText: String
     var chapterTitle: String

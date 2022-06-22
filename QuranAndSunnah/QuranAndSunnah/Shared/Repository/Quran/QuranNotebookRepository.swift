@@ -80,6 +80,14 @@ class QuranNotebookRepository: IQuranNotebookFacade {
         return notes
     }
 
+    func remove(bookmark: QuranBookmark) throws {
+        var notes = try getAllBookmarks()
+        notes.removeAll { element in
+            bookmark.ayatNo == element.ayatNo
+        }
+        try fileHandler.save(model: notes, relativePath: bookmarksPath)
+    }
+
     func save(bookmark: QuranBookmark) throws {
         var notes = try getAllBookmarks()
         notes.append(bookmark)
@@ -99,7 +107,7 @@ class QuranNotebookRepository: IQuranNotebookFacade {
         let notes: [QuranHighlight] = try getAllHighlights()
 
         let filteredNotes = notes.filter { highlight in
-            surah.firstAyahNo <= highlight.ayatNo && surah.lastAyahNo >= highlight.ayatNo
+            surah.surahNo == highlight.surahNo
         }
         return filteredNotes
     }
