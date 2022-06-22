@@ -73,6 +73,7 @@ struct SurahContentView: View {
     @State var ayatTranslation = [Int: Ayah]()
     @State var bookmarks = [Int: Bool]()
     @State var highlights = [Int: [Highlight]]()
+    var padding: CGFloat = 5
 
     var body: some View {
         GeometryReader { proxy in
@@ -102,7 +103,8 @@ struct SurahContentView: View {
                         fontSize: fontSize,
                         highlights: [Highlight]()
                     )
-                    .frame(height: frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .right).height)
+                    .padding(.horizontal, padding)
+                    .frame(height: frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .right).height)
 
                     TextView(
                         text: Binding<NSMutableAttributedString>(
@@ -128,7 +130,8 @@ struct SurahContentView: View {
                             presenter.remove(highlight: highlight, from: ayah)
                         }
                     )
-                    .frame(height: frameSize(for: ayatTranslation[ayah.ayahNo]!.text, fontSize: Int(fontSize), width: proxy.size.width, paragraphAlignment: .left).height)
+                    .padding(.horizontal, padding)
+                    .frame(height: frameSize(for: ayatTranslation[ayah.ayahNo]!.text, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .left).height)
                 }
                 .listRowInsets(EdgeInsets())
             }
