@@ -19,7 +19,7 @@ struct BookmarksView: View {
                             Spacer()
                             Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
                         }
-                    }
+                    }.onDelete(perform: deleteQuranBookmark(at:))
                 }
             }
             if !presenter.hadithBookmarks.isEmpty {
@@ -34,12 +34,23 @@ struct BookmarksView: View {
                                 Text("\(highlight.contentId.contentId.getTitle())")
                             }
                             .padding(.top, 5)
-                            
                         }
-                    }
+                    }.onDelete(perform: deleteHadithBookmark(at:))
                 }
             }
         }
+    }
+
+    func deleteHadithBookmark(at offsets: IndexSet) {
+        let deleteItem = presenter.hadithBookmarks[offsets.first!]
+        presenter.hadithBookmarks.remove(atOffsets: offsets)
+        presenter.delete(bookmark: deleteItem)
+    }
+
+    func deleteQuranBookmark(at offsets: IndexSet) {
+        let deleteItem = presenter.quranBookmarks[offsets.first!]
+        presenter.quranBookmarks.remove(atOffsets: offsets)
+        presenter.delete(bookmark: deleteItem)
     }
 }
 
