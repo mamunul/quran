@@ -58,6 +58,46 @@ class NotebooksPresenter: ObservableObject {
     @Published var surahNames = [Int: SurahName]()
     @Published var hadithChapters = [UUID: HadithChapter]()
 
+    func delete(bookmark: HadithBookmark) {
+        do {
+            try hadithNotebookRepository.remove(bookmark: bookmark)
+        } catch {
+            print(error)
+        }
+    }
+
+    func delete(bookmark: QuranBookmark) {
+        do {
+            try quranNotebookRepository.remove(bookmark: bookmark)
+        } catch {
+            print(error)
+        }
+    }
+
+    func delete(highlight: QuranHighlight) {
+        do {
+            try quranNotebookRepository.remove(highlight: highlight)
+        } catch {
+            print(error)
+        }
+    }
+
+    func delete(highlight: TafsirHighlight) {
+        do {
+            try tafsirNotebookRepository.remove(highlight: highlight)
+        } catch {
+            print(error)
+        }
+    }
+
+    func delete(highlight: HadithHighlight) {
+        do {
+            try hadithNotebookRepository.remove(highlight: highlight)
+        } catch {
+            print(error)
+        }
+    }
+
     private func loadHadithChapters(for highlights: [HadithHighlight]) {
         DispatchQueue.global().async {
             do {
@@ -137,7 +177,7 @@ class NotebooksPresenter: ObservableObject {
             do {
                 let hadithHighlights = try self.hadithNotebookRepository.getAllBookmarks()
                 let quranHighlights = try self.quranNotebookRepository.getAllBookmarks()
-                
+
                 self.loadHadithChapters(for: hadithHighlights)
 
                 DispatchQueue.main.async { [self] in
@@ -160,7 +200,7 @@ class NotebooksPresenter: ObservableObject {
                 let hadithHighlights = try self.hadithNotebookRepository.getAllHighlights()
                 let quranHighlights = try self.quranNotebookRepository.getAllHighlights()
                 let tafsirHighlights = try self.tafsirNotebookRepository.getAllHighlights()
-                
+
                 self.loadHadithChapters(for: hadithHighlights)
 
                 DispatchQueue.main.async {

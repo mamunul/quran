@@ -24,7 +24,14 @@ struct HighlightsView: View {
 
                             }.padding(.top, 5)
                         }
-                    }
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                presenter.delete(highlight: highlight)
+                            } label: {
+                                Label("Delete", systemImage: "delete")
+                            }
+                        }
+                    }.onDelete(perform: deleteQuranHighlights(at:))
                 }
             }
             if !presenter.hadithHighlights.isEmpty {
@@ -41,6 +48,7 @@ struct HighlightsView: View {
                             }.padding(.top, 5)
                         }
                     }
+                    .onDelete(perform: deleteHadithHighlights(at:))
                 }
             }
             if !presenter.tafsirHighlights.isEmpty {
@@ -57,12 +65,30 @@ struct HighlightsView: View {
                             }.padding(.top, 5)
                         }
                     }
+                    .onDelete(perform: deleteTafsirHighlights(at:))
                 }
             }
         }
     }
-}
 
+    func deleteTafsirHighlights(at offsets: IndexSet) {
+        let deleteItem = presenter.tafsirHighlights[offsets.first!]
+        presenter.tafsirHighlights.remove(atOffsets: offsets)
+        presenter.delete(highlight: deleteItem)
+    }
+
+    func deleteHadithHighlights(at offsets: IndexSet) {
+        let deleteItem = presenter.hadithHighlights[offsets.first!]
+        presenter.hadithHighlights.remove(atOffsets: offsets)
+        presenter.delete(highlight: deleteItem)
+    }
+
+    func deleteQuranHighlights(at offsets: IndexSet) {
+        let deleteItem = presenter.quranHighlights[offsets.first!]
+        presenter.quranHighlights.remove(atOffsets: offsets)
+        presenter.delete(highlight: deleteItem)
+    }
+}
 
 struct HighlightsView_Previews: PreviewProvider {
     static var previews: some View {
