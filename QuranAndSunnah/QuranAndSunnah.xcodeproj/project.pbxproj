@@ -32,6 +32,8 @@
 		0AA791882847814900B5C567 /* Tafsir in Resources */ = {isa = PBXBuildFile; fileRef = 0AA791852847814900B5C567 /* Tafsir */; };
 		0AA791892847814900B5C567 /* Hadith in Resources */ = {isa = PBXBuildFile; fileRef = 0AA791862847814900B5C567 /* Hadith */; };
 		0AA8B0A42843841100DDA17B /* TafsirContentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA8B0A32843841100DDA17B /* TafsirContentPresenter.swift */; };
+		0AAF0CBF286476F7009389E6 /* HighlightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAF0CBE286476F7009389E6 /* HighlightsView.swift */; };
+		0AAF0CC12864771B009389E6 /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAF0CC02864771B009389E6 /* BookmarksView.swift */; };
 		0AB95B2B285F1E0400A23803 /* WordDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B23285F1E0400A23803 /* WordDO+CoreDataClass.swift */; };
 		0AB95B2C285F1E0400A23803 /* WordDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B24285F1E0400A23803 /* WordDO+CoreDataProperties.swift */; };
 		0AB95B2D285F1E0400A23803 /* AyahDO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B25285F1E0400A23803 /* AyahDO+CoreDataClass.swift */; };
@@ -97,6 +99,8 @@
 		0AA791852847814900B5C567 /* Tafsir */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tafsir; sourceTree = "<group>"; };
 		0AA791862847814900B5C567 /* Hadith */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Hadith; sourceTree = "<group>"; };
 		0AA8B0A32843841100DDA17B /* TafsirContentPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TafsirContentPresenter.swift; sourceTree = "<group>"; };
+		0AAF0CBE286476F7009389E6 /* HighlightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightsView.swift; sourceTree = "<group>"; };
+		0AAF0CC02864771B009389E6 /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		0AB95B23285F1E0400A23803 /* WordDO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordDO+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0AB95B24285F1E0400A23803 /* WordDO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0AB95B25285F1E0400A23803 /* AyahDO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AyahDO+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -353,6 +357,8 @@
 			children = (
 				0ABE19332855B8C1006D79CE /* NoteBookView.swift */,
 				0A5A7BB12860924500CEBDDE /* NotebooksPresenter.swift */,
+				0AAF0CBE286476F7009389E6 /* HighlightsView.swift */,
+				0AAF0CC02864771B009389E6 /* BookmarksView.swift */,
 			);
 			path = NoteBook;
 			sourceTree = "<group>";
@@ -573,12 +579,14 @@
 				EE410F7F284694D90018EE7C /* AppRepository.swift in Sources */,
 				0A6553112850C5C7006BA6A8 /* View+Modifiers.swift in Sources */,
 				0A6553152850C5DD006BA6A8 /* AlwaysPopoverModifier.swift in Sources */,
+				0AAF0CBF286476F7009389E6 /* HighlightsView.swift in Sources */,
 				0AB95B2F285F1E0400A23803 /* SurahNameDO+CoreDataClass.swift in Sources */,
 				0A5E9678284897170093C810 /* HadithRepository.swift in Sources */,
 				0ABD841A28604DE400260151 /* HadithNotebookRepository.swift in Sources */,
 				EEDC0516284E3E6100201203 /* CustomUITextView.swift in Sources */,
 				0ABD84142860433700260151 /* QuranNotebookRepository.swift in Sources */,
 				EE7180BA28465C61000D16FB /* QuranNotebook.swift in Sources */,
+				0AAF0CC12864771B009389E6 /* BookmarksView.swift in Sources */,
 				0ABE19372855B94D006D79CE /* SearchView.swift in Sources */,
 				EEDC0513284E3E2C00201203 /* TextView.swift in Sources */,
 				0A6553172850C5E0006BA6A8 /* UIView+Extension.swift in Sources */,
