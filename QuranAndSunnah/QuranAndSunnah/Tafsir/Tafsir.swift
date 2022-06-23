@@ -29,6 +29,18 @@ struct TafsirAyah: Codable, Identifiable {
 }
 
 enum TafsirContentID: Int, ContentID {
+    func getTitle() -> String {
+        "Ibn Kathir"
+    }
+
+    func getLanguage() -> Language {
+        .en
+    }
+
+    func getContentType() -> ContentType {
+        .translation
+    }
+
     case ibnKathir_shahih
     func getFilePath() -> String {
         ""

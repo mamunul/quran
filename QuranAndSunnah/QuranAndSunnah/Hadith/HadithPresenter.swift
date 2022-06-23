@@ -70,7 +70,8 @@ class HadithPresenter: ObservableObject {
                     markedText: hadithHighlight.highlightedText,
                     chapterTitle: "Chapter:\(hadithHighlight.chapterNo)",
                     contentNo: "HadithNo:\(hadithHighlight.hadithNo)",
-                    bookName: "Hadith:\(hadithHighlight.contentId.contentId.getFilePath())"
+                    bookName: "Hadith:\(hadithHighlight.contentId.contentId.getFilePath())",
+                    type: .hadith
                 )
                 highlightsDict[hadithHighlight.hadithNo]?.append(highlight)
             }
@@ -91,7 +92,8 @@ class HadithPresenter: ObservableObject {
                     markedText: hadithHighlight.highlightedText,
                     chapterTitle: "Chapter:\(hadithHighlight.chapterNo)",
                     contentNo: "HadithNo:\(hadithHighlight.hadithNo)",
-                    bookName: "Hadith:\(hadithHighlight.contentId.contentId.getFilePath())"
+                    bookName: "Hadith:\(hadithHighlight.contentId.contentId.getFilePath())",
+                    type: .hadith
                 )
             }
         } catch {

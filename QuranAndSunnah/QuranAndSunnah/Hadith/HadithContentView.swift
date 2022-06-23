@@ -30,7 +30,7 @@ struct HadithCollectorListView: View {
                     HadithChapterListView(collector: collector)
                 } label: {
                     HStack {
-                        Text(collector.name)
+                        Text(collector.contentId.contentId.getTitle())
                     }
                 }
             }
@@ -88,7 +88,14 @@ struct HadithListView: View {
                         highlights: [Highlight]()
                     )
                     .padding(.horizontal, padding)
-                    .frame(height: frameSize(for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .right).height)
+                    .frame(
+                        height: frameSize(
+                            for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn,
+                            fontSize: Int(fontSize),
+                            width: proxy.size.width - padding * 2,
+                            paragraphAlignment: .right
+                        ).height
+                    )
 
                     TextView(
                         text: Binding<NSMutableAttributedString>(
