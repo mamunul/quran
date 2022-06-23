@@ -70,7 +70,6 @@ struct TafsirSurahListView: View {
     @EnvironmentObject var presenter: TafsirContentPresenter
 
     var body: some View {
-//        List {
         List(self.presenter.surahList) { surah in
             NavigationLink {
                 TafsirAyahListView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
@@ -78,27 +77,18 @@ struct TafsirSurahListView: View {
             } label: {
                 HStack {
                     Text("\(surah.surahNo)").frame(width: 50)
-                    VStack(alignment: .leading) {
-                        Text(presenter.surahTranslilerationList[surah.surahNo]!.text)
-                            .font(.system(size: 16))
-                            .frame(alignment: .leading)
-                            .multilineTextAlignment(.leading)
-                        Text(presenter.surahTranslationList[surah.surahNo]!.text)
-                            .font(.system(size: 14))
-                            .frame(alignment: .leading)
-                            .multilineTextAlignment(.leading)
-                    }
+                    Text(presenter.surahTranslilerationList[surah.surahNo]!.text)
+                        .font(.system(size: 16))
+                        .frame(alignment: .leading)
+                        .multilineTextAlignment(.leading)
+
                     Spacer()
-                    VStack(alignment: .trailing) {
-                        Text(presenter.surahArabicList[surah.surahNo]!.text)
-                        Text("\(surah.ayahCount)")
-                            .font(.system(size: 13))
-                    }
+                    Text("\(surah.ayahCount)")
+                        .font(.system(size: 13))
                 }
             }
             .isDetailLink(false)
         }
-//        }
         .listStyle(.sidebar)
     }
 }
