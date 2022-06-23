@@ -32,7 +32,6 @@ struct TafsirAyahListView: View {
     var surahTransliteration: SurahName
     @State var ayat = [TafsirAyah]()
     var body: some View {
-//        List {
         List(ayat) { ayah in
             NavigationLink {
                 TafsirContentView(surah: surah, ayah: ayah, surahTransliteration: surahTransliteration)
@@ -44,7 +43,7 @@ struct TafsirAyahListView: View {
                 }.padding(.vertical)
             }
         }
-//        }
+        .listStyle(PlainListStyle())
         .listStyle(.sidebar)
         .navigationTitle(Text(surahTransliteration.text))
         .onAppear {
@@ -89,6 +88,7 @@ struct TafsirSurahListView: View {
             }
             .isDetailLink(false)
         }
+        .listStyle(PlainListStyle())
         .listStyle(.sidebar)
     }
 }
