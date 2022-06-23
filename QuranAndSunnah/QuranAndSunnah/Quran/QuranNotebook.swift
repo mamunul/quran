@@ -33,7 +33,8 @@ protocol IHighlight {
     var highlightedText: String { get set }
 }
 
-struct QuranHighlight: IHighlight, Codable {
+struct QuranHighlight: Identifiable, IHighlight, Codable {
+    var id = UUID()
     var markedRange: ClosedRange<Int>
     var highlightedText: String
     var ayatNo: Int

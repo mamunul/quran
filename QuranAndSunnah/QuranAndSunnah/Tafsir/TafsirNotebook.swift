@@ -13,7 +13,8 @@ struct TafsirTag: Codable {
     var tafsirAyat: [TafsirHighlight]
 }
 
-struct TafsirHighlight: IHighlight, Codable {
+struct TafsirHighlight: Identifiable, IHighlight, Codable {
+    var id = UUID()
     var markedRange: ClosedRange<Int>
     var highlightedText: String
     var tafsirAyah: TafsirAyah

@@ -9,6 +9,10 @@ import Foundation
 
 protocol ContentID: Equatable, Codable {
     func getFilePath() -> String
+
+    func getTitle() -> String
+    func getLanguage() -> Language
+    func getContentType() -> ContentType
 }
 
 struct ContentIdentity<T: ContentID>: Codable {
@@ -41,9 +45,78 @@ enum AyahContentID: Int, ContentID {
             return "Quran/ayah-text/indonesia.json"
         }
     }
+
+    func getTitle() -> String {
+        switch self {
+        case .en_hilali_quranenc:
+            return "Hilali"
+        case .en_itani_tanzil:
+            return "Itani Tanzil"
+        case .en_sarwar_tanzil:
+            return "Sarwar Tanzil"
+        case .bn_bengali_tanzil:
+            return "Tanzil"
+        case .transliteration_litequran:
+            return "Lite"
+        case .indonesia_ar:
+            return "Indonesian"
+        }
+    }
+
+    func getLanguage() -> Language {
+        switch self {
+        case .en_hilali_quranenc, .en_itani_tanzil, .en_sarwar_tanzil:
+            return .en
+        case .bn_bengali_tanzil:
+            return .bn
+        case .transliteration_litequran:
+            return .en
+        case .indonesia_ar:
+            return .ar
+        }
+    }
+
+    func getContentType() -> ContentType {
+        switch self {
+        case .en_hilali_quranenc, .en_itani_tanzil, .en_sarwar_tanzil, .bn_bengali_tanzil:
+            return .translation
+        case .transliteration_litequran:
+            return .transliteration
+        case .indonesia_ar:
+            return .original
+        }
+    }
 }
 
-enum SurahNameContentID: Int, ContentID { // SurahNameContentID, SurahNameContentID should be one
+enum SurahNameContentID: Int, ContentID {
+    func getTitle() -> String {
+        switch self {
+        case .en_unknown:
+            return "Unknown"
+        case .en_tanzil:
+            return "Tanzil"
+        }
+    }
+
+    func getLanguage() -> Language {
+        switch self {
+        case .en_unknown:
+            return .ar
+        case .en_tanzil:
+            return .en
+        }
+    }
+
+    func getContentType() -> ContentType { // this can be set
+        switch self {
+        case .en_unknown:
+            return .original
+        case .en_tanzil:
+            return .translation
+        }
+    }
+
+    // SurahNameContentID, SurahNameContentID should be one
     func getFilePath() -> String {
         switch self {
         case .en_unknown:
@@ -107,6 +180,39 @@ enum Language: Int, Codable {
 }
 
 enum WordContentID: Int, ContentID {
+    func getTitle() -> String {
+        switch self {
+        case .en_wbw:
+            return "en-wbw"
+        case .bn_wbw:
+            return "bn-wbw"
+        case .en_qranwbw:
+            return "Qen-quranwbw"
+        }
+    }
+
+    func getLanguage() -> Language {
+        switch self {
+        case .en_wbw:
+            return .en
+        case .bn_wbw:
+            return .bn
+        case .en_qranwbw:
+            return .en
+        }
+    }
+
+    func getContentType() -> ContentType {
+        switch self {
+        case .en_wbw:
+            return .translation
+        case .bn_wbw:
+            return .translation
+        case .en_qranwbw:
+            return .transliteration
+        }
+    }
+
     case en_wbw, bn_wbw, en_qranwbw
 
     func getFilePath() -> String {

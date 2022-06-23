@@ -37,7 +37,8 @@ class TafsirContentPresenter: ObservableObject {
                     markedText: hadith.highlightedText,
                     chapterTitle: "\(hadith.surahNo)",
                     contentNo: "AyatNo:\(hadith.tafsirAyah.ayahRange.lowerBound)",
-                    bookName: "IbnKathir:\(hadith.tafsirAyah.contentId.contentId.getFilePath())"
+                    bookName: "IbnKathir:\(hadith.tafsirAyah.contentId.contentId.getFilePath())",
+                    type: .tafsir
                 )
             }
         } catch {

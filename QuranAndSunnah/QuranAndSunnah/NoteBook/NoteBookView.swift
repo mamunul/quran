@@ -7,43 +7,93 @@
 
 import SwiftUI
 
-struct HighlightsView: View {
+struct BookmarksView: View {
     @EnvironmentObject var presenter: NotebooksPresenter
     var body: some View {
         List {
-            ForEach(presenter.highlights) { highlight in
-                VStack {
-                    Text("\(highlight.markedText)")
-                    Text("\(highlight.chapterTitle)")
-                    HStack {
-                        Text("\(highlight.contentNo)")
-                        Text("\(highlight.bookName)")
+            if !presenter.quranBookmarks.isEmpty {
+                Section(header: Text("Quran")) {
+                    ForEach(presenter.quranBookmarks) { highlight in 
+                        HStack {
+                            Text("Ayat: \(highlight.ayatNo)")
+                            Spacer()
+                            Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
+                        }
                     }
                 }
             }
-        }.onAppear {
-            presenter.getHighlights()
+            if !presenter.hadithBookmarks.isEmpty {
+                Section(header: Text("Hadith")) {
+                    ForEach(presenter.hadithBookmarks) { highlight in
+                        VStack(alignment: .leading) {
+                            Text("\(highlight.chapterNo): \($presenter.hadithChapters[highlight.id].wrappedValue?.title ?? "")")
+                            HStack {
+                                Text("Hadith: \(highlight.hadithNo)")
+
+                                Spacer()
+                                Text("\(highlight.contentId.contentId.getTitle())")
+                            }.padding(.top, 5)
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
-struct FrequentlyUsedView: View {
+struct HighlightsView: View {
+    @EnvironmentObject var presenter: NotebooksPresenter
     var body: some View {
-        TabView {
-            HStack {
-                Text("FrequentlyUsedView 1")
-            }
+        List {
+            if !presenter.quranHighlights.isEmpty {
+                Section(header: Text("Quran")) {
+                    ForEach(presenter.quranHighlights) { highlight in
+                        VStack {
+                            Text("\(highlight.highlightedText)")
 
-            HStack {
-                Text("FrequentlyUsedView 2")
-            }
+                            HStack {
+                                Text("Ayat: \(highlight.ayatNo)")
+                                Spacer()
+                                Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
 
-            HStack {
-                Text("FrequentlyUsedView 3")
+                            }.padding(.top, 5)
+                        }
+                    }
+                }
+            }
+            if !presenter.hadithHighlights.isEmpty {
+                Section(header: Text("Hadith")) {
+                    ForEach(presenter.hadithHighlights) { highlight in
+                        VStack(alignment: .leading) {
+                            Text("\(highlight.highlightedText)")
+                            Text("\(highlight.chapterNo): \(presenter.hadithChapters[highlight.id]?.title ?? "")")
+                                .padding(.vertical, 5)
+                            HStack {
+                                Text("Hadith: \(highlight.hadithNo)")
+                                Spacer()
+                                Text("\(highlight.contentId.contentId.getTitle())")
+                            }.padding(.top, 5)
+                        }
+                    }
+                }
+            }
+            if !presenter.tafsirHighlights.isEmpty {
+                Section(header: Text("Tafsir")) {
+                    ForEach(presenter.tafsirHighlights) { highlight in
+                        VStack(alignment: .leading) {
+                            Text("\(highlight.highlightedText)")
+
+                            HStack {
+                                Text("Ayat: \(highlight.tafsirAyah.ayahRange.description)")
+                                Spacer()
+                                Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
+
+                            }.padding(.top, 5)
+                        }
+                    }
+                }
             }
         }
-        .frame(height: 200)
-        .tabViewStyle(.page)
     }
 }
 
@@ -79,6 +129,12 @@ struct NoteBookView: View {
                         .padding()
                 }
                 NavigationLink {
+                    BookmarksView()
+                } label: {
+                    Text("Bookmarks")
+                        .padding()
+                }
+                NavigationLink {
                     HighlightsView()
                 } label: {
                     Text("Tags")
@@ -90,17 +146,14 @@ struct NoteBookView: View {
                     Text("Notes")
                         .padding()
                 }
-                NavigationLink {
-                    HighlightsView()
-                } label: {
-                    Text("Bookmarks")
-                        .padding()
-                }
-                FrequentlyUsedView()
                 SuggestedView()
                 Spacer()
             }
             .listStyle(PlainListStyle())
+        }.onAppear {
+            presenter.loadSurah()
+            presenter.getBookmarks()
+            presenter.getHighlights()
         }
         .environmentObject(presenter)
     }

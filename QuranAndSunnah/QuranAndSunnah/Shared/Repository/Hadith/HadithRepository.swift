@@ -50,6 +50,31 @@ enum HadithContentID: Int, ContentID {
             return "Hadith/Nesai/"
         }
     }
+
+    func getTitle() -> String {
+        switch self {
+        case .bukhari_1:
+            return "Sahih al-Bukhari"
+        case .muslim_1:
+            return "Sahih Muslim"
+        case .tirmizi_1:
+            return "Jami` at-Tirmidhi"
+        case .abudaud_1:
+            return "Sunan Abi Dawud"
+        case .ibnmajah_1:
+            return "Sunan Ibn Majah"
+        case .nasai_1:
+            return "Sunan an-Nasa'i"
+        }
+    }
+
+    func getLanguage() -> Language {
+        return .en
+    }
+
+    func getContentType() -> ContentType {
+        .translation
+    }
 }
 
 protocol IHadithDataReadFacade {
@@ -59,7 +84,7 @@ protocol IHadithDataReadFacade {
 }
 
 class HadithRepository: IHadithDataReadFacade {
-    private func getChapter(collector: HadithCollector, chapterNo: Int, language: Language) throws -> HadithChapter {
+    func getChapter(collector: HadithCollector, chapterNo: Int, language: Language) throws -> HadithChapter {
         let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapterNo).json", withExtension: "")!
         let data = try Data(contentsOf: fileUrl)
         let res = try JSONDecoder().decode([HadithJson].self, from: data)

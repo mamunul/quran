@@ -30,7 +30,7 @@ struct HadithNote: Codable {
     var contentId: ContentIdentity<HadithContentID>
 }
 
-struct HadithHighlight: IHighlight, Codable {
+struct HadithHighlight: Identifiable, IHighlight, Codable {
     var id = UUID()
     var markedRange: ClosedRange<Int>
     var highlightedText: String
@@ -40,7 +40,7 @@ struct HadithHighlight: IHighlight, Codable {
     var contentId: ContentIdentity<HadithContentID>
 }
 
-struct HadithBookmark: Equatable, Codable {
+struct HadithBookmark: Identifiable, Equatable, Codable {
     static func == (lhs: HadithBookmark, rhs: HadithBookmark) -> Bool {
         lhs.id == rhs.id
     }

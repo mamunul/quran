@@ -73,7 +73,8 @@ class QuranPresenter: ObservableObject {
                     markedText: hadithHighlight.highlightedText,
                     chapterTitle: "AyatNo:\(hadithHighlight.ayatNo)",
                     contentNo: "Surah:\(hadithHighlight.surahNo)",
-                    bookName: "Quran:\(hadithHighlight.contentId.contentId.getFilePath())"
+                    bookName: "Quran:\(hadithHighlight.contentId.contentId.getFilePath())",
+                    type: .quran
                 )
                 highlightsDict[hadithHighlight.ayatNo]?.append(highlight)
             }
@@ -95,7 +96,8 @@ class QuranPresenter: ObservableObject {
                     markedText: hadith.highlightedText,
                     chapterTitle: "AyatNo:\(hadith.ayatNo)",
                     contentNo: "Surah:\(hadith.surahNo)",
-                    bookName: "Quran:\(hadith.contentId.contentId.getFilePath())"
+                    bookName: "Quran:\(hadith.contentId.contentId.getFilePath())",
+                    type: .quran
                 )
             }
         } catch {
