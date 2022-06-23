@@ -55,6 +55,7 @@ struct SurahListView: View {
                 }
             }
         }
+        .listStyle(PlainListStyle())
 //        }
         .listStyle(.sidebar)
     }

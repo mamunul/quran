@@ -34,7 +34,9 @@ struct HadithCollectorListView: View {
                     }
                 }
             }
-        }.listStyle(.sidebar)
+        }
+        .listStyle(PlainListStyle())
+        .listStyle(.sidebar)
     }
 }
 
@@ -234,7 +236,7 @@ struct HadithChapterListView: View {
                 }
             }
         }
-//        }
+        .listStyle(PlainListStyle())
         .listStyle(.sidebar)
         .navigationTitle(Text("\(self.collector.name)"))
         .onAppear {
