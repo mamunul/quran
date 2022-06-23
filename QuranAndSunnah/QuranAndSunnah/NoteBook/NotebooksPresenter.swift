@@ -56,7 +56,9 @@ class NotebooksPresenter: ObservableObject {
     private let hadithRepo = HadithRepository()
     private let quranRepo = QuranJsonFacade()
     @Published var surahNames = [Int: SurahName]()
+    @Published var surahInfo = [Int: SurahInfo]()
     @Published var hadithChapters = [UUID: HadithChapter]()
+    @Published var hadithCollectors = [UUID: HadithCollector]()
 
     func delete(bookmark: HadithBookmark) {
         do {
@@ -102,6 +104,7 @@ class NotebooksPresenter: ObservableObject {
         DispatchQueue.global().async {
             do {
                 var chapters = [UUID: HadithChapter]()
+                var collectors = [UUID: HadithCollector]()
                 let collectorList = self.hadithRepo.getCollectorList()
 
                 try highlights.forEach { bookmark in
@@ -109,6 +112,7 @@ class NotebooksPresenter: ObservableObject {
                         { $0.contentId.contentId.getTitle() == bookmark.contentId.contentId.getTitle()
                         }
                     ) else { return }
+                    collectors[bookmark.id] = collector
                     let chapter =
                         try self.hadithRepo.getChapter(
                             collector: collector,
@@ -120,6 +124,7 @@ class NotebooksPresenter: ObservableObject {
 
                 DispatchQueue.main.async {
                     self.hadithChapters += chapters
+                    self.hadithCollectors += collectors
                 }
             } catch {
                 print(error)
@@ -131,12 +136,14 @@ class NotebooksPresenter: ObservableObject {
         DispatchQueue.global().async {
             do {
                 var chapters = [UUID: HadithChapter]()
+                var collectors = [UUID: HadithCollector]()
                 let collectorList = self.hadithRepo.getCollectorList()
                 try bookmarks.forEach { bookmark in
                     guard let collector = collectorList.first(where:
                         { $0.contentId.contentId.getTitle() == bookmark.contentId.contentId.getTitle()
                         }
                     ) else { return }
+                    collectors[bookmark.id] = collector
                     let chapter =
                         try self.hadithRepo.getChapter(
                             collector: collector,
@@ -148,6 +155,7 @@ class NotebooksPresenter: ObservableObject {
 
                 DispatchQueue.main.async {
                     self.hadithChapters += chapters
+                    self.hadithCollectors += collectors
                 }
             } catch {
                 print(error)
@@ -159,12 +167,18 @@ class NotebooksPresenter: ObservableObject {
         if !surahNames.isEmpty { return }
         DispatchQueue.global().async {
             do {
+                let surahInfoList = try self.quranRepo.getSurah()
                 let surahList = try self.quranRepo.getSurahTransliteration(contentId: .en_tanzil, language: .en)
                 let surahDict = surahList.reduce(into: [Int: SurahName]()) {
                     $0[$1.surahNo] = $1
                 }
+
+                let surahInfoDict = surahInfoList.reduce(into: [Int: SurahInfo]()) {
+                    $0[$1.surahNo] = $1
+                }
                 DispatchQueue.main.async {
                     self.surahNames = surahDict
+                    self.surahInfo = surahInfoDict
                 }
             } catch {
                 print(error)

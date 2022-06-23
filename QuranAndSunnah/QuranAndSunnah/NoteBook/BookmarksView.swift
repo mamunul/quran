@@ -14,10 +14,15 @@ struct BookmarksView: View {
             if !presenter.quranBookmarks.isEmpty {
                 Section(header: Text("Quran")) {
                     ForEach(presenter.quranBookmarks) { highlight in
-                        HStack {
-                            Text("Ayat: \(highlight.ayatNo)")
-                            Spacer()
-                            Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
+                        NavigationLink {
+                            QuranViewRouter().routeToAyahListView(surah: presenter.surahInfo[highlight.surahNo]!, surahTransliteration: presenter.surahNames[highlight.surahNo]!)
+
+                        } label: {
+                            HStack {
+                                Text("Ayat: \(highlight.ayatNo)")
+                                Spacer()
+                                Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
+                            }
                         }
                     }.onDelete(perform: deleteQuranBookmark(at:))
                 }
@@ -25,15 +30,23 @@ struct BookmarksView: View {
             if !presenter.hadithBookmarks.isEmpty {
                 Section(header: Text("Hadith")) {
                     ForEach(presenter.hadithBookmarks) { highlight in
-                        VStack(alignment: .leading) {
-                            Text("\(highlight.chapterNo): \($presenter.hadithChapters[highlight.id].wrappedValue?.title ?? "")")
-                            HStack {
-                                Text("Hadith: \(highlight.hadithNo)")
+                        NavigationLink {
+                            HadithViewRouter()
+                                .routeToHadithListView(
+                                    chapter: presenter.hadithChapters[highlight.id]!,
+                                    collector: presenter.hadithCollectors[highlight.id] ?? .none
+                                )
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text("\(highlight.chapterNo): \($presenter.hadithChapters[highlight.id].wrappedValue?.title ?? "")")
+                                HStack {
+                                    Text("Hadith: \(highlight.hadithNo)")
 
-                                Spacer()
-                                Text("\(highlight.contentId.contentId.getTitle())")
+                                    Spacer()
+                                    Text("\(highlight.contentId.contentId.getTitle())")
+                                }
+                                .padding(.top, 5)
                             }
-                            .padding(.top, 5)
                         }
                     }.onDelete(perform: deleteHadithBookmark(at:))
                 }

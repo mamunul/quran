@@ -14,21 +14,26 @@ struct HighlightsView: View {
             if !presenter.quranHighlights.isEmpty {
                 Section(header: Text("Quran")) {
                     ForEach(presenter.quranHighlights) { highlight in
-                        VStack {
-                            Text("\(highlight.highlightedText)")
+                        NavigationLink {
+                            QuranViewRouter().routeToAyahListView(surah: presenter.surahInfo[highlight.surahNo]!, surahTransliteration: presenter.surahNames[highlight.surahNo]!)
 
-                            HStack {
-                                Text("Ayat: \(highlight.ayatNo)")
-                                Spacer()
-                                Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
+                        } label: {
+                            VStack {
+                                Text("\(highlight.highlightedText)")
 
-                            }.padding(.top, 5)
-                        }
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                presenter.delete(highlight: highlight)
-                            } label: {
-                                Label("Delete", systemImage: "delete")
+                                HStack {
+                                    Text("Ayat: \(highlight.ayatNo)")
+                                    Spacer()
+                                    Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
+
+                                }.padding(.top, 5)
+                            }
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    presenter.delete(highlight: highlight)
+                                } label: {
+                                    Label("Delete", systemImage: "delete")
+                                }
                             }
                         }
                     }.onDelete(perform: deleteQuranHighlights(at:))
@@ -37,15 +42,23 @@ struct HighlightsView: View {
             if !presenter.hadithHighlights.isEmpty {
                 Section(header: Text("Hadith")) {
                     ForEach(presenter.hadithHighlights) { highlight in
-                        VStack(alignment: .leading) {
-                            Text("\(highlight.highlightedText)")
-                            Text("\(highlight.chapterNo): \(presenter.hadithChapters[highlight.id]?.title ?? "")")
-                                .padding(.vertical, 5)
-                            HStack {
-                                Text("Hadith: \(highlight.hadithNo)")
-                                Spacer()
-                                Text("\(highlight.contentId.contentId.getTitle())")
-                            }.padding(.top, 5)
+                        NavigationLink {
+                            HadithViewRouter()
+                                .routeToHadithListView(
+                                    chapter: presenter.hadithChapters[highlight.id]!,
+                                    collector: presenter.hadithCollectors[highlight.id] ?? .none
+                                )
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text("\(highlight.highlightedText)")
+                                Text("\(highlight.chapterNo): \(presenter.hadithChapters[highlight.id]?.title ?? "")")
+                                    .padding(.vertical, 5)
+                                HStack {
+                                    Text("Hadith: \(highlight.hadithNo)")
+                                    Spacer()
+                                    Text("\(highlight.contentId.contentId.getTitle())")
+                                }.padding(.top, 5)
+                            }
                         }
                     }
                     .onDelete(perform: deleteHadithHighlights(at:))
@@ -54,15 +67,25 @@ struct HighlightsView: View {
             if !presenter.tafsirHighlights.isEmpty {
                 Section(header: Text("Tafsir")) {
                     ForEach(presenter.tafsirHighlights) { highlight in
-                        VStack(alignment: .leading) {
-                            Text("\(highlight.highlightedText)")
+                        NavigationLink {
+                            TafsirViewRouter()
+                                .routeToTafsirView(
+                                    surah: presenter.surahInfo[highlight.surahNo]!,
+                                    ayah: highlight.tafsirAyah,
+                                    surahTransliteration: presenter.surahNames[highlight.surahNo]!
+                                )
 
-                            HStack {
-                                Text("Ayat: \(highlight.tafsirAyah.ayahRange.description)")
-                                Spacer()
-                                Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text("\(highlight.highlightedText)")
 
-                            }.padding(.top, 5)
+                                HStack {
+                                    Text("Ayat: \(highlight.tafsirAyah.ayahRange.description)")
+                                    Spacer()
+                                    Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
+
+                                }.padding(.top, 5)
+                            }
                         }
                     }
                     .onDelete(perform: deleteTafsirHighlights(at:))
