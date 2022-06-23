@@ -15,11 +15,15 @@ struct BookmarksView: View {
                 Section(header: Text("Quran")) {
                     ForEach(presenter.quranBookmarks) { highlight in
                         NavigationLink {
-                            QuranViewRouter().routeToAyahListView(surah: presenter.surahInfo[highlight.surahNo]!, surahTransliteration: presenter.surahNames[highlight.surahNo]!)
+                            QuranViewRouter()
+                                .routeToAyahListView(
+                                    surah: presenter.surahInfo[highlight.surahNo]!,
+                                    surahTransliteration: presenter.surahNames[highlight.surahNo]!
+                                )
 
                         } label: {
                             HStack {
-                                Text("Ayat: \(highlight.ayatNo)")
+                                Text("Ayat: \(highlight.ayatNo - presenter.surahInfo[highlight.surahNo]!.firstAyahNo + 1)")
                                 Spacer()
                                 Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
                             }

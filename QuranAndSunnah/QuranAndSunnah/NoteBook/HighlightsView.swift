@@ -15,14 +15,18 @@ struct HighlightsView: View {
                 Section(header: Text("Quran")) {
                     ForEach(presenter.quranHighlights) { highlight in
                         NavigationLink {
-                            QuranViewRouter().routeToAyahListView(surah: presenter.surahInfo[highlight.surahNo]!, surahTransliteration: presenter.surahNames[highlight.surahNo]!)
+                            QuranViewRouter()
+                                .routeToAyahListView(
+                                    surah: presenter.surahInfo[highlight.surahNo]!,
+                                    surahTransliteration: presenter.surahNames[highlight.surahNo]!
+                                )
 
                         } label: {
                             VStack {
                                 Text("\(highlight.highlightedText)")
 
                                 HStack {
-                                    Text("Ayat: \(highlight.ayatNo)")
+                                    Text("Ayat: \(highlight.ayatNo - presenter.surahInfo[highlight.surahNo]!.firstAyahNo + 1)")
                                     Spacer()
                                     Text("\(highlight.surahNo): \(presenter.surahNames[highlight.surahNo]?.text ?? "")")
 
