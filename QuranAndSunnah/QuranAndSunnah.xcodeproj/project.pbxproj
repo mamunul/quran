@@ -48,6 +48,7 @@
 		0ABD2452286854BB003896AA /* SurahListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD2451286854BB003896AA /* SurahListView.swift */; };
 		0ABD245528685C0B003896AA /* TextViewFrameCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD245428685C0B003896AA /* TextViewFrameCalculator.swift */; };
 		0ABD245728686591003896AA /* MergeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD245628686591003896AA /* MergeVisitor.swift */; };
+		0ABD245928687250003896AA /* HadithListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD245828687250003896AA /* HadithListView.swift */; };
 		0ABD84142860433700260151 /* QuranNotebookRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD84132860433700260151 /* QuranNotebookRepository.swift */; };
 		0ABD841628604A9400260151 /* HadithNotebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD841528604A9400260151 /* HadithNotebook.swift */; };
 		0ABD841828604A9F00260151 /* TafsirNotebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD841728604A9F00260151 /* TafsirNotebook.swift */; };
@@ -121,6 +122,7 @@
 		0ABD2451286854BB003896AA /* SurahListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurahListView.swift; sourceTree = "<group>"; };
 		0ABD245428685C0B003896AA /* TextViewFrameCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewFrameCalculator.swift; sourceTree = "<group>"; };
 		0ABD245628686591003896AA /* MergeVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeVisitor.swift; sourceTree = "<group>"; };
+		0ABD245828687250003896AA /* HadithListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadithListView.swift; sourceTree = "<group>"; };
 		0ABD84132860433700260151 /* QuranNotebookRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuranNotebookRepository.swift; sourceTree = "<group>"; };
 		0ABD841528604A9400260151 /* HadithNotebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HadithNotebook.swift; sourceTree = "<group>"; };
 		0ABD841728604A9F00260151 /* TafsirNotebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TafsirNotebook.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				EE45DED42849CC2400770279 /* HadithContentView.swift */,
 				EE45DED62849CC8400770279 /* HadithPresenter.swift */,
 				0AAF0CC22864875A009389E6 /* HadithViewRouter.swift */,
+				0ABD245828687250003896AA /* HadithListView.swift */,
 			);
 			path = Hadith;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ABD245928687250003896AA /* HadithListView.swift in Sources */,
 				0AB95B31285F1E0400A23803 /* SurahInfoDO+CoreDataClass.swift in Sources */,
 				EE7180B728465B7B000D16FB /* Tafsir.swift in Sources */,
 				EEC3251228590B83002D0393 /* CoreDataFacade.swift in Sources */,

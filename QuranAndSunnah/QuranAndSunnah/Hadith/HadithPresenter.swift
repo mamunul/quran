@@ -12,6 +12,24 @@ class HadithPresenter: ObservableObject {
     private var repo: IHadithDataReadFacade = HadithRepository()
     private var notebookRepo = HadithNotebookRepository()
 
+    func search(in chapterList: [HadithChapter], collector: HadithCollector, searchString: String) -> [HadithChapter] {
+        var filtered = [HadithChapter]()
+        let searchStringLC = searchString.lowercased()
+        chapterList.forEach { hadithChapter in
+
+            let hadithList = getHadithEnglishList(of: hadithChapter, collector: collector)
+
+            let first = hadithList.first { hadith in
+                hadith.matn.lowercased().contains(searchStringLC)
+            }
+
+            if first != nil {
+                filtered.append(hadithChapter)
+            }
+        }
+        return filtered
+    }
+
     func bookmark(hadith: HadithText, _ add: Bool) {
         do {
             let bookmark =
