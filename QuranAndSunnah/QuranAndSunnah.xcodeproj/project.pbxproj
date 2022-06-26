@@ -47,6 +47,7 @@
 		0AB95B32285F1E0400A23803 /* SurahInfoDO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB95B2A285F1E0400A23803 /* SurahInfoDO+CoreDataProperties.swift */; };
 		0ABD2452286854BB003896AA /* SurahListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD2451286854BB003896AA /* SurahListView.swift */; };
 		0ABD245528685C0B003896AA /* TextViewFrameCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD245428685C0B003896AA /* TextViewFrameCalculator.swift */; };
+		0ABD245728686591003896AA /* MergeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD245628686591003896AA /* MergeVisitor.swift */; };
 		0ABD84142860433700260151 /* QuranNotebookRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD84132860433700260151 /* QuranNotebookRepository.swift */; };
 		0ABD841628604A9400260151 /* HadithNotebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD841528604A9400260151 /* HadithNotebook.swift */; };
 		0ABD841828604A9F00260151 /* TafsirNotebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABD841728604A9F00260151 /* TafsirNotebook.swift */; };
@@ -119,6 +120,7 @@
 		0AB95B2A285F1E0400A23803 /* SurahInfoDO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SurahInfoDO+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0ABD2451286854BB003896AA /* SurahListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurahListView.swift; sourceTree = "<group>"; };
 		0ABD245428685C0B003896AA /* TextViewFrameCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewFrameCalculator.swift; sourceTree = "<group>"; };
+		0ABD245628686591003896AA /* MergeVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeVisitor.swift; sourceTree = "<group>"; };
 		0ABD84132860433700260151 /* QuranNotebookRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuranNotebookRepository.swift; sourceTree = "<group>"; };
 		0ABD841528604A9400260151 /* HadithNotebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HadithNotebook.swift; sourceTree = "<group>"; };
 		0ABD841728604A9F00260151 /* TafsirNotebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TafsirNotebook.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				EEDC050C284E3DEA00201203 /* TextView */,
 				EE410F80284694DD0018EE7C /* Repository */,
 				0A5A7BAF286064D700CEBDDE /* FileHandler.swift */,
+				0ABD245628686591003896AA /* MergeVisitor.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -604,6 +607,7 @@
 				0AB95B2D285F1E0400A23803 /* AyahDO+CoreDataClass.swift in Sources */,
 				0ABE19342855B8C1006D79CE /* NoteBookView.swift in Sources */,
 				EE410F7F284694D90018EE7C /* AppRepository.swift in Sources */,
+				0ABD245728686591003896AA /* MergeVisitor.swift in Sources */,
 				0A6553112850C5C7006BA6A8 /* View+Modifiers.swift in Sources */,
 				0A6553152850C5DD006BA6A8 /* AlwaysPopoverModifier.swift in Sources */,
 				0AAF0CBF286476F7009389E6 /* HighlightsView.swift in Sources */,

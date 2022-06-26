@@ -229,33 +229,44 @@ class QuranPresenter: ObservableObject {
         }
         return [:]
     }
-}
 
-protocol IVisitor {
-    func mergeOverlapped(collection: inout [IHighlight])
-}
-
-class MergeVisitor: IVisitor {
-    func mergeOverlapped(collection: inout [IHighlight]) {
-        collection.sort { left, right in
-            left.markedRange.lowerBound < right.markedRange.lowerBound
+    func filterbySurahNames(_ searchString: String) -> [SurahInfo] {
+        let searchStringLC = searchString.lowercased()
+        let filtered = surahList.filter { surah in
+            searchInSurahNames(searchStringLC: searchStringLC, in: surah)
         }
 
-        var newArray = [IHighlight]()
+        return filtered
+    }
 
-        if let first = collection.first {
-            newArray.append(first)
-        }
+    private func searchInSurahNames(searchStringLC: String, in surah: SurahInfo) -> Bool {
+        surahTranslationList[surah.surahNo]?.text.lowercased().contains(searchStringLC) ?? false
+            ||
+            surahTranslilerationList[surah.surahNo]?.text.lowercased().contains(searchStringLC) ?? false
+    }
 
-        collection.forEach { highlight in
-            if newArray[newArray.count - 1].markedRange.upperBound >= highlight.markedRange.lowerBound - 1 {
-                newArray[newArray.count - 1].markedRange =
-                    newArray[newArray.count - 1].markedRange.lowerBound ... highlight.markedRange.upperBound
-            } else {
-                newArray.append(highlight)
+    func searchInSurahAndAyat(searchString: String) -> [SurahInfo] {
+        var filtered = [SurahInfo]()
+        let searchStringLC = searchString.lowercased()
+        surahList.forEach { surah in
+            do {
+                let ayahList = try repository.getAyahTranslation(of: surah, contentId: .en_hilali_quranenc, language: .en)
+
+                let ayat = ayahList.filter { ayah in
+                    ayah.text.lowercased().contains(searchStringLC)
+                }
+
+                if !ayat.isEmpty {
+                    filtered.append(surah)
+                } else if searchInSurahNames(searchStringLC: searchStringLC, in: surah) {
+                    filtered.append(surah)
+                }
+
+            } catch {
+                print(error)
             }
         }
 
-        collection = newArray
+        return filtered
     }
 }
