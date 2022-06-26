@@ -33,7 +33,11 @@ struct SurahListView: View {
     var body: some View {
         List(self.surahList) { surah in
             NavigationLink {
-                SurahContentView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
+                SurahContentView(
+                    surah: surah,
+                    surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!,
+                    searchString: searchString
+                )
             } label: {
                 HStack {
                     Text("\(surah.surahNo)").frame(width: 50)
@@ -65,9 +69,10 @@ struct SurahListView: View {
                 surahList = self.presenter.surahList
             } else {
                 DispatchQueue.global().async {
-                    let filtered = presenter.searchInSurahAndAyat(searchString: newValue)
-                    DispatchQueue.main.async {
-                        surahList = filtered
+                    presenter.searchInSurahAndAyat(searchString: newValue) { update in
+                        DispatchQueue.main.async {
+                            surahList = update
+                        }
                     }
                 }
             }
