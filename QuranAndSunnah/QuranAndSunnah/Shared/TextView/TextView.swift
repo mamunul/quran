@@ -59,6 +59,7 @@ struct TextView: UIViewRepresentable {
             let attribute2 = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
             attribute1 += attribute2
         case .right:
+            paragraphStyle.lineSpacing = 10
             paragraphStyle.alignment = .right
             let attribute2 = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
             attribute1 += attribute2
