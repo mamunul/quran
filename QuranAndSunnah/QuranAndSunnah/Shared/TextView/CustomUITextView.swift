@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-class CustomUITextView: UITextView {
+class CustomUITextView: UITextView, NSLayoutManagerDelegate {
     var onHighlight: ((_ highlightedString: ClosedRange<Int>) -> Void)?
     var onUnhighlight: ((_ highlight: Highlight) -> Void)?
 
@@ -20,6 +20,7 @@ class CustomUITextView: UITextView {
         super.init(frame: frame, textContainer: textContainer)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         addGestureRecognizer(tapGestureRecognizer)
+//        layoutManager.delegate = self
     }
 
     required init?(coder: NSCoder) {
@@ -135,5 +136,9 @@ class CustomUITextView: UITextView {
         }
 
         return true
+    }
+
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        10 // disabled
     }
 }
