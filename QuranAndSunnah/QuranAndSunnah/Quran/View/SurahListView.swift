@@ -26,12 +26,12 @@ struct QuranContentView: View {
     }
 }
 
-
 struct SurahListView: View {
     @EnvironmentObject var presenter: QuranPresenter
     @State var searchString: String = ""
+    @State var surahList = [SurahInfo]()
     var body: some View {
-        List(self.presenter.surahList) { surah in
+        List(self.surahList) { surah in
             NavigationLink {
                 SurahContentView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
             } label: {
@@ -59,6 +59,22 @@ struct SurahListView: View {
         .listStyle(PlainListStyle())
         .listStyle(.sidebar)
         .searchable(text: $searchString)
+        .onChange(of: searchString) { newValue in
+
+            if newValue.isEmpty {
+                surahList = self.presenter.surahList
+            } else {
+                DispatchQueue.global().async {
+                    let filtered = presenter.searchInSurahAndAyat(searchString: newValue)
+                    DispatchQueue.main.async {
+                        surahList = filtered
+                    }
+                }
+            }
+        }
+        .onChange(of: self.presenter.surahList) { _ in
+            surahList = self.presenter.surahList
+        }
     }
 }
 
