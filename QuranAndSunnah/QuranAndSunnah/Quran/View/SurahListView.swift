@@ -7,10 +7,30 @@
 
 import SwiftUI
 
+struct QuranContentView: View {
+    @StateObject var presenter = QuranPresenter()
+    var body: some View {
+        NavigationView {
+            SurahListView()
+        }
+
+        .environmentObject(presenter)
+        .onAppear {
+            DispatchQueue.global().async {
+                presenter.getSurahList()
+                presenter.getSurahTranslationList()
+                presenter.getSurahTransliterationList()
+                presenter.getSurahArabicList()
+            }
+        }
+    }
+}
+
+
 struct SurahListView: View {
     @EnvironmentObject var presenter: QuranPresenter
+    @State var searchString: String = ""
     var body: some View {
-//        List {
         List(self.presenter.surahList) { surah in
             NavigationLink {
                 SurahContentView(surah: surah, surahTransliteration: presenter.surahTranslilerationList[surah.surahNo]!)
@@ -37,8 +57,8 @@ struct SurahListView: View {
             }
         }
         .listStyle(PlainListStyle())
-//        }
         .listStyle(.sidebar)
+        .searchable(text: $searchString)
     }
 }
 
