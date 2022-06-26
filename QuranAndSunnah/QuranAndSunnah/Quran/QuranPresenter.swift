@@ -245,28 +245,28 @@ class QuranPresenter: ObservableObject {
             surahTranslilerationList[surah.surahNo]?.text.lowercased().contains(searchStringLC) ?? false
     }
 
-    func searchInSurahAndAyat(searchString: String) -> [SurahInfo] {
+    func searchInSurahAndAyat(searchString: String, onUpdate: @escaping ([SurahInfo]) -> Void) {
         var filtered = [SurahInfo]()
         let searchStringLC = searchString.lowercased()
         surahList.forEach { surah in
-            do {
-                let ayahList = try repository.getAyahTranslation(of: surah, contentId: .en_hilali_quranenc, language: .en)
+            DispatchQueue.global().async { [self] in
+                do {
+                    let ayahList = try repository.getAyahTranslation(of: surah, contentId: .en_hilali_quranenc, language: .en)
 
-                let ayat = ayahList.filter { ayah in
-                    ayah.text.lowercased().contains(searchStringLC)
+                    let ayat = ayahList.filter { ayah in
+                        ayah.text.lowercased().contains(searchStringLC)
+                    }
+
+                    if !ayat.isEmpty {
+                        filtered.append(surah)
+                    } else if searchInSurahNames(searchStringLC: searchStringLC, in: surah) {
+                        filtered.insert(surah, at: 0)
+                    }
+                    onUpdate(filtered)
+                } catch {
+                    print(error)
                 }
-
-                if !ayat.isEmpty {
-                    filtered.append(surah)
-                } else if searchInSurahNames(searchStringLC: searchStringLC, in: surah) {
-                    filtered.append(surah)
-                }
-
-            } catch {
-                print(error)
             }
         }
-
-        return filtered
     }
 }

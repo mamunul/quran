@@ -96,11 +96,15 @@ struct SurahContentView: View {
     fileprivate func loadInitialProperties() {
         DispatchQueue.global().async {
             let ayat = presenter.getAyat(of: surah)
-            let filteredAyat = ayat
+            var filteredAyat = ayat
             let ayatTranslation = presenter.getAyatTranslation(of: surah)
             let bookmarks = presenter.getBookmarks(surah: surah)
             let highlights = presenter.getHighlights(of: surah)
-            
+
+            if !searchString.isEmpty {
+                filteredAyat = searchContent(in: ayat, ayatTranslation)
+            }
+
             DispatchQueue.main.async {
                 self.ayat = ayat
                 self.filteredAyat = filteredAyat
@@ -110,7 +114,7 @@ struct SurahContentView: View {
             }
         }
     }
-    
+
     var body: some View {
         GeometryReader { proxy in
 //            List {
@@ -159,7 +163,7 @@ struct SurahContentView: View {
                     if newValue.isEmpty {
                         filteredAyat = ayat
                     } else {
-                        let newList = ayat.filter { ayatTranslation[$0.ayahNo]?.text.localizedCaseInsensitiveContains(newValue) ?? false }
+                        let newList = searchContent(in: ayat, ayatTranslation)
                         filteredAyat = newList
                     }
                 }
@@ -180,6 +184,11 @@ struct SurahContentView: View {
                 loadInitialProperties()
             }
         }
+    }
+
+    func searchContent(in ayat: [Ayah], _ translation: [Int: Ayah]) -> [Ayah] {
+        let newList = ayat.filter { translation[$0.ayahNo]?.text.lowercased().contains(searchString.lowercased()) ?? false }
+        return newList
     }
 }
 
