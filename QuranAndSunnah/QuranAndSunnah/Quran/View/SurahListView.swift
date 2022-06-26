@@ -69,11 +69,16 @@ struct SurahListView: View {
                 surahList = self.presenter.surahList
             } else {
                 DispatchQueue.global().async {
-                    presenter.searchInSurahAndAyat(searchString: newValue) { update in
-                        DispatchQueue.main.async {
-                            surahList = update
-                        }
+                    let surahList = presenter.filterbySurahNames(newValue)
+                    DispatchQueue.main.async {
+                        self.surahList = surahList
                     }
+                    
+//                    presenter.searchInSurahAndAyat(searchString: newValue) { update in
+//                        DispatchQueue.main.async {
+//                            surahList = update
+//                        }
+//                    }
                 }
             }
         }
