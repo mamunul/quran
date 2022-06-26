@@ -15,7 +15,6 @@ enum StorageName {
 struct MainView: View {
     static let fontRange: ClosedRange<Double> = 15.0 ... 30.0
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
-    @State var searchString: String = ""
     var body: some View {
         TabView {
             QuranContentView()
@@ -39,7 +38,6 @@ struct MainView: View {
                     Label("Search", systemImage: "magnifyingglass")
                 }
         }
-        .searchable(text: $searchString)
     }
 }
 

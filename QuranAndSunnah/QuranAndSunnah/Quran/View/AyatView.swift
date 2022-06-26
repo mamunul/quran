@@ -7,25 +7,6 @@
 
 import SwiftUI
 
-struct QuranContentView: View {
-    @StateObject var presenter = QuranPresenter()
-    var body: some View {
-        NavigationView {
-            SurahListView()
-        }
-
-        .environmentObject(presenter)
-        .onAppear {
-            DispatchQueue.global().async {
-                presenter.getSurahList()
-                presenter.getSurahTranslationList()
-                presenter.getSurahTransliterationList()
-                presenter.getSurahArabicList()
-            }
-        }
-    }
-}
-
 struct AyahHeaderView: View {
     @Binding var ayah: Ayah
     var surah: SurahInfo
