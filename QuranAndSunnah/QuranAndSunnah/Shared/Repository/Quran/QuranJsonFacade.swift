@@ -132,6 +132,35 @@ class QuranJsonFacade: IDataReadFacade {
         return ayat
     }
 
+    func getAllAyat(contentId: AyahContentID, surahList: [SurahInfo]) throws -> [Ayah] {
+        let translationsJson: TranslationJson = try repo.getQuranData(basePath, contentId: contentId)
+
+        let translationsJsonArray = translationsJson.translations.sorted { left, right in
+            Int(left.key)! < Int(right.key)!
+        }
+        var ayahList = [Ayah]()
+        var surahNo = 1
+        for (key, value) in translationsJsonArray {
+            let ayah = Ayah(
+                id: (key as NSString).integerValue,
+                text: value,
+                ayahNo: (key as NSString).integerValue,
+                surahNo: surahNo,
+                contentId: ContentIdentity<AyahContentID>(
+                    contentId: AyahContentID.en_hilali_quranenc,
+                    lang: .en,
+                    contentType: .translation)
+            )
+            ayahList.append(ayah)
+
+            if surahList[surahNo].lastAyahNo == ayah.ayahNo {
+                surahNo += 1
+            }
+        }
+
+        return ayahList
+    }
+
     func getAyahTranslation(of surah: SurahInfo, contentId: AyahContentID, language: Language) throws
         -> [Ayah] {
         let translationsJson: TranslationJson = try repo.getQuranData(basePath, contentId: contentId)
