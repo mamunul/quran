@@ -78,6 +78,7 @@ enum HadithContentID: Int, ContentID {
 }
 
 protocol IHadithDataReadFacade {
+    func getAllHadith(of collectors: [HadithCollector]) throws -> [HadithText]
     func getCollectorList() -> [HadithCollector]
     func getChapterList(of collector: HadithCollector, language: Language) -> [HadithChapter]
     func getHadithList(of chapter: HadithChapter, collector: HadithCollector, language: Language) throws -> [HadithText]
@@ -123,8 +124,22 @@ class HadithRepository: IHadithDataReadFacade {
         return chapterList
     }
 
-    func getHadithList(of chapter: HadithChapter, collector: HadithCollector, language: Language) throws -> [HadithText] {
-        let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapter.chapterNo).json", withExtension: "")!
+    func getAllHadith(of collectors: [HadithCollector]) throws -> [HadithText] {
+        let collectors = getCollectorList()
+        var allHadith = [HadithText]()
+        try collectors.forEach { collector in
+
+            try collector.chapterRange.forEach { chapterNo in
+                let list = try getHadithList(of: chapterNo, collector: collector, language: .en)
+                allHadith.append(contentsOf: list)
+            }
+        }
+
+        return allHadith
+    }
+
+    private func getHadithList(of chapterNo: Int, collector: HadithCollector, language: Language) throws -> [HadithText] {
+        let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapterNo).json", withExtension: "")!
         let data = try Data(contentsOf: fileUrl)
         let res = try JSONDecoder().decode([HadithJson].self, from: data)
 
@@ -133,7 +148,6 @@ class HadithRepository: IHadithDataReadFacade {
 
         let hadithList = res.map {
             HadithText(
-                id: ($0.Hadith_number as NSString).integerValue,
                 chapterNo: ($0.Chapter_Number as NSString).integerValue,
                 sectionNo: ($0.Section_Number as NSString).integerValue,
                 section: language == .ar ? $0.Section_Arabic : $0.Section_English,
@@ -145,6 +159,11 @@ class HadithRepository: IHadithDataReadFacade {
                 contentId: contentId
             )
         }
+        return hadithList
+    }
+
+    func getHadithList(of chapter: HadithChapter, collector: HadithCollector, language: Language) throws -> [HadithText] {
+        let hadithList = try getHadithList(of: chapter.chapterNo, collector: collector, language: language)
         return hadithList
     }
 

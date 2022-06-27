@@ -13,9 +13,32 @@ enum SearchType: String {
 
 class SearchPresenter: ObservableObject {
     @Published var searchSelection = SearchType.quran
+    @Published var searchString = ""
     private var repository = QuranJsonFacade.shared
+    private var hadithRepository = HadithRepository()
+
+    private var hadithList = [HadithText]()
+    private var ayat = [Ayah]()
+
+    func getHadithList() -> [HadithText] {
+        if !hadithList.isEmpty {
+            return hadithList
+        }
+        var allList = [HadithText]()
+        do {
+            let collector = hadithRepository.getCollectorList()
+            allList = try hadithRepository.getAllHadith(of: collector)
+        } catch {
+            print(error)
+        }
+        hadithList = allList
+        return allList
+    }
 
     func getAyatTranslation() -> [Ayah] {
+        if !ayat.isEmpty {
+            return ayat
+        }
         var ayat = [Ayah]()
         do {
             let surahList = try repository.getSurah()
@@ -24,6 +47,7 @@ class SearchPresenter: ObservableObject {
         } catch {
             print(error)
         }
+        self.ayat = ayat
         return ayat
     }
 }
