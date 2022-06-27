@@ -60,6 +60,7 @@ struct NoteBookView: View {
                 Spacer()
             }
             .listStyle(PlainListStyle())
+            .navigationTitle("My Readings")
         }.onAppear {
             presenter.loadSurah()
             presenter.getBookmarks()
