@@ -18,6 +18,7 @@
 		0A326221283F63B600535216 /* MUHAMMADIQURANICFONT.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A32621D283F636500535216 /* MUHAMMADIQURANICFONT.ttf */; };
 		0A326223283F72FA00535216 /* me_quran.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A326222283F72FA00535216 /* me_quran.ttf */; };
 		0A326227283F77E300535216 /* TafsirContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A326226283F77E300535216 /* TafsirContentView.swift */; };
+		0A53F6C628696DB20012DF4A /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A53F6C528696DB20012DF4A /* SearchPresenter.swift */; };
 		0A5A7BB0286064D700CEBDDE /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7BAF286064D700CEBDDE /* FileHandler.swift */; };
 		0A5A7BB22860924500CEBDDE /* NotebooksPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7BB12860924500CEBDDE /* NotebooksPresenter.swift */; };
 		0A5E9676284896FB0093C810 /* TafsirRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5E9675284896FB0093C810 /* TafsirRepository.swift */; };
@@ -92,6 +93,7 @@
 		0A32621D283F636500535216 /* MUHAMMADIQURANICFONT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MUHAMMADIQURANICFONT.ttf; sourceTree = "<group>"; };
 		0A326222283F72FA00535216 /* me_quran.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = me_quran.ttf; sourceTree = "<group>"; };
 		0A326226283F77E300535216 /* TafsirContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TafsirContentView.swift; sourceTree = "<group>"; };
+		0A53F6C528696DB20012DF4A /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		0A5A7BAF286064D700CEBDDE /* FileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
 		0A5A7BB12860924500CEBDDE /* NotebooksPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebooksPresenter.swift; sourceTree = "<group>"; };
 		0A5E9675284896FB0093C810 /* TafsirRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TafsirRepository.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				0ABE19362855B94D006D79CE /* SearchView.swift */,
+				0A53F6C528696DB20012DF4A /* SearchPresenter.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				EE7180B728465B7B000D16FB /* Tafsir.swift in Sources */,
 				EEC3251228590B83002D0393 /* CoreDataFacade.swift in Sources */,
 				0AB95B32285F1E0400A23803 /* SurahInfoDO+CoreDataProperties.swift in Sources */,
+				0A53F6C628696DB20012DF4A /* SearchPresenter.swift in Sources */,
 				0AB95B30285F1E0400A23803 /* SurahNameDO+CoreDataProperties.swift in Sources */,
 				0ABD245528685C0B003896AA /* TextViewFrameCalculator.swift in Sources */,
 				EE7180B5284655BA000D16FB /* Quran.swift in Sources */,

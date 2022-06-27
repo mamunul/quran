@@ -17,9 +17,14 @@ protocol IDataReadFacade {
     func getAyat(of surah: SurahInfo, contentId: AyahContentID) throws -> [Ayah]
     func getAyahTranslation(of surah: SurahInfo, contentId: AyahContentID, language: Language) throws -> [Ayah]
     func getAyahTransliteration(of surah: SurahInfo, contentId: AyahContentID, language: Language) throws -> [Ayah]
+    func getAllAyat(contentId: AyahContentID, surahList: [SurahInfo]) throws -> [Ayah]
 }
 
 class CoreDataFacade: IDataReadFacade {
+    func getAllAyat(contentId: AyahContentID, surahList: [SurahInfo]) throws -> [Ayah] {
+        []
+    }
+
     let coreDataStack = CoreDataStack.shared
 
     static let shared = CoreDataFacade()
