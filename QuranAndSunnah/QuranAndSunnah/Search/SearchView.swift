@@ -166,7 +166,7 @@ struct SearchView: View {
                         .environmentObject(presenter)
                 }
             }.searchable(text: $presenter.searchString)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
