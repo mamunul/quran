@@ -14,15 +14,16 @@ struct QuranSearchView: View {
     @State var allAyat = [Ayah]()
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     var padding: CGFloat = 5
-
+    @State var surahTranslilerationList = [Int: SurahName]()
+    @State var surahList = [SurahInfo]()
     var body: some View {
         GeometryReader { proxy in
             List(filteredAyat) { ayah in
                 VStack {
                     HStack {
-                        Text("\(ayah.surahNo)").padding(5)
+                        Text("\(ayah.surahNo): \(surahTranslilerationList[ayah.surahNo]?.text ?? "")").padding(5)
                         Spacer()
-                        Text("\(ayah.ayahNo)").padding(5)
+                        Text("\(ayah.ayahNo - surahList[ayah.surahNo - 1].firstAyahNo + 1)").padding(5)
                     }.padding(.horizontal, padding)
                     TextView(
                         text: .constant(NSMutableAttributedString(string: ayah.text)),
@@ -59,7 +60,11 @@ struct QuranSearchView: View {
                             ayah.text.lowercased().contains(searchString.lowercased())
                         })
                     }
+                    let surahNames = presenter.getSurahTransliterationList()
+                    let surahList = presenter.getSurahList()
                     Task(priority: .userInitiated) {
+                        self.surahTranslilerationList = surahNames
+                        self.surahList = surahList
                         self.allAyat = allAyat
                         self.filteredAyat = filteredAyat
                     }

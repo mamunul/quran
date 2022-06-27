@@ -19,6 +19,8 @@ class SearchPresenter: ObservableObject {
 
     private var hadithList = [HadithText]()
     private var ayat = [Ayah]()
+    private var surahTranslilerationList = [Int: SurahName]()
+    private var surahList = [SurahInfo]()
 
     func getHadithList() async -> [HadithText] {
         if !hadithList.isEmpty {
@@ -34,14 +36,49 @@ class SearchPresenter: ObservableObject {
         return allList
     }
 
+    func getSurahTransliterationList() -> [Int: SurahName] {
+        if !surahTranslilerationList.isEmpty {
+            return surahTranslilerationList
+        }
+        do {
+            let surahList = try repository.getSurahTransliteration(contentId: .en_tanzil, language: .en)
+
+            let dict = surahList.reduce(into: [Int: SurahName]()) {
+                $0[$1.surahNo] = $1
+            }
+
+            surahTranslilerationList = dict
+
+        } catch {
+            print(error)
+        }
+
+        return surahTranslilerationList
+    }
+
+    func getSurahList() -> [SurahInfo] {
+        if !surahList.isEmpty {
+            return surahList
+        }
+        do {
+            let surahList = try repository.getSurah()
+
+            self.surahList = surahList
+
+        } catch {
+            print(error)
+        }
+
+        return surahList
+    }
+
     func getAyatTranslation() -> [Ayah] {
         if !ayat.isEmpty {
             return ayat
         }
         var ayat = [Ayah]()
         do {
-            let surahList = try repository.getSurah()
-
+            surahList = getSurahList()
             ayat = try repository.getAllAyat(contentId: .en_hilali_quranenc, surahList: surahList)
         } catch {
             print(error)
