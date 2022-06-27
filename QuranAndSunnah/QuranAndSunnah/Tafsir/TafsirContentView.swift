@@ -90,6 +90,7 @@ struct TafsirSurahListView: View {
         }
         .listStyle(PlainListStyle())
         .listStyle(.sidebar)
+        .navigationTitle("Tafsir Ibn Kathir")
     }
 }
 

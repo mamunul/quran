@@ -12,7 +12,6 @@ struct HadithContentView: View {
     var body: some View {
         NavigationView {
             HadithCollectorListView()
-                .environmentObject(presenter)
         }
         .environmentObject(presenter)
         .onAppear {
@@ -37,6 +36,7 @@ struct HadithCollectorListView: View {
         }
         .listStyle(PlainListStyle())
         .listStyle(.sidebar)
+        .navigationTitle("Hadith Collections")
     }
 }
 
