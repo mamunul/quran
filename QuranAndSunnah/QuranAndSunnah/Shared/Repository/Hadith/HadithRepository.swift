@@ -78,7 +78,7 @@ enum HadithContentID: Int, ContentID {
 }
 
 protocol IHadithDataReadFacade {
-    func getAllHadith(of collectors: [HadithCollector]) throws -> [HadithText]
+    func getAllHadith() async throws -> [HadithText]
     func getCollectorList() -> [HadithCollector]
     func getChapterList(of collector: HadithCollector, language: Language) -> [HadithChapter]
     func getHadithList(of chapter: HadithChapter, collector: HadithCollector, language: Language) throws -> [HadithText]
@@ -124,18 +124,29 @@ class HadithRepository: IHadithDataReadFacade {
         return chapterList
     }
 
-    func getAllHadith(of collectors: [HadithCollector]) throws -> [HadithText] {
-        let collectors = getCollectorList()
-        var allHadith = [HadithText]()
-        try collectors.forEach { collector in
+    func getAllHadith() async throws -> [HadithText] {
+        return try await withThrowingTaskGroup(of: [HadithText].self) { group in
 
-            try collector.chapterRange.forEach { chapterNo in
-                let list = try getHadithList(of: chapterNo, collector: collector, language: .en)
+            let collectors = getCollectorList()
+            var allHadith = [HadithText]()
+            collectors.forEach { collector in
+                group.addTask {
+                    var collectorHadith = [HadithText]()
+                    try collector.chapterRange.forEach { chapterNo in
+                        let list = try self.getHadithList(of: chapterNo, collector: collector, language: .en)
+//                        allHadith.append(contentsOf: list)
+                        collectorHadith.append(contentsOf: list)
+                    }
+                    return collectorHadith
+                }
+            }
+
+            for try await list in group {
                 allHadith.append(contentsOf: list)
             }
-        }
 
-        return allHadith
+            return allHadith
+        }
     }
 
     private func getHadithList(of chapterNo: Int, collector: HadithCollector, language: Language) throws -> [HadithText] {

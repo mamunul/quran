@@ -130,7 +130,7 @@ enum SurahNameContentID: Int, ContentID {
     case en_tanzil
 }
 
-struct SurahInfo: Codable, Identifiable, Equatable {
+struct SurahInfo: Codable, Identifiable, Equatable, Hashable {
     var id: Int
     var surahNo: Int
     var ayahCount: Int

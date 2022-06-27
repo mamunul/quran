@@ -29,18 +29,18 @@ struct QuranSearchView: View {
             if newValue.isEmpty {
                 self.filteredAyat = allAyat
             } else {
-                DispatchQueue.global().async {
+                Task(priority: .utility) {
                     let filteredAyat = allAyat.filter({ ayah in
                         ayah.text.lowercased().contains(searchString.lowercased())
                     })
-                    DispatchQueue.main.async {
+                    Task(priority: .userInitiated) {
                         self.filteredAyat = filteredAyat
                     }
                 }
             }
         })
         .onAppear {
-            DispatchQueue.global().async {
+            Task(priority: .utility) {
                 let allAyat = presenter.getAyatTranslation()
                 var filteredAyat = allAyat
                 if !searchString.isEmpty {
@@ -48,7 +48,7 @@ struct QuranSearchView: View {
                         ayah.text.lowercased().contains(searchString.lowercased())
                     })
                 }
-                DispatchQueue.main.async {
+                Task(priority: .userInitiated) {
                     self.allAyat = allAyat
                     self.filteredAyat = filteredAyat
                 }
@@ -78,26 +78,26 @@ struct HadithSearchView: View {
             if newValue.isEmpty {
                 self.filteredHadithList = hadithList
             } else {
-                DispatchQueue.global().async {
+                Task(priority: .utility)  {
                     let filteredHadithList = hadithList.filter({ hadith in
                         hadith.matn.lowercased().contains(searchString.lowercased())
                     })
-                    DispatchQueue.main.async {
+                    Task(priority: .userInitiated) {
                         self.filteredHadithList = filteredHadithList
                     }
                 }
             }
         })
         .onAppear {
-            DispatchQueue.global().async {
-                let hadithList = presenter.getHadithList()
+            Task(priority: .utility) {
+                let hadithList = await presenter.getHadithList()
                 var filteredHadithList = hadithList
                 if !searchString.isEmpty {
                     filteredHadithList = hadithList.filter({ hadith in
                         hadith.matn.lowercased().contains(searchString.lowercased())
                     })
                 }
-                DispatchQueue.main.async {
+                Task(priority: .userInitiated) {
                     self.hadithList = hadithList
                     self.filteredHadithList = filteredHadithList
                 }
@@ -136,7 +136,7 @@ struct SearchView: View {
                     QuranSearchView(searchString: $presenter.searchString)
                         .environmentObject(presenter)
                 }
-            }  .searchable(text: $presenter.searchString)
+            }.searchable(text: $presenter.searchString)
         }
     }
 }

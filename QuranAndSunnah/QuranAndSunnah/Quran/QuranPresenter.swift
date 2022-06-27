@@ -245,28 +245,36 @@ class QuranPresenter: ObservableObject {
             surahTranslilerationList[surah.surahNo]?.text.lowercased().contains(searchStringLC) ?? false
     }
 
-    func searchInSurahAndAyat(searchString: String, onUpdate: @escaping ([SurahInfo]) -> Void) {
+    private var allAyah = [Ayah]()
+    func searchInSurahAndAyat(searchString: String) -> [SurahInfo] {
         var filtered = [SurahInfo]()
-        let searchStringLC = searchString.lowercased()
-        surahList.forEach { surah in
-            DispatchQueue.global().async { [self] in
-                do {
-                    let ayahList = try repository.getAyahTranslation(of: surah, contentId: .en_hilali_quranenc, language: .en)
+        do {
+            if allAyah.isEmpty {
+                let allAyat = try repository.getAllAyat(contentId: .en_hilali_quranenc, surahList: surahList)
+                allAyah = allAyat
+            }
+            let searchStringLC = searchString.lowercased()
 
-                    let ayat = ayahList.filter { ayah in
-                        ayah.text.lowercased().contains(searchStringLC)
-                    }
+            var setOfSurah = Set<SurahInfo>()
 
-                    if !ayat.isEmpty {
-                        filtered.append(surah)
-                    } else if searchInSurahNames(searchStringLC: searchStringLC, in: surah) {
-                        filtered.insert(surah, at: 0)
+            filterbySurahNames(searchStringLC).forEach { surah in
+                setOfSurah.insert(surah)
+            }
+
+            allAyah.forEach { ayah in
+                if ayah.text.lowercased().contains(searchStringLC) {
+                    if let first = surahList.first(where: { surah in
+                        surah.surahNo == ayah.surahNo
+                    }) {
+                        setOfSurah.insert(first)
                     }
-                    onUpdate(filtered)
-                } catch {
-                    print(error)
                 }
             }
+
+            filtered = Array(setOfSurah)
+        } catch {
         }
+
+        return filtered
     }
 }
