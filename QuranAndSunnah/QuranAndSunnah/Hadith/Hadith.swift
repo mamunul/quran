@@ -9,7 +9,7 @@ import Foundation
 
 struct HadithText: Identifiable {
     static let empty = HadithText(
-        id: 0,
+        id: UUID(),
         chapterNo: 0,
         sectionNo: 0,
         section: "",
@@ -24,7 +24,7 @@ struct HadithText: Identifiable {
             contentType: .translation
         )
     )
-    var id: Int
+    var id = UUID()
     var chapterNo: Int
     var sectionNo: Int
     var section: String
