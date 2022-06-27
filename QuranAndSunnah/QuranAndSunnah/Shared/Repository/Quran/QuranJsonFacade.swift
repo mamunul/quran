@@ -153,7 +153,7 @@ class QuranJsonFacade: IDataReadFacade {
             )
             ayahList.append(ayah)
 
-            if surahList[surahNo].lastAyahNo == ayah.ayahNo {
+            if surahList[surahNo-1].lastAyahNo == ayah.ayahNo {
                 surahNo += 1
             }
         }

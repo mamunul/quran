@@ -20,14 +20,13 @@ class SearchPresenter: ObservableObject {
     private var hadithList = [HadithText]()
     private var ayat = [Ayah]()
 
-    func getHadithList() -> [HadithText] {
+    func getHadithList() async -> [HadithText] {
         if !hadithList.isEmpty {
             return hadithList
         }
         var allList = [HadithText]()
         do {
-            let collector = hadithRepository.getCollectorList()
-            allList = try hadithRepository.getAllHadith(of: collector)
+            allList = try await hadithRepository.getAllHadith()
         } catch {
             print(error)
         }
