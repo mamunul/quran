@@ -82,6 +82,7 @@ protocol IHadithDataReadFacade {
     func getCollectorList() -> [HadithCollector]
     func getChapterList(of collector: HadithCollector, language: Language) -> [HadithChapter]
     func getHadithList(of chapter: HadithChapter, collector: HadithCollector, language: Language) throws -> [HadithText]
+    func getAllHadith(of collector: HadithCollector) throws -> [HadithText] 
 }
 
 class HadithRepository: IHadithDataReadFacade {
@@ -122,6 +123,17 @@ class HadithRepository: IHadithDataReadFacade {
         }
 
         return chapterList
+    }
+
+    func getAllHadith(of collector: HadithCollector) throws -> [HadithText] {
+ 
+        var collectorHadith = [HadithText]()
+        try collector.chapterRange.forEach { chapterNo in
+            let list = try self.getHadithList(of: chapterNo, collector: collector, language: .en)
+//                        allHadith.append(contentsOf: list)
+            collectorHadith.append(contentsOf: list)
+        }
+        return collectorHadith
     }
 
     func getAllHadith() async throws -> [HadithText] {

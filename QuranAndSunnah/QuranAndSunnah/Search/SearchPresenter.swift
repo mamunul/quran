@@ -22,6 +22,24 @@ class SearchPresenter: ObservableObject {
     private var surahTranslilerationList = [Int: SurahName]()
     private var surahList = [SurahInfo]()
 
+    func getHadithCollectorList() -> [HadithCollector] {
+        hadithRepository.getCollectorList()
+    }
+
+    func getHadithList(of collector: HadithCollector) async -> [HadithText] {
+        if !hadithList.isEmpty {
+            return hadithList
+        }
+        var allList = [HadithText]()
+        do {
+            allList = try await hadithRepository.getAllHadith(of: collector)
+        } catch {
+            print(error)
+        }
+        hadithList = allList
+        return allList
+    }
+
     func getHadithList() async -> [HadithText] {
         if !hadithList.isEmpty {
             return hadithList
