@@ -11,7 +11,7 @@ import UIKit
 
 class TafsirContentPresenter: ObservableObject {
     @Published var attributedContent = NSMutableAttributedString(string: "")
-    private let synthesizer = AVSpeechSynthesizer()
+    private var synthesizer: AVSpeechSynthesizer?
     private var utterance: AVSpeechUtterance?
     private var isPlaying = false
 //    private var surah: SurahInfo?
@@ -162,6 +162,7 @@ class TafsirContentPresenter: ObservableObject {
     }
 
     private func setupReader() {
+        synthesizer = AVSpeechSynthesizer()
         utterance = AVSpeechUtterance(attributedString: attributedContent)
         let voice = AVSpeechSynthesisVoice()
         utterance?.voice = voice
@@ -189,19 +190,19 @@ class TafsirContentPresenter: ObservableObject {
     }
 
     func pause() {
-        synthesizer.pauseSpeaking(at: AVSpeechBoundary.immediate)
+        synthesizer?.pauseSpeaking(at: AVSpeechBoundary.immediate)
     }
 
     func play() {
-        if synthesizer.isSpeaking {
-            synthesizer.continueSpeaking()
+        if synthesizer?.isSpeaking ?? false {
+            synthesizer?.continueSpeaking()
         } else {
-            synthesizer.speak(utterance!)
+            synthesizer?.speak(utterance!)
         }
     }
 
     func stop() {
-        synthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
+        synthesizer?.stopSpeaking(at: AVSpeechBoundary.immediate)
     }
 
     func recite() {

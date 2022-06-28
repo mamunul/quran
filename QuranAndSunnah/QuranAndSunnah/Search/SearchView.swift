@@ -106,7 +106,7 @@ struct HadithSearchView: View {
                 if newValue.isEmpty {
                     self.filteredHadithList = hadithList
                 } else {
-                    Task(priority: .utility) {
+                    Task(priority: .background) {
                         let filteredHadithList = hadithList.filter({ hadith in
                             hadith.matn.lowercased().contains(searchString.lowercased())
                         })
@@ -117,7 +117,7 @@ struct HadithSearchView: View {
                 }
             })
             .onAppear {
-                Task(priority: .utility) {
+                Task(priority: .background) {
                     let hadithList = await presenter.getHadithList()
                     var filteredHadithList = hadithList
                     if !searchString.isEmpty {
