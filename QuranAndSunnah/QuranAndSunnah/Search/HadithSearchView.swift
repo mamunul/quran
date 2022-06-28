@@ -14,7 +14,6 @@ struct HadithSearchView: View {
     @State var hadithList = [HadithText]()
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     var padding: CGFloat = 5
-
     var body: some View {
         GeometryReader { proxy in
             List(filteredHadithList) { hadith in
@@ -39,27 +38,28 @@ struct HadithSearchView: View {
                 if newValue.isEmpty {
                     self.filteredHadithList = hadithList
                 } else {
-                    Task(priority: .medium) {
-                        let filteredHadithList = hadithList.filter({ hadith in
-                            hadith.matn.lowercased().contains(searchString.lowercased())
+                    Task.detached(priority: .medium) {
+                        let search = await searchString.lowercased()
+                        let filteredHadithList = await hadithList.filter({ hadith in
+                            hadith.matn.lowercased().contains(search)
                         })
-                        Task(priority: .userInitiated) {
+                        await MainActor.run {
                             self.filteredHadithList = filteredHadithList
                         }
                     }
                 }
             })
             .onAppear {
-                Task.detached(priority:.medium) {
+                Task.detached(priority: .medium) {
                     let hadithList = await presenter.getHadithList()
                     var filteredHadithList = hadithList
-                    let search = await searchString
+                    let search = await searchString.lowercased()
                     if !search.isEmpty {
                         filteredHadithList = filteredHadithList.filter({ hadith -> Bool in
-                             hadith.matn.lowercased().contains(search.lowercased())
+                            hadith.matn.lowercased().contains(search)
                         })
                     }
-                    
+
                     let filtered = filteredHadithList
                     await MainActor.run {
                         self.hadithList = hadithList

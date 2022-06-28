@@ -41,28 +41,33 @@ struct QuranSearchView: View {
                 if newValue.isEmpty {
                     self.filteredAyat = allAyat
                 } else {
-                    Task(priority: .utility) {
-                        let filteredAyat = allAyat.filter({ ayah in
-                            ayah.text.lowercased().contains(searchString.lowercased())
+                    Task.detached {
+                        let search = await searchString.lowercased()
+                        let filteredAyat = await allAyat.filter({ ayah in
+                            ayah.text.lowercased().contains(search)
                         })
-                        Task(priority: .userInitiated) {
+                        await MainActor.run {
                             self.filteredAyat = filteredAyat
                         }
                     }
                 }
             })
             .onAppear {
-                Task(priority: .utility) {
-                    let allAyat = presenter.getAyatTranslation()
-                    var filteredAyat = allAyat
-                    if !searchString.isEmpty {
-                        filteredAyat = allAyat.filter({ ayah in
-                            ayah.text.lowercased().contains(searchString.lowercased())
+                Task.detached {
+                    async let allAyat1 = presenter.getAyatTranslation()
+                    async let surahNames1 = presenter.getSurahTransliterationList()
+                    async let surahList1 = presenter.getSurahList()
+
+                    var filteredAyat1 = await allAyat1
+                    let search = await searchString.lowercased()
+                    if !search.isEmpty {
+                        filteredAyat1 = filteredAyat1.filter({ ayah in
+                            ayah.text.lowercased().contains(search)
                         })
                     }
-                    let surahNames = presenter.getSurahTransliterationList()
-                    let surahList = presenter.getSurahList()
-                    Task(priority: .userInitiated) {
+
+                    let (surahNames, surahList, allAyat, filteredAyat) = await(surahNames1, surahList1, allAyat1, filteredAyat1)
+                    await MainActor.run {
                         self.surahTranslilerationList = surahNames
                         self.surahList = surahList
                         self.allAyat = allAyat
@@ -74,8 +79,8 @@ struct QuranSearchView: View {
     }
 }
 
-//struct QuranSearchView_Previews: PreviewProvider {
+// struct QuranSearchView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        QuranSearchView()
 //    }
-//}
+// }
