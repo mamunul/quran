@@ -94,23 +94,26 @@ struct SurahContentView: View {
     var padding: CGFloat = 5
 
     fileprivate func loadInitialProperties() {
-        DispatchQueue.global().async {
-            let ayat = presenter.getAyat(of: surah)
-            var filteredAyat = ayat
-            let ayatTranslation = presenter.getAyatTranslation(of: surah)
-            let bookmarks = presenter.getBookmarks(surah: surah)
-            let highlights = presenter.getHighlights(of: surah)
+        Task {
+            async let ayat2 = presenter.getAyat(of: surah)
+            async let ayatTranslation2 = presenter.getAyatTranslation(of: surah)
+            async let bookmarks2 = presenter.getBookmarks(surah: surah)
+            async let highlight2 = presenter.getHighlights(of: surah)
 
+            var filtered2 = try await ayat2
             if !searchString.isEmpty {
-                filteredAyat = searchContent(in: ayat, ayatTranslation)
+                filtered2 = try await searchContent(in: ayat2, ayatTranslation2)
             }
 
-            DispatchQueue.main.async {
+            let (ayat, ayatTranslation, bookmarks, highlight, filtered) =
+            try await(ayat2, ayatTranslation2, bookmarks2, highlight2, filtered2)
+
+            await MainActor.run {
                 self.ayat = ayat
-                self.filteredAyat = filteredAyat
+                self.filteredAyat = filtered
                 self.ayatTranslation = ayatTranslation
                 self.bookmarks = bookmarks
-                self.highlights = highlights
+                self.highlights = highlight
             }
         }
     }
@@ -124,7 +127,7 @@ struct SurahContentView: View {
                         ayah: ayah,
                         surah: surah,
                         bookmark: Binding<Bool>(
-                            get: { bookmarks[ayah.wrappedValue.ayahNo]! },
+                            get: { bookmarks[ayah.wrappedValue.ayahNo] ?? false },
                             set: { bookmarks[ayah.wrappedValue.ayahNo] = $0 }
                         )
                     )
@@ -139,11 +142,11 @@ struct SurahContentView: View {
                     .frame(height: TextViewFrameCalculator.frameSize(for: ayah.wrappedValue.text, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .right).height)
                     AyahTranslationView(
                         translation: Binding<Ayah>(
-                            get: { ayatTranslation[ayah.wrappedValue.ayahNo]! },
+                            get: { ayatTranslation[ayah.wrappedValue.ayahNo] ?? Ayah.empty },
                             set: { ayatTranslation[ayah.wrappedValue.ayahNo] = $0 }
                         ),
                         highlights: Binding<[Highlight]>(
-                            get: { highlights[ayah.wrappedValue.ayahNo]! },
+                            get: { highlights[ayah.wrappedValue.ayahNo] ?? [Highlight]() },
                             set: { highlights[ayah.wrappedValue.ayahNo] = $0 }
                         ),
                         fontSize: $fontSize,
