@@ -141,6 +141,8 @@ struct SurahInfo: Codable, Identifiable, Equatable, Hashable {
 }
 
 struct SurahName: Codable {
+    
+    static var empty = SurahName(text: "", surahNo: 0, contentId: .init(contentId: .en_unknown, lang: .en, contentType: .translation))
     var text: String
     var surahNo: Int
 
