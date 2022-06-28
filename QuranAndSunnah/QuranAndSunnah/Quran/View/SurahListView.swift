@@ -16,7 +16,7 @@ struct QuranContentView: View {
 
         .environmentObject(presenter)
         .onAppear {
-            Task.detached {
+            Task {
                 await withTaskGroup(of: Void.self) { group in
                     group.addTask {
                         await presenter.getSurahList()

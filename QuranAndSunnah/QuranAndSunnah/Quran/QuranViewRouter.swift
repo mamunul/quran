@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct QuranViewRouter {
-    func routeToAyahListView(surah: SurahInfo, surahTransliteration: SurahName) -> some View {
+    @MainActor func routeToAyahListView(surah: SurahInfo, surahTransliteration: SurahName) -> some View {
         SurahContentView(surah: surah, surahTransliteration: surahTransliteration).environmentObject(QuranPresenter())
     }
 }

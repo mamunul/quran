@@ -27,6 +27,7 @@ enum DocumentType: String {
 }
 
 struct Highlight: Identifiable {
+    static let empty = Highlight(range: 0 ... 0, markedText: "", chapterTitle: "", contentNo: "", bookName: "", type: .quran)
     var id = UUID()
     var range: ClosedRange<Int>
     var markedText: String
