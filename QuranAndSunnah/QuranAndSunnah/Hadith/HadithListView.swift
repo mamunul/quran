@@ -125,6 +125,46 @@ struct HadithListView: View {
     @State var hadithHighlights = [Int: [Highlight]]()
     var padding: CGFloat = 5
 
+    fileprivate func loadOnAppear() -> Task<Void, Never> {
+        return Task.detached {
+            async let hadithArabicList1 = presenter.getHadithArabicList(of: chapter, collector: collector)
+            async let allHadithEnglishList1 = presenter.getHadithEnglishList(of: chapter, collector: collector)
+            async let hadithBookmarks1 = presenter.getBookmarks(of: chapter)
+            async let hadithHighlights1 = presenter.getHighlights(of: chapter)
+
+            var filteredList1 = await allHadithEnglishList1
+            let searchLC = await searchString.lowercased()
+            if !searchLC.isEmpty {
+                filteredList1 = await allHadithEnglishList1.filter { $0.matn.lowercased().contains(searchLC) }
+            }
+
+            let (hadithArabicList, allHadithEnglishList, hadithBookmarks, hadithHighlights, filteredList) =
+                await(hadithArabicList1, allHadithEnglishList1, hadithBookmarks1, hadithHighlights1, filteredList1)
+
+            await MainActor.run {
+                self.hadithArabicList = hadithArabicList
+                self.allHadithEnglishList = allHadithEnglishList
+                self.filteredHadithEnglishList = filteredList
+                self.hadithBookmarks = hadithBookmarks
+                self.hadithHighlights = hadithHighlights
+            }
+            //                }
+        }
+    }
+
+    fileprivate func searchHadith(_ newValue: String) -> Task<Void, Never> {
+        return Task.detached {
+            var filteredList = await allHadithEnglishList
+            if !newValue.isEmpty {
+                filteredList = await allHadithEnglishList.filter { $0.matn.lowercased().contains(newValue.lowercased()) }
+            }
+            let filtered = filteredList
+            await MainActor.run {
+                self.filteredHadithEnglishList = filtered
+            }
+        }
+    }
+
     var body: some View {
         GeometryReader { proxy in
 //            List {
@@ -153,17 +193,7 @@ struct HadithListView: View {
         .listStyle(PlainListStyle())
         .searchable(text: $searchString)
         .onChange(of: searchString) { newValue in
-
-            DispatchQueue.global().async {
-                var filteredList = allHadithEnglishList
-                if !newValue.isEmpty {
-                    filteredList = allHadithEnglishList.filter { $0.matn.lowercased().contains(newValue.lowercased()) }
-                }
-
-                DispatchQueue.main.async {
-                    self.filteredHadithEnglishList = filteredList
-                }
-            }
+            _ = searchHadith(newValue)
         }
         .listStyle(.sidebar)
         .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.title)"))
@@ -179,27 +209,8 @@ struct HadithListView: View {
                     }
             }
         }
-        .onAppear {
-            DispatchQueue.global().async {
-                let hadithArabicList = presenter.getHadithArabicList(of: chapter, collector: collector)
-                let allHadithEnglishList = presenter.getHadithEnglishList(of: chapter, collector: collector)
-                var filteredList = allHadithEnglishList
-                let hadithBookmarks = presenter.getBookmarks(of: chapter)
-                let hadithHighlights = presenter.getHighlights(of: chapter)
-
-                if !searchString.isEmpty {
-                    filteredList = allHadithEnglishList.filter { $0.matn.lowercased().contains(searchString.lowercased()) }
-                }
-
-                DispatchQueue.main.async {
-                    self.hadithArabicList = hadithArabicList
-                    self.allHadithEnglishList = allHadithEnglishList
-                    self.filteredHadithEnglishList = filteredList
-                    self.hadithBookmarks = hadithBookmarks
-                    self.hadithHighlights = hadithHighlights
-                }
-//                }
-            }
+        .task {
+            _ = loadOnAppear()
         }
     }
 }
