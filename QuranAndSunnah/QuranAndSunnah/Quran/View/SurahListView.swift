@@ -91,6 +91,8 @@ struct SurahListView: View {
         .onChange(of: self.presenter.surahList) { _ in
             surahList = self.presenter.surahList
         }
+        .navigationTitle("All Surah")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

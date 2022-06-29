@@ -37,7 +37,10 @@ struct SearchView: View {
                     QuranSearchView(searchString: $presenter.searchString)
                         .environmentObject(presenter)
                 }
-            }.searchable(text: $presenter.searchString)
+            }
+            .searchable(text: $presenter.searchString)
+            .navigationTitle("Search Any Word")
+            .navigationBarTitleDisplayMode(.inline)
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
