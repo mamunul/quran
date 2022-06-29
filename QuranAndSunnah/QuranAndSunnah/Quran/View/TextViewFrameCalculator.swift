@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 class TextViewFrameCalculator {
-    static func frameSize(for text: String, fontSize: Int, width: CGFloat, paragraphAlignment: CustomTextAlignment) -> CGSize {
+    let textView = CustomUITextView()
+    func frameSize(for text: String, fontSize: Int, width: CGFloat, paragraphAlignment: CustomTextAlignment) -> CGSize {
         let attributedText = NSMutableAttributedString(string: text)
         let fullRange = NSRange(location: 0, length: attributedText.length)
         var attribute: [NSAttributedString.Key: Any] =
@@ -37,8 +38,6 @@ class TextViewFrameCalculator {
         attribute += attribute3
 
         attributedText.addAttributes(attribute, range: fullRange)
-
-        let textView = CustomUITextView()
         textView.frame.size.width = width
 
         textView.attributedText = attributedText

@@ -73,7 +73,7 @@ struct AyahTranslationView: View {
         )
         .padding(.horizontal, padding)
         .frame(height:
-            TextViewFrameCalculator.frameSize(
+            TextViewFrameCalculator().frameSize(
                 for: translation.text,
                 fontSize: Int(fontSize),
                 width: viewWidth - padding * 2,
@@ -144,7 +144,7 @@ struct SurahContentView: View {
                         highlights: [Highlight]()
                     )
                     .padding(.horizontal, padding)
-                    .frame(height: TextViewFrameCalculator.frameSize(for: ayah.wrappedValue.text, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .right).height)
+                    .frame(height: TextViewFrameCalculator().frameSize(for: ayah.wrappedValue.text, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .right).height)
                     AyahTranslationView(
                         translation: Binding<Ayah>(
                             get: { ayatTranslation[ayah.wrappedValue.ayahNo] ?? Ayah.empty },
