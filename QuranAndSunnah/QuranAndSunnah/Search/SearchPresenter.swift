@@ -32,7 +32,7 @@ class SearchPresenter: ObservableObject {
         }
         var allList = [HadithText]()
         do {
-            allList = try await hadithRepository.getAllHadith(of: collector)
+            allList = try hadithRepository.getAllHadith(of: collector)
         } catch {
             print(error)
         }
