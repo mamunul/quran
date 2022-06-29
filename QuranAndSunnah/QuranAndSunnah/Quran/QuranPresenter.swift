@@ -14,17 +14,17 @@ class QuranPresenter: ObservableObject {
     @Published var surahTranslationList = [Int: SurahName]()
     @Published var surahTranslilerationList = [Int: SurahName]()
 //    @Published var surah: SurahInfo?
-    private var repository = QuranJsonFacade.shared
-    private var notebookRepo = QuranNotebookRepository()
+//    private var repository = QuranJsonFacade.shared
+//    private var notebookRepo = QuranNotebookRepository()
     private var interactor = QuranInteractor()
 
-    func bookmark(ayah: Ayah, _ add: Bool) {
+    func bookmark(ayah: Ayah, _ add: Bool) async {
         do {
             let bookmark = QuranBookmark(ayatNo: ayah.ayahNo, surahNo: ayah.surahNo, contentId: ayah.contentId)
             if add {
-                try notebookRepo.save(bookmark: bookmark)
+                try await interactor.save(bookmark: bookmark)
             } else {
-                try notebookRepo.remove(bookmark: bookmark)
+                try await interactor.remove(bookmark: bookmark)
             }
         } catch {
             print(error)
@@ -34,16 +34,23 @@ class QuranPresenter: ObservableObject {
     func getBookmarks(surah: SurahInfo) async -> [Int: Bool] {
         var bookmarks = [Int: Bool]()
         do {
-            bookmarks = try await interactor.getBookmarks(surah: surah)
+            (surah.firstAyahNo ... surah.lastAyahNo).forEach { ayahNo in
+                bookmarks[ayahNo] = false
+            }
+            let bookmarksList = try await interactor.getBookmarks(surah: surah)
+
+            bookmarksList.forEach { bookmark in
+                bookmarks[bookmark.ayatNo] = true
+            }
         } catch {
             print(error)
         }
         return bookmarks
     }
 
-    func isBookmarked(ayah: Ayah) -> Bool {
+    func isBookmarked(ayah: Ayah) async -> Bool {
         do {
-            let status = try notebookRepo.getBookmark(for: ayah) != .empty
+            let status = try await interactor.getBookmark(ayah: ayah) != .empty
             return status
         } catch {
             print(error)
@@ -51,14 +58,14 @@ class QuranPresenter: ObservableObject {
         return false
     }
 
-    func getHighlights(of surah: SurahInfo) -> [Int: [Highlight]] {
+    func getHighlights(of surah: SurahInfo) async -> [Int: [Highlight]] {
         var highlightsDict = [Int: [Highlight]]()
         (surah.firstAyahNo ... surah.lastAyahNo).forEach { ayatNo in
             highlightsDict[ayatNo] = [Highlight]()
         }
 
         do {
-            let hadithHighlights = try notebookRepo.getHighlights(for: surah)
+            let hadithHighlights = try await interactor.getHighlights(of: surah)
 
             hadithHighlights.forEach { hadithHighlight in
 
@@ -79,10 +86,10 @@ class QuranPresenter: ObservableObject {
         return highlightsDict
     }
 
-    func getHighlights(of ayah: Ayah) -> [Highlight] {
+    func getHighlights(of ayah: Ayah) async -> [Highlight] {
         var highlights = [Highlight]()
         do {
-            let quranHighlights = try notebookRepo.getHighlights(for: ayah)
+            let quranHighlights = try await interactor.getHighlights(for: ayah)
 
             highlights = quranHighlights.map { hadith in
                 Highlight(
@@ -101,7 +108,7 @@ class QuranPresenter: ObservableObject {
         return highlights
     }
 
-    func remove(highlight: Highlight, from ayah: Ayah) {
+    func remove(highlight: Highlight, from ayah: Ayah) async {
         let quranHighlight =
             QuranHighlight(
                 markedRange: highlight.range,
@@ -111,18 +118,18 @@ class QuranPresenter: ObservableObject {
                 contentId: ayah.contentId
             )
         do {
-            try notebookRepo.remove(highlight: quranHighlight)
+            try await interactor.remove(highlight: quranHighlight)
         } catch {
             print(error)
         }
     }
 
-    func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, fullString: String) {
+    func onHighlightEvent(textRange: ClosedRange<Int>, ayah: Ayah, fullString: String) async {
         let attributedContent = NSMutableAttributedString(string: fullString)
         let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
 
         do {
-            var ayatHighlights: [IHighlight] = try notebookRepo.getHighlights(for: ayah)
+            var ayatHighlights: [IHighlight] = try await interactor.getHighlights(for: ayah)
 
             let highlight =
                 QuranHighlight(
@@ -136,7 +143,7 @@ class QuranPresenter: ObservableObject {
             ayatHighlights.append(highlight)
             MergeVisitor().mergeOverlapped(collection: &ayatHighlights)
 
-            try notebookRepo.save(highlights: ayatHighlights as! [QuranHighlight], for: ayah)
+            try await interactor.save(highlights: ayatHighlights as! [QuranHighlight], for: ayah)
         } catch {
             print(error)
         }
@@ -153,7 +160,11 @@ class QuranPresenter: ObservableObject {
 
     func getSurahArabicList() async {
         do {
-            let dict = try await interactor.getSurahArabicList()
+            let list = try await interactor.getSurahArabicList()
+
+            let dict = list.reduce(into: [Int: SurahName]()) {
+                $0[$1.surahNo] = $1
+            }
             surahArabicList = dict
 
         } catch {
@@ -163,7 +174,11 @@ class QuranPresenter: ObservableObject {
 
     func getSurahTransliterationList() async {
         do {
-            let dict = try await interactor.getSurahTransliterationList()
+            let list = try await interactor.getSurahTransliterationList()
+
+            let dict = list.reduce(into: [Int: SurahName]()) {
+                $0[$1.surahNo] = $1
+            }
             surahTranslilerationList = dict
         } catch {
             print(error)
@@ -172,7 +187,11 @@ class QuranPresenter: ObservableObject {
 
     func getSurahTranslationList() async {
         do {
-            let dict = try await interactor.getSurahTranslationList()
+            let surahTranslationList1 = try await interactor.getSurahTranslationList()
+
+            let dict = surahTranslationList1.reduce(into: [Int: SurahName]()) {
+                $0[$1.surahNo] = $1
+            }
             surahTranslationList = dict
         } catch {
             print(error)
@@ -191,7 +210,11 @@ class QuranPresenter: ObservableObject {
 
     func getAyatTranslation(of surah: SurahInfo) async throws -> [Int: Ayah] {
         do {
-            let dict = try await interactor.getAyatTranslation(of: surah)
+            let list = try await interactor.getAyatTranslation(of: surah)
+
+            let dict = list.reduce(into: [Int: Ayah]()) {
+                $0[$1.ayahNo] = $1
+            }
             return dict
         } catch {
             print(error)
@@ -213,173 +236,5 @@ class QuranPresenter: ObservableObject {
         }
 
         return filtered
-    }
-}
-
-actor QuranInteractor {
-    private var repository: QuranJsonFacade
-    private var notebookRepo: QuranNotebookRepository
-    private var allAyah: [Ayah]
-
-    init(repository: QuranJsonFacade = QuranJsonFacade.shared, notebookRepo: QuranNotebookRepository = QuranNotebookRepository()) {
-        self.repository = repository
-        self.notebookRepo = notebookRepo
-        self.allAyah = []
-    }
-
-    nonisolated func getSurahList() async throws -> [SurahInfo] {
-        let surahList = try await repository.getSurah()
-        return surahList
-    }
-
-    nonisolated func getSurahTranslationList() async throws -> [Int: SurahName] {
-        let surahList = try await repository.getSurahTranslation(contentId: .en_tanzil, language: .en)
-
-        let dict = surahList.reduce(into: [Int: SurahName]()) {
-            $0[$1.surahNo] = $1
-        }
-        return dict
-    }
-
-    nonisolated func getSurahTransliterationList() async throws -> [Int: SurahName] {
-        let surahList = try await repository.getSurahTransliteration(contentId: .en_tanzil, language: .en)
-
-        let dict = surahList.reduce(into: [Int: SurahName]()) {
-            $0[$1.surahNo] = $1
-        }
-        return dict
-    }
-
-    nonisolated func getSurahArabicList() async throws -> [Int: SurahName] {
-        let surahList = try await repository.getSurahArabic(contentId: .en_unknown)
-
-        let dict = surahList.reduce(into: [Int: SurahName]()) {
-            $0[$1.surahNo] = $1
-        }
-        return dict
-    }
-
-    func searchInSurahAndAyat(
-        searchString: String,
-        surahList: [SurahInfo],
-        surahTranslationList: [Int: SurahName],
-        surahTranslilerationList: [Int: SurahName]
-    ) async throws -> [SurahInfo] {
-        var filtered = [SurahInfo]()
-
-        if allAyah.isEmpty {
-            let allAyat = try repository.getAllAyat(contentId: .en_hilali_quranenc, surahList: surahList)
-            self.allAyah = allAyat
-        }
-        let searchStringLC = searchString.lowercased()
-
-        var setOfSurah = Set<SurahInfo>()
-
-        filterbySurahNames(
-            searchStringLC,
-            surahList: surahList,
-            surahTranslationList: surahTranslationList,
-            surahTranslilerationList: surahTranslilerationList
-        ).forEach { surah in
-            setOfSurah.insert(surah)
-        }
-
-        allAyah.forEach { ayah in
-            if ayah.text.lowercased().contains(searchStringLC) {
-                if let first = surahList.first(where: { surah in
-                    surah.surahNo == ayah.surahNo
-                }) {
-                    setOfSurah.insert(first)
-                }
-            }
-        }
-
-        filtered = Array(setOfSurah)
-
-        return filtered
-    }
-
-    func filterbySurahNames(
-        _ searchString: String,
-        surahList: [SurahInfo],
-        surahTranslationList: [Int: SurahName],
-        surahTranslilerationList: [Int: SurahName]
-    ) -> [SurahInfo] {
-        let searchStringLC = searchString.lowercased()
-        let filtered = surahList.filter { surah in
-            searchInSurahNames(
-                searchStringLC: searchStringLC,
-                in: surah,
-                surahTranslationList: surahTranslationList,
-                surahTranslilerationList: surahTranslilerationList
-            )
-        }
-
-        return filtered
-    }
-
-    private func searchInSurahNames(
-        searchStringLC: String,
-        in surah: SurahInfo,
-        surahTranslationList: [Int: SurahName],
-        surahTranslilerationList: [Int: SurahName]
-    ) -> Bool {
-        surahTranslationList[surah.surahNo]?.text.lowercased().contains(searchStringLC) ?? false
-            ||
-            surahTranslilerationList[surah.surahNo]?.text.lowercased().contains(searchStringLC) ?? false
-    }
-
-    nonisolated func getAyat(of surah: SurahInfo) async throws -> [Ayah] {
-        let ayahList = try await repository.getAyat(of: surah, contentId: .indonesia_ar)
-        return ayahList
-    }
-
-    nonisolated func getAyatTranslation(of surah: SurahInfo) async throws -> [Int: Ayah] {
-        let ayahList = try await repository.getAyahTranslation(of: surah, contentId: .en_hilali_quranenc, language: .en)
-
-        let dict = ayahList.reduce(into: [Int: Ayah]()) {
-            $0[$1.ayahNo] = $1
-        }
-
-        return dict
-    }
-
-    nonisolated func getBookmarks(surah: SurahInfo) async throws -> [Int: Bool] {
-        var bookmarks = [Int: Bool]()
-
-        (surah.firstAyahNo ... surah.lastAyahNo).forEach { ayahNo in
-            bookmarks[ayahNo] = false
-        }
-        let bookmarksList = try await notebookRepo.getBookmarks(for: surah)
-
-        bookmarksList.forEach { bookmark in
-            bookmarks[bookmark.ayatNo] = true
-        }
-
-        return bookmarks
-    }
-
-    nonisolated func getHighlights(of surah: SurahInfo) async throws -> [Int: [Highlight]] {
-        var highlightsDict = [Int: [Highlight]]()
-        (surah.firstAyahNo ... surah.lastAyahNo).forEach { ayatNo in
-            highlightsDict[ayatNo] = [Highlight]()
-        }
-
-        let hadithHighlights = try await notebookRepo.getHighlights(for: surah)
-
-        hadithHighlights.forEach { hadithHighlight in
-
-            let highlight = Highlight(
-                range: hadithHighlight.markedRange,
-                markedText: hadithHighlight.highlightedText,
-                chapterTitle: "AyatNo:\(hadithHighlight.ayatNo)",
-                contentNo: "Surah:\(hadithHighlight.surahNo)",
-                bookName: "Quran:\(hadithHighlight.contentId.contentId.getFilePath())",
-                type: .quran
-            )
-            highlightsDict[hadithHighlight.ayatNo]?.append(highlight)
-        }
-
-        return highlightsDict
     }
 }
