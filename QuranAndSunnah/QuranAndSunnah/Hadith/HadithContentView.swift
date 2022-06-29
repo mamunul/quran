@@ -91,7 +91,7 @@ struct HadithChapterListView: View {
         }
         .listStyle(PlainListStyle())
         .listStyle(.sidebar)
-        .navigationTitle(Text("\(self.collector.name)"))
+        .navigationTitle(Text("\(self.collector.contentId.contentId.getTitle())"))
         .searchable(text: $searchString)
         .onChange(of: searchString) { _ in
             _ = searchHadithList()
