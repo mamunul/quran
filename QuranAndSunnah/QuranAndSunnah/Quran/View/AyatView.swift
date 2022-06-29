@@ -20,8 +20,10 @@ struct AyahHeaderView: View {
                 .padding()
             Spacer()
             Button {
-                bookmark.toggle()
-                presenter.bookmark(ayah: ayah, bookmark)
+                Task {
+                    bookmark.toggle()
+                    await presenter.bookmark(ayah: ayah, bookmark)
+                }
             } label: {
                 if bookmark {
                     Image(systemName: "bookmark.fill").padding()
@@ -53,17 +55,20 @@ struct AyahTranslationView: View {
             fontSize: fontSize,
             highlights: highlights,
             onHighlight: { highlightedRange in
-
-                presenter.onHighlightEvent(
-                    textRange: highlightedRange,
-                    ayah: translation,
-                    fullString: translation.text
-                )
-                let ayahHighlights = presenter.getHighlights(of: translation)
-                highlights = ayahHighlights
+                Task {
+                    await presenter.onHighlightEvent(
+                        textRange: highlightedRange,
+                        ayah: translation,
+                        fullString: translation.text
+                    )
+                    let ayahHighlights = await presenter.getHighlights(of: translation)
+                    highlights = ayahHighlights
+                }
             },
             onUnhighlight: { highlight in
-                presenter.remove(highlight: highlight, from: translation)
+                Task {
+                    await presenter.remove(highlight: highlight, from: translation)
+                }
             }
         )
         .padding(.horizontal, padding)
@@ -106,7 +111,7 @@ struct SurahContentView: View {
             }
 
             let (ayat, ayatTranslation, bookmarks, highlight, filtered) =
-            try await(ayat2, ayatTranslation2, bookmarks2, highlight2, filtered2)
+                try await(ayat2, ayatTranslation2, bookmarks2, highlight2, filtered2)
 
             await MainActor.run {
                 self.ayat = ayat

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HadithViewRouter {
-    func routeToHadithListView(chapter: HadithChapter, collector: HadithCollector) -> some View {
+    @MainActor func routeToHadithListView(chapter: HadithChapter, collector: HadithCollector) -> some View {
         HadithListView(chapter: chapter, collector: collector).environmentObject(HadithPresenter())
     }
 }
