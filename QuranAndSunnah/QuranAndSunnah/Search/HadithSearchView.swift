@@ -46,17 +46,32 @@ struct HadithSearchView: View {
     @State var hadithList = [HadithText]()
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
     var padding: CGFloat = 5
+    @State var isLoading = false
     var body: some View {
         GeometryReader { proxy in
-            List(filteredHadithList) { hadith in
-                HadithSearchRowView(
-                    hadith: hadith,
-                    width: proxy.size.width - 2 * padding,
-                    padding: padding,
-                    fontSize: fontSize,
-                    searchString: $searchString
-                )
+            List {
+                ForEach(filteredHadithList) { hadith in
+                    HadithSearchRowView(
+                        hadith: hadith,
+                        width: proxy.size.width - 2 * padding,
+                        padding: padding,
+                        fontSize: fontSize,
+                        searchString: $searchString
+                    )
+                    .onAppear {
+                        isLoading = true
+                        presenter.loadMoreContentIfNeeded(currentItem: hadith)
+                    }
+                }
                 .listRowInsets(EdgeInsets())
+
+                if isLoading {
+                    HStack(alignment: .center) {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }.padding()
+                }
             }
             .listStyle(PlainListStyle())
             .onChange(of: searchString, perform: { newValue in
@@ -104,8 +119,8 @@ struct HadithSearchView: View {
     }
 }
 
-// struct HadithSearchView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HadithSearchView()
-//    }
-// }
+struct HadithSearchView_Previews: PreviewProvider {
+    static var previews: some View {
+        HadithSearchView(searchString: .constant(""))
+    }
+}

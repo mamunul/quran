@@ -161,7 +161,7 @@ class HadithRepository: IHadithDataReadFacade {
         }
     }
 
-    private func getHadithList(of chapterNo: Int, collector: HadithCollector, language: Language) throws -> [HadithText] {
+    func getHadithList(of chapterNo: Int, collector: HadithCollector, language: Language) throws -> [HadithText] {
         let fileUrl = Bundle.main.url(forResource: "\(collector.pathComponent)Chapter\(chapterNo).json", withExtension: "")!
         let data = try Data(contentsOf: fileUrl)
         let res = try JSONDecoder().decode([HadithJson].self, from: data)
