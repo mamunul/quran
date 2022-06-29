@@ -26,6 +26,9 @@ class SearchPresenter: ObservableObject {
         hadithRepository.getCollectorList()
     }
 
+    func loadMoreContentIfNeeded(currentItem: HadithText) {
+    }
+
     func getHadithList(of collector: HadithCollector) async -> [HadithText] {
         if !hadithList.isEmpty {
             return hadithList
