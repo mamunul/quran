@@ -10,25 +10,22 @@ import Foundation
 @MainActor
 class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
-    private var repo: IHadithDataReadFacade = HadithRepository()
-    private var notebookRepo = HadithNotebookRepository()
+    private var interactor = HadithInteractor()
+
+    init(collectors: [HadithCollector] = [HadithCollector](), interactor: HadithInteractor = HadithInteractor()) {
+        self.collectors = collectors
+        self.interactor = interactor
+    }
 
     func search(in chapterList: [HadithChapter], collector: HadithCollector, searchString: String) -> [HadithChapter] {
-        var filtered = [HadithChapter]()
-        let searchStringLC = searchString.lowercased()
-        chapterList.forEach { hadithChapter in
-
-            let hadithList = getHadithEnglishList(of: hadithChapter, collector: collector)
-
-            let first = hadithList.first { hadith in
-                hadith.matn.lowercased().contains(searchStringLC)
-            }
-
-            if first != nil {
-                filtered.append(hadithChapter)
-            }
+        var chapters = [HadithChapter]()
+        do {
+            chapters = try interactor.search(in: chapterList, collector: collector, searchString: searchString)
+        } catch {
+            print(error)
         }
-        return filtered
+
+        return chapters
     }
 
     func bookmark(hadith: HadithText, _ add: Bool) {
@@ -36,9 +33,9 @@ class HadithPresenter: ObservableObject {
             let bookmark =
                 HadithBookmark(hadithNo: hadith.hadithNo, chapterNo: hadith.chapterNo, contentId: hadith.contentId)
             if add {
-                try notebookRepo.save(bookmark: bookmark)
+                try interactor.save(bookmark: bookmark)
             } else {
-                try notebookRepo.remove(bookmark: bookmark)
+                try interactor.delete(bookmark: bookmark)
             }
         } catch {
             print(error)
@@ -51,8 +48,9 @@ class HadithPresenter: ObservableObject {
         chapter.hadithNo.forEach { hadithNo in
             bookmarks[hadithNo] = false
         }
+
         do {
-            let bookmarksList = try notebookRepo.getBookmarks(for: chapter)
+            let bookmarksList = try interactor.getBookmarks(of: chapter)
 
             bookmarksList.forEach { bookmark in
                 bookmarks[bookmark.hadithNo] = true
@@ -65,7 +63,7 @@ class HadithPresenter: ObservableObject {
 
     func isBookmarked(hadith: HadithText) -> Bool {
         do {
-            let status = try notebookRepo.getBookmark(for: hadith) != .empty
+            let status = try interactor.isBookmarked(hadith: hadith)
             return status
         } catch {
             print(error)
@@ -78,8 +76,9 @@ class HadithPresenter: ObservableObject {
         chapter.hadithNo.forEach { hadithNo in
             highlightsDict[hadithNo] = [Highlight]()
         }
+
         do {
-            let hadithHighlights = try notebookRepo.getHighlights(for: chapter)
+            let hadithHighlights = try interactor.getHighlights(of: chapter)
 
             hadithHighlights.forEach { hadithHighlight in
 
@@ -104,7 +103,7 @@ class HadithPresenter: ObservableObject {
     func getHighlights(of hadith: HadithText) -> [Highlight] {
         var highlights = [Highlight]()
         do {
-            let hadithHighlights = try notebookRepo.getHighlights(for: hadith)
+            let hadithHighlights = try interactor.getHighlights(of: hadith)
             highlights = hadithHighlights.map { hadithHighlight in
                 Highlight(
                     range: hadithHighlight.markedRange,
@@ -132,7 +131,7 @@ class HadithPresenter: ObservableObject {
                 contentId: hadith.contentId
             )
         do {
-            try notebookRepo.remove(highlight: quranHighlight)
+            try interactor.remove(highlight: quranHighlight)
         } catch {
             print(error)
         }
@@ -146,7 +145,7 @@ class HadithPresenter: ObservableObject {
         let markedString = attributedContent.attributedSubstring(from: NSRange(textRange)).string
 
         do {
-            var ayatHighlights: [IHighlight] = try notebookRepo.getHighlights(for: hadith)
+            var ayatHighlights: [IHighlight] = try interactor.getHighlights(of: hadith)
 
             let highlight =
                 HadithHighlight(
@@ -160,23 +159,23 @@ class HadithPresenter: ObservableObject {
             ayatHighlights.append(highlight)
             MergeVisitor().mergeOverlapped(collection: &ayatHighlights)
 
-            try notebookRepo.save(highlights: ayatHighlights as! [HadithHighlight], of: hadith)
+            try interactor.save(highlights: ayatHighlights as! [HadithHighlight], of: hadith)
         } catch {
             print(error)
         }
     }
 
     func getHadithCollectorList() {
-        collectors = repo.getCollectorList()
+        collectors = interactor.getHadithCollectorList()
     }
 
     func getChapterList(collector: HadithCollector) -> [HadithChapter] {
-        repo.getChapterList(of: collector, language: .en)
+        interactor.getChapterList(collector: collector)
     }
 
     func getHadithArabicList(of chapter: HadithChapter, collector: HadithCollector) -> [Int: HadithText] {
         do {
-            let list = try repo.getHadithList(of: chapter, collector: collector, language: .ar)
+            let list = try interactor.getHadithArabicList(of: chapter, collector: collector)
 
             let dict = list.reduce(into: [Int: HadithText]()) {
                 $0[$1.hadithNo] = $1
@@ -190,7 +189,7 @@ class HadithPresenter: ObservableObject {
 
     func getHadithEnglishList(of chapter: HadithChapter, collector: HadithCollector) -> [HadithText] {
         do {
-            let list = try repo.getHadithList(of: chapter, collector: collector, language: .en)
+            let list = try interactor.getHadithEnglishList(of: chapter, collector: collector)
             return list
         } catch {
             print(error)
@@ -200,4 +199,83 @@ class HadithPresenter: ObservableObject {
 }
 
 class HadithInteractor {
+    private var repo: IHadithDataReadFacade = HadithRepository()
+    private var notebookRepo = HadithNotebookRepository()
+
+    init(repo: IHadithDataReadFacade = HadithRepository(), notebookRepo: HadithNotebookRepository = HadithNotebookRepository()) {
+        self.repo = repo
+        self.notebookRepo = notebookRepo
+    }
+
+    func search(in chapterList: [HadithChapter], collector: HadithCollector, searchString: String) throws -> [HadithChapter] {
+        var filtered = [HadithChapter]()
+        let searchStringLC = searchString.lowercased()
+        try chapterList.forEach { hadithChapter in
+
+            let hadithList = try getHadithEnglishList(of: hadithChapter, collector: collector)
+
+            let first = hadithList.first { hadith in
+                hadith.matn.lowercased().contains(searchStringLC)
+            }
+
+            if first != nil {
+                filtered.append(hadithChapter)
+            }
+        }
+        return filtered
+    }
+
+    func delete(bookmark: HadithBookmark) throws {
+        try notebookRepo.remove(bookmark: bookmark)
+    }
+
+    func save(bookmark: HadithBookmark) throws {
+        try notebookRepo.save(bookmark: bookmark)
+    }
+
+    func getBookmarks(of chapter: HadithChapter) throws -> [HadithBookmark] {
+        let bookmarksList = try notebookRepo.getBookmarks(for: chapter)
+        return bookmarksList
+    }
+
+    func isBookmarked(hadith: HadithText) throws -> Bool {
+        let status = try notebookRepo.getBookmark(for: hadith) != .empty
+        return status
+    }
+
+    func getHighlights(of chapter: HadithChapter) throws -> [HadithHighlight] {
+        let hadithHighlights = try notebookRepo.getHighlights(for: chapter)
+        return hadithHighlights
+    }
+
+    func getHighlights(of hadith: HadithText) throws -> [HadithHighlight] {
+        let hadithHighlights = try notebookRepo.getHighlights(for: hadith)
+        return hadithHighlights
+    }
+
+    func remove(highlight: HadithHighlight) throws {
+        try notebookRepo.remove(highlight: highlight)
+    }
+
+    func save(highlights: [HadithHighlight], of hadith: HadithText) throws {
+        try notebookRepo.save(highlights: highlights, of: hadith)
+    }
+
+    func getHadithCollectorList() -> [HadithCollector] {
+        repo.getCollectorList()
+    }
+
+    func getChapterList(collector: HadithCollector) -> [HadithChapter] {
+        repo.getChapterList(of: collector, language: .en)
+    }
+
+    func getHadithArabicList(of chapter: HadithChapter, collector: HadithCollector) throws -> [HadithText] {
+        let list = try repo.getHadithList(of: chapter, collector: collector, language: .ar)
+        return list
+    }
+
+    func getHadithEnglishList(of chapter: HadithChapter, collector: HadithCollector) throws -> [HadithText] {
+        let list = try repo.getHadithList(of: chapter, collector: collector, language: .en)
+        return list
+    }
 }
