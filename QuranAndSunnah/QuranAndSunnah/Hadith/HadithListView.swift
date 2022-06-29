@@ -7,6 +7,108 @@
 
 import SwiftUI
 
+struct HadithHeaderView: View {
+    @EnvironmentObject var presenter: HadithPresenter
+    var hadith: HadithText
+    @Binding var hadithBookmarks: [Int: Bool]
+    var body: some View {
+        HStack {
+            Text("\(hadith.hadithNo)")
+                .frame(alignment: .leading)
+                .padding()
+            Spacer()
+            Button {
+                hadithBookmarks[hadith.hadithNo]!.toggle()
+                presenter.bookmark(hadith: hadith, hadithBookmarks[hadith.hadithNo]!)
+            } label: {
+                if hadithBookmarks[hadith.hadithNo]! {
+                    Image(systemName: "bookmark.fill").padding()
+                } else {
+                    Image(systemName: "bookmark").padding()
+                }
+            }.buttonStyle(PlainButtonStyle())
+
+            Text(hadith.grade)
+                .frame(alignment: .trailing)
+                .padding()
+        }
+    }
+}
+
+struct HadithEnglishView: View {
+    @EnvironmentObject var presenter: HadithPresenter
+    @Binding var hadith: HadithText
+    @Binding var hadithHighlights: [Int: [Highlight]]
+    var fontSize: Double
+    var width: CGFloat
+    var padding: CGFloat
+    @Binding var searchString: String
+
+    var body: some View {
+        TextView(
+            text: Binding<NSMutableAttributedString>(
+                get: { NSMutableAttributedString(string: hadith.matn) },
+                set: { hadith.matn = $0.string }
+            ),
+            searchString: self.$searchString,
+            paragraphAlignment: .left,
+            fontSize: fontSize,
+            highlights: hadithHighlights[hadith.hadithNo]!,
+            onHighlight: { highlightedRange in
+                presenter.onHighlightEvent(
+                    hadith: hadith,
+                    textRange: highlightedRange
+                )
+
+                hadithHighlights[hadith.hadithNo] = presenter.getHighlights(of: hadith)
+            },
+            onUnhighlight: { highlight in
+                presenter.remove(highlight: highlight, from: hadith)
+            }
+        )
+        .padding(.horizontal, padding)
+        .frame(height:
+            TextViewFrameCalculator.frameSize(
+                for: hadith.matn,
+                fontSize: Int(fontSize),
+                width: width,
+                paragraphAlignment: .left
+            ).height
+        )
+    }
+}
+
+struct HadithArabicView: View {
+    @Binding var hadith: HadithText
+    @Binding var hadithArabicList: [Int: HadithText]
+    var fontSize: Double
+    var width: CGFloat
+    var padding: CGFloat
+    @Binding var searchString: String
+
+    var body: some View {
+        TextView(
+            text: Binding<NSMutableAttributedString>(
+                get: { NSMutableAttributedString(string: hadithArabicList[hadith.hadithNo]!.matn) },
+                set: { hadith.matn = $0.string }
+            ),
+            searchString: self.$searchString,
+            paragraphAlignment: .right,
+            fontSize: fontSize,
+            highlights: [Highlight]()
+        )
+        .padding(.horizontal, padding)
+        .frame(
+            height: TextViewFrameCalculator.frameSize(
+                for: hadithArabicList[hadith.hadithNo]!.matn,
+                fontSize: Int(fontSize),
+                width: width,
+                paragraphAlignment: .right
+            ).height
+        )
+    }
+}
+
 struct HadithListView: View {
     @EnvironmentObject var presenter: HadithPresenter
     @AppStorage(StorageName.fontSize) var fontSize: Double = 20.0
@@ -14,7 +116,7 @@ struct HadithListView: View {
     @State var chapter: HadithChapter
     var collector: HadithCollector
     @State var searchString: String = ""
-    
+
     @State private var showingPopover = false
     @State var hadithArabicList = [Int: HadithText]()
     @State var filteredHadithEnglishList = [HadithText]()
@@ -28,76 +130,23 @@ struct HadithListView: View {
 //            List {
             List(self.$filteredHadithEnglishList) { hadith in
                 VStack(spacing: 10) {
-                    HStack {
-                        Text("\(hadith.wrappedValue.hadithNo)")
-                            .frame(alignment: .leading)
-                            .padding()
-                        Spacer()
-                        Button {
-                            hadithBookmarks[hadith.wrappedValue.hadithNo]!.toggle()
-                            presenter.bookmark(hadith: hadith.wrappedValue, hadithBookmarks[hadith.wrappedValue.hadithNo]!)
-                        } label: {
-                            if hadithBookmarks[hadith.wrappedValue.hadithNo]! {
-                                Image(systemName: "bookmark.fill").padding()
-                            } else {
-                                Image(systemName: "bookmark").padding()
-                            }
-                        }.buttonStyle(PlainButtonStyle())
-
-                        Text(hadith.wrappedValue.grade)
-                            .frame(alignment: .trailing)
-                            .padding()
-                    }
-                    TextView(
-                        text: Binding<NSMutableAttributedString>(
-                            get: { NSMutableAttributedString(string: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn) },
-                            set: { hadith.wrappedValue.matn = $0.string }
-                        ),
-                        searchString: self.$searchString,
-                        paragraphAlignment: .right,
+                    HadithHeaderView(hadith: hadith.wrappedValue, hadithBookmarks: $hadithBookmarks)
+                    HadithArabicView(
+                        hadith: hadith,
+                        hadithArabicList: $hadithArabicList,
                         fontSize: fontSize,
-                        highlights: [Highlight]()
+                        width: proxy.size.width - 2 * padding,
+                        padding: padding,
+                        searchString: $searchString
                     )
-                    .padding(.horizontal, padding)
-                    .frame(
-                        height: TextViewFrameCalculator.frameSize(
-                            for: hadithArabicList[hadith.wrappedValue.hadithNo]!.matn,
-                            fontSize: Int(fontSize),
-                            width: proxy.size.width - padding * 2,
-                            paragraphAlignment: .right
-                        ).height
-                    )
-
-                    TextView(
-                        text: Binding<NSMutableAttributedString>(
-                            get: { NSMutableAttributedString(string: hadith.wrappedValue.matn) },
-                            set: { hadith.wrappedValue.matn = $0.string }
-                        ),
-                        searchString: self.$searchString,
-                        paragraphAlignment: .left,
+                    HadithEnglishView(
+                        hadith: hadith,
+                        hadithHighlights: $hadithHighlights,
                         fontSize: fontSize,
-                        highlights: hadithHighlights[hadith.wrappedValue.hadithNo]!,
-                        onHighlight: { highlightedRange in
-                            presenter.onHighlightEvent(
-                                hadith: hadith.wrappedValue,
-                                textRange: highlightedRange
-                            )
+                        width: proxy.size.width - 2 * padding,
+                        padding: padding,
+                        searchString: $searchString)
 
-                            hadithHighlights[hadith.wrappedValue.hadithNo] = presenter.getHighlights(of: hadith.wrappedValue)
-                        },
-                        onUnhighlight: { highlight in
-                            presenter.remove(highlight: highlight, from: hadith.wrappedValue)
-                        }
-                    )
-                    .padding(.horizontal, padding)
-                    .frame(height:
-                        TextViewFrameCalculator.frameSize(
-                            for: hadith.wrappedValue.matn,
-                            fontSize: Int(fontSize),
-                            width: proxy.size.width - padding * 2,
-                            paragraphAlignment: .left
-                        ).height
-                    )
                 }.listRowInsets(EdgeInsets())
             }
         }
