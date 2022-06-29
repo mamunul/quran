@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class HadithPresenter: ObservableObject {
     @Published var collectors = [HadithCollector]()
     private var repo: IHadithDataReadFacade = HadithRepository()
@@ -196,4 +197,7 @@ class HadithPresenter: ObservableObject {
             return []
         }
     }
+}
+
+class HadithInteractor {
 }

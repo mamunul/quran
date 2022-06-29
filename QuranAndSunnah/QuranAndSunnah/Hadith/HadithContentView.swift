@@ -46,6 +46,34 @@ struct HadithChapterListView: View {
     @State var filteredList = [HadithChapter]()
     @State var chapterList = [HadithChapter]()
     @State var searchString = ""
+    fileprivate func loadHadithList() -> Task<(), Never> {
+        return Task.detached {
+            let chapterList = await presenter.getChapterList(collector: collector)
+            var filterList = chapterList
+            if await !searchString.isEmpty {
+                filterList = await presenter.search(in: filterList, collector: collector, searchString: searchString)
+            }
+            let filtered = filterList
+            await MainActor.run {
+                self.chapterList = chapterList
+                self.filteredList = filtered
+            }
+        }
+    }
+    
+    fileprivate func searchHadithList() -> Task<(), Never> {
+        return Task.detached {
+            var filterList = await chapterList
+            if await !searchString.isEmpty {
+                filterList = await presenter.search(in: filteredList, collector: collector, searchString: searchString)
+            }
+            let filtered = filterList
+            await MainActor.run {
+                self.filteredList = filtered
+            }
+        }
+    }
+    
     var body: some View {
         List(self.filteredList) { chapter in
             NavigationLink {
@@ -65,29 +93,11 @@ struct HadithChapterListView: View {
         .listStyle(.sidebar)
         .navigationTitle(Text("\(self.collector.name)"))
         .searchable(text: $searchString)
-        .onChange(of: searchString) { newValue in
-            DispatchQueue.global().async {
-                var filterList = chapterList
-                if !searchString.isEmpty {
-                    filterList = presenter.search(in: filteredList, collector: collector, searchString: searchString)
-                }
-                DispatchQueue.main.async {
-                    self.filteredList = filterList
-                }
-            }
+        .onChange(of: searchString) { _ in
+            searchHadithList()
         }
         .onAppear {
-            DispatchQueue.global().async {
-                let chapterList = presenter.getChapterList(collector: collector)
-                var filterList = chapterList
-                if !searchString.isEmpty {
-                    filterList = presenter.search(in: filterList, collector: collector, searchString: searchString)
-                }
-                DispatchQueue.main.async {
-                    self.chapterList = chapterList
-                    self.filteredList = filterList
-                }
-            }
+            loadHadithList()
         }
     }
 }
