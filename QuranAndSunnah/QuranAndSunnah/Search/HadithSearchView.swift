@@ -28,7 +28,7 @@ struct HadithSearchRowView: View {
             )
             .padding(.horizontal, padding)
             .frame(height:
-                TextViewFrameCalculator.frameSize(
+                TextViewFrameCalculator().frameSize(
                     for: hadith.matn,
                     fontSize: Int(fontSize),
                     width: width,

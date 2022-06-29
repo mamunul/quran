@@ -187,6 +187,40 @@ class HadithPresenter: ObservableObject {
         }
     }
 
+    nonisolated func getHeights(of hadithArabicList: [HadithText], fontSize: Double, viewWidth: CGFloat) -> [Int: CGSize] {
+        var heights = [Int: CGSize]()
+        let calculator = TextViewFrameCalculator()
+        hadithArabicList.forEach { hadith in
+            let size = calculator.frameSize(
+                for: hadith.matn,
+                fontSize: Int(fontSize),
+                width: viewWidth,
+                paragraphAlignment: .right
+            )
+
+            heights[hadith.hadithNo] = size
+        }
+
+        return heights
+    }
+
+    nonisolated func getHeights(of hadithArabicList: [Int: HadithText], fontSize: Double, viewWidth: CGFloat) -> [Int: CGSize] {
+        var heights = [Int: CGSize]()
+        let calculator = TextViewFrameCalculator()
+        hadithArabicList.forEach { (hadithNo: Int, hadith: HadithText) in
+            let size = calculator.frameSize(
+                for: hadith.matn,
+                fontSize: Int(fontSize),
+                width: viewWidth,
+                paragraphAlignment: .right
+            )
+
+            heights[hadithNo] = size
+        }
+
+        return heights
+    }
+
     func getHadithEnglishList(of chapter: HadithChapter, collector: HadithCollector) -> [HadithText] {
         do {
             let list = try interactor.getHadithEnglishList(of: chapter, collector: collector)

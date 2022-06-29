@@ -40,7 +40,7 @@ struct HadithEnglishView: View {
     @Binding var hadith: HadithText
     @Binding var hadithHighlights: [Int: [Highlight]]
     var fontSize: Double
-    var width: CGFloat
+    var height: CGFloat
     var padding: CGFloat
     @Binding var searchString: String
 
@@ -67,14 +67,7 @@ struct HadithEnglishView: View {
             }
         )
         .padding(.horizontal, padding)
-        .frame(height:
-            TextViewFrameCalculator.frameSize(
-                for: hadith.matn,
-                fontSize: Int(fontSize),
-                width: width,
-                paragraphAlignment: .left
-            ).height
-        )
+        .frame(height: height)
     }
 }
 
@@ -82,7 +75,7 @@ struct HadithArabicView: View {
     @Binding var hadith: HadithText
     @Binding var hadithArabicList: [Int: HadithText]
     var fontSize: Double
-    var width: CGFloat
+    var height: CGFloat
     var padding: CGFloat
     @Binding var searchString: String
 
@@ -98,14 +91,7 @@ struct HadithArabicView: View {
             highlights: [Highlight]()
         )
         .padding(.horizontal, padding)
-        .frame(
-            height: TextViewFrameCalculator.frameSize(
-                for: hadithArabicList[hadith.hadithNo]!.matn,
-                fontSize: Int(fontSize),
-                width: width,
-                paragraphAlignment: .right
-            ).height
-        )
+        .frame(height: height)
     }
 }
 
@@ -123,9 +109,11 @@ struct HadithListView: View {
     @State var allHadithEnglishList = [HadithText]()
     @State var hadithBookmarks = [Int: Bool]()
     @State var hadithHighlights = [Int: [Highlight]]()
+    @State var englishHeights = [Int: CGSize]()
+    @State var arabicHeights = [Int: CGSize]()
     var padding: CGFloat = 5
 
-    fileprivate func loadOnAppear() -> Task<Void, Never> {
+    fileprivate func loadOnAppear(_ width: CGFloat) -> Task<Void, Never> {
         return Task.detached {
             async let hadithArabicList1 = presenter.getHadithArabicList(of: chapter, collector: collector)
             async let allHadithEnglishList1 = presenter.getHadithEnglishList(of: chapter, collector: collector)
@@ -140,13 +128,19 @@ struct HadithListView: View {
 
             let (hadithArabicList, allHadithEnglishList, hadithBookmarks, hadithHighlights, filteredList) =
                 await(hadithArabicList1, allHadithEnglishList1, hadithBookmarks1, hadithHighlights1, filteredList1)
+//            let width = proxy.size.width - 2 * padding
+            async let arabicHeights1 = presenter.getHeights(of: hadithArabicList, fontSize: fontSize, viewWidth: width)
+            async let englishHeights1 = presenter.getHeights(of: allHadithEnglishList, fontSize: fontSize, viewWidth: width)
 
+            let (arabicHeights, englishHeights) = await(arabicHeights1, englishHeights1)
             await MainActor.run {
                 self.hadithArabicList = hadithArabicList
                 self.allHadithEnglishList = allHadithEnglishList
                 self.filteredHadithEnglishList = filteredList
                 self.hadithBookmarks = hadithBookmarks
                 self.hadithHighlights = hadithHighlights
+                self.arabicHeights = arabicHeights
+                self.englishHeights = englishHeights
             }
             //                }
         }
@@ -175,7 +169,7 @@ struct HadithListView: View {
                         hadith: hadith,
                         hadithArabicList: $hadithArabicList,
                         fontSize: fontSize,
-                        width: proxy.size.width - 2 * padding,
+                        height: arabicHeights[hadith.wrappedValue.hadithNo]?.height ?? 0, // proxy.size.width - 2 * padding,
                         padding: padding,
                         searchString: $searchString
                     )
@@ -183,18 +177,22 @@ struct HadithListView: View {
                         hadith: hadith,
                         hadithHighlights: $hadithHighlights,
                         fontSize: fontSize,
-                        width: proxy.size.width - 2 * padding,
+                        height: englishHeights[hadith.wrappedValue.hadithNo]?.height ?? 0,// proxy.size.width - 2 * padding,
                         padding: padding,
                         searchString: $searchString)
 
                 }.listRowInsets(EdgeInsets())
             }
+            .task {
+                _ = loadOnAppear(proxy.size.width - 2 * padding)
+            }
+            .onChange(of: searchString) { newValue in
+                _ = searchHadith(newValue)
+            }
         }
         .listStyle(PlainListStyle())
         .searchable(text: $searchString)
-        .onChange(of: searchString) { newValue in
-            _ = searchHadith(newValue)
-        }
+
         .listStyle(.sidebar)
         .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.title)"))
         .toolbar {
@@ -208,9 +206,6 @@ struct HadithListView: View {
                         SettingsView()
                     }
             }
-        }
-        .task {
-            _ = loadOnAppear()
         }
     }
 }

@@ -32,7 +32,7 @@ struct QuranSearchView: View {
                         highlights: [Highlight]()
                     )
                     .padding(.horizontal, padding)
-                    .frame(height: TextViewFrameCalculator.frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .left).height)
+                    .frame(height: TextViewFrameCalculator().frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .left).height)
                 }
                 .listRowInsets(EdgeInsets())
             }
