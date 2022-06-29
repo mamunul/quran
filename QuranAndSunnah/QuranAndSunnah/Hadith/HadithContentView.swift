@@ -94,10 +94,10 @@ struct HadithChapterListView: View {
         .navigationTitle(Text("\(self.collector.name)"))
         .searchable(text: $searchString)
         .onChange(of: searchString) { _ in
-            searchHadithList()
+            _ = searchHadithList()
         }
         .onAppear {
-            loadHadithList()
+            _ = loadHadithList()
         }
     }
 }
