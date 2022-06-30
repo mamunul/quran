@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:SqliteConverter/SQLiteConverter.xcodeproj">
+      location = "group:IbnKathirParser/IbnKathirParser.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:IbnKathir/IbnKathir.xcodeproj">
+      location = "group:SqliteConverter/SQLiteConverter.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:QuranAndSunnah/QuranAndSunnah.xcodeproj">
