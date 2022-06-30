@@ -37,6 +37,8 @@ class HTMLContentParser {
             for folder in try fileManager.contentsOfDirectory(atPath: pathUrl.path) {
                 let path = pathUrl.appendingPathComponent(folder)
                 let isDirectory = try path.resourceValues(forKeys: [.isDirectoryKey]).isDirectory ?? false
+                let isHidden = try path.resourceValues(forKeys: [.isHiddenKey]).isHidden ?? false
+                if isHidden { continue }
                 if isDirectory {
                     traverseFiles(pathUrl: path)
                 } else {
@@ -56,8 +58,12 @@ class HTMLContentParser {
         }
     }
 
-    func execute() {
-        let directory = Bundle.main.bundleURL.appendingPathComponent("IbnKathirContents", isDirectory: true)
+    func execute(url: URL) {
+        #if os(iOS)
+            let directory = Bundle.main.bundleURL.appendingPathComponent("IbnKathirContents", isDirectory: true)
+        #else
+            let directory = url
+        #endif
         print(directory)
         traverseFiles(pathUrl: directory)
     }

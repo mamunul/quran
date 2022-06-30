@@ -12,12 +12,11 @@ target 'QuranAndSunnah' do
 #  pod 'SwiftSoup'
 end
 
-
-target 'IbnKathir' do
-  platform :ios, '14.0'
-  project 'IbnKathir/IbnKathir.xcodeproj'
+target 'SampleMacOSCommand' do
+  platform :macos, '12.0'
+  project 'SampleMacOSCommand/SampleMacOSCommand.xcodeproj'
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+  use_frameworks! :linkage => :static
 
   # Pods for HTMLTextAttributes
   pod 'SwiftSoup'
