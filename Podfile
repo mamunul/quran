@@ -30,7 +30,7 @@ target 'AppstoreAutomation' do
   use_frameworks! :linkage => :static
 
   # Pods for HTMLTextAttributes
-  pod 'AppStoreConnect-Swift-SDK', :git => 'https://github.com/AvdLee/appstoreconnect-swift-sdk.git'
+  pod 'SwiftJWT'
 end
 
 post_install do |installer|
