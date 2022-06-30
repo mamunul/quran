@@ -9,7 +9,19 @@ import Foundation
 
 print("Hello, World!")
 
-/// Go to https://appstoreconnect.apple.com/access/api and create your own key. This is also the page to find the private key ID and the issuer ID.
-/// Download the private key and open it in a text editor. Remove the line breaks from the private key string and copy the contents over to the private key parameter.
+let secret = "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgVnOT7sOOOGkQMQV7miW9HQeMvnpeFgd8WcDrtTyOC3WgCgYIKoZIzj0DAQehRANCAARAi6tlmvjUoR8JkuJllx99tL3ql1r/JlDLTSQkJEmq3SCehgkflJcFqzW3S+k4At/ylzikYXkV6GeKH6unezm1"
+let issuerID = "fc8ed846-b97d-47e0-b3c7-4570c073cbd6"
+let apiKey = "76CUBSK6L4"
 
-AuthorizationTokenGenerator().generateToken()
+let token = AuthTokenGenerator().generateToken(secret: secret, issuerID: issuerID, apiKey: apiKey)
+print(token)
+
+let command =
+    """
+    curl -v -H 'Authorization: Bearer \(token)'  "https://api.appstoreconnect.apple.com/v1/apps"
+
+    """
+
+print(command)
+
+//curl -v -H 'Authorization: Bearer '  "https://api.appstoreconnect.apple.com/v1/apps"
