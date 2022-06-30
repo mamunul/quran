@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0A4DDF81286D750B002DFE51 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF80286D750B002DFE51 /* main.swift */; };
 		0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */; };
+		0A4DDF8A286D9A0F002DFE51 /* AuthorizationTokenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF89286D9A0F002DFE51 /* AuthorizationTokenGenerator.swift */; };
+		0A4DDF8C286DB4F2002DFE51 /* APICommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF8B286DB4F2002DFE51 /* APICommand.swift */; };
 		0E12456B7BEB3A882309B3D3 /* Pods_AppstoreAutomation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6447448C496CEDC4C61DFEC /* Pods_AppstoreAutomation.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,8 @@
 		0A4DDF7D286D750B002DFE51 /* AppstoreAutomation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AppstoreAutomation; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A4DDF80286D750B002DFE51 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotUploader.swift; sourceTree = "<group>"; };
+		0A4DDF89286D9A0F002DFE51 /* AuthorizationTokenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTokenGenerator.swift; sourceTree = "<group>"; };
+		0A4DDF8B286DB4F2002DFE51 /* APICommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICommand.swift; sourceTree = "<group>"; };
 		6FC70EAD366CF3647946AD1D /* Pods-AppstoreAutomation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppstoreAutomation.release.xcconfig"; path = "Target Support Files/Pods-AppstoreAutomation/Pods-AppstoreAutomation.release.xcconfig"; sourceTree = "<group>"; };
 		812981D411EC7CB8F5A364F1 /* Pods-AppstoreAutomation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppstoreAutomation.debug.xcconfig"; path = "Target Support Files/Pods-AppstoreAutomation/Pods-AppstoreAutomation.debug.xcconfig"; sourceTree = "<group>"; };
 		C6447448C496CEDC4C61DFEC /* Pods_AppstoreAutomation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppstoreAutomation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +72,8 @@
 			children = (
 				0A4DDF80286D750B002DFE51 /* main.swift */,
 				0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */,
+				0A4DDF89286D9A0F002DFE51 /* AuthorizationTokenGenerator.swift */,
+				0A4DDF8B286DB4F2002DFE51 /* APICommand.swift */,
 			);
 			path = AppstoreAutomation;
 			sourceTree = "<group>";
@@ -174,8 +180,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A4DDF8C286DB4F2002DFE51 /* APICommand.swift in Sources */,
 				0A4DDF81286D750B002DFE51 /* main.swift in Sources */,
 				0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */,
+				0A4DDF8A286D9A0F002DFE51 /* AuthorizationTokenGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
