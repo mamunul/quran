@@ -23,6 +23,16 @@ target 'IbnKathirParser' do
   pod 'SwiftSoup', :inhibit_warnings => true
 end
 
+target 'AppstoreAutomation' do
+  platform :macos, '12.0'
+  project 'AppstoreAutomation/AppstoreAutomation.xcodeproj'
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks! :linkage => :static
+
+  # Pods for HTMLTextAttributes
+  pod 'AppStoreConnect-Swift-SDK', :git => 'https://github.com/AvdLee/appstoreconnect-swift-sdk.git'
+end
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
@@ -38,4 +48,3 @@ post_install do |installer|
     end
   end
 end
-
