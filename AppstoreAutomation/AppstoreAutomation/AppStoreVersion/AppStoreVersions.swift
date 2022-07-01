@@ -123,7 +123,7 @@ class GetAllLocalizationsCommand {
 class GetALocalizationCommand {
     struct AppStoreVersionLocalizationResponse {
         var data: GetAllLocalizationsCommand.AppStoreVersionLocalization
-
+        var included: [Any] // AppStoreVersion, AppScreenshotSet, AppPreviewSet
         var links: DocumentLink
     }
 
