@@ -8,9 +8,11 @@
 import Foundation
 
 protocol Response {
+    static var empty: Response { get }
 }
 
 struct EmptyResponse: Response {
+    static var empty: Response = EmptyResponse()
 }
 
 protocol Command {
@@ -20,134 +22,6 @@ protocol Command {
 
 struct DocumentLink: Codable {
     var `self`: String
-}
-
-///
-/// Command to get the id of the avialable platform for an app
-///
-/// Provide an app _id_ in the  __GET__  request it will send response with the each platorm info id in return.
-/// This class conforms with ``Command`` _protocol_
-/// ```swift
-/////usage
-/// AllPlatformsGetCommand().execute()
-///
-/// ```
-class GetAllPlatformVersionCommand {
-//    GET https://api.appstoreconnect.apple.com/v1/apps/{id}/appStoreVersions
-
-    struct AppStoreVersion {
-        var type: String
-        var id: String
-    }
-
-    /// actually providing all platforms (ios, macos, tvos) id for an app
-    struct AppStoreVersionsResponse {
-        var data: [AppStoreVersion]
-        var links: DocumentLink
-    }
-
-    func execute() {
-    }
-}
-
-class CreateNewLocalizationCommand {
-    let method = "POST"
-    let url = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations"
-
-    struct RelationshipData {
-        var type: String
-        var id: String
-    }
-
-    struct Attributes {
-        var locale: String
-        var description: String
-        var keywords: String
-        var marketingUrl: String
-        var promotionalText: String
-        var supportUrl: String
-        var whatsNew: String
-    }
-
-    struct Relationships {
-        var appStoreVersion: RelationshipData
-    }
-
-    struct RequestData {
-        var type: String
-        var attributes: Attributes
-        var relationships: Relationships
-    }
-
-    struct LocalizationRequest {
-        var data: RequestData
-    }
-
-    struct ResponseData {
-        var type: String
-        var attributes: Attributes
-        var id: String
-    }
-
-    struct LocalizationResponse {
-        var data: ResponseData
-    }
-
-    func execute() {
-//        VersionLocalizationResponse
-
-//        VersionLocalizationRequest
-    }
-}
-
-class GetAllLocalizationsCommand {
-    struct AppStoreVersionLocalization {
-        var attributes: CreateNewLocalizationCommand.Attributes
-        var id: String
-        var links: DocumentLink
-    }
-
-    struct AppStoreVersionLocalizationsResponse {
-        var data: [AppStoreVersionLocalization]
-
-        var links: DocumentLink
-    }
-
-    func getAppStoreVersions() {
-        /*
-         GET https://api.appstoreconnect.apple.com/v1/appStoreVersions/{id}/appStoreVersionLocalizations
-         */
-    }
-}
-
-class GetALocalizationCommand {
-    struct AppStoreVersionLocalizationResponse {
-        var data: GetAllLocalizationsCommand.AppStoreVersionLocalization
-        var included: [Any] // AppStoreVersion, AppScreenshotSet, AppPreviewSet
-        var links: DocumentLink
-    }
-
-    func getViersionLocalization() {
-        /*
-         GET https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/{id}
-         */
-
-        /*
-
-         Query :
-         include
-         [string]
-         Possible values: appPreviewSets, appScreenshotSets, appStoreVersion
-         */
-    }
-}
-
-class DeleteALocalizationCommand {
-    func deleteVersionLocalization() {
-        /*
-         DELETE https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/{id}
-         */
-    }
 }
 
 class APICommand {

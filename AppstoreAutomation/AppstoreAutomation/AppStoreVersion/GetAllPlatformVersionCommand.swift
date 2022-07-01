@@ -1,0 +1,36 @@
+//
+//  GetAllPlatformVersionCommand.swift
+//  AppstoreAutomation
+//
+//  Created by Mamunul Mazid on 1/7/22.
+//
+
+import Foundation
+
+///
+/// Command to get the id of the avialable platform for an app
+///
+/// Provide an app _id_ in the  __GET__  request it will send response with the each platorm info id in return.
+/// This class conforms with ``Command`` _protocol_
+/// ```swift
+/////usage
+/// AllPlatformsGetCommand().execute()
+///
+/// ```
+class GetAllPlatformVersionCommand {
+//    GET https://api.appstoreconnect.apple.com/v1/apps/{id}/appStoreVersions
+
+    struct AppStoreVersion {
+        var type: String
+        var id: String
+    }
+
+    /// actually providing all platforms (ios, macos, tvos) id for an app
+    struct AppStoreVersionsResponse {
+        var data: [AppStoreVersion]
+        var links: DocumentLink
+    }
+
+    func execute() {
+    }
+}
