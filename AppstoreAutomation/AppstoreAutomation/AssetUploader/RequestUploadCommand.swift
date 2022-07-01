@@ -39,7 +39,7 @@ class RequestUploadCommand {
 
     struct ScreenshotResponse:Codable {
         var links: DocumentLink
-        var data: ScreenshotGetCommand.AppScreenshot
+        var data: GetScreenshotCommand.AppScreenshot
     }
 
     let method = "POST"

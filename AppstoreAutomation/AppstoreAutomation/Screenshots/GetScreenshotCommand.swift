@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ScreenshotGetCommand {
+class GetScreenshotCommand {
     enum UploadState: String, Codable {
         case AWAITING_UPLOAD, UPLOAD_COMPLETE, COMPLETE, FAILED
     }
@@ -20,7 +20,7 @@ class ScreenshotGetCommand {
     struct AppMediaAssetState: Codable {
         var errors: [AppMediaStateError]
         var state: UploadState
-        var warnings: [AppMediaStateError]
+        var warnings: [AppMediaStateError]?
     }
 
     struct HttpHeader: Codable {
@@ -50,7 +50,7 @@ class ScreenshotGetCommand {
         var fileSize: Int
         var imageAsset: ImageAsset
         var sourceFileChecksum: String
-        var uploadOperations: [UploadOperation]
+        var uploadOperations: [UploadOperation]?
     }
 
     struct AppScreenshot: Codable {
@@ -71,11 +71,11 @@ class ScreenshotGetCommand {
 
     struct Request {
         /// this is actually platform id of an app
-        var appStoreVersionId: String
+        var appscreenshotSetId: String
     }
 
     func execute(request: Request, apiAccess: APIAccess) async throws -> AppScreenshotsResponse {
-        let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersions/\(request.appStoreVersionId)/appStoreVersionLocalizations"
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshotSets/\(request.appscreenshotSetId)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method

@@ -27,7 +27,7 @@ extension IUploadable { // Template Method
 class ScreenshotUploader {
     struct Screenshot {
         let url: URL
-        let displayType: GetScreenshotSetCommand.ScreenshotDisplayType
+        let displayType: ScreenshotDisplayType
         let locale: String
     }
 
@@ -37,7 +37,7 @@ class ScreenshotUploader {
         return response
     }
 
-    private func uploadTheAsset(uploads: [ScreenshotGetCommand.UploadOperation], assetData: Data) {
+    private func uploadTheAsset(uploads: [GetScreenshotCommand.UploadOperation], assetData: Data) {
         Task {
             for upload in uploads {
                 let subData = assetData.subdata(in: upload.offset ..< upload.length + upload.offset + 1)
@@ -70,12 +70,12 @@ class ScreenshotUploader {
     func upload(request: RequestUploadCommand.ScreenshotRequest, apiAccess: APIAccess, screenshot: Screenshot) async throws {
         Task {
             do {
-                let response = try await makeAnUploadRequest(request: request, apiAccess: apiAccess)
+                let response = try await self.makeAnUploadRequest(request: request, apiAccess: apiAccess)
 
                 let data = try Data(contentsOf: screenshot.url)
                 let reservationId = response.data.id
                 let md5Checksum = Insecure.MD5.hash(data: data).map { String(format: "%02hhx", $0) }.joined()
-                uploadTheAsset(uploads: response.data.attributes.uploadOperations, assetData: data)
+                uploadTheAsset(uploads: response.data.attributes.uploadOperations ?? [], assetData: data)
                 try await commitTheUpload(reservationId: reservationId, checksum: md5Checksum)
                 verifyUpload()
             } catch {
