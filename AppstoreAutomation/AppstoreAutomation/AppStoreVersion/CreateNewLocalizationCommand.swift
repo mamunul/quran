@@ -19,11 +19,11 @@ class CreateNewLocalizationCommand {
     struct Attributes: Codable {
         var locale: String
         var description: String
-        var keywords: String
+        var keywords: String?
         var marketingUrl: String
-        var promotionalText: String
+        var promotionalText: String?
         var supportUrl: String
-        var whatsNew: String
+        var whatsNew: String?
     }
 
     struct Relationships {

@@ -13,8 +13,8 @@
 		0A4DDF8C286DB4F2002DFE51 /* AppStoreVersions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */; };
 		0E12456B7BEB3A882309B3D3 /* Pods_AppstoreAutomation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6447448C496CEDC4C61DFEC /* Pods_AppstoreAutomation.framework */; };
 		EE3B94EB286DF19100D18FB3 /* CreateScreenshotSetCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3B94EA286DF19100D18FB3 /* CreateScreenshotSetCommand.swift */; };
-		EE984727286F00EB005B2F38 /* ScreenshotGetCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984726286F00EB005B2F38 /* ScreenshotGetCommand.swift */; };
-		EE984729286F0109005B2F38 /* GetScreenshotSetCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984728286F0109005B2F38 /* GetScreenshotSetCommand.swift */; };
+		EE984727286F00EB005B2F38 /* GetScreenshotCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984726286F00EB005B2F38 /* GetScreenshotCommand.swift */; };
+		EE984729286F0109005B2F38 /* GetScreenshotSetsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984728286F0109005B2F38 /* GetScreenshotSetsCommand.swift */; };
 		EE98472B286F0131005B2F38 /* ScreenshotSetDeleteCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98472A286F0131005B2F38 /* ScreenshotSetDeleteCommand.swift */; };
 		EE98472E286F0171005B2F38 /* CommitAssetUploadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98472D286F0171005B2F38 /* CommitAssetUploadCommand.swift */; };
 		EE984730286F018D005B2F38 /* RequestUploadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98472F286F018D005B2F38 /* RequestUploadCommand.swift */; };
@@ -25,6 +25,7 @@
 		EE98473A286F0249005B2F38 /* DeleteALocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984739286F0249005B2F38 /* DeleteALocalizationCommand.swift */; };
 		EE98473D286F0351005B2F38 /* HTTPHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98473C286F0351005B2F38 /* HTTPHandler.swift */; };
 		EE98473F286F0E97005B2F38 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98473E286F0E97005B2F38 /* Configuration.swift */; };
+		EE984743286F7597005B2F38 /* WillDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984742286F7597005B2F38 /* WillDelete.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,8 +51,8 @@
 		C6447448C496CEDC4C61DFEC /* Pods_AppstoreAutomation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppstoreAutomation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3B94E8286DE3B300D18FB3 /* APITree.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = APITree.jpg; sourceTree = "<group>"; };
 		EE3B94EA286DF19100D18FB3 /* CreateScreenshotSetCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScreenshotSetCommand.swift; sourceTree = "<group>"; };
-		EE984726286F00EB005B2F38 /* ScreenshotGetCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotGetCommand.swift; sourceTree = "<group>"; };
-		EE984728286F0109005B2F38 /* GetScreenshotSetCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScreenshotSetCommand.swift; sourceTree = "<group>"; };
+		EE984726286F00EB005B2F38 /* GetScreenshotCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScreenshotCommand.swift; sourceTree = "<group>"; };
+		EE984728286F0109005B2F38 /* GetScreenshotSetsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScreenshotSetsCommand.swift; sourceTree = "<group>"; };
 		EE98472A286F0131005B2F38 /* ScreenshotSetDeleteCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotSetDeleteCommand.swift; sourceTree = "<group>"; };
 		EE98472D286F0171005B2F38 /* CommitAssetUploadCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitAssetUploadCommand.swift; sourceTree = "<group>"; };
 		EE98472F286F018D005B2F38 /* RequestUploadCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestUploadCommand.swift; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 		EE984739286F0249005B2F38 /* DeleteALocalizationCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteALocalizationCommand.swift; sourceTree = "<group>"; };
 		EE98473C286F0351005B2F38 /* HTTPHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHandler.swift; sourceTree = "<group>"; };
 		EE98473E286F0E97005B2F38 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		EE984742286F7597005B2F38 /* WillDelete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WillDelete.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,9 +121,10 @@
 		EE3B94E9286DF17400D18FB3 /* Screenshots */ = {
 			isa = PBXGroup;
 			children = (
+				EE984742286F7597005B2F38 /* WillDelete.swift */,
 				EE3B94EA286DF19100D18FB3 /* CreateScreenshotSetCommand.swift */,
-				EE984726286F00EB005B2F38 /* ScreenshotGetCommand.swift */,
-				EE984728286F0109005B2F38 /* GetScreenshotSetCommand.swift */,
+				EE984726286F00EB005B2F38 /* GetScreenshotCommand.swift */,
+				EE984728286F0109005B2F38 /* GetScreenshotSetsCommand.swift */,
 				EE98472A286F0131005B2F38 /* ScreenshotSetDeleteCommand.swift */,
 			);
 			path = Screenshots;
@@ -260,12 +263,13 @@
 				EE984732286F01DE005B2F38 /* GetAllPlatformVersionCommand.swift in Sources */,
 				EE98473A286F0249005B2F38 /* DeleteALocalizationCommand.swift in Sources */,
 				0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */,
-				EE984727286F00EB005B2F38 /* ScreenshotGetCommand.swift in Sources */,
+				EE984727286F00EB005B2F38 /* GetScreenshotCommand.swift in Sources */,
 				EE984738286F022A005B2F38 /* GetALocalizationCommand.swift in Sources */,
-				EE984729286F0109005B2F38 /* GetScreenshotSetCommand.swift in Sources */,
+				EE984729286F0109005B2F38 /* GetScreenshotSetsCommand.swift in Sources */,
 				EE98473F286F0E97005B2F38 /* Configuration.swift in Sources */,
 				EE98473D286F0351005B2F38 /* HTTPHandler.swift in Sources */,
 				EE98472E286F0171005B2F38 /* CommitAssetUploadCommand.swift in Sources */,
+				EE984743286F7597005B2F38 /* WillDelete.swift in Sources */,
 				EE98472B286F0131005B2F38 /* ScreenshotSetDeleteCommand.swift in Sources */,
 				EE984736286F0211005B2F38 /* GetAllLocalizationsCommand.swift in Sources */,
 				0A4DDF8A286D9A0F002DFE51 /* AuthTokenGenerator.swift in Sources */,

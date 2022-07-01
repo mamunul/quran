@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetScreenshotSetCommand {
+class GetScreenshotSetsCommand {
     enum ScreenshotDisplayType: String, Codable {
         case APP_IPHONE_65, APP_IPHONE_58, APP_IPHONE_55, APP_IPHONE_47, APP_IPHONE_40, APP_IPHONE_35
         case APP_IPAD_PRO_3GEN_129, APP_IPAD_PRO_3GEN_11, APP_IPAD_PRO_129, APP_IPAD_105, APP_IPAD_97
@@ -27,9 +27,9 @@ class GetScreenshotSetCommand {
         var type: String
     }
 
-    struct AppScreenshotSetResponse: Codable {
-        var data: AppScreenshotSet
-        var links: DocumentLink
+    struct AppScreenshotSetsResponse: Codable {
+        var data: [AppScreenshotSet]
+        var links: PagedDocumentLinks
     }
 
     func execute<T: Response>() async throws -> T {
@@ -41,17 +41,17 @@ class GetScreenshotSetCommand {
      */
 
     struct Request {
-        var schreenshotSetId: String
+        var localizationId: String
     }
 
     let method = "GET"
 
-    func execute(request: Request, apiAccess: APIAccess) async throws -> AppScreenshotSetResponse {
-        let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshotSets/\(request.schreenshotSetId)"
+    func execute(request: Request, apiAccess: APIAccess) async throws -> AppScreenshotSetsResponse {
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/\(request.localizationId)/appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
-        let response: AppScreenshotSetResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        let response: AppScreenshotSetsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
 }
