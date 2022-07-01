@@ -64,13 +64,13 @@ class AuthTokenGenerator {
     /// This method will generate token for accessing app store connect api
     ///
     /// - Parameter secret: Private key taken from app store connect website
-    func generateToken(secret: String, issuerID: String, apiKey: String) throws -> String {
-        let payload = createJWTPayload(issuerID: issuerID)
+    func generateToken(apiAccess: APIAccess) throws -> String {
+        let payload = createJWTPayload(issuerID: apiAccess.issuerID)
 
-        let privateKey = secret.data(using: .utf8)!
+        let privateKey = apiAccess.secret.data(using: .utf8)!
         let jwtSigner = JWTSigner.es256(privateKey: privateKey)
 
-        let myHeader = Header(kid: apiKey)
+        let myHeader = Header(kid: apiAccess.apiKey)
         var jwt = JWT(header: myHeader, claims: payload)
         let signedJWT = try jwt.sign(using: jwtSigner)
         return signedJWT

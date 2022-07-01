@@ -7,8 +7,12 @@
 
 import Foundation
 
-protocol Response {
+protocol Response: Codable {
     static var empty: Response { get }
+}
+
+protocol Request: Codable {
+    static var empty: Request { get }
 }
 
 struct EmptyResponse: Response {
@@ -16,8 +20,12 @@ struct EmptyResponse: Response {
 }
 
 protocol Command {
-    /// - Return :
-    func execute<T: Response>() async throws -> T
+    /// - Parameters:
+    ///    - request: get/post data
+    ///    - apiAccess: api access secret keys
+    ///
+    /// - Returns: return json type
+    func execute<T: Response>(request: Request, apiAccess: APIAccess) async throws -> T
 }
 
 struct DocumentLink: Codable {
@@ -51,8 +59,8 @@ class APICommand {
  }
  */
 
-struct ErrorResponse {
-    struct Errors {
+struct ErrorResponse: Codable {
+    struct Errors: Codable {
         /// (Required) A machine-readable code indicating the type of error. The code is a hierarchical value with levels of specificity separated by the '.' character. This value is parseable for programmatic   error handling in code.
         var code: String
 
@@ -60,7 +68,7 @@ struct ErrorResponse {
         var status: String
 
         /// The unique ID of a specific instance of an error, request, and response. Use this ID when providing feedback to or debugging issues with Apple.
-        var id: String
+        var id: String?
 
         /// (Required) A summary of the error. Do not use this field for programmatic error handling.
         var title: String
@@ -69,5 +77,5 @@ struct ErrorResponse {
         var detail: String
     }
 
-    var error: [Errors]
+    var errors: [Errors]
 }

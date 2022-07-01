@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CreateScreenshotSetCommand: Command {
+class CreateScreenshotSetCommand {
     /*
      POST https://api.appstoreconnect.apple.com/v1/appScreenshotSets
      */

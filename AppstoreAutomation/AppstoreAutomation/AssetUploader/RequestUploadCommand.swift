@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RequestUploadCommand: Command {
+class RequestUploadCommand {
 //    POST https://api.appstoreconnect.apple.com/v1/appScreenshots
     struct AppScreenshotSetData {
         var id: String
