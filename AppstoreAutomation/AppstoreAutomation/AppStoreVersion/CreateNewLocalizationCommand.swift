@@ -9,14 +9,14 @@ import Foundation
 
 class CreateNewLocalizationCommand {
     let method = "POST"
-    let url = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations"
+    let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations"
 
     struct RelationshipData {
         var type: String
         var id: String
     }
 
-    struct Attributes {
+    struct Attributes: Codable {
         var locale: String
         var description: String
         var keywords: String
@@ -40,19 +40,21 @@ class CreateNewLocalizationCommand {
         var data: RequestData
     }
 
-    struct ResponseData {
+    struct ResponseData: Codable {
         var type: String
         var attributes: Attributes
         var id: String
     }
 
-    struct LocalizationResponse {
+    struct LocalizationResponse: Codable {
         var data: ResponseData
     }
 
-    func execute() {
-//        VersionLocalizationResponse
-
-//        VersionLocalizationRequest
+    func execute(request: LocalizationRequest, apiAccess: APIAccess) async throws -> LocalizationResponse {
+        let url: URL = URL(string: urlString)!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method
+        let response: LocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        return response
     }
 }

@@ -15,7 +15,7 @@ struct APIAccess {
 
 func testApi() {
     let api = APIAccess(secret: secret, issuerID: issuerID, apiKey: apiKey)
-    let request = GetAllPlatformVersionCommand.GetAllPlatformRequest(appId: "1632370801")
+    let request = GetAllPlatformVersionCommand.Request(appId: "1632370801")
     Task {
         do {
             let response = try await GetAllPlatformVersionCommand().execute(request: request, apiAccess: api)

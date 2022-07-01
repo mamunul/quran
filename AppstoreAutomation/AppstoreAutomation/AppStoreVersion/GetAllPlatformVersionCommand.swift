@@ -25,8 +25,8 @@ class GetAllPlatformVersionCommand {
         var id: String
     }
 
-    struct GetAllPlatformRequest: Request {
-        static var empty: Request = GetAllPlatformRequest(appId: "")
+    struct Request {
+        static var empty: Request = Request(appId: "")
 
         var appId: String
     }
@@ -37,7 +37,7 @@ class GetAllPlatformVersionCommand {
         var links: DocumentLink
     }
 
-    func execute(request: GetAllPlatformRequest, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
+    func execute(request: Request, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
         let urlString = "https://api.appstoreconnect.apple.com/v1/apps/\(request.appId)/appStoreVersions"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

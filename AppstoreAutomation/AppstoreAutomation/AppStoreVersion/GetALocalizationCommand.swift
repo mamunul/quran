@@ -8,23 +8,31 @@
 import Foundation
 
 class GetALocalizationCommand {
-    struct AppStoreVersionLocalizationResponse {
+    struct AppStoreVersionLocalizationResponse: Codable {
         var data: GetAllLocalizationsCommand.AppStoreVersionLocalization
-        var included: [Any] // AppStoreVersion, AppScreenshotSet, AppPreviewSet
+        var included: String // AppStoreVersion, AppScreenshotSet, AppPreviewSet
         var links: DocumentLink
     }
 
-    func getViersionLocalization() {
-        /*
-         GET https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/{id}
-         */
+    let method = "GET"
+    /*
 
-        /*
+     Query :
+     include
+     [string]
+     Possible values: appPreviewSets, appScreenshotSets, appStoreVersion
+     */
 
-         Query :
-         include
-         [string]
-         Possible values: appPreviewSets, appScreenshotSets, appStoreVersion
-         */
+    struct Request {
+        var appStoreVersionLocalizationId: String
+    }
+
+    func execute(request: Request, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/\(request.appStoreVersionLocalizationId)"
+        let url: URL = URL(string: urlString)!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method
+        let response: AppStoreVersionLocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        return response
     }
 }
