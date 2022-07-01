@@ -8,19 +8,38 @@
 import Foundation
 
 class HTTPHandler {
+    let decoder = JSONDecoder()
+    func execute(urlRequest: URLRequest, access: APIAccess) async throws {
+        var request = urlRequest
+        let access = APIAccess(secret: access.secret, issuerID: access.issuerID, apiKey: access.apiKey)
+        let token = try AuthTokenGenerator().generateToken(apiAccess: access, urlRequest: urlRequest)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if (response as! HTTPURLResponse).statusCode != 200 {
+            let result = try decoder.decode(ErrorResponse.self, from: data)
+            throw APIError.api(result)
+        }
+    }
+
     func execute<T: Codable>(urlRequest: URLRequest, access: APIAccess) async throws -> T {
         var request = urlRequest
         let access = APIAccess(secret: access.secret, issuerID: access.issuerID, apiKey: access.apiKey)
-        let token = try AuthTokenGenerator().generateToken(apiAccess: access)
+        let token = try AuthTokenGenerator().generateToken(apiAccess: access, urlRequest: urlRequest)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         let (data, response) = try await URLSession.shared.data(for: request)
-
-        let decoder = JSONDecoder()
 
         if (response as! HTTPURLResponse).statusCode == 200 {
             let result = try decoder.decode(T.self, from: data)
             return result
         } else {
+            let result = try decoder.decode(ErrorResponse.self, from: data)
+            throw APIError.api(result)
+        }
+    }
+
+    func execute(urlRequest: URLRequest) async throws {
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        if (response as! HTTPURLResponse).statusCode != 200 {
             let result = try decoder.decode(ErrorResponse.self, from: data)
             throw APIError.api(result)
         }

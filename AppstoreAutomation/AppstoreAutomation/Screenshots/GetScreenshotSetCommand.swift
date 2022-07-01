@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetScreenshotSetsCommand {
+class GetScreenshotSetCommand {
     enum ScreenshotDisplayType: String, Codable {
         case APP_IPHONE_65, APP_IPHONE_58, APP_IPHONE_55, APP_IPHONE_47, APP_IPHONE_40, APP_IPHONE_35
         case APP_IPAD_PRO_3GEN_129, APP_IPAD_PRO_3GEN_11, APP_IPAD_PRO_129, APP_IPAD_105, APP_IPAD_97
@@ -41,13 +41,13 @@ class GetScreenshotSetsCommand {
      */
 
     struct Request {
-        var schreenshotSetsId: String
+        var schreenshotSetId: String
     }
 
     let method = "GET"
 
     func execute(request: Request, apiAccess: APIAccess) async throws -> AppScreenshotSetResponse {
-        let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshotSets/\(request.schreenshotSetsId)"
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshotSets/\(request.schreenshotSetId)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method

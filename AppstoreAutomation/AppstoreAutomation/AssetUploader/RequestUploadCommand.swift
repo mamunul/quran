@@ -37,12 +37,18 @@ class RequestUploadCommand {
         var data: RequestData
     }
 
-    struct ScreenshotResponse {
+    struct ScreenshotResponse:Codable {
         var links: DocumentLink
         var data: ScreenshotGetCommand.AppScreenshot
     }
 
-    func execute<T>() async throws -> T where T: Response {
-        T.empty as! T
+    let method = "POST"
+    func execute(request: ScreenshotRequest, apiAccess: APIAccess) async throws -> ScreenshotResponse {
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshots"
+        let url: URL = URL(string: urlString)!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method
+        let response: ScreenshotResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        return response
     }
 }

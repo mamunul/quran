@@ -8,11 +8,8 @@
 import Foundation
 
 class CreateScreenshotSetCommand {
-    /*
-     POST https://api.appstoreconnect.apple.com/v1/appScreenshotSets
-     */
     struct RequestData {
-        var attributes: GetScreenshotSetsCommand.Attributes
+        var attributes: GetScreenshotSetCommand.Attributes
         var type: String
     }
 
@@ -20,8 +17,14 @@ class CreateScreenshotSetCommand {
         var data: RequestData
     }
 
-    func execute<T: Response>() async throws -> T {
-        EmptyResponse() as! T
+    let method = "POST"
+    func execute(request: AppScreenshotSetRequest, apiAccess: APIAccess) async throws -> GetScreenshotSetCommand.AppScreenshotSetResponse {
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshotSets"
+        let url: URL = URL(string: urlString)!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method
+        let response: GetScreenshotSetCommand.AppScreenshotSetResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        return response
     }
 }
 
