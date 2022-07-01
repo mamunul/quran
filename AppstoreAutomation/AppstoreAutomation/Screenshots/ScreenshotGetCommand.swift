@@ -8,27 +8,27 @@
 import Foundation
 
 class ScreenshotGetCommand {
-    enum UploadState: String {
+    enum UploadState: String, Codable {
         case AWAITING_UPLOAD, UPLOAD_COMPLETE, COMPLETE, FAILED
     }
 
-    struct AppMediaStateError {
+    struct AppMediaStateError: Codable {
         var code: String
         var description: String
     }
 
-    struct AppMediaAssetState {
+    struct AppMediaAssetState: Codable {
         var errors: [AppMediaStateError]
         var state: UploadState
         var warnings: [AppMediaStateError]
     }
 
-    struct HttpHeader {
+    struct HttpHeader: Codable {
         var name: String
         var value: String
     }
 
-    struct UploadOperation {
+    struct UploadOperation: Codable {
         var length: Int
         var method: String
         var offset: Int
@@ -36,13 +36,13 @@ class ScreenshotGetCommand {
         var url: String
     }
 
-    struct ImageAsset {
+    struct ImageAsset: Codable {
         var templateUrl: String
         var height: Int
         var width: Int
     }
 
-    struct Attributes {
+    struct Attributes: Codable {
         var assetDeliveryState: AppMediaAssetState
         var assetToken: String
         var assetType: String
@@ -53,7 +53,7 @@ class ScreenshotGetCommand {
         var uploadOperations: [UploadOperation]
     }
 
-    struct AppScreenshot {
+    struct AppScreenshot: Codable {
         var attributes: Attributes
         var id: String
 
@@ -61,9 +61,25 @@ class ScreenshotGetCommand {
         var type: String = "appScreenshots"
     }
 
-    struct AppScreenshotsResponse {
+    struct AppScreenshotsResponse: Codable {
         var data: [AppScreenshot]
 
         var links: PagedDocumentLinks
+    }
+
+    let method = "GET"
+
+    struct Request {
+        /// this is actually platform id of an app
+        var appStoreVersionId: String
+    }
+
+    func execute(request: Request, apiAccess: APIAccess) async throws -> AppScreenshotsResponse {
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersions/\(request.appStoreVersionId)/appStoreVersionLocalizations"
+        let url: URL = URL(string: urlString)!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method
+        let response: AppScreenshotsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        return response
     }
 }

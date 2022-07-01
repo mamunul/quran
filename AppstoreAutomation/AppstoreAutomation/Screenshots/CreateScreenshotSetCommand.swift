@@ -25,7 +25,7 @@ class CreateScreenshotSetCommand {
     }
 }
 
-struct PagedDocumentLinks {
+struct PagedDocumentLinks: Codable {
     var first: String
     var next: String
     var `self`: String
