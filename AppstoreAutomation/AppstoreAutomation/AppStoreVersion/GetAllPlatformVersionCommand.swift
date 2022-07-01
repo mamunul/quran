@@ -20,13 +20,43 @@ import Foundation
 class GetAllPlatformVersionCommand {
     let method = "GET"
 
+    enum ReleaseType: String, Codable {
+        case MANUAL, AFTER_APPROVAL, SCHEDULED
+    }
+
+    enum Platform: String, Codable {
+        case IOS, MAC_OS, TV_OS
+    }
+
+    enum AppStoreVersionState: String, Codable {
+        case DEVELOPER_REMOVED_FROM_SALE, DEVELOPER_REJECTED, IN_REVIEW, INVALID_BINARY, METADATA_REJECTED
+        case PENDING_APPLE_RELEASE, PENDING_CONTRACT, PENDING_DEVELOPER_RELEASE, PREPARE_FOR_SUBMISSION
+        case PREORDER_READY_FOR_SALE, PROCESSING_FOR_APP_STORE, READY_FOR_SALE, REJECTED, REMOVED_FROM_SALE
+        case WAITING_FOR_EXPORT_COMPLIANCE, WAITING_FOR_REVIEW, REPLACED_WITH_NEW_VERSION
+        case ACCEPTED, READY_FOR_REVIEW
+    }
+
+    struct PlatformAttributes: Codable {
+        var platform: Platform
+        var appStoreState: AppStoreVersionState
+        var copyright: String?
+        var earliestReleaseDate: String?
+        var releaseType: ReleaseType
+
+        var versionString: String
+        var createdDate: String
+        var downloadable: Bool
+    }
+
     struct AppStoreVersion: Codable {
+        var attributes: PlatformAttributes
         var type: String
         var id: String
     }
 
     struct Request {
         static var empty: Request = Request(appId: "")
+        static var quranApp = Request(appId: "1632370801")
 
         var appId: String
     }
