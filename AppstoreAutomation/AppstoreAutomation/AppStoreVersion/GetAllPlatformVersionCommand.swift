@@ -18,19 +18,35 @@ import Foundation
 ///
 /// ```
 class GetAllPlatformVersionCommand {
-//    GET https://api.appstoreconnect.apple.com/v1/apps/{id}/appStoreVersions
+    let method = "GET"
 
-    struct AppStoreVersion {
+    struct AppStoreVersion: Codable {
         var type: String
         var id: String
     }
 
+    struct GetAllPlatformRequest: Request {
+        static var empty: Request = GetAllPlatformRequest(appId: "")
+
+        var appId: String
+    }
+
     /// actually providing all platforms (ios, macos, tvos) id for an app
-    struct AppStoreVersionsResponse {
+    struct AppStoreVersionsResponse: Codable {
         var data: [AppStoreVersion]
         var links: DocumentLink
     }
 
-    func execute() {
+    func execute(request: GetAllPlatformRequest, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
+        let urlString = "https://api.appstoreconnect.apple.com/v1/apps/\(request.appId)/appStoreVersions"
+        let url: URL = URL(string: urlString)!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method
+        let response: AppStoreVersionsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        return response
     }
+}
+
+enum APIError: Error {
+    case api(ErrorResponse)
 }
