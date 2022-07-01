@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A11561F286D6B5B0007C307 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11561E286D6B5B0007C307 /* main.swift */; };
 		0A115626286D6C250007C307 /* HTMLContentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A115625286D6C250007C307 /* HTMLContentParser.swift */; };
-		91F22FF9CEE076B1DA7500D5 /* Pods_SampleMacOSCommand.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 426104F6A3AB08E424223EEE /* Pods_SampleMacOSCommand.framework */; };
+		385910360823C36DCEE243AE /* Pods_IbnKathirParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 705CB7A5A55ABD8D789B3B81 /* Pods_IbnKathirParser.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,8 +29,10 @@
 		0A11561E286D6B5B0007C307 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		0A115625286D6C250007C307 /* HTMLContentParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLContentParser.swift; sourceTree = "<group>"; };
 		0A115627286D6C5B0007C307 /* IbnKathirContents */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IbnKathirContents; sourceTree = "<group>"; };
-		426104F6A3AB08E424223EEE /* Pods_SampleMacOSCommand.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SampleMacOSCommand.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C0E8E52457A2BA56811FF48 /* Pods-SampleMacOSCommand.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleMacOSCommand.debug.xcconfig"; path = "Target Support Files/Pods-SampleMacOSCommand/Pods-SampleMacOSCommand.debug.xcconfig"; sourceTree = "<group>"; };
+		705CB7A5A55ABD8D789B3B81 /* Pods_IbnKathirParser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IbnKathirParser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		963DFFEAF14FCF0A1E7D30B8 /* Pods-IbnKathirParser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IbnKathirParser.release.xcconfig"; path = "Target Support Files/Pods-IbnKathirParser/Pods-IbnKathirParser.release.xcconfig"; sourceTree = "<group>"; };
+		CD7F5FAF0C4DDCA650C3ECC8 /* Pods-IbnKathirParser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IbnKathirParser.debug.xcconfig"; path = "Target Support Files/Pods-IbnKathirParser/Pods-IbnKathirParser.debug.xcconfig"; sourceTree = "<group>"; };
 		EDB250EF857B7524B5ADDD0F /* Pods-SampleMacOSCommand.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleMacOSCommand.release.xcconfig"; path = "Target Support Files/Pods-SampleMacOSCommand/Pods-SampleMacOSCommand.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -39,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91F22FF9CEE076B1DA7500D5 /* Pods_SampleMacOSCommand.framework in Frameworks */,
+				385910360823C36DCEE243AE /* Pods_IbnKathirParser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +79,7 @@
 		1835A7B17DC100F33807244E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				426104F6A3AB08E424223EEE /* Pods_SampleMacOSCommand.framework */,
+				705CB7A5A55ABD8D789B3B81 /* Pods_IbnKathirParser.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -87,6 +89,8 @@
 			children = (
 				4C0E8E52457A2BA56811FF48 /* Pods-SampleMacOSCommand.debug.xcconfig */,
 				EDB250EF857B7524B5ADDD0F /* Pods-SampleMacOSCommand.release.xcconfig */,
+				CD7F5FAF0C4DDCA650C3ECC8 /* Pods-IbnKathirParser.debug.xcconfig */,
+				963DFFEAF14FCF0A1E7D30B8 /* Pods-IbnKathirParser.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../Pods;
@@ -162,7 +166,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SampleMacOSCommand-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-IbnKathirParser-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -299,7 +303,7 @@
 		};
 		0A115623286D6B5B0007C307 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C0E8E52457A2BA56811FF48 /* Pods-SampleMacOSCommand.debug.xcconfig */;
+			baseConfigurationReference = CD7F5FAF0C4DDCA650C3ECC8 /* Pods-IbnKathirParser.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -309,7 +313,7 @@
 		};
 		0A115624286D6B5B0007C307 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDB250EF857B7524B5ADDD0F /* Pods-SampleMacOSCommand.release.xcconfig */;
+			baseConfigurationReference = 963DFFEAF14FCF0A1E7D30B8 /* Pods-IbnKathirParser.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
