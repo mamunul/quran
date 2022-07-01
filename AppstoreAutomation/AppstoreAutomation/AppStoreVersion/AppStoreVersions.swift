@@ -18,6 +18,10 @@ protocol Command {
     func execute<T: Response>() async throws -> T
 }
 
+struct DocumentLink: Codable {
+    var `self`: String
+}
+
 ///
 /// Command to get the id of the avialable platform for an app
 ///
@@ -28,7 +32,7 @@ protocol Command {
 /// AllPlatformsGetCommand().execute()
 ///
 /// ```
-class AllPlatformsGetCommand {
+class GetAllPlatformVersionCommand {
 //    GET https://api.appstoreconnect.apple.com/v1/apps/{id}/appStoreVersions
 
     struct AppStoreVersion {
@@ -36,28 +40,26 @@ class AllPlatformsGetCommand {
         var id: String
     }
 
-    struct PagedDocumentLinks: Codable {
-        var ss: String
-
-        enum CodingKeys: String, CodingKey {
-            case ss = "self"
-        }
-    }
-
     /// actually providing all platforms (ios, macos, tvos) id for an app
     struct AppStoreVersionsResponse {
         var data: [AppStoreVersion]
-        var links: PagedDocumentLinks
+        var links: DocumentLink
     }
 
     func execute() {
     }
 }
 
-class NewLocalizationCreateCommand {
+class CreateNewLocalizationCommand {
     let method = "POST"
     let url = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations"
-    struct VersionLocalizationAttributes {
+
+    struct RelationshipData {
+        var type: String
+        var id: String
+    }
+
+    struct Attributes {
         var locale: String
         var description: String
         var keywords: String
@@ -67,33 +69,28 @@ class NewLocalizationCreateCommand {
         var whatsNew: String
     }
 
-    struct VersionRelationshipData {
+    struct Relationships {
+        var appStoreVersion: RelationshipData
+    }
+
+    struct RequestData {
         var type: String
+        var attributes: Attributes
+        var relationships: Relationships
+    }
+
+    struct LocalizationRequest {
+        var data: RequestData
+    }
+
+    struct ResponseData {
+        var type: String
+        var attributes: Attributes
         var id: String
     }
 
-    struct VersionRelationships {
-        var appStoreVersion: VersionRelationshipData
-    }
-
-    struct VersionLocalizationData {
-        var type: String
-        var attributes: VersionLocalizationAttributes
-        var relationships: VersionRelationships
-    }
-
-    struct VersionLocalizationRequest {
-        var data: VersionLocalizationData
-    }
-
-    struct VersionLocalizationResponseData {
-        var type: String
-        var attributes: VersionLocalizationAttributes
-        var id: String
-    }
-
-    struct VersionLocalizationResponse {
-        var data: VersionLocalizationResponseData
+    struct LocalizationResponse {
+        var data: ResponseData
     }
 
     func execute() {
@@ -103,17 +100,17 @@ class NewLocalizationCreateCommand {
     }
 }
 
-class AllVersionLocalizationsGetCommand {
+class GetAllLocalizationsCommand {
     struct AppStoreVersionLocalization {
-        var attributes: NewLocalizationCreateCommand.VersionLocalizationAttributes
+        var attributes: CreateNewLocalizationCommand.Attributes
         var id: String
-        var links: AllPlatformsGetCommand.PagedDocumentLinks
+        var links: DocumentLink
     }
 
     struct AppStoreVersionLocalizationsResponse {
         var data: [AppStoreVersionLocalization]
 
-        var links: AllPlatformsGetCommand.PagedDocumentLinks
+        var links: DocumentLink
     }
 
     func getAppStoreVersions() {
@@ -123,20 +120,29 @@ class AllVersionLocalizationsGetCommand {
     }
 }
 
-class AVersionLocalizationGetCommand {
+class GetALocalizationCommand {
     struct AppStoreVersionLocalizationResponse {
-        var data: AllVersionLocalizationsGetCommand.AppStoreVersionLocalization
+        var data: GetAllLocalizationsCommand.AppStoreVersionLocalization
 
-        var links: AllPlatformsGetCommand.PagedDocumentLinks
+        var links: DocumentLink
     }
+
     func getViersionLocalization() {
         /*
          GET https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/{id}
          */
+
+        /*
+
+         Query :
+         include
+         [string]
+         Possible values: appPreviewSets, appScreenshotSets, appStoreVersion
+         */
     }
 }
 
-class AVersionLocalizationDeleteCommand {
+class DeleteALocalizationCommand {
     func deleteVersionLocalization() {
         /*
          DELETE https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/{id}
@@ -160,13 +166,34 @@ class APICommand {
 
 /*
 
-{
-    "errors": [{
-        "status": "401",
-        "code": "NOT_AUTHORIZED",
-        "title": "Authentication credentials are missing or invalid.",
-        "detail": "Provide a properly configured and signed bearer token, and make sure that it has not expired. Learn more about Generating Tokens for API Requests https://developer.apple.com/go/?id=api-generating-tokens"
-    }]
+ {
+     "errors": [{
+         "status": "401",
+         "code": "NOT_AUTHORIZED",
+         "title": "Authentication credentials are missing or invalid.",
+         "detail": "Provide a properly configured and signed bearer token, and make sure that it has not expired. Learn more about Generating Tokens for API Requests https://developer.apple.com/go/?id=api-generating-tokens"
+     }]
 
+ }
+ */
+
+struct ErrorResponse {
+    struct Errors {
+        /// (Required) A machine-readable code indicating the type of error. The code is a hierarchical value with levels of specificity separated by the '.' character. This value is parseable for programmatic   error handling in code.
+        var code: String
+
+        /// (Required) The HTTP status code of the error. This status code usually matches the response's status code; however, if the request produces multiple errors, these two codes may differ.
+        var status: String
+
+        /// The unique ID of a specific instance of an error, request, and response. Use this ID when providing feedback to or debugging issues with Apple.
+        var id: String
+
+        /// (Required) A summary of the error. Do not use this field for programmatic error handling.
+        var title: String
+
+        /// (Required) A detailed explanation of the error. Do not use this field for programmatic error handling.
+        var detail: String
+    }
+
+    var error: [Errors]
 }
-*/
