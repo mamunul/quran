@@ -46,19 +46,6 @@ class APICommand {
     }
 }
 
-/*
-
- {
-     "errors": [{
-         "status": "401",
-         "code": "NOT_AUTHORIZED",
-         "title": "Authentication credentials are missing or invalid.",
-         "detail": "Provide a properly configured and signed bearer token, and make sure that it has not expired. Learn more about Generating Tokens for API Requests https://developer.apple.com/go/?id=api-generating-tokens"
-     }]
-
- }
- */
-
 struct ErrorResponse: Codable {
     struct Errors: Codable {
         /// (Required) A machine-readable code indicating the type of error. The code is a hierarchical value with levels of specificity separated by the '.' character. This value is parseable for programmatic   error handling in code.

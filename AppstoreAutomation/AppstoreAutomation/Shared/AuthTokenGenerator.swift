@@ -38,16 +38,13 @@ struct JWTPayload: Claims {
 class AuthTokenGenerator {
     // https://developer.apple.com/documentation/appstoreconnectapi/generating_tokens_for_api_requests
 
-    private func createJWTPayload(issuerID: String) -> JWTPayload {
-        let intervalInMinute: TimeInterval = 3600
+    private func createJWTPayload(issuerID: String, scope: String) -> JWTPayload {
+        let intervalInSeconds: TimeInterval = 120
         let issuedTime = Date()
-        let expiredTime = Date(timeIntervalSinceNow: intervalInMinute)
+        let expiredTime = Date(timeIntervalSinceNow: intervalInSeconds)
 
         let readScope = [
-            "GET /v1/appScreenshots",
-            "GET /v1/appStoreVersionLocalizations",
-            "GET /v1/appStoreVersions",
-            "GET /v1/apps",
+            scope,
         ]
 
         let payload =
@@ -64,8 +61,10 @@ class AuthTokenGenerator {
     /// This method will generate token for accessing app store connect api
     ///
     /// - Parameter secret: Private key taken from app store connect website
-    func generateToken(apiAccess: APIAccess) throws -> String {
-        let payload = createJWTPayload(issuerID: apiAccess.issuerID)
+    func generateToken(apiAccess: APIAccess, urlRequest: URLRequest) throws -> String {
+        let path = urlRequest.url?.path ?? ""
+        let scope = "\(urlRequest.httpMethod ?? "") \(path)"
+        let payload = createJWTPayload(issuerID: apiAccess.issuerID, scope: scope)
 
         let privateKey = apiAccess.secret.data(using: .utf8)!
         let jwtSigner = JWTSigner.es256(privateKey: privateKey)

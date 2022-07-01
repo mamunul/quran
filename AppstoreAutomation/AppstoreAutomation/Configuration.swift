@@ -10,11 +10,11 @@ import Foundation
 let secret =
     """
     -----BEGIN PRIVATE KEY-----
-    MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgVnOT7sOOOGkQMQV7
-    miW9HQeMvnpeFgd8WcDrtTyOC3WgCgYIKoZIzj0DAQehRANCAARAi6tlmvjUoR8J
-    kuJllx99tL3ql1r/JlDLTSQkJEmq3SCehgkflJcFqzW3S+k4At/ylzikYXkV6GeK
-    H6unezm1
+    MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgwqqzRCF7dcOxVZ7z
+    kJsQ6vJu+6SGkuZBUik11iCVPKugCgYIKoZIzj0DAQehRANCAARgkquXV+k3Xgvd
+    2bVqYjrR7nETP0v6+IViakpP5WnOqm8Z+eQovyq8wHVeumawyubPknE3K7A9lujW
+    i3/+3otK
     -----END PRIVATE KEY-----
     """
 let issuerID = "fc8ed846-b97d-47e0-b3c7-4570c073cbd6"
-let apiKey = "76CUBSK6L4"
+let apiKey = "GRH2D7PD4L"
