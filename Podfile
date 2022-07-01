@@ -12,9 +12,9 @@ target 'QuranAndSunnah' do
 #  pod 'SwiftSoup'
 end
 
-target 'SampleMacOSCommand' do
+target 'IbnKathirParser' do
   platform :macos, '12.0'
-  project 'SampleMacOSCommand/SampleMacOSCommand.xcodeproj'
+  project 'IbnKathirParser/IbnKathirParser.xcodeproj'
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks! :linkage => :static
 
