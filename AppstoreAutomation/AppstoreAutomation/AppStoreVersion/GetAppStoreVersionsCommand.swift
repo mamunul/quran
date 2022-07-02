@@ -7,6 +7,18 @@
 
 import Foundation
 
+struct AppStoreVersionAttributes: Codable {
+    var platform: Platform
+    var appStoreState: AppStoreVersionState
+    var copyright: String?
+    var earliestReleaseDate: String?
+    var releaseType: ReleaseType
+
+    var versionString: String
+    var createdDate: String
+    var downloadable: Bool
+}
+
 ///
 /// Command to get the id of the avialable platform for an app
 ///
@@ -20,20 +32,8 @@ import Foundation
 class GetAppStoreVersionsCommand {
     private let method = Method.get
 
-    struct PlatformAttributes: Codable {
-        var platform: Platform
-        var appStoreState: AppStoreVersionState
-        var copyright: String?
-        var earliestReleaseDate: String?
-        var releaseType: ReleaseType
-
-        var versionString: String
-        var createdDate: String
-        var downloadable: Bool
-    }
-
     struct AppStoreVersion: Codable {
-        var attributes: PlatformAttributes
+        var attributes: AppStoreVersionAttributes
         var type: String
         var id: String
     }
