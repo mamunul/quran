@@ -8,18 +8,9 @@
 import Foundation
 
 class GetAppStoreVersionLocalizationsCommand {
-    struct Attributes: Codable {
-        var locale: Localization
-        var description: String?
-        var keywords: String?
-        var marketingUrl: String?
-        var promotionalText: String?
-        var supportUrl: String?
-        var whatsNew: String?
-    }
 
     struct AppStoreVersionLocalization: Codable {
-        var attributes: Attributes
+        var attributes: AppStoreVersionLocalizationAttributes
         var id: String
         var links: DocumentLink
     }

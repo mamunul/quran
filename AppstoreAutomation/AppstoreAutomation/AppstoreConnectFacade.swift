@@ -33,7 +33,7 @@ class AppstoreConnectFacade {
         return response.data.id
     }
 
-    func modifyAppInfoLocalization(appInfoLocalizationId: String, attributes: ModifyAppInfoLocalizationCommand.Attributes) async throws {
+    func modifyAppInfoLocalization(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes) async throws {
         let apiAccess = try verifyAPIAcess()
         let requestData = ModifyAppInfoLocalizationCommand.RequestData(attributes: attributes, id: appInfoLocalizationId)
         let request1 = ModifyAppInfoLocalizationCommand.Request(data: requestData)
@@ -41,7 +41,7 @@ class AppstoreConnectFacade {
         print(response1)
     }
 
-    func modifyAppStoreVersionLocalization(appStoreVersionLocalizaitonId: String, attributes: ModifyAppStoreVersionLocalizationCommand.Attributes) async throws {
+    func modifyAppStoreVersionLocalization(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes) async throws {
         let apiAccess = try verifyAPIAcess()
         let data = ModifyAppStoreVersionLocalizationCommand.RequestData(attributes: attributes, id: appStoreVersionLocalizaitonId)
 
@@ -50,7 +50,7 @@ class AppstoreConnectFacade {
         print(response2)
     }
 
-    func createAppStoreVersionLocalizaiton(appStoreVersionId: String, attributes: CreateAppStoreVersionLocalizationCommand.Attributes) async throws {
+    func createAppStoreVersionLocalizaiton(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes) async throws {
         let apiAccess = try verifyAPIAcess()
         let relationship = CreateAppStoreVersionLocalizationCommand.RelationshipData(id: appStoreVersionId)
         let appstoreVersion = CreateAppStoreVersionLocalizationCommand.AppStoreVersion(data: relationship)
@@ -63,7 +63,7 @@ class AppstoreConnectFacade {
         print(response2)
     }
 
-    func createAppInfoLocalization(appInfoId: String, attributes: CreateAppInfoLocalizationCommand.Attributes) async throws {
+    func createAppInfoLocalization(appInfoId: String, attributes: AppInfoLocalizationAttributes) async throws {
         let apiAccess = try verifyAPIAcess()
         let appInfoData = CreateAppInfoLocalizationCommand.AppInfoData(id: appInfoId)
         let appInfo = CreateAppInfoLocalizationCommand.AppInfo(data: appInfoData)

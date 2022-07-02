@@ -16,7 +16,8 @@ func testModifyAppInfoVersionAPI(facade: AppstoreConnectFacade) {
 
             guard let first = localizations.first(where: { $0.attributes.locale == .es }) else { return }
 
-            let attributes = ModifyAppInfoLocalizationCommand.Attributes(
+            let attributes = AppInfoLocalizationAttributes(
+                locale: .es,
                 name: "skhdfjksh",
                 privacyPolicyText: "sdfsdfs",
                 privacyPolicyUrl: "http://www.jsfhl.com",
@@ -37,9 +38,10 @@ func testModifyAppStoreVersionLocalizedAPI(facade: AppstoreConnectFacade) {
             guard let appStoreVersionId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId) else { return }
             guard let appStoreVersionLocalizaitonId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appStoreVersionId, localization: .fr) else { return }
 
-            let attributes = try ModifyAppStoreVersionLocalizationCommand.Attributes(
-                keywords: "key, word",
+            let attributes = try AppStoreVersionLocalizationAttributes(
+                locale: .fr,
                 description: "sdfsdfsdfsdfsdfsdfsdf sfsdf sfsdf sfdsdf",
+                keywords: "key, word",
                 marketingUrl: "http://www.marketing.com",
                 promotionalText: "sdfsdfsdfsdf",
                 supportUrl: "http://support.com"
@@ -74,7 +76,7 @@ func testCreateALocalizationAPI(facade: AppstoreConnectFacade) {
             let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
             guard let appInfoId = try await facade.getAppInfoId(appId: appId) else { return }
             let attributes =
-                CreateAppInfoLocalizationCommand.Attributes(
+            AppInfoLocalizationAttributes(
                     locale: Localization.de,
                     name: "Quran in de-DE"
                 )

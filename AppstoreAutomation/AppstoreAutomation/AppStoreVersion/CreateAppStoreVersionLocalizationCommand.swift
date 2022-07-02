@@ -11,6 +11,38 @@ enum ValidaitonError: Error {
     case invalidProperty(String)
 }
 
+
+struct AppStoreVersionLocalizationAttributes: Codable {
+    private(set) var locale: Localization
+    private(set) var description: String?
+    private(set) var keywords: String?
+    private(set) var marketingUrl: String?
+    private(set) var promotionalText: String?
+    private(set) var supportUrl: String?
+    private(set) var whatsNew: String?
+
+    init(
+        locale: Localization,
+        description: String,
+        keywords: String? = nil,
+        marketingUrl: String,
+        promotionalText: String? = nil,
+        supportUrl: String,
+        whatsNew: String? = nil
+    ) throws {
+        self.locale = locale
+        self.description = description
+        self.keywords = keywords
+        self.marketingUrl = marketingUrl
+        self.promotionalText = promotionalText
+        self.supportUrl = supportUrl
+        self.whatsNew = whatsNew
+
+        if description.count < 10 { throw ValidaitonError.invalidProperty("description") }
+    }
+}
+
+
 class CreateAppStoreVersionLocalizationCommand {
     private let method = Method.post
     let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations"
@@ -24,43 +56,13 @@ class CreateAppStoreVersionLocalizationCommand {
         var data: RelationshipData
     }
 
-    struct Attributes: Codable {
-        private(set) var locale: Localization
-        private(set) var description: String
-        private(set) var keywords: String?
-        private(set) var marketingUrl: String
-        private(set) var promotionalText: String?
-        private(set) var supportUrl: String
-        private(set) var whatsNew: String?
-
-        init(
-            locale: Localization,
-            description: String,
-            keywords: String? = nil,
-            marketingUrl: String,
-            promotionalText: String? = nil,
-            supportUrl: String,
-            whatsNew: String? = nil
-        ) throws {
-            self.locale = locale
-            self.description = description
-            self.keywords = keywords
-            self.marketingUrl = marketingUrl
-            self.promotionalText = promotionalText
-            self.supportUrl = supportUrl
-            self.whatsNew = whatsNew
-
-            if description.count < 10 { throw ValidaitonError.invalidProperty("description") }
-        }
-    }
-
     struct Relationships: Codable {
         var appStoreVersion: AppStoreVersion
     }
 
     struct RequestData: Codable {
         var type: String = "appStoreVersionLocalizations"
-        var attributes: Attributes
+        var attributes: AppStoreVersionLocalizationAttributes
         var relationships: Relationships
     }
 
@@ -70,7 +72,7 @@ class CreateAppStoreVersionLocalizationCommand {
 
     struct ResponseData: Codable {
         var type: String
-        var attributes: Attributes
+        var attributes: AppStoreVersionLocalizationAttributes
         var id: String
     }
 

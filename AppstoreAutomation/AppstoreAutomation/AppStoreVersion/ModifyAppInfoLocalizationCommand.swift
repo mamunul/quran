@@ -10,14 +10,6 @@ import Foundation
 class ModifyAppInfoLocalizationCommand {
     private let method = Method.patch
 
-    struct Attributes: Codable {
-        var name: String
-        var privacyPolicyText: String?
-        var privacyPolicyUrl: String?
-        var subtitle: String?
-        var privacyChoicesUrl: String?
-    }
-
     struct AppInfoData: Codable {
         /// appInfo Id
         var id: String
@@ -33,7 +25,7 @@ class ModifyAppInfoLocalizationCommand {
     }
 
     struct RequestData: Codable {
-        var attributes: Attributes
+        var attributes: AppInfoLocalizationAttributes
         var id: String
         var type: String = "appInfoLocalizations"
     }
@@ -46,7 +38,7 @@ class ModifyAppInfoLocalizationCommand {
         var type: String
         var id: String
         var links: DocumentLink
-        var attributes: Attributes
+        var attributes: AppInfoLocalizationAttributes
     }
 
     struct Response: Codable {

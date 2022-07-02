@@ -7,18 +7,20 @@
 
 import Foundation
 
+struct AppInfoLocalizationAttributes: Codable {
+    var locale: Localization
+    var name: String
+    var privacyPolicyText: String?
+    var privacyPolicyUrl: String?
+    var subtitle: String?
+    var privacyChoicesUrl: String?
+}
+
 class CreateAppInfoLocalizationCommand {
     private let method = Method.post
     let urlString = "https://api.appstoreconnect.apple.com/v1/appInfoLocalizations"
 
-    struct Attributes: Codable {
-        var locale: Localization
-        var name: String
-        var privacyPolicyText: String?
-        var privacyPolicyUrl: String?
-        var subtitle: String?
-        var privacyChoicesUrl: String?
-    }
+
 
     struct AppInfoData: Codable {
         /// appInfo Id
@@ -35,7 +37,7 @@ class CreateAppInfoLocalizationCommand {
     }
 
     struct RequestData: Codable {
-        var attributes: Attributes
+        var attributes: AppInfoLocalizationAttributes
 
         var relationships: Relationships
 
@@ -50,7 +52,7 @@ class CreateAppInfoLocalizationCommand {
         var type: String
         var id: String
         var links: DocumentLink
-        var attributes: Attributes
+        var attributes: AppInfoLocalizationAttributes
     }
 
     struct Response: Codable {
