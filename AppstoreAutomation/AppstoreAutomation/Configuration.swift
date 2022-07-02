@@ -18,3 +18,5 @@ let secret =
     """
 let issuerID = "fc8ed846-b97d-47e0-b3c7-4570c073cbd6"
 let apiKey = "GRH2D7PD4L"
+
+let bundleId = "com.xetoz.quranandsunnah"

@@ -7,7 +7,7 @@
 
 enum Localization: String {
     case us = "en-US"
-    case it, ja, ko, fr, de, ru, es, sv, nb
+    case it, ja, ko, fr, de = "de-DE", ru, es, sv, nb
     case hongkong = "zh-HK"
     case chineseSimplified = "zh-Hans"
     case chineseTraditional = "zh-Hant"
@@ -19,35 +19,48 @@ struct APIAccess {
     var secret: String
     var issuerID: String
     var apiKey: String
+    var bundleId: String
 }
 
-func testApi() {
-    let api = APIAccess(secret: secret, issuerID: issuerID, apiKey: apiKey)
-    let request = GetAllPlatformVersionCommand.Request.quranApp
+let api = APIAccess(secret: secret, issuerID: issuerID, apiKey: apiKey, bundleId: bundleId)
+let facade = AppstoreConnectFacade()
+facade.configure(apiAccess: api)
+func testGetApi() {
     Task {
         do {
-            let response = try await GetAllPlatformVersionCommand().execute(request: request, apiAccess: api)
-            guard let appPlatformId = response.data.first(where: { $0.attributes.platform == .IOS })?.id else { return }
-            let request2 = GetAllLocalizationsCommand.Request(appStoreVersionId: appPlatformId)
+            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
+            let appInfoId = try await facade.getAppInfoId(appId: appId)
+            try await facade.getAppInfoLocalizations(appInfoId: appInfoId)
+            let appPlatformId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId)
+            let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .us)
+            let screenshotSetId = try await facade.getScreenshotSetId(displayType: .APP_IPHONE_55, appStoreLocalizedVersionId: localizedVersionId)
+            try await facade.getScreenshots(screenshotSetId: screenshotSetId)
 
-            let response2 = try await GetAllLocalizationsCommand().execute(request: request2, apiAccess: api)
-
-            guard let localizedVersionId = response2.data.first(where: { $0.attributes.locale == Localization.us.rawValue })?.id else { return }
-            let request = GetScreenshotSetsCommand.Request(localizationId: localizedVersionId)
-            let response3 = try await GetScreenshotSetsCommand().execute(request: request, apiAccess: api)
-
-            guard let screenshotSetId = response3.data.first(where: { $0.attributes.screenshotDisplayType == .APP_IPHONE_55 })?.id else { return }
-            let request = GetScreenshotCommand.Request(appscreenshotSetId: screenshotSetId)
-            let response4 = try await GetScreenshotCommand().execute(request: request, apiAccess: api)
-
-            print(response4)
         } catch {
             print(error)
         }
     }
-
-//    GetAllPlatformVersionCommand().execute(request: <#T##Request#>, apiAccess: api)
 }
 
-testApi()
+func testCreateALocalizationAPI(facade: AppstoreConnectFacade) {
+    Task {
+        do {
+            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
+            let appInfoId = try await facade.getAppInfoId(appId: appId)
+            let attributes =
+                CreateAppInfoLocalizationCommand.Attributes(
+                    locale: Localization.de.rawValue,
+                    name: "Quran in de-DE"
+                )
+
+            try await facade.createAppInfoLocalization(appInfoId: appInfoId, attributes: attributes)
+
+        } catch {
+            print(error)
+        }
+    }
+}
+
+// testGetApi()
+//testCreateALocalizationAPI(facade: facade)
 RunLoop.main.run()

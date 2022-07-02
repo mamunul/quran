@@ -9,7 +9,7 @@ import Foundation
 
 class GetALocalizationCommand {
     struct AppStoreVersionLocalizationResponse: Codable {
-        var data: GetAllLocalizationsCommand.AppStoreVersionLocalization
+        var data: GetAppStoreVersionLocalizationsCommand.AppStoreVersionLocalization
         var included: String // AppStoreVersion, AppScreenshotSet, AppPreviewSet
         var links: DocumentLink
     }

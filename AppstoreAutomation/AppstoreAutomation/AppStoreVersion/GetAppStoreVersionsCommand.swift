@@ -17,7 +17,7 @@ import Foundation
 /// AllPlatformsGetCommand().execute()
 ///
 /// ```
-class GetAllPlatformVersionCommand {
+class GetAppStoreVersionsCommand {
     let method = "GET"
 
     enum ReleaseType: String, Codable {
