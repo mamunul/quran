@@ -9,35 +9,35 @@ import Foundation
 
 class RequestUploadCommand {
 //    POST https://api.appstoreconnect.apple.com/v1/appScreenshots
-    struct AppScreenshotSetData {
+    struct AppScreenshotSetData: Codable {
         var id: String
-        var type: String = "appScreenshots"
+        var type: String = "appScreenshotSets"
     }
 
-    struct AppScreenshotSet {
+    struct AppScreenshotSet: Codable {
         var data: AppScreenshotSetData
     }
 
-    struct Relationships {
+    struct Relationships: Codable {
         var appScreenshotSet: AppScreenshotSet
     }
 
-    struct RequestAttributes {
+    struct RequestAttributes: Codable {
         var fileName: String
         var fileSize: Int
     }
 
-    struct RequestData {
+    struct RequestData: Codable {
         var attributes: RequestAttributes
         var relationships: Relationships
         var type: String = "appScreenshots"
     }
 
-    struct ScreenshotRequest {
+    struct ScreenshotRequest: Codable {
         var data: RequestData
     }
 
-    struct ScreenshotResponse:Codable {
+    struct ScreenshotResponse: Codable {
         var links: DocumentLink
         var data: GetScreenshotCommand.AppScreenshot
     }
@@ -48,6 +48,8 @@ class RequestUploadCommand {
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
+        urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = try JSONEncoder().encode(request)
         let response: ScreenshotResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
