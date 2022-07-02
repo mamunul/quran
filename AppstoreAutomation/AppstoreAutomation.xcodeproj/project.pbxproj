@@ -17,6 +17,8 @@
 		EE1F599F28701FBA00EB8BEE /* GetAppInfoLocalizationsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F599E28701FBA00EB8BEE /* GetAppInfoLocalizationsCommand.swift */; };
 		EE1F59A1287020FA00EB8BEE /* AppstoreConnectFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F59A0287020FA00EB8BEE /* AppstoreConnectFacade.swift */; };
 		EE3B94EB286DF19100D18FB3 /* CreateScreenshotSetCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3B94EA286DF19100D18FB3 /* CreateScreenshotSetCommand.swift */; };
+		EE479DBB2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE479DBA2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift */; };
+		EE479DBD2870458400140E15 /* ModifyAppStoreVersionLocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE479DBC2870458400140E15 /* ModifyAppStoreVersionLocalizationCommand.swift */; };
 		EE984727286F00EB005B2F38 /* GetScreenshotCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984726286F00EB005B2F38 /* GetScreenshotCommand.swift */; };
 		EE984729286F0109005B2F38 /* GetScreenshotSetsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984728286F0109005B2F38 /* GetScreenshotSetsCommand.swift */; };
 		EE98472B286F0131005B2F38 /* ScreenshotSetDeleteCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98472A286F0131005B2F38 /* ScreenshotSetDeleteCommand.swift */; };
@@ -58,6 +60,8 @@
 		EE1F59A0287020FA00EB8BEE /* AppstoreConnectFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreConnectFacade.swift; sourceTree = "<group>"; };
 		EE3B94E8286DE3B300D18FB3 /* APITree.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = APITree.jpg; sourceTree = "<group>"; };
 		EE3B94EA286DF19100D18FB3 /* CreateScreenshotSetCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScreenshotSetCommand.swift; sourceTree = "<group>"; };
+		EE479DBA2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyAppInfoLocalizationCommand.swift; sourceTree = "<group>"; };
+		EE479DBC2870458400140E15 /* ModifyAppStoreVersionLocalizationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyAppStoreVersionLocalizationCommand.swift; sourceTree = "<group>"; };
 		EE984726286F00EB005B2F38 /* GetScreenshotCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScreenshotCommand.swift; sourceTree = "<group>"; };
 		EE984728286F0109005B2F38 /* GetScreenshotSetsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScreenshotSetsCommand.swift; sourceTree = "<group>"; };
 		EE98472A286F0131005B2F38 /* ScreenshotSetDeleteCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotSetDeleteCommand.swift; sourceTree = "<group>"; };
@@ -142,10 +146,12 @@
 				0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */,
 				EE984731286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift */,
 				EE984733286F01F4005B2F38 /* CreateAppStoreVersionLocalizationCommand.swift */,
+				EE479DBC2870458400140E15 /* ModifyAppStoreVersionLocalizationCommand.swift */,
 				EE984735286F0211005B2F38 /* GetAppStoreVersionLocalizationsCommand.swift */,
 				EE984737286F022A005B2F38 /* GetALocalizationCommand.swift */,
 				EE984739286F0249005B2F38 /* DeleteALocalizationCommand.swift */,
 				EE1F599A286FFAA400EB8BEE /* CreateAppInfoLocalizationCommand.swift */,
+				EE479DBA2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift */,
 				EE1F599E28701FBA00EB8BEE /* GetAppInfoLocalizationsCommand.swift */,
 				EE1F599C2870087E00EB8BEE /* GetAppInfoCommand.swift */,
 			);
@@ -270,11 +276,13 @@
 				EE984730286F018D005B2F38 /* RequestUploadCommand.swift in Sources */,
 				0A4DDF81286D750B002DFE51 /* main.swift in Sources */,
 				EE1F599B286FFAA400EB8BEE /* CreateAppInfoLocalizationCommand.swift in Sources */,
+				EE479DBD2870458400140E15 /* ModifyAppStoreVersionLocalizationCommand.swift in Sources */,
 				EE1F599D2870087E00EB8BEE /* GetAppInfoCommand.swift in Sources */,
 				EE1F59A1287020FA00EB8BEE /* AppstoreConnectFacade.swift in Sources */,
 				EE984732286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift in Sources */,
 				EE98473A286F0249005B2F38 /* DeleteALocalizationCommand.swift in Sources */,
 				0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */,
+				EE479DBB2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift in Sources */,
 				EE984727286F00EB005B2F38 /* GetScreenshotCommand.swift in Sources */,
 				EE984738286F022A005B2F38 /* GetALocalizationCommand.swift in Sources */,
 				EE1F599F28701FBA00EB8BEE /* GetAppInfoLocalizationsCommand.swift in Sources */,
