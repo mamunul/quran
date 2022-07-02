@@ -30,8 +30,8 @@
 		EE984732286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984731286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift */; };
 		EE984734286F01F4005B2F38 /* CreateAppStoreVersionLocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984733286F01F4005B2F38 /* CreateAppStoreVersionLocalizationCommand.swift */; };
 		EE984736286F0211005B2F38 /* GetAppStoreVersionLocalizationsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984735286F0211005B2F38 /* GetAppStoreVersionLocalizationsCommand.swift */; };
-		EE984738286F022A005B2F38 /* GetALocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984737286F022A005B2F38 /* GetALocalizationCommand.swift */; };
-		EE98473A286F0249005B2F38 /* DeleteALocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984739286F0249005B2F38 /* DeleteALocalizationCommand.swift */; };
+		EE984738286F022A005B2F38 /* GetAppStoreVersionLocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984737286F022A005B2F38 /* GetAppStoreVersionLocalizationCommand.swift */; };
+		EE98473A286F0249005B2F38 /* DeleteAppStoreVersionLocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE984739286F0249005B2F38 /* DeleteAppStoreVersionLocalizationCommand.swift */; };
 		EE98473D286F0351005B2F38 /* HTTPHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98473C286F0351005B2F38 /* HTTPHandler.swift */; };
 		EE98473F286F0E97005B2F38 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98473E286F0E97005B2F38 /* Configuration.swift */; };
 /* End PBXBuildFile section */
@@ -76,8 +76,8 @@
 		EE984731286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAppStoreVersionsCommand.swift; sourceTree = "<group>"; };
 		EE984733286F01F4005B2F38 /* CreateAppStoreVersionLocalizationCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAppStoreVersionLocalizationCommand.swift; sourceTree = "<group>"; };
 		EE984735286F0211005B2F38 /* GetAppStoreVersionLocalizationsCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAppStoreVersionLocalizationsCommand.swift; sourceTree = "<group>"; };
-		EE984737286F022A005B2F38 /* GetALocalizationCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetALocalizationCommand.swift; sourceTree = "<group>"; };
-		EE984739286F0249005B2F38 /* DeleteALocalizationCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteALocalizationCommand.swift; sourceTree = "<group>"; };
+		EE984737286F022A005B2F38 /* GetAppStoreVersionLocalizationCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAppStoreVersionLocalizationCommand.swift; sourceTree = "<group>"; };
+		EE984739286F0249005B2F38 /* DeleteAppStoreVersionLocalizationCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAppStoreVersionLocalizationCommand.swift; sourceTree = "<group>"; };
 		EE98473C286F0351005B2F38 /* HTTPHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHandler.swift; sourceTree = "<group>"; };
 		EE98473E286F0E97005B2F38 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,8 +156,8 @@
 				EE984733286F01F4005B2F38 /* CreateAppStoreVersionLocalizationCommand.swift */,
 				EE479DBC2870458400140E15 /* ModifyAppStoreVersionLocalizationCommand.swift */,
 				EE984735286F0211005B2F38 /* GetAppStoreVersionLocalizationsCommand.swift */,
-				EE984737286F022A005B2F38 /* GetALocalizationCommand.swift */,
-				EE984739286F0249005B2F38 /* DeleteALocalizationCommand.swift */,
+				EE984737286F022A005B2F38 /* GetAppStoreVersionLocalizationCommand.swift */,
+				EE984739286F0249005B2F38 /* DeleteAppStoreVersionLocalizationCommand.swift */,
 				EE1F599A286FFAA400EB8BEE /* CreateAppInfoLocalizationCommand.swift */,
 				EE479DBA2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift */,
 				EE1F599E28701FBA00EB8BEE /* GetAppInfoLocalizationsCommand.swift */,
@@ -291,12 +291,12 @@
 				EE479DC92870865A00140E15 /* DeleteAppScreenshotsCommand.swift in Sources */,
 				EE1F59A1287020FA00EB8BEE /* AppstoreConnectFacade.swift in Sources */,
 				EE984732286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift in Sources */,
-				EE98473A286F0249005B2F38 /* DeleteALocalizationCommand.swift in Sources */,
+				EE98473A286F0249005B2F38 /* DeleteAppStoreVersionLocalizationCommand.swift in Sources */,
 				EE479DC528707F2200140E15 /* UsageExamples.swift in Sources */,
 				0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */,
 				EE479DBB2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift in Sources */,
 				EE984727286F00EB005B2F38 /* GetScreenshotCommand.swift in Sources */,
-				EE984738286F022A005B2F38 /* GetALocalizationCommand.swift in Sources */,
+				EE984738286F022A005B2F38 /* GetAppStoreVersionLocalizationCommand.swift in Sources */,
 				EE1F599F28701FBA00EB8BEE /* GetAppInfoLocalizationsCommand.swift in Sources */,
 				EE984729286F0109005B2F38 /* GetScreenshotSetsCommand.swift in Sources */,
 				EE98473F286F0E97005B2F38 /* Configuration.swift in Sources */,

@@ -13,7 +13,7 @@ struct AppStoreVersionLocalizationResponse: Codable {
     var links: DocumentLink
 }
 
-class GetALocalizationCommand {
+class GetAppStoreVersionLocalizationCommand {
     private let method = Method.get
 
     struct Request {
