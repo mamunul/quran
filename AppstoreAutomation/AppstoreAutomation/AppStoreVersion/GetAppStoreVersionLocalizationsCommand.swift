@@ -7,20 +7,19 @@
 
 import Foundation
 
+struct AppStoreVersionLocalization: Codable {
+    var attributes: AppStoreVersionLocalizationAttributes
+    var id: String
+    var links: DocumentLink
+}
+
+struct AppStoreVersionLocalizationsResponse: Codable {
+    var data: [AppStoreVersionLocalization]
+
+    var links: DocumentLink
+}
+
 class GetAppStoreVersionLocalizationsCommand {
-
-    struct AppStoreVersionLocalization: Codable {
-        var attributes: AppStoreVersionLocalizationAttributes
-        var id: String
-        var links: DocumentLink
-    }
-
-    struct AppStoreVersionLocalizationsResponse: Codable {
-        var data: [AppStoreVersionLocalization]
-
-        var links: DocumentLink
-    }
-
     private let method = Method.get
 
     struct Request {

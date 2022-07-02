@@ -74,7 +74,7 @@ class AppstoreConnectFacade {
         print(response1)
     }
 
-    func getAppInfoLocalizations(appInfoId: String) async throws -> [CreateAppInfoLocalizationCommand.AppInfoLocalization] {
+    func getAppInfoLocalizations(appInfoId: String) async throws -> [AppInfoLocalization] {
         let apiAccess = try verifyAPIAcess()
         let request = GetAppInfoLocalizationsCommand.Request(appInfoId: appInfoId)
         let response4 = try await GetAppInfoLocalizationsCommand().execute(request: request, apiAccess: apiAccess)
