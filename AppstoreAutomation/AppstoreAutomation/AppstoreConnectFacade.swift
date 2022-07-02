@@ -19,7 +19,7 @@ class AppstoreConnectFacade {
 
     func invalidateAPIAccess() {
     }
-    
+
     func modifyAppInfoLocalization(appInfoLocalizationId: String, attributes: ModifyAppInfoLocalizationCommand.Attributes) async throws {
         let apiAccess = try verifyAPIAcess()
         let requestData = ModifyAppInfoLocalizationCommand.RequestData(attributes: attributes, id: appInfoLocalizationId)
@@ -61,11 +61,12 @@ class AppstoreConnectFacade {
         print(response1)
     }
 
-    func getAppInfoLocalizations(appInfoId: String) async throws {
+    func getAppInfoLocalizations(appInfoId: String) async throws -> [CreateAppInfoLocalizationCommand.AppInfoLocalization] {
         let apiAccess = try verifyAPIAcess()
         let request = GetAppInfoLocalizationsCommand.Request(appInfoId: appInfoId)
         let response4 = try await GetAppInfoLocalizationsCommand().execute(request: request, apiAccess: apiAccess)
-        print(response4)
+
+        return response4.data
     }
 
     func getScreenshots(screenshotSetId: String) async throws {
@@ -101,7 +102,7 @@ class AppstoreConnectFacade {
         let apiAccess = try verifyAPIAcess()
         let request2 = GetAppStoreVersionLocalizationsCommand.Request(appStoreVersionId: appStoreVersionId)
         let response2 = try await GetAppStoreVersionLocalizationsCommand().execute(request: request2, apiAccess: apiAccess)
-        guard let localizedVersionId = response2.data.first(where: { $0.attributes.locale == Localization.us })?.id else {
+        guard let localizedVersionId = response2.data.first(where: { $0.attributes.locale == localization })?.id else {
             throw APIError.emptyData
         }
         return localizedVersionId

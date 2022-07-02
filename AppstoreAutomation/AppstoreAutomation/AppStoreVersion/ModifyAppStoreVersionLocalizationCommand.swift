@@ -20,6 +20,7 @@ class ModifyAppStoreVersionLocalizationCommand {
     }
 
     struct Attributes: Codable {
+        private(set) var keywords: String
         private(set) var description: String
         private(set) var marketingUrl: String
         private(set) var promotionalText: String?
@@ -27,12 +28,14 @@ class ModifyAppStoreVersionLocalizationCommand {
         private(set) var whatsNew: String?
 
         init(
+            keywords: String,
             description: String,
             marketingUrl: String,
             promotionalText: String? = nil,
             supportUrl: String,
             whatsNew: String? = nil
         ) throws {
+            self.keywords = keywords
             self.description = description
             self.marketingUrl = marketingUrl
             self.promotionalText = promotionalText
