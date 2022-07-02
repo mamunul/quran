@@ -116,16 +116,11 @@
 			isa = PBXGroup;
 			children = (
 				EE98473B286F0329005B2F38 /* Shared */,
-				EEFBFFD82870CF3500767B88 /* AppInfoLocalization */,
-				EE1F599C2870087E00EB8BEE /* GetAppInfoCommand.swift */,
-				EE984731286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift */,
-				EE3B94EC286DFD6B00D18FB3 /* AppStoreVersion */,
-				EE3B94E9286DF17400D18FB3 /* Screenshots */,
-				0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */,
+				EEFBFFD92870D02900767B88 /* AppstoreConnectCommands */,
+				EEFBFFDA2870D05700767B88 /* Facades */,
 				0A4DDF80286D750B002DFE51 /* main.swift */,
 				EE3B94E8286DE3B300D18FB3 /* APITree.jpg */,
 				EE98473E286F0E97005B2F38 /* Configuration.swift */,
-				EE1F59A0287020FA00EB8BEE /* AppstoreConnectFacade.swift */,
 				EE479DC428707F2200140E15 /* UsageExamples.swift */,
 			);
 			path = AppstoreAutomation;
@@ -184,6 +179,27 @@
 				EE1F599E28701FBA00EB8BEE /* GetAppInfoLocalizationsCommand.swift */,
 			);
 			path = AppInfoLocalization;
+			sourceTree = "<group>";
+		};
+		EEFBFFD92870D02900767B88 /* AppstoreConnectCommands */ = {
+			isa = PBXGroup;
+			children = (
+				EEFBFFD82870CF3500767B88 /* AppInfoLocalization */,
+				EE1F599C2870087E00EB8BEE /* GetAppInfoCommand.swift */,
+				EE984731286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift */,
+				EE3B94EC286DFD6B00D18FB3 /* AppStoreVersion */,
+				EE3B94E9286DF17400D18FB3 /* Screenshots */,
+			);
+			path = AppstoreConnectCommands;
+			sourceTree = "<group>";
+		};
+		EEFBFFDA2870D05700767B88 /* Facades */ = {
+			isa = PBXGroup;
+			children = (
+				0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */,
+				EE1F59A0287020FA00EB8BEE /* AppstoreConnectFacade.swift */,
+			);
+			path = Facades;
 			sourceTree = "<group>";
 		};
 		F800CE8FCCFAF5C33E9FE61A /* Pods */ = {
