@@ -14,6 +14,12 @@ struct AppInfoLocalization: Codable {
     var attributes: AppInfoLocalizationAttributes
 }
 
+struct AppInfoLocalizationResponse: Codable {
+    var data: AppInfoLocalization
+    var links: DocumentLink
+    var included: [ModifyAppInfoLocalizationCommand.AppInfo]?
+}
+
 class ModifyAppInfoLocalizationCommand {
     private let method = Method.patch
 
@@ -39,12 +45,6 @@ class ModifyAppInfoLocalizationCommand {
 
     struct Request: Codable {
         var data: RequestData
-    }
-
-    struct AppInfoLocalizationResponse: Codable {
-        var data: AppInfoLocalization
-        var links: DocumentLink
-        var included: [AppInfo]?
     }
 
     func execute(request: Request, apiAccess: APIAccess) async throws -> AppInfoLocalizationResponse {
