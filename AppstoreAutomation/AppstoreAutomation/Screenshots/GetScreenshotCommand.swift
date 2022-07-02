@@ -48,8 +48,8 @@ class GetScreenshotCommand {
         var assetType: String
         var fileName: String
         var fileSize: Int
-        var imageAsset: ImageAsset
-        var sourceFileChecksum: String
+        var imageAsset: ImageAsset?
+        var sourceFileChecksum: String?
         var uploadOperations: [UploadOperation]?
     }
 

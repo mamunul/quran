@@ -12,12 +12,26 @@ class CreateScreenshotSetCommand {
         var screenshotDisplayType: ScreenshotDisplayType
     }
 
-    struct RequestData {
-        var attributes: Attributes
-        var type: String
+    struct AppStoreVersionLocalizationData: Codable {
+        var id: String
+        var type = "appStoreVersionLocalizations"
     }
 
-    struct AppScreenshotSetRequest {
+    struct AppStoreVersionLocalization: Codable {
+        var data: AppStoreVersionLocalizationData
+    }
+
+    struct Relationships: Codable {
+        var appStoreVersionLocalization: AppStoreVersionLocalization
+    }
+
+    struct RequestData: Codable {
+        var attributes: Attributes
+        var type: String = "appScreenshotSets"
+        var relationships: Relationships
+    }
+
+    struct AppScreenshotSetRequest: Codable {
         var data: RequestData
     }
 
@@ -41,6 +55,8 @@ class CreateScreenshotSetCommand {
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
+        urlRequest.httpBody = try JSONEncoder().encode(request)
+        urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         let response: AppScreenshotSetResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

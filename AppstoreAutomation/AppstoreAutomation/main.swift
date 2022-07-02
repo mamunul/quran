@@ -5,81 +5,31 @@
 //  Created by newone on 30/6/22.
 //
 
-enum Localization: String, Codable {
-    case en = "en-US"
-    case it, ja, ko, fr = "fr-FR", de = "de-DE", ru, es = "es-ES", sv, nb = "no"
-    case hongkong = "zh-HK"
-    case chineseSimplified = "zh-Hans"
-    case chineseTraditional = "zh-Hant"
-}
-
 import Foundation
-
-struct APIAccess {
-    var secret: String
-    var issuerID: String
-    var apiKey: String
-    var bundleId: String
-}
 
 let api = APIAccess(secret: secret, issuerID: issuerID, apiKey: apiKey, bundleId: bundleId)
 let facade = AppstoreConnectFacade()
 facade.configure(apiAccess: api)
 
-func testModifyAppInfoVersionAPI() {
+func testUploadScreenshot() {
     Task {
         do {
+            let basePath = "Documents/Anonymous Appstore/ScreenshotsGeneration/NewScreenshots/iPhoneSEPlus/de/TitleEditorView.png"
+            let homeDirectory = FileManager.default.homeDirectoryForCurrentUser
+
+            let folderUrl = homeDirectory.appendingPathComponent(basePath, isDirectory: false)
+            let screenshot = ScreenshotUploader.Screenshot(url: folderUrl, displayType: .APP_IPHONE_55, locale: .fr)
+
             let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
-            let appInfoId = try await facade.getAppInfoId(appId: appId)
-            let localizations = try await facade.getAppInfoLocalizations(appInfoId: appInfoId)
+            guard let appPlatformId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId) else { return }
+            guard let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .fr) else { return }
+            var appScreenshotSetId = try await facade.getScreenshotSetId(displayType: .APP_IPHONE_55, appStoreLocalizedVersionId: localizedVersionId)
 
-            guard let first = localizations.first(where: { $0.attributes.locale == .es }) else { return }
+            if appScreenshotSetId == nil {
+                appScreenshotSetId = try await facade.createScreenshotSet(appStoreVersionLocalizaitonId: localizedVersionId, screenshotDisplayType: .APP_IPHONE_55)
+            }
 
-            let attributes = ModifyAppInfoLocalizationCommand.Attributes(
-                name: "skhdfjksh",
-                privacyPolicyText: "sdfsdfs",
-                privacyPolicyUrl: "http://www.jsfhl.com",
-                subtitle: "safdsdfsdf",
-                privacyChoicesUrl: "https://www.sjhfsl.org"
-            )
-            try await facade.modifyAppInfoLocalization(appInfoLocalizationId: first.id, attributes: attributes)
-        } catch {
-            print(error)
-        }
-    }
-}
-
-func testModifyAppStoreVersionLocalizedAPI() {
-    Task {
-        do {
-            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
-            let appStoreVersionId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId)
-            let appStoreVersionLocalizaitonId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appStoreVersionId, localization: .fr)
-
-            let attributes = try ModifyAppStoreVersionLocalizationCommand.Attributes(
-                keywords: "key, word",
-                description: "sdfsdfsdfsdfsdfsdfsdf sfsdf sfsdf sfdsdf",
-                marketingUrl: "http://www.marketing.com",
-                promotionalText: "sdfsdfsdfsdf",
-                supportUrl: "http://support.com"
-            )
-            try await facade.modifyAppStoreVersionLocalization(appStoreVersionLocalizaitonId: appStoreVersionLocalizaitonId, attributes: attributes)
-        } catch {
-            print(error)
-        }
-    }
-}
-
-func testGetApi() {
-    Task {
-        do {
-            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
-            let appInfoId = try await facade.getAppInfoId(appId: appId)
-            try await facade.getAppInfoLocalizations(appInfoId: appInfoId)
-            let appPlatformId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId)
-            let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .en)
-            let screenshotSetId = try await facade.getScreenshotSetId(displayType: .APP_IPHONE_55, appStoreLocalizedVersionId: localizedVersionId)
-            try await facade.getScreenshots(screenshotSetId: screenshotSetId)
+            try await ScreenshotUploader().upload(appScreenshotSetId: appScreenshotSetId!, apiAccess: api, screenshot: screenshot)
 
         } catch {
             print(error)
@@ -87,27 +37,9 @@ func testGetApi() {
     }
 }
 
-func testCreateALocalizationAPI(facade: AppstoreConnectFacade) {
-    Task {
-        do {
-            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
-            let appInfoId = try await facade.getAppInfoId(appId: appId)
-            let attributes =
-                CreateAppInfoLocalizationCommand.Attributes(
-                    locale: Localization.de,
-                    name: "Quran in de-DE"
-                )
-
-            try await facade.createAppInfoLocalization(appInfoId: appInfoId, attributes: attributes)
-
-        } catch {
-            print(error)
-        }
-    }
-}
-
-testModifyAppStoreVersionLocalizedAPI()
-//testModifyAppInfoVersionAPI()
-// testGetApi()
+testUploadScreenshot()
+// testModifyAppStoreVersionLocalizedAPI()
+// testModifyAppInfoVersionAPI()
+// testGetApi(facade: facade)
 // testCreateALocalizationAPI(facade: facade)
 RunLoop.main.run()

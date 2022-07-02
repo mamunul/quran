@@ -14,7 +14,7 @@ class HTTPHandler {
         let token = try AuthTokenGenerator().generateToken(apiAccess: access)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         let (data, response) = try await URLSession.shared.data(for: request)
-        if isSuccess(response: response) {
+        if !isSuccess(response: response) {
             let result = try decoder.decode(ErrorResponse.self, from: data)
             throw APIError.api(result)
         }
@@ -40,11 +40,11 @@ class HTTPHandler {
         (200 ... 299).contains((response as? HTTPURLResponse)?.statusCode ?? 400)
     }
 
-    func execute(urlRequest: URLRequest) async throws {
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        if isSuccess(response: response) {
-            let result = try decoder.decode(ErrorResponse.self, from: data)
-            throw APIError.api(result)
-        }
-    }
+//    func execute(urlRequest: URLRequest) async throws {
+//        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+//        if !isSuccess(response: response) {
+//            let result = try decoder.decode(ErrorResponse.self, from: data)
+//            throw APIError.api(result)
+//        }
+//    }
 }
