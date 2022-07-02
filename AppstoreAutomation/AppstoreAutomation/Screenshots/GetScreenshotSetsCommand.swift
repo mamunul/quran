@@ -7,12 +7,13 @@
 
 import Foundation
 
+enum ScreenshotDisplayType: String, Codable {
+    case APP_IPHONE_65, APP_IPHONE_58, APP_IPHONE_55, APP_IPHONE_47, APP_IPHONE_40, APP_IPHONE_35
+    case APP_IPAD_PRO_3GEN_129, APP_IPAD_PRO_3GEN_11, APP_IPAD_PRO_129, APP_IPAD_105, APP_IPAD_97
+    case APP_DESKTOP
+}
+
 class GetScreenshotSetsCommand {
-    enum ScreenshotDisplayType: String, Codable {
-        case APP_IPHONE_65, APP_IPHONE_58, APP_IPHONE_55, APP_IPHONE_47, APP_IPHONE_40, APP_IPHONE_35
-        case APP_IPAD_PRO_3GEN_129, APP_IPAD_PRO_3GEN_11, APP_IPAD_PRO_129, APP_IPAD_105, APP_IPAD_97
-        case APP_DESKTOP
-    }
 
     struct Attributes: Codable {
         var screenshotDisplayType: ScreenshotDisplayType

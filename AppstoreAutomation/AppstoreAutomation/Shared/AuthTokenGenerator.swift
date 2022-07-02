@@ -30,7 +30,9 @@ struct JWTPayload: Claims {
     ///  Audience;appstoreconnect-v1
     var aud: String
     ///  Token Scope;A list of operations you want App Store Connect to allow for this token; for example, GET /v1/apps/123. (Optional)
-    var scope: [String]
+//    var scope: [String]
+    ///     Your app’s bundle ID (Ex: “com.example.testbundleid2021”)
+    var bid: String
 }
 
 /// Go to https://appstoreconnect.apple.com/access/api and create your own key. This is also the page to find the private key ID and the issuer ID.
@@ -38,14 +40,10 @@ struct JWTPayload: Claims {
 class AuthTokenGenerator {
     // https://developer.apple.com/documentation/appstoreconnectapi/generating_tokens_for_api_requests
 
-    private func createJWTPayload(issuerID: String, scope: String) -> JWTPayload {
-        let intervalInSeconds: TimeInterval = 120
+    private func createJWTPayload(issuerID: String, bundleId: String) -> JWTPayload {
+        let intervalInSeconds: TimeInterval = 60
         let issuedTime = Date()
         let expiredTime = Date(timeIntervalSinceNow: intervalInSeconds)
-
-        let readScope = [
-            scope,
-        ]
 
         let payload =
             JWTPayload(
@@ -53,7 +51,7 @@ class AuthTokenGenerator {
                 iat: issuedTime,
                 exp: expiredTime,
                 aud: "appstoreconnect-v1",
-                scope: readScope
+                bid: bundleId
             )
         return payload
     }
@@ -61,10 +59,8 @@ class AuthTokenGenerator {
     /// This method will generate token for accessing app store connect api
     ///
     /// - Parameter secret: Private key taken from app store connect website
-    func generateToken(apiAccess: APIAccess, urlRequest: URLRequest) throws -> String {
-        let path = urlRequest.url?.path ?? ""
-        let scope = "\(urlRequest.httpMethod ?? "") \(path)"
-        let payload = createJWTPayload(issuerID: apiAccess.issuerID, scope: scope)
+    func generateToken(apiAccess: APIAccess) throws -> String {
+        let payload = createJWTPayload(issuerID: apiAccess.issuerID, bundleId: apiAccess.bundleId)
 
         let privateKey = apiAccess.secret.data(using: .utf8)!
         let jwtSigner = JWTSigner.es256(privateKey: privateKey)

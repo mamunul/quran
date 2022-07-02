@@ -7,9 +7,9 @@
 
 import Foundation
 
-class GetAllLocalizationsCommand {
+class GetAppStoreVersionLocalizationsCommand {
     struct AppStoreVersionLocalization: Codable {
-        var attributes: CreateNewLocalizationCommand.Attributes
+        var attributes: CreateAppStoreVersionLocalizationCommand.Attributes
         var id: String
         var links: DocumentLink
     }

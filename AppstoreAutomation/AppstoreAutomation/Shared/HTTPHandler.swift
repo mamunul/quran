@@ -11,11 +11,10 @@ class HTTPHandler {
     let decoder = JSONDecoder()
     func execute(urlRequest: URLRequest, access: APIAccess) async throws {
         var request = urlRequest
-        let access = APIAccess(secret: access.secret, issuerID: access.issuerID, apiKey: access.apiKey)
-        let token = try AuthTokenGenerator().generateToken(apiAccess: access, urlRequest: urlRequest)
+        let token = try AuthTokenGenerator().generateToken(apiAccess: access)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         let (data, response) = try await URLSession.shared.data(for: request)
-        if (response as! HTTPURLResponse).statusCode != 200 {
+        if isSuccess(response: response) {
             let result = try decoder.decode(ErrorResponse.self, from: data)
             throw APIError.api(result)
         }
@@ -23,12 +22,12 @@ class HTTPHandler {
 
     func execute<T: Codable>(urlRequest: URLRequest, access: APIAccess) async throws -> T {
         var request = urlRequest
-        let access = APIAccess(secret: access.secret, issuerID: access.issuerID, apiKey: access.apiKey)
-        let token = try AuthTokenGenerator().generateToken(apiAccess: access, urlRequest: urlRequest)
+        let token = try AuthTokenGenerator().generateToken(apiAccess: access)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         let (data, response) = try await URLSession.shared.data(for: request)
         print(NSString(string: String(data: data, encoding: .utf8) ?? ""))
-        if (response as! HTTPURLResponse).statusCode == 200 {
+//        print((response as! HTTPURLResponse).statusCode, response)
+        if isSuccess(response: response) {
             let result = try decoder.decode(T.self, from: data)
             return result
         } else {
@@ -37,9 +36,13 @@ class HTTPHandler {
         }
     }
 
+    private func isSuccess(response: URLResponse) -> Bool {
+        (200 ... 299).contains((response as? HTTPURLResponse)?.statusCode ?? 400)
+    }
+
     func execute(urlRequest: URLRequest) async throws {
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        if (response as! HTTPURLResponse).statusCode != 200 {
+        if isSuccess(response: response) {
             let result = try decoder.decode(ErrorResponse.self, from: data)
             throw APIError.api(result)
         }
