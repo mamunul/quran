@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DeleteALocalizationCommand {
+class DeleteAppStoreVersionLocalizationCommand {
     struct Request {
         var appStoreVersionLocalizationId: String
     }
