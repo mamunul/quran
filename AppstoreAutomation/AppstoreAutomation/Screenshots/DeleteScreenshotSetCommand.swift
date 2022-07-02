@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ScreenshotSetDeleteCommand {
+class DeleteScreenshotSetCommand {
     /*
      DELETE https://api.appstoreconnect.apple.com/v1/appScreenshotSets/{id}
      */
