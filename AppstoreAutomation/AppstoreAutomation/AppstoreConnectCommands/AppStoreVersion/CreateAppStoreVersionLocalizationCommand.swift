@@ -11,7 +11,6 @@ enum ValidaitonError: Error {
     case invalidProperty(String)
 }
 
-
 struct AppStoreVersionLocalizationAttributes: Codable {
     private(set) var locale: Localization
     private(set) var description: String?
@@ -41,7 +40,6 @@ struct AppStoreVersionLocalizationAttributes: Codable {
         if description.count < 10 { throw ValidaitonError.invalidProperty("description") }
     }
 }
-
 
 class CreateAppStoreVersionLocalizationCommand {
     private let method = Method.post
