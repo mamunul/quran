@@ -28,7 +28,7 @@ target 'AppstoreAutomation' do
   project 'AppstoreAutomation/AppstoreAutomation.xcodeproj'
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks! :linkage => :static
-
+  inhibit_all_warnings!
   # Pods for HTMLTextAttributes
   pod 'SwiftJWT'
 end

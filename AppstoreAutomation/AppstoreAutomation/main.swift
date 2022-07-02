@@ -14,15 +14,15 @@ facade.configure(apiAccess: api)
 func testUploadScreenshot() {
     Task {
         do {
-            let basePath = "Documents/Anonymous Appstore/ScreenshotsGeneration/NewScreenshots/iPhoneSEPlus/de/TitleEditorView.png"
+            let basePath = "Documents/Anonymous Appstore/ScreenshotsGeneration/NewScreenshots/iPhoneSEPlus/ja/MediaListView.png"
             let homeDirectory = FileManager.default.homeDirectoryForCurrentUser
 
             let folderUrl = homeDirectory.appendingPathComponent(basePath, isDirectory: false)
-            let screenshot = ScreenshotUploader.Screenshot(url: folderUrl, displayType: .APP_IPHONE_55, locale: .fr)
+            let screenshot = ScreenshotUploader.Screenshot(url: folderUrl, displayType: .APP_IPHONE_55, locale: .ja)
 
             let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
             guard let appPlatformId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId) else { return }
-            guard let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .fr) else { return }
+            guard let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .ja) else { return }
             var appScreenshotSetId = try await facade.getScreenshotSetId(displayType: .APP_IPHONE_55, appStoreLocalizedVersionId: localizedVersionId)
 
             if appScreenshotSetId == nil {
@@ -30,7 +30,7 @@ func testUploadScreenshot() {
             }
 
             try await ScreenshotUploader().upload(appScreenshotSetId: appScreenshotSetId!, apiAccess: api, screenshot: screenshot)
-
+            print("Success")
         } catch {
             print(error)
         }
