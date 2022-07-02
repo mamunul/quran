@@ -42,12 +42,12 @@ class RequestUploadCommand {
         var data: GetScreenshotCommand.AppScreenshot
     }
 
-    let method = "POST"
+    private let method = Method.post
     func execute(request: ScreenshotRequest, apiAccess: APIAccess) async throws -> ScreenshotResponse {
         let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try JSONEncoder().encode(request)
         let response: ScreenshotResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)

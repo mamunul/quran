@@ -18,23 +18,7 @@ import Foundation
 ///
 /// ```
 class GetAppStoreVersionsCommand {
-    let method = "GET"
-
-    enum ReleaseType: String, Codable {
-        case MANUAL, AFTER_APPROVAL, SCHEDULED
-    }
-
-    enum Platform: String, Codable {
-        case IOS, MAC_OS, TV_OS
-    }
-
-    enum AppStoreVersionState: String, Codable {
-        case DEVELOPER_REMOVED_FROM_SALE, DEVELOPER_REJECTED, IN_REVIEW, INVALID_BINARY, METADATA_REJECTED
-        case PENDING_APPLE_RELEASE, PENDING_CONTRACT, PENDING_DEVELOPER_RELEASE, PREPARE_FOR_SUBMISSION
-        case PREORDER_READY_FOR_SALE, PROCESSING_FOR_APP_STORE, READY_FOR_SALE, REJECTED, REMOVED_FROM_SALE
-        case WAITING_FOR_EXPORT_COMPLIANCE, WAITING_FOR_REVIEW, REPLACED_WITH_NEW_VERSION
-        case ACCEPTED, READY_FOR_REVIEW
-    }
+    private let method = Method.get
 
     struct PlatformAttributes: Codable {
         var platform: Platform
@@ -71,7 +55,7 @@ class GetAppStoreVersionsCommand {
         let urlString = "https://api.appstoreconnect.apple.com/v1/apps/\(request.appId)/appStoreVersions"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         let response: AppStoreVersionsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

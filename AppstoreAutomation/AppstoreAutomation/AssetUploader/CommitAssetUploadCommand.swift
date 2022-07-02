@@ -27,12 +27,12 @@ class CommitAssetUploadCommand {
         var data: RequestData
     }
 
-    let method = "PATCH"
+    private let method = Method.patch
     func execute(request: UploadCommitRequest, access: APIAccess) async throws {
         let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshots/\(request.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try JSONEncoder().encode(request)
         try await HTTPHandler().execute(urlRequest: urlRequest, access: access)

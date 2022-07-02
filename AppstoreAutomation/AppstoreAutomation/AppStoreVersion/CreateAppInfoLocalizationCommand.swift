@@ -8,7 +8,7 @@
 import Foundation
 
 class CreateAppInfoLocalizationCommand {
-    let method = "POST"
+    private let method = Method.post
     let urlString = "https://api.appstoreconnect.apple.com/v1/appInfoLocalizations"
 
     struct Attributes: Codable {
@@ -63,7 +63,7 @@ class CreateAppInfoLocalizationCommand {
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         urlRequest.httpBody = try JSONEncoder().encode(request)
         let response: Response = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
