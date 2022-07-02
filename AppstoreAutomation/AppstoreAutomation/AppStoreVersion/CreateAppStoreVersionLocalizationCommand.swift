@@ -76,17 +76,17 @@ class CreateAppStoreVersionLocalizationCommand {
         var id: String
     }
 
-    struct LocalizationResponse: Codable {
+    struct AppStoreVersionLocalizationResponse: Codable {
         var data: ResponseData
     }
 
-    func execute(request: LocalizationRequest, apiAccess: APIAccess) async throws -> LocalizationResponse {
+    func execute(request: LocalizationRequest, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpMethod = method.rawValue
         urlRequest.httpBody = try JSONEncoder().encode(request)
-        let response: LocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        let response: AppStoreVersionLocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
 }

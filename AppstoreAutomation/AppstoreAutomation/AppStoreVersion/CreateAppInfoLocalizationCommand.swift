@@ -48,13 +48,6 @@ class CreateAppInfoLocalizationCommand {
         var data: RequestData
     }
 
-    struct AppInfoLocalization: Codable {
-        var type: String
-        var id: String
-        var links: DocumentLink
-        var attributes: AppInfoLocalizationAttributes
-    }
-
     struct Response: Codable {
         var data: AppInfoLocalization
         var links: DocumentLink
