@@ -25,12 +25,12 @@ class HTTPHandler {
         let token = try AuthTokenGenerator().generateToken(apiAccess: access)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         let (data, response) = try await URLSession.shared.data(for: request)
-        print(NSString(string: String(data: data, encoding: .utf8) ?? ""))
 //        print((response as! HTTPURLResponse).statusCode, response)
         if isSuccess(response: response) {
             let result = try decoder.decode(T.self, from: data)
             return result
         } else {
+            print(NSString(string: String(data: data, encoding: .utf8) ?? ""))
             let result = try decoder.decode(ErrorResponse.self, from: data)
             throw APIError.api(result)
         }
