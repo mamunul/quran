@@ -7,13 +7,8 @@
 
 import Foundation
 
-enum ValidaitonError: Error {
-    case invalidProperty(String)
-}
-
-class CreateAppStoreVersionLocalizationCommand {
-    let method = "POST"
-    let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations"
+class ModifyAppStoreVersionLocalizationCommand {
+    let method = "PATCH"
 
     struct RelationshipData: Codable {
         var type: String = "appStoreVersions"
@@ -25,26 +20,20 @@ class CreateAppStoreVersionLocalizationCommand {
     }
 
     struct Attributes: Codable {
-        private(set) var locale: Localization
         private(set) var description: String
-        private(set) var keywords: String?
         private(set) var marketingUrl: String
         private(set) var promotionalText: String?
         private(set) var supportUrl: String
         private(set) var whatsNew: String?
 
         init(
-            locale: Localization,
             description: String,
-            keywords: String? = nil,
             marketingUrl: String,
             promotionalText: String? = nil,
             supportUrl: String,
             whatsNew: String? = nil
         ) throws {
-            self.locale = locale
             self.description = description
-            self.keywords = keywords
             self.marketingUrl = marketingUrl
             self.promotionalText = promotionalText
             self.supportUrl = supportUrl
@@ -61,7 +50,7 @@ class CreateAppStoreVersionLocalizationCommand {
     struct RequestData: Codable {
         var type: String = "appStoreVersionLocalizations"
         var attributes: Attributes
-        var relationships: Relationships
+        var id: String
     }
 
     struct LocalizationRequest: Codable {
@@ -79,6 +68,7 @@ class CreateAppStoreVersionLocalizationCommand {
     }
 
     func execute(request: LocalizationRequest, apiAccess: APIAccess) async throws -> LocalizationResponse {
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/\(request.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

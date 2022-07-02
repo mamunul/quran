@@ -19,6 +19,23 @@ class AppstoreConnectFacade {
 
     func invalidateAPIAccess() {
     }
+    
+    func modifyAppInfoLocalization(appInfoLocalizationId: String, attributes: ModifyAppInfoLocalizationCommand.Attributes) async throws {
+        let apiAccess = try verifyAPIAcess()
+        let requestData = ModifyAppInfoLocalizationCommand.RequestData(attributes: attributes, id: appInfoLocalizationId)
+        let request1 = ModifyAppInfoLocalizationCommand.Request(data: requestData)
+        let response1 = try await ModifyAppInfoLocalizationCommand().execute(request: request1, apiAccess: apiAccess)
+        print(response1)
+    }
+
+    func modifyAppStoreVersionLocalization(appStoreVersionLocalizaitonId: String, attributes: ModifyAppStoreVersionLocalizationCommand.Attributes) async throws {
+        let apiAccess = try verifyAPIAcess()
+        let data = ModifyAppStoreVersionLocalizationCommand.RequestData(attributes: attributes, id: appStoreVersionLocalizaitonId)
+
+        let request2 = ModifyAppStoreVersionLocalizationCommand.LocalizationRequest(data: data)
+        let response2 = try await ModifyAppStoreVersionLocalizationCommand().execute(request: request2, apiAccess: apiAccess)
+        print(response2)
+    }
 
     func createAppStoreVersionLocalizaiton(appStoreVersionId: String, attributes: CreateAppStoreVersionLocalizationCommand.Attributes) async throws {
         let apiAccess = try verifyAPIAcess()
@@ -84,7 +101,7 @@ class AppstoreConnectFacade {
         let apiAccess = try verifyAPIAcess()
         let request2 = GetAppStoreVersionLocalizationsCommand.Request(appStoreVersionId: appStoreVersionId)
         let response2 = try await GetAppStoreVersionLocalizationsCommand().execute(request: request2, apiAccess: apiAccess)
-        guard let localizedVersionId = response2.data.first(where: { $0.attributes.locale == Localization.us.rawValue })?.id else {
+        guard let localizedVersionId = response2.data.first(where: { $0.attributes.locale == Localization.us })?.id else {
             throw APIError.emptyData
         }
         return localizedVersionId

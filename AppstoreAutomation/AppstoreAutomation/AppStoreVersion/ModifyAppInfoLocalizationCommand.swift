@@ -7,12 +7,10 @@
 
 import Foundation
 
-class CreateAppInfoLocalizationCommand {
-    let method = "POST"
-    let urlString = "https://api.appstoreconnect.apple.com/v1/appInfoLocalizations"
+class ModifyAppInfoLocalizationCommand {
+    let method = "PATCH"
 
     struct Attributes: Codable {
-        var locale: Localization
         var name: String
         var privacyPolicyText: String?
         var privacyPolicyUrl: String?
@@ -36,9 +34,7 @@ class CreateAppInfoLocalizationCommand {
 
     struct RequestData: Codable {
         var attributes: Attributes
-
-        var relationships: Relationships
-
+        var id: String
         var type: String = "appInfoLocalizations"
     }
 
@@ -60,6 +56,7 @@ class CreateAppInfoLocalizationCommand {
     }
 
     func execute(request: Request, apiAccess: APIAccess) async throws -> Response {
+        let urlString = "https://api.appstoreconnect.apple.com/v1/appInfoLocalizations/\(request.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

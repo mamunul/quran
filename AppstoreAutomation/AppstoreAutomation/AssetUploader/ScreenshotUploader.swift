@@ -28,7 +28,7 @@ class ScreenshotUploader {
     struct Screenshot {
         let url: URL
         let displayType: ScreenshotDisplayType
-        let locale: String
+        let locale: Localization
     }
 
     private func makeAnUploadRequest(request: RequestUploadCommand.ScreenshotRequest, apiAccess: APIAccess)

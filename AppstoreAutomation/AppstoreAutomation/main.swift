@@ -5,9 +5,9 @@
 //  Created by newone on 30/6/22.
 //
 
-enum Localization: String {
+enum Localization: String, Codable {
     case us = "en-US"
-    case it, ja, ko, fr, de = "de-DE", ru, es, sv, nb
+    case it, ja, ko, fr = "fr-FR", de = "de-DE", ru, es = "es-ES", sv, nb = "no"
     case hongkong = "zh-HK"
     case chineseSimplified = "zh-Hans"
     case chineseTraditional = "zh-Hant"
@@ -49,7 +49,7 @@ func testCreateALocalizationAPI(facade: AppstoreConnectFacade) {
             let appInfoId = try await facade.getAppInfoId(appId: appId)
             let attributes =
                 CreateAppInfoLocalizationCommand.Attributes(
-                    locale: Localization.de.rawValue,
+                    locale: Localization.de,
                     name: "Quran in de-DE"
                 )
 
@@ -61,6 +61,6 @@ func testCreateALocalizationAPI(facade: AppstoreConnectFacade) {
     }
 }
 
-// testGetApi()
-//testCreateALocalizationAPI(facade: facade)
+testGetApi()
+// testCreateALocalizationAPI(facade: facade)
 RunLoop.main.run()
