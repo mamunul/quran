@@ -30,7 +30,7 @@ class GetAppStoreVersionLocalizationsCommand {
         var links: DocumentLink
     }
 
-    let method = "GET"
+    private let method = Method.get
 
     struct Request {
         /// this is actually platform id of an app
@@ -41,7 +41,7 @@ class GetAppStoreVersionLocalizationsCommand {
         let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersions/\(request.appStoreVersionId)/appStoreVersionLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         let response: AppStoreVersionLocalizationsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

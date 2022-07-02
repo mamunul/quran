@@ -67,7 +67,7 @@ class GetScreenshotCommand {
         var links: PagedDocumentLinks
     }
 
-    let method = "GET"
+    private let method = Method.get
 
     struct Request {
         /// this is actually platform id of an app
@@ -78,7 +78,7 @@ class GetScreenshotCommand {
         let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshotSets/\(request.appscreenshotSetId)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         let response: AppScreenshotsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

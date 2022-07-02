@@ -8,7 +8,7 @@
 import Foundation
 
 class GetAppInfoLocalizationsCommand {
-    let method = "GET"
+    private let method = Method.get
 
     struct Request: Codable {
         var appInfoId: String
@@ -24,7 +24,7 @@ class GetAppInfoLocalizationsCommand {
         let urlString = "https://api.appstoreconnect.apple.com/v1/appInfos/\(request.appInfoId)/appInfoLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         let response: Response = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

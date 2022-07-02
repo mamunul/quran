@@ -45,13 +45,13 @@ class GetScreenshotSetsCommand {
         var localizationId: String
     }
 
-    let method = "GET"
+    private let method = Method.get
 
     func execute(request: Request, apiAccess: APIAccess) async throws -> AppScreenshotSetsResponse {
         let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/\(request.localizationId)/appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         let response: AppScreenshotSetsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

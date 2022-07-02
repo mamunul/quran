@@ -8,7 +8,7 @@
 import Foundation
 
 class ModifyAppInfoLocalizationCommand {
-    let method = "PATCH"
+    private let method = Method.patch
 
     struct Attributes: Codable {
         var name: String
@@ -60,7 +60,7 @@ class ModifyAppInfoLocalizationCommand {
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         urlRequest.httpBody = try JSONEncoder().encode(request)
         let response: Response = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response

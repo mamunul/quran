@@ -99,7 +99,7 @@ class AppstoreConnectFacade {
         return screenshotSetId
     }
 
-    func getAppStoreVesionId(platform: GetAppStoreVersionsCommand.Platform, appId: String) async throws -> String? {
+    func getAppStoreVesionId(platform: Platform, appId: String) async throws -> String? {
         let apiAccess = try verifyAPIAcess()
         let request = GetAppStoreVersionsCommand.Request(appId: appId)
         let response = try await GetAppStoreVersionsCommand().execute(request: request, apiAccess: apiAccess)

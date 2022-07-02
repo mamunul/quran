@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 class GetALocalizationCommand {
     struct AppStoreVersionLocalizationResponse: Codable {
         var data: GetAppStoreVersionLocalizationsCommand.AppStoreVersionLocalization
@@ -14,14 +16,7 @@ class GetALocalizationCommand {
         var links: DocumentLink
     }
 
-    let method = "GET"
-    /*
-
-     Query :
-     include
-     [string]
-     Possible values: appPreviewSets, appScreenshotSets, appStoreVersion
-     */
+    private let method = Method.get
 
     struct Request {
         var appStoreVersionLocalizationId: String
@@ -31,7 +26,7 @@ class GetALocalizationCommand {
         let urlString = "https://api.appstoreconnect.apple.com/v1/appStoreVersionLocalizations/\(request.appStoreVersionLocalizationId)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = method.rawValue
         let response: AppStoreVersionLocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
