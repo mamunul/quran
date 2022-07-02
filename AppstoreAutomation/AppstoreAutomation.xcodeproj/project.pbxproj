@@ -429,6 +429,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 812981D411EC7CB8F5A364F1 /* Pods-AppstoreAutomation.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -439,6 +440,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6FC70EAD366CF3647946AD1D /* Pods-AppstoreAutomation.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
