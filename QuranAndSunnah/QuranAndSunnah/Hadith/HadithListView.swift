@@ -113,8 +113,10 @@ struct HadithListView: View {
     @State var arabicHeights = [Int: CGSize]()
     var padding: CGFloat = 5
 
-    fileprivate func loadOnAppear(_ width: CGFloat) -> Task<Void, Never> {
-        return Task.detached {
+    fileprivate func loadOnAppear(_ width: CGFloat) {
+        let startTime = CACurrentMediaTime()
+        print("starttime:",startTime)
+        Task.detached {
             async let hadithArabicList1 = presenter.getHadithArabicList(of: chapter, collector: collector)
             async let allHadithEnglishList1 = presenter.getHadithEnglishList(of: chapter, collector: collector)
             async let hadithBookmarks1 = presenter.getBookmarks(of: chapter)
@@ -129,10 +131,15 @@ struct HadithListView: View {
             let (hadithArabicList, allHadithEnglishList, hadithBookmarks, hadithHighlights, filteredList) =
                 await(hadithArabicList1, allHadithEnglishList1, hadithBookmarks1, hadithHighlights1, filteredList1)
 //            let width = proxy.size.width - 2 * padding
+            let endTime = CACurrentMediaTime()
+            print("elapsedtime:",endTime  - startTime)
             async let arabicHeights1 = presenter.getHeights(of: hadithArabicList, fontSize: fontSize, viewWidth: width)
             async let englishHeights1 = presenter.getHeights(of: allHadithEnglishList, fontSize: fontSize, viewWidth: width)
 
             let (arabicHeights, englishHeights) = await(arabicHeights1, englishHeights1)
+            
+            let endTime2 = CACurrentMediaTime()
+            print("elapsedtime2:",endTime2  - endTime)
             await MainActor.run {
                 self.hadithArabicList = hadithArabicList
                 self.allHadithEnglishList = allHadithEnglishList
@@ -184,7 +191,7 @@ struct HadithListView: View {
                 }.listRowInsets(EdgeInsets())
             }
             .task {
-                _ = loadOnAppear(proxy.size.width - 2 * padding)
+                loadOnAppear(proxy.size.width - 2 * padding)
             }
             .onChange(of: searchString) { newValue in
                 _ = searchHadith(newValue)
