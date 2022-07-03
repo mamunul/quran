@@ -228,7 +228,7 @@ class HadithPresenter: ObservableObject {
         return heights
     }
 
-    private let taskCount = 10
+    private let taskCount = 5
 
     nonisolated func getHeights(of hadithArabicList: [Int: HadithText], fontSize: Double, viewWidth: CGFloat) async -> [Int: CGSize] {
         var heights = [Int: CGSize]()
