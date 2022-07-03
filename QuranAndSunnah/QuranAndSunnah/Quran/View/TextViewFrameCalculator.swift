@@ -47,3 +47,57 @@ class TextViewFrameCalculator {
         return rect
     }
 }
+
+
+
+
+class TextViewFrameCalculator2 {
+    @MainActor
+     func getTextViewRect(width: CGFloat, attributedText: NSAttributedString) -> CGSize {
+        let textView = CustomUITextView()
+
+        textView.frame.size.width = width
+        textView.attributedText = attributedText
+
+        let size = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: .greatestFiniteMagnitude))
+
+        return size
+    }
+
+    func frameSize(for text: String, fontSize: Int, width: CGFloat, paragraphAlignment: CustomTextAlignment) async -> CGSize {
+        let attributedText = NSMutableAttributedString(string: text)
+        let fullRange = NSRange(location: 0, length: attributedText.length)
+        
+        var attributes: [NSAttributedString.Key: Any] = [:]
+      
+        let fontAttribute: [NSAttributedString.Key: Any] =
+            [NSAttributedString.Key.font: UIFont.systemFont(ofSize: CGFloat(fontSize))]
+        
+        attributes += fontAttribute
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        switch paragraphAlignment {
+        case .justify:
+            paragraphStyle.alignment = .justified
+            let alignmentAttribute = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attributes += alignmentAttribute
+        case .left:
+            paragraphStyle.alignment = .left
+            let alignmentAttribute = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attributes += alignmentAttribute
+        case .right:
+            paragraphStyle.alignment = .right
+            let alignmentAttribute = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+            attributes += alignmentAttribute
+        case .none:
+            paragraphStyle.alignment = .natural
+        }
+
+        let attribute3: [NSAttributedString.Key: Any] = [NSAttributedString.Key.kern: 0]
+        attributes += attribute3
+
+        attributedText.addAttributes(attributes, range: fullRange)
+        let rect = await getTextViewRect(width: width, attributedText: attributedText)
+        return rect
+    }
+}
