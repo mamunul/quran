@@ -41,10 +41,10 @@ class SQLiteConverter {
 
     func insertSurahTranslationFromJsonToSQLite() {
         do {
-            let surahTranslation = try jsonRepo.getSurahTranslation(contentID: .en_tanzil, language: .en)
+            let surahTranslation = try jsonRepo.getSurahTranslation(contentId: .en_tanzil, language: .en)
             coredata.insert(surahTranslation: surahTranslation)
             if showLog {
-                let ss = try coredata.getSurahTranslation(contentID: .en_tanzil, language: .en)
+                let ss = try coredata.getSurahTranslation(contentId: .en_tanzil, language: .en)
                 print(ss)
             }
         } catch {
@@ -54,10 +54,10 @@ class SQLiteConverter {
 
     func insertSurahTransliterationFromJsonToSQLite() {
         do {
-            let surahTransliteration = try jsonRepo.getSurahTransliteration(contentID: .en_tanzil, language: .en)
+            let surahTransliteration = try jsonRepo.getSurahTransliteration(contentId: .en_tanzil, language: .en)
             coredata.insert(surahTransliteration: surahTransliteration)
             if showLog {
-                let ss = try coredata.getSurahTransliteration(contentID: .en_tanzil, language: .en)
+                let ss = try coredata.getSurahTransliteration(contentId: .en_tanzil, language: .en)
                 print(ss)
             }
         } catch {
@@ -78,17 +78,17 @@ class SQLiteConverter {
     }
 
     private func insertAyatFromJsonToSQLite(surah: SurahInfo) throws {
-        let ayah = try jsonRepo.getAyat(of: surah, contentID: .indonesia_ar)
-        let ayahTranslation = try jsonRepo.getAyahTranslation(of: surah, contentID: .en_hilali_quranenc, language: .en)
-        let ayahTransliteration = try jsonRepo.getAyahTransliteration(of: surah, contentID: .transliteration_litequran, language: .en)
+        let ayah = try jsonRepo.getAyat(of: surah, contentId: .indonesia_ar)
+        let ayahTranslation = try jsonRepo.getAyahTranslation(of: surah, contentId: .en_hilali_quranenc, language: .en)
+        let ayahTransliteration = try jsonRepo.getAyahTransliteration(of: surah, contentId: .transliteration_litequran, language: .en)
 
         coredata.insert(ayahTranslation: ayah)
         coredata.insert(ayahTranslation: ayahTranslation)
         coredata.insert(ayahTransliteration: ayahTransliteration)
         if showLog {
-            let ayahCD = try coredata.getAyat(of: surah, contentID: .indonesia_ar)
-            let ayahTranslationCD = try coredata.getAyahTranslation(of: surah, contentID: .en_hilali_quranenc, language: .en)
-            let ayahTransliterationCD = try coredata.getAyahTransliteration(of: surah, contentID: .transliteration_litequran, language: .en)
+            let ayahCD = try coredata.getAyat(of: surah, contentId: .indonesia_ar)
+            let ayahTranslationCD = try coredata.getAyahTranslation(of: surah, contentId: .en_hilali_quranenc, language: .en)
+            let ayahTransliterationCD = try coredata.getAyahTransliteration(of: surah, contentId: .transliteration_litequran, language: .en)
             print(ayahCD)
             print(ayahTranslationCD)
             print(ayahTransliterationCD)
