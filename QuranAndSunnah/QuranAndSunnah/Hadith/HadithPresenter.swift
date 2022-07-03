@@ -170,8 +170,13 @@ class HadithPresenter: ObservableObject {
         collectors = interactor.getHadithCollectorList()
     }
 
-    func getChapterList(collector: HadithCollector) -> [HadithChapter] {
-        interactor.getChapterList(collector: collector)
+    func getChapterList(collector: HadithCollector) async -> [HadithChapter] {
+        do {
+            return try await interactor.getChapterList(collector: collector)
+        } catch {
+            print(error)
+        }
+        return []
     }
 
     func getHadithArabicList(of chapter: HadithChapter, collector: HadithCollector) -> [Int: HadithText] {
@@ -193,17 +198,15 @@ class HadithPresenter: ObservableObject {
         let calculator = TextViewFrameCalculator2()
         let taskNo = taskCount
         let step = hadithArabicList.count / taskNo
-      
-        
-        heights = await withTaskGroup(of: [Int:CGSize].self) { group in
+
+        heights = await withTaskGroup(of: [Int: CGSize].self) { group in
             var gheights = [Int: CGSize]()
             for index in stride(from: 0, to: hadithArabicList.count, by: step) {
-                group.addTask{
+                group.addTask {
                     var subheights = [Int: CGSize]()
-                    for index2 in index ... min(index + step, hadithArabicList.count-1) {
-                        
-                        let hadith  = hadithArabicList[index2]
-                        
+                    for index2 in index ... min(index + step, hadithArabicList.count - 1) {
+                        let hadith = hadithArabicList[index2]
+
                         let size = await calculator.frameSize(
                             for: hadith.matn,
                             fontSize: Int(fontSize),
@@ -216,7 +219,7 @@ class HadithPresenter: ObservableObject {
                     return subheights
                 }
             }
-            
+
             for await result in group {
                 gheights += result
             }
@@ -224,6 +227,7 @@ class HadithPresenter: ObservableObject {
         }
         return heights
     }
+
     private let taskCount = 10
 
     nonisolated func getHeights(of hadithArabicList: [Int: HadithText], fontSize: Double, viewWidth: CGFloat) async -> [Int: CGSize] {
@@ -232,18 +236,17 @@ class HadithPresenter: ObservableObject {
 
         let taskNo = taskCount
         let step = hadithArabicList.count / taskNo
-        
+
         let allKeys = Array(hadithArabicList.keys)
-        
-        heights = await withTaskGroup(of: [Int:CGSize].self) { group in
+
+        heights = await withTaskGroup(of: [Int: CGSize].self) { group in
             var gheights = [Int: CGSize]()
             for index in stride(from: 0, to: hadithArabicList.count, by: step) {
-                group.addTask{
+                group.addTask {
                     var subheights = [Int: CGSize]()
-                    for index2 in index ... min(index + step, hadithArabicList.count-1) {
-                        
-                        let hadith  = hadithArabicList[allKeys[index2]]!
-                        
+                    for index2 in index ... min(index + step, hadithArabicList.count - 1) {
+                        let hadith = hadithArabicList[allKeys[index2]]!
+
                         let size = await calculator.frameSize(
                             for: hadith.matn,
                             fontSize: Int(fontSize),
@@ -256,7 +259,7 @@ class HadithPresenter: ObservableObject {
                     return subheights
                 }
             }
-            
+
             for await result in group {
                 gheights += result
             }

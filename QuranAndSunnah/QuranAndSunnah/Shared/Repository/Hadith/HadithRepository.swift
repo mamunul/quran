@@ -80,9 +80,9 @@ enum HadithContentID: Int, ContentID {
 protocol IHadithDataReadFacade {
     func getAllHadith() async throws -> [HadithText]
     func getCollectorList() -> [HadithCollector]
-    func getChapterList(of collector: HadithCollector, language: Language) -> [HadithChapter]
+    func getChapterList(of collector: HadithCollector, language: Language) async throws -> [HadithChapter]
     func getHadithList(of chapter: HadithChapter, collector: HadithCollector, language: Language) throws -> [HadithText]
-    func getAllHadith(of collector: HadithCollector) throws -> [HadithText] 
+    func getAllHadith(of collector: HadithCollector) throws -> [HadithText]
 }
 
 class HadithRepository: IHadithDataReadFacade {
@@ -117,16 +117,28 @@ class HadithRepository: IHadithDataReadFacade {
         return chapter
     }
 
-    func getChapterList(of collector: HadithCollector, language: Language) -> [HadithChapter] {
-        let chapterList = collector.chapterRange.compactMap { chapterNo in
-            try? getChapter(collector: collector, chapterNo: chapterNo, language: language)
+    func getChapterList(of collector: HadithCollector, language: Language) async throws -> [HadithChapter] {
+        return try await withThrowingTaskGroup(of: HadithChapter.self) { group in
+            var chapterList = [HadithChapter]()
+            collector.chapterRange.forEach { chapterNo in
+
+                group.addTask {
+                    let chapter = try self.getChapter(collector: collector, chapterNo: chapterNo, language: language)
+                    return chapter
+                }
+            }
+
+            for try await result in group {
+                chapterList.append(result)
+            }
+
+            return chapterList
         }
 
-        return chapterList
+//        return chapterList
     }
 
     func getAllHadith(of collector: HadithCollector) throws -> [HadithText] {
- 
         var collectorHadith = [HadithText]()
         try collector.chapterRange.forEach { chapterNo in
             let list = try self.getHadithList(of: chapterNo, collector: collector, language: .en)

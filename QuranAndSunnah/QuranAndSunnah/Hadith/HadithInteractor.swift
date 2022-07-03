@@ -77,8 +77,8 @@ class HadithInteractor {
         repo.getCollectorList()
     }
 
-    func getChapterList(collector: HadithCollector) -> [HadithChapter] {
-        repo.getChapterList(of: collector, language: .en)
+    func getChapterList(collector: HadithCollector) async throws -> [HadithChapter] {
+        try await repo.getChapterList(of: collector, language: .en)
     }
 
     func getHadithArabicList(of chapter: HadithChapter, collector: HadithCollector) throws -> [HadithText] {
