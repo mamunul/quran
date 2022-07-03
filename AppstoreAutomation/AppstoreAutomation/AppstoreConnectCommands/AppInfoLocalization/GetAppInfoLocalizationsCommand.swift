@@ -21,7 +21,7 @@ class GetAppInfoLocalizationsCommand {
     }
 
     func execute(request: Request, apiAccess: APIAccess) async throws -> AppInfoLocalizationsResponse {
-        let urlString = "https://api.appstoreconnect.apple.com/v1/appInfos/\(request.appInfoId)/appInfoLocalizations"
+        let urlString = "\(baseUrl)appInfos/\(request.appInfoId)/appInfoLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

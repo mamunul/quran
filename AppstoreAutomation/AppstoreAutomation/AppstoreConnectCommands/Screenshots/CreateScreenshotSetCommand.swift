@@ -51,7 +51,7 @@ class CreateScreenshotSetCommand {
 
     private let method = Method.post
     func execute(request: AppScreenshotSetRequest, apiAccess: APIAccess) async throws -> AppScreenshotSetResponse {
-        let urlString = "https://api.appstoreconnect.apple.com/v1/appScreenshotSets"
+        let urlString = "\(baseUrl)appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
