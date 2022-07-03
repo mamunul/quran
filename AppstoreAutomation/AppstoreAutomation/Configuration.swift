@@ -7,6 +7,8 @@
 
 import Foundation
 
+let baseUrl = "https://api.appstoreconnect.apple.com/v1/"
+
 let secret =
     """
     -----BEGIN PRIVATE KEY-----

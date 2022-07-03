@@ -52,7 +52,7 @@ class GetAppStoreVersionsCommand {
     }
 
     func execute(request: Request, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
-        let urlString = "https://api.appstoreconnect.apple.com/v1/apps/\(request.appId)/appStoreVersions"
+        let urlString = "\(baseUrl)apps/\(request.appId)/appStoreVersions"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

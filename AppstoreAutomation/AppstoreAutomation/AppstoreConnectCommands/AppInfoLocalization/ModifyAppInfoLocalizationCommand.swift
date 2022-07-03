@@ -48,7 +48,7 @@ class ModifyAppInfoLocalizationCommand {
     }
 
     func execute(request: Request, apiAccess: APIAccess) async throws -> AppInfoLocalizationResponse {
-        let urlString = "https://api.appstoreconnect.apple.com/v1/appInfoLocalizations/\(request.data.id)"
+        let urlString = "\(baseUrl)appInfoLocalizations/\(request.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
