@@ -189,11 +189,11 @@ struct HadithListView: View {
             .onChange(of: searchString) { newValue in
                 _ = searchHadith(newValue)
             }
+            .listStyle(PlainListStyle())
+            .searchable(text: $searchString)
+            .listStyle(.sidebar)
         }
-        .listStyle(PlainListStyle())
-        .searchable(text: $searchString)
 
-        .listStyle(.sidebar)
         .navigationTitle(Text("\(chapter.chapterNo) - \(chapter.title)"))
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
