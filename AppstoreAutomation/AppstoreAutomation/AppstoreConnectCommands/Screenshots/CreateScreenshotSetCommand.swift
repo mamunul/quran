@@ -50,7 +50,8 @@ class CreateScreenshotSetCommand {
     }
 
     private let method = Method.post
-    func execute(appStoreVersionLocalizaitonId: String, displayType: DisplayType, apiAccess: APIAccess) async throws -> AppScreenshotSetResponse {
+    func execute(appStoreVersionLocalizaitonId: String, displayType: DisplayType, apiAccess: APIAccess) async throws ->
+        AppScreenshotSetResponse {
         let attributes = Attributes(screenshotDisplayType: displayType)
         let data = AppStoreVersionLocalizationData(id: appStoreVersionLocalizaitonId)
         let appStoreVersionLocalization = AppStoreVersionLocalization(data: data)

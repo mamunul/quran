@@ -33,7 +33,8 @@ class ModifyAppStoreVersionLocalizationCommand {
         var data: RequestData
     }
 
-    func execute(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
+    func execute(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess)
+    async throws -> AppStoreVersionLocalizationResponse {
         let data = RequestData(attributes: attributes, id: appStoreVersionLocalizaitonId)
         let request = LocalizationRequest(data: data)
 
@@ -43,7 +44,8 @@ class ModifyAppStoreVersionLocalizationCommand {
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpMethod = method.rawValue
         urlRequest.httpBody = try JSONEncoder().encode(request)
-        let response: AppStoreVersionLocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        let response: AppStoreVersionLocalizationResponse =
+            try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
 }
