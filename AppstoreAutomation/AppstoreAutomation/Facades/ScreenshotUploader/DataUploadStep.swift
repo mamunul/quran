@@ -7,9 +7,9 @@
 
 import Foundation
 
-class DataUploadState: UploadCommandState {
-    var nextStep: CommitUploadState?
-    var failedState: CancelUploadState?
+class DataUploadStep: UploadCommandStep {
+    var nextStep: CommitUploadStep?
+    var failedStep: CancelUploadStep?
     var appScreenshot: AppScreenshot?
     private var assetData: Data
     private var apiAccess: APIAccess
@@ -29,14 +29,14 @@ class DataUploadState: UploadCommandState {
     }
 
     func execute(uploader: ScreenshotUploader) async throws {
-        failedState = CancelUploadState(apiAccess: apiAccess)
-        failedState?.reservationId = appScreenshot?.id
+        failedStep = CancelUploadStep(apiAccess: apiAccess)
+        failedStep?.reservationId = appScreenshot?.id
         do {
             try await uploadTheAsset()
             nextStep?.reservationId = appScreenshot?.id
             uploader.setStep(step: nextStep)
         } catch {
-            uploader.setStep(step: failedState)
+            uploader.setStep(step: failedStep)
             throw UploadError.uploadFailed
         }
     }

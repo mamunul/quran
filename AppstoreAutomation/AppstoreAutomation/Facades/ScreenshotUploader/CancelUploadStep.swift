@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CancelUploadState: UploadCommandState {
+class CancelUploadStep: UploadCommandStep {
     var reservationId: String?
     private var apiAccess: APIAccess
 
