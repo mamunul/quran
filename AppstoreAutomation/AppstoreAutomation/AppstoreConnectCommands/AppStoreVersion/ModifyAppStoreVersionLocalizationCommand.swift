@@ -37,7 +37,7 @@ class ModifyAppStoreVersionLocalizationCommand {
         let data = RequestData(attributes: attributes, id: appStoreVersionLocalizaitonId)
         let request = LocalizationRequest(data: data)
 
-        let urlString = "\(baseUrl)appStoreVersionLocalizations/\(request.data.id)"
+        let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(request.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

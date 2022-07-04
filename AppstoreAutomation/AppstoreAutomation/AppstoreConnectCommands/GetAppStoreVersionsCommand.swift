@@ -53,7 +53,7 @@ class GetAppStoreVersionsCommand {
 
     func execute(appId: String, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
         let request = Request(appId: appId)
-        let urlString = "\(baseUrl)apps/\(request.appId)/appStoreVersions"
+        let urlString = "\(baseUrl)/apps/\(request.appId)/appStoreVersions"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

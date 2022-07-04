@@ -32,7 +32,7 @@ class GetAppInfoCommand {
     func execute(appId: String, apiAccess: APIAccess) async throws -> Response {
         let request = GetAppInfoCommand.Request(appId: appId)
 
-        let urlString = "\(baseUrl)apps/\(request.appId)/appInfos"
+        let urlString = "\(baseUrl)/apps/\(request.appId)/appInfos"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

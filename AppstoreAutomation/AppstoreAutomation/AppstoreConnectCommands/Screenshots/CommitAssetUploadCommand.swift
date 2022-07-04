@@ -29,7 +29,7 @@ class CommitAssetUploadCommand {
 
     private let method = Method.patch
     func execute(request: UploadCommitRequest, access: APIAccess) async throws {
-        let urlString = "\(baseUrl)appScreenshots/\(request.data.id)"
+        let urlString = "\(baseUrl)/appScreenshots/\(request.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

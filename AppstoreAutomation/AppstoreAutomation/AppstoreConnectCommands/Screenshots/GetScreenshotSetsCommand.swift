@@ -35,7 +35,7 @@ class GetScreenshotSetsCommand {
     }
 
     /*
-     GET \(baseUrl)appScreenshotSets/{id}
+     GET \(baseUrl)/appScreenshotSets/{id}
      */
 
     struct Request {
@@ -46,7 +46,7 @@ class GetScreenshotSetsCommand {
 
     func execute(appStoreLocalizedVersionId: String, apiAccess: APIAccess) async throws -> AppScreenshotSetsResponse {
         let request = Request(localizationId: appStoreLocalizedVersionId)
-        let urlString = "\(baseUrl)appStoreVersionLocalizations/\(request.localizationId)/appScreenshotSets"
+        let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(request.localizationId)/appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
