@@ -60,10 +60,10 @@ func testGetApi(facade: AppstoreConnectFacade) {
             guard let appInfoId = try await facade.getAppInfoId(appId: appId) else { return }
             _ = try await facade.getAppInfoLocalizations(appInfoId: appInfoId)
             guard let appPlatformId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId) else { return }
-            guard let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .ru) else { return }
+            guard let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .en) else { return }
             guard let screenshotSetId = try await facade.getScreenshotSetId(displayType: .APP_IPHONE_55, appStoreLocalizedVersionId: localizedVersionId) else { return }
             try await facade.getScreenshots(screenshotSetId: screenshotSetId)
-
+            print("success")
         } catch {
             print(error)
         }
@@ -76,7 +76,7 @@ func testCreateALocalizationAPI(facade: AppstoreConnectFacade) {
             let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
             guard let appInfoId = try await facade.getAppInfoId(appId: appId) else { return }
             let attributes =
-            AppInfoLocalizationAttributes(
+                AppInfoLocalizationAttributes(
                     locale: Localization.de,
                     name: "Quran in de-DE"
                 )

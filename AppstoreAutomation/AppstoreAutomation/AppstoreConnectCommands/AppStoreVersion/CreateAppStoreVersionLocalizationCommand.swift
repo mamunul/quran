@@ -78,7 +78,15 @@ class CreateAppStoreVersionLocalizationCommand {
         var data: ResponseData
     }
 
-    func execute(request: LocalizationRequest, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
+    func execute(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
+        let relationship = RelationshipData(id: appStoreVersionId)
+        let appstoreVersion = AppStoreVersion(data: relationship)
+        let relationships2 = Relationships(appStoreVersion: appstoreVersion)
+
+        let data = RequestData(attributes: attributes, relationships: relationships2)
+
+        let request = LocalizationRequest(data: data)
+
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

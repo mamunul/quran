@@ -7,7 +7,7 @@
 
 import Foundation
 
-let api = APIAccess(secret: secret, issuerID: issuerID, apiKey: apiKey, bundleId: bundleId)
+let api = APIAccess(secret: secret, issuerID: issuerID, apiKey: apiKey, bundleId: bundleId, baseUrl: baseUrl)
 let facade = AppstoreConnectFacade()
 facade.configure(apiAccess: api)
 
@@ -37,9 +37,9 @@ func testUploadScreenshot() {
     }
 }
 
-testUploadScreenshot()
+//testUploadScreenshot()
 // testModifyAppStoreVersionLocalizedAPI()
 // testModifyAppInfoVersionAPI()
-// testGetApi(facade: facade)
+ testGetApi(facade: facade)
 // testCreateALocalizationAPI(facade: facade)
 RunLoop.main.run()

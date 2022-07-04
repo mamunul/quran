@@ -27,7 +27,7 @@ extension IUploadable { // Template Method
 class ScreenshotUploader {
     struct Screenshot {
         let url: URL
-        let displayType: ScreenshotDisplayType
+        let displayType: DisplayType
         let locale: Localization
     }
 
