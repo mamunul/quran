@@ -25,7 +25,8 @@ class GetAppStoreVersionLocalizationCommand {
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
-        let response: AppStoreVersionLocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        let response: AppStoreVersionLocalizationResponse =
+            try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
 }

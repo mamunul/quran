@@ -78,7 +78,8 @@ class CreateAppStoreVersionLocalizationCommand {
         var data: ResponseData
     }
 
-    func execute(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
+    func execute(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess) async throws ->
+        AppStoreVersionLocalizationResponse {
         let relationship = RelationshipData(id: appStoreVersionId)
         let appstoreVersion = AppStoreVersion(data: relationship)
         let relationships2 = Relationships(appStoreVersion: appstoreVersion)

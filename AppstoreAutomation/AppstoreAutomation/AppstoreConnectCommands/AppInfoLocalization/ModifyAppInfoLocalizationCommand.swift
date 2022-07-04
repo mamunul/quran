@@ -47,7 +47,8 @@ class ModifyAppInfoLocalizationCommand {
         var data: RequestData
     }
 
-    func execute(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes, apiAccess: APIAccess) async throws -> AppInfoLocalizationResponse {
+    func execute(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes, apiAccess: APIAccess) async throws ->
+        AppInfoLocalizationResponse {
         let requestData = RequestData(attributes: attributes, id: appInfoLocalizationId)
         let request = Request(data: requestData)
 
