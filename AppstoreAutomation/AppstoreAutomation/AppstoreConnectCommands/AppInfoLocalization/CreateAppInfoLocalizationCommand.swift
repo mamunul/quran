@@ -18,7 +18,7 @@ struct AppInfoLocalizationAttributes: Codable {
 
 class CreateAppInfoLocalizationCommand {
     private let method = Method.post
-    let urlString = "\(baseUrl)appInfoLocalizations"
+    let urlString = "\(baseUrl)/appInfoLocalizations"
 
     struct AppInfoData: Codable {
         /// appInfo Id

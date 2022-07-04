@@ -31,7 +31,7 @@ class GetAppStoreVersionLocalizationsCommand {
         AppStoreVersionLocalizationsResponse {
         let request = Request(appStoreVersionId: appStoreVersionId)
 
-        let urlString = "\(baseUrl)appStoreVersions/\(request.appStoreVersionId)/appStoreVersionLocalizations"
+        let urlString = "\(baseUrl)/appStoreVersions/\(request.appStoreVersionId)/appStoreVersionLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

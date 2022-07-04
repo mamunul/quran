@@ -58,7 +58,7 @@ class CreateScreenshotSetCommand {
         let data2 = RequestData(attributes: attributes, relationships: relationship)
         let request = AppScreenshotSetRequest(data: data2)
 
-        let urlString = "\(baseUrl)appScreenshotSets"
+        let urlString = "\(baseUrl)/appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

@@ -51,7 +51,7 @@ class ModifyAppInfoLocalizationCommand {
         let requestData = RequestData(attributes: attributes, id: appInfoLocalizationId)
         let request = Request(data: requestData)
 
-        let urlString = "\(baseUrl)appInfoLocalizations/\(request.data.id)"
+        let urlString = "\(baseUrl)/appInfoLocalizations/\(request.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

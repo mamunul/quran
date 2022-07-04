@@ -43,7 +43,7 @@ struct AppStoreVersionLocalizationAttributes: Codable {
 
 class CreateAppStoreVersionLocalizationCommand {
     private let method = Method.post
-    let urlString = "\(baseUrl)appStoreVersionLocalizations"
+    let urlString = "\(baseUrl)/appStoreVersionLocalizations"
 
     struct RelationshipData: Codable {
         var type: String = "appStoreVersions"
