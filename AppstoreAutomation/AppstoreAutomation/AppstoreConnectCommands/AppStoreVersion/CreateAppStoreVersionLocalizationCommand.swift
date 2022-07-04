@@ -64,7 +64,7 @@ class CreateAppStoreVersionLocalizationCommand {
         var relationships: Relationships
     }
 
-    struct LocalizationRequest: Codable {
+    struct APIRequest: Codable {
         var data: RequestData
     }
 
@@ -78,21 +78,28 @@ class CreateAppStoreVersionLocalizationCommand {
         var data: ResponseData
     }
 
-    func execute(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess) async throws ->
-        AppStoreVersionLocalizationResponse {
-        let relationship = RelationshipData(id: appStoreVersionId)
-        let appstoreVersion = AppStoreVersion(data: relationship)
-        let relationships2 = Relationships(appStoreVersion: appstoreVersion)
-
-        let data = RequestData(attributes: attributes, relationships: relationships2)
-
-        let request = LocalizationRequest(data: data)
-
+    private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpMethod = method.rawValue
-        urlRequest.httpBody = try JSONEncoder().encode(request)
+        urlRequest.httpBody = try JSONEncoder().encode(apiRequest)
+        return urlRequest
+    }
+
+    private func makeAPIRequest(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes) -> APIRequest {
+        let relationship = RelationshipData(id: appStoreVersionId)
+        let appstoreVersion = AppStoreVersion(data: relationship)
+        let relationships2 = Relationships(appStoreVersion: appstoreVersion)
+        let data = RequestData(attributes: attributes, relationships: relationships2)
+        let request = APIRequest(data: data)
+        return request
+    }
+
+    func execute(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess) async throws ->
+        AppStoreVersionLocalizationResponse {
+        let request = makeAPIRequest(appStoreVersionId: appStoreVersionId, attributes: attributes)
+        let urlRequest = try makeURLRequest(apiRequest: request)
         let response: AppStoreVersionLocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

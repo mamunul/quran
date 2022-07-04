@@ -11,6 +11,7 @@
 		0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */; };
 		0A4DDF8A286D9A0F002DFE51 /* AuthTokenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF89286D9A0F002DFE51 /* AuthTokenGenerator.swift */; };
 		0A4DDF8C286DB4F2002DFE51 /* AppStoreVersions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */; };
+		0AA28FC92872D6F1009BB33F /* CommandRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA28FC82872D6F1009BB33F /* CommandRequestFactory.swift */; };
 		0E12456B7BEB3A882309B3D3 /* Pods_AppstoreAutomation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6447448C496CEDC4C61DFEC /* Pods_AppstoreAutomation.framework */; };
 		EE1F599B286FFAA400EB8BEE /* CreateAppInfoLocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F599A286FFAA400EB8BEE /* CreateAppInfoLocalizationCommand.swift */; };
 		EE1F599D2870087E00EB8BEE /* GetAppInfoCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F599C2870087E00EB8BEE /* GetAppInfoCommand.swift */; };
@@ -54,6 +55,7 @@
 		0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotUploader.swift; sourceTree = "<group>"; };
 		0A4DDF89286D9A0F002DFE51 /* AuthTokenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenGenerator.swift; sourceTree = "<group>"; };
 		0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreVersions.swift; sourceTree = "<group>"; };
+		0AA28FC82872D6F1009BB33F /* CommandRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandRequestFactory.swift; sourceTree = "<group>"; };
 		6FC70EAD366CF3647946AD1D /* Pods-AppstoreAutomation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppstoreAutomation.release.xcconfig"; path = "Target Support Files/Pods-AppstoreAutomation/Pods-AppstoreAutomation.release.xcconfig"; sourceTree = "<group>"; };
 		812981D411EC7CB8F5A364F1 /* Pods-AppstoreAutomation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppstoreAutomation.debug.xcconfig"; path = "Target Support Files/Pods-AppstoreAutomation/Pods-AppstoreAutomation.debug.xcconfig"; sourceTree = "<group>"; };
 		C6447448C496CEDC4C61DFEC /* Pods_AppstoreAutomation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppstoreAutomation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -167,6 +169,7 @@
 				0A4DDF89286D9A0F002DFE51 /* AuthTokenGenerator.swift */,
 				EE98473C286F0351005B2F38 /* HTTPHandler.swift */,
 				EE479DC628707F9B00140E15 /* CoreEntity.swift */,
+				0AA28FC82872D6F1009BB33F /* CommandRequestFactory.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				0A4DDF8C286DB4F2002DFE51 /* AppStoreVersions.swift in Sources */,
 				EE3B94EB286DF19100D18FB3 /* CreateScreenshotSetCommand.swift in Sources */,
 				EE984730286F018D005B2F38 /* RequestUploadCommand.swift in Sources */,
+				0AA28FC92872D6F1009BB33F /* CommandRequestFactory.swift in Sources */,
 				0A4DDF81286D750B002DFE51 /* main.swift in Sources */,
 				EE479DC728707F9B00140E15 /* CoreEntity.swift in Sources */,
 				EE1F599B286FFAA400EB8BEE /* CreateAppInfoLocalizationCommand.swift in Sources */,

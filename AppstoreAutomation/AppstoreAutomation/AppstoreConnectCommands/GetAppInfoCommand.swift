@@ -28,13 +28,17 @@ class GetAppInfoCommand {
         var links: PagedDocumentLinks
     }
 
-    func execute(appId: String, apiAccess: APIAccess) async throws -> APIResponse {
-        let request = APIRequest(appId: appId)
-
-        let urlString = "\(baseUrl)/apps/\(request.appId)/appInfos"
+    private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
+        let urlString = "\(baseUrl)/apps/\(apiRequest.appId)/appInfos"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
+        return urlRequest
+    }
+
+    func execute(appId: String, apiAccess: APIAccess) async throws -> APIResponse {
+        let request = APIRequest(appId: appId)
+        let urlRequest = makeURLRequest(apiRequest: request)
         let response: APIResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

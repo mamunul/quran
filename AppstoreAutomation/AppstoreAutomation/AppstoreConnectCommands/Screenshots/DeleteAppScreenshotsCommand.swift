@@ -13,11 +13,17 @@ class DeleteAppScreenshotsCommand {
     }
 
     private let method = Method.delete
-    func execute(request: APIRequest, apiAccess: APIAccess) async throws {
-        let urlString = "\(baseUrl)/appScreenshots/\(request.appScreenshotId)"
+
+    private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
+        let urlString = "\(baseUrl)/appScreenshots/\(apiRequest.appScreenshotId)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
+        return urlRequest
+    }
+
+    func execute(request: APIRequest, apiAccess: APIAccess) async throws {
+        let urlRequest = makeURLRequest(apiRequest: request)
         try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
     }
 }

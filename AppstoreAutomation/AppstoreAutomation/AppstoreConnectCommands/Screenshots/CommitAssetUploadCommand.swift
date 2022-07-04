@@ -27,14 +27,19 @@ class CommitAssetUploadCommand {
         var data: RequestData
     }
 
-    private let method = Method.patch
-    func execute(request: UploadCommitRequest, access: APIAccess) async throws {
-        let urlString = "\(baseUrl)/appScreenshots/\(request.data.id)"
+    private func makeURLRequest(apiRequest: UploadCommitRequest) throws -> URLRequest {
+        let urlString = "\(baseUrl)/appScreenshots/\(apiRequest.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = try JSONEncoder().encode(request)
+        urlRequest.httpBody = try JSONEncoder().encode(apiRequest)
+        return urlRequest
+    }
+
+    private let method = Method.patch
+    func execute(request: UploadCommitRequest, access: APIAccess) async throws {
+        let urlRequest = try makeURLRequest(apiRequest: request)
         try await HTTPHandler().execute(urlRequest: urlRequest, access: access)
     }
 }

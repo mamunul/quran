@@ -43,21 +43,30 @@ class ModifyAppInfoLocalizationCommand {
         var type: String = "appInfoLocalizations"
     }
 
-    struct Request: Codable {
+    struct APIRequest: Codable {
         var data: RequestData
     }
 
-    func execute(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes, apiAccess: APIAccess) async throws ->
-        AppInfoLocalizationResponse {
-        let requestData = RequestData(attributes: attributes, id: appInfoLocalizationId)
-        let request = Request(data: requestData)
-
-        let urlString = "\(baseUrl)/appInfoLocalizations/\(request.data.id)"
+    private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
+        let urlString = "\(baseUrl)/appInfoLocalizations/\(apiRequest.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpMethod = method.rawValue
-        urlRequest.httpBody = try JSONEncoder().encode(request)
+        urlRequest.httpBody = try JSONEncoder().encode(apiRequest)
+        return urlRequest
+    }
+
+    private func makeAPIRequest(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes) -> APIRequest {
+        let requestData = RequestData(attributes: attributes, id: appInfoLocalizationId)
+        let request = APIRequest(data: requestData)
+        return request
+    }
+
+    func execute(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes, apiAccess: APIAccess) async throws ->
+        AppInfoLocalizationResponse {
+        let request = makeAPIRequest(appInfoLocalizationId: appInfoLocalizationId, attributes: attributes)
+        let urlRequest = try makeURLRequest(apiRequest: request)
         let response: AppInfoLocalizationResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

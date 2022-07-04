@@ -36,12 +36,17 @@ class GetScreenshotSetsCommand {
 
     private let method = Method.get
 
-    func execute(appStoreLocalizedVersionId: String, apiAccess: APIAccess) async throws -> AppScreenshotSetsResponse {
-        let request = APIRequest(localizationId: appStoreLocalizedVersionId)
-        let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(request.localizationId)/appScreenshotSets"
+    private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
+        let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(apiRequest.localizationId)/appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
+        return urlRequest
+    }
+
+    func execute(appStoreLocalizedVersionId: String, apiAccess: APIAccess) async throws -> AppScreenshotSetsResponse {
+        let request = APIRequest(localizationId: appStoreLocalizedVersionId)
+        let urlRequest = makeURLRequest(apiRequest: request)
         let response: AppScreenshotSetsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

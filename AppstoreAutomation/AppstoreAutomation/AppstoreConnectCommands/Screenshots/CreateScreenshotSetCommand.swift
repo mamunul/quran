@@ -31,7 +31,7 @@ class CreateScreenshotSetCommand {
         var relationships: Relationships
     }
 
-    struct AppScreenshotSetRequest: Codable {
+    struct APIRequest: Codable {
         var data: RequestData
     }
 
@@ -49,22 +49,31 @@ class CreateScreenshotSetCommand {
         var links: DocumentLink
     }
 
-    private let method = Method.post
-    func execute(appStoreVersionLocalizaitonId: String, displayType: DisplayType, apiAccess: APIAccess) async throws ->
-        AppScreenshotSetResponse {
+    private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
+        let urlString = "\(baseUrl)/appScreenshotSets"
+        let url: URL = URL(string: urlString)!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method.rawValue
+        urlRequest.httpBody = try JSONEncoder().encode(apiRequest)
+        urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        return urlRequest
+    }
+
+    private func makeAPIRequest(appStoreVersionLocalizaitonId: String, displayType: DisplayType) -> APIRequest {
         let attributes = Attributes(screenshotDisplayType: displayType)
         let data = AppStoreVersionLocalizationData(id: appStoreVersionLocalizaitonId)
         let appStoreVersionLocalization = AppStoreVersionLocalization(data: data)
         let relationship = Relationships(appStoreVersionLocalization: appStoreVersionLocalization)
         let data2 = RequestData(attributes: attributes, relationships: relationship)
-        let request = AppScreenshotSetRequest(data: data2)
+        let request = APIRequest(data: data2)
+        return request
+    }
 
-        let urlString = "\(baseUrl)/appScreenshotSets"
-        let url: URL = URL(string: urlString)!
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method.rawValue
-        urlRequest.httpBody = try JSONEncoder().encode(request)
-        urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+    private let method = Method.post
+    func execute(appStoreVersionLocalizaitonId: String, displayType: DisplayType, apiAccess: APIAccess) async throws ->
+        AppScreenshotSetResponse {
+        let request = makeAPIRequest(appStoreVersionLocalizaitonId: appStoreVersionLocalizaitonId, displayType: displayType)
+        let urlRequest = try makeURLRequest(apiRequest: request)
         let response: AppScreenshotSetResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
