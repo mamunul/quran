@@ -27,7 +27,7 @@ class GetAppStoreVersionLocalizationsCommand {
         var appStoreVersionId: String
     }
 
-    func execute(appStoreVersionId: String, localization: Localization, apiAccess: APIAccess) async throws ->
+    func execute(appStoreVersionId: String, apiAccess: APIAccess) async throws ->
         AppStoreVersionLocalizationsResponse {
         let request = Request(appStoreVersionId: appStoreVersionId)
 

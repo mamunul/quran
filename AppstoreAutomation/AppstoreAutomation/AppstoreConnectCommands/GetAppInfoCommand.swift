@@ -29,7 +29,9 @@ class GetAppInfoCommand {
         var links: PagedDocumentLinks
     }
 
-    func execute(request: Request, apiAccess: APIAccess) async throws -> Response {
+    func execute(appId: String, apiAccess: APIAccess) async throws -> Response {
+        let request = GetAppInfoCommand.Request(appId: appId)
+
         let urlString = "\(baseUrl)apps/\(request.appId)/appInfos"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
