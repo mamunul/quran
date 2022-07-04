@@ -12,6 +12,12 @@
 		0A4DDF8A286D9A0F002DFE51 /* AuthTokenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF89286D9A0F002DFE51 /* AuthTokenGenerator.swift */; };
 		0A4DDF8C286DB4F2002DFE51 /* AppStoreVersions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */; };
 		0A9A8F292872E2E80037ACA6 /* DataUploadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F282872E2E80037ACA6 /* DataUploadCommand.swift */; };
+		0A9A8F2C287300690037ACA6 /* ScreenshotUploader2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F2B287300690037ACA6 /* ScreenshotUploader2.swift */; };
+		0A9A8F2E2873008B0037ACA6 /* RequestUploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F2D2873008B0037ACA6 /* RequestUploadState.swift */; };
+		0A9A8F30287300B70037ACA6 /* CommitUploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F2F287300B70037ACA6 /* CommitUploadState.swift */; };
+		0A9A8F32287300D40037ACA6 /* DataUploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F31287300D40037ACA6 /* DataUploadState.swift */; };
+		0A9A8F34287301CE0037ACA6 /* CancelUploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F33287301CE0037ACA6 /* CancelUploadState.swift */; };
+		0A9A8F36287301F00037ACA6 /* VerifyUploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F35287301F00037ACA6 /* VerifyUploadState.swift */; };
 		0AA28FC92872D6F1009BB33F /* CommandRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA28FC82872D6F1009BB33F /* CommandRequestFactory.swift */; };
 		0E12456B7BEB3A882309B3D3 /* Pods_AppstoreAutomation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6447448C496CEDC4C61DFEC /* Pods_AppstoreAutomation.framework */; };
 		EE1F599B286FFAA400EB8BEE /* CreateAppInfoLocalizationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F599A286FFAA400EB8BEE /* CreateAppInfoLocalizationCommand.swift */; };
@@ -57,6 +63,12 @@
 		0A4DDF89286D9A0F002DFE51 /* AuthTokenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenGenerator.swift; sourceTree = "<group>"; };
 		0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreVersions.swift; sourceTree = "<group>"; };
 		0A9A8F282872E2E80037ACA6 /* DataUploadCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUploadCommand.swift; sourceTree = "<group>"; };
+		0A9A8F2B287300690037ACA6 /* ScreenshotUploader2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotUploader2.swift; sourceTree = "<group>"; };
+		0A9A8F2D2873008B0037ACA6 /* RequestUploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestUploadState.swift; sourceTree = "<group>"; };
+		0A9A8F2F287300B70037ACA6 /* CommitUploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitUploadState.swift; sourceTree = "<group>"; };
+		0A9A8F31287300D40037ACA6 /* DataUploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUploadState.swift; sourceTree = "<group>"; };
+		0A9A8F33287301CE0037ACA6 /* CancelUploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelUploadState.swift; sourceTree = "<group>"; };
+		0A9A8F35287301F00037ACA6 /* VerifyUploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyUploadState.swift; sourceTree = "<group>"; };
 		0AA28FC82872D6F1009BB33F /* CommandRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandRequestFactory.swift; sourceTree = "<group>"; };
 		6FC70EAD366CF3647946AD1D /* Pods-AppstoreAutomation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppstoreAutomation.release.xcconfig"; path = "Target Support Files/Pods-AppstoreAutomation/Pods-AppstoreAutomation.release.xcconfig"; sourceTree = "<group>"; };
 		812981D411EC7CB8F5A364F1 /* Pods-AppstoreAutomation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppstoreAutomation.debug.xcconfig"; path = "Target Support Files/Pods-AppstoreAutomation/Pods-AppstoreAutomation.debug.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +140,19 @@
 				EE479DC428707F2200140E15 /* UsageExamples.swift */,
 			);
 			path = AppstoreAutomation;
+			sourceTree = "<group>";
+		};
+		0A9A8F2A2873004D0037ACA6 /* ScreenshotUploader */ = {
+			isa = PBXGroup;
+			children = (
+				0A9A8F2B287300690037ACA6 /* ScreenshotUploader2.swift */,
+				0A9A8F2D2873008B0037ACA6 /* RequestUploadState.swift */,
+				0A9A8F2F287300B70037ACA6 /* CommitUploadState.swift */,
+				0A9A8F31287300D40037ACA6 /* DataUploadState.swift */,
+				0A9A8F33287301CE0037ACA6 /* CancelUploadState.swift */,
+				0A9A8F35287301F00037ACA6 /* VerifyUploadState.swift */,
+			);
+			path = ScreenshotUploader;
 			sourceTree = "<group>";
 		};
 		8018A88FE11117C1A6158FE7 /* Frameworks */ = {
@@ -202,6 +227,7 @@
 		EEFBFFDA2870D05700767B88 /* Facades */ = {
 			isa = PBXGroup;
 			children = (
+				0A9A8F2A2873004D0037ACA6 /* ScreenshotUploader */,
 				0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */,
 				EE1F59A0287020FA00EB8BEE /* AppstoreConnectFacade.swift */,
 			);
@@ -247,7 +273,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					0A4DDF7C286D750B002DFE51 = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -303,8 +329,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A4DDF8C286DB4F2002DFE51 /* AppStoreVersions.swift in Sources */,
+				0A9A8F36287301F00037ACA6 /* VerifyUploadState.swift in Sources */,
+				0A9A8F34287301CE0037ACA6 /* CancelUploadState.swift in Sources */,
 				EE3B94EB286DF19100D18FB3 /* CreateScreenshotSetCommand.swift in Sources */,
 				EE984730286F018D005B2F38 /* RequestUploadCommand.swift in Sources */,
+				0A9A8F30287300B70037ACA6 /* CommitUploadState.swift in Sources */,
 				0AA28FC92872D6F1009BB33F /* CommandRequestFactory.swift in Sources */,
 				0A4DDF81286D750B002DFE51 /* main.swift in Sources */,
 				EE479DC728707F9B00140E15 /* CoreEntity.swift in Sources */,
@@ -317,6 +346,8 @@
 				EE984732286F01DE005B2F38 /* GetAppStoreVersionsCommand.swift in Sources */,
 				EE98473A286F0249005B2F38 /* DeleteAppStoreVersionLocalizationCommand.swift in Sources */,
 				EE479DC528707F2200140E15 /* UsageExamples.swift in Sources */,
+				0A9A8F32287300D40037ACA6 /* DataUploadState.swift in Sources */,
+				0A9A8F2C287300690037ACA6 /* ScreenshotUploader2.swift in Sources */,
 				0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */,
 				EE479DBB2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift in Sources */,
 				EE984727286F00EB005B2F38 /* GetScreenshotCommand.swift in Sources */,
@@ -325,6 +356,7 @@
 				EE984729286F0109005B2F38 /* GetScreenshotSetsCommand.swift in Sources */,
 				EE98473F286F0E97005B2F38 /* Configuration.swift in Sources */,
 				EE98473D286F0351005B2F38 /* HTTPHandler.swift in Sources */,
+				0A9A8F2E2873008B0037ACA6 /* RequestUploadState.swift in Sources */,
 				EE98472E286F0171005B2F38 /* CommitAssetUploadCommand.swift in Sources */,
 				EE98472B286F0131005B2F38 /* DeleteScreenshotSetCommand.swift in Sources */,
 				EE984736286F0211005B2F38 /* GetAppStoreVersionLocalizationsCommand.swift in Sources */,
@@ -369,6 +401,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -429,6 +462,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -454,7 +488,9 @@
 			baseConfigurationReference = 812981D411EC7CB8F5A364F1 /* Pods-AppstoreAutomation.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -465,7 +501,9 @@
 			baseConfigurationReference = 6FC70EAD366CF3647946AD1D /* Pods-AppstoreAutomation.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
