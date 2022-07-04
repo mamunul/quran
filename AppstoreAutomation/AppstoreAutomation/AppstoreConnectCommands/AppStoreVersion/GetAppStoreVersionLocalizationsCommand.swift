@@ -40,7 +40,7 @@ class GetAppStoreVersionLocalizationsCommand {
         return urlRequest
     }
 
-    func execute(appStoreVersionId: String, apiAccess: APIAccess) async throws ->
+    func execute(appStoreVersionId: String) async throws ->
         AppStoreVersionLocalizationsResponse {
         let request = APIRequest(appStoreVersionId: appStoreVersionId)
         let urlRequest = makeURLRequest(apiRequest: request)

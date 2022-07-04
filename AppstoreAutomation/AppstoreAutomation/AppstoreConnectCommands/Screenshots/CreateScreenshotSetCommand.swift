@@ -82,7 +82,7 @@ class CreateScreenshotSetCommand {
         return request
     }
 
-    func execute(appStoreVersionLocalizaitonId: String, displayType: DisplayType, apiAccess: APIAccess) async throws ->
+    func execute(appStoreVersionLocalizaitonId: String, displayType: DisplayType) async throws ->
         AppScreenshotSetResponse {
         let request = makeAPIRequest(appStoreVersionLocalizaitonId: appStoreVersionLocalizaitonId, displayType: displayType)
         let urlRequest = try makeURLRequest(apiRequest: request)

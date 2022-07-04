@@ -64,7 +64,7 @@ class GetAppStoreVersionsCommand {
         return urlRequest
     }
 
-    func execute(appId: String, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
+    func execute(appId: String) async throws -> AppStoreVersionsResponse {
         let request = APIRequest(appId: appId)
         let urlRequest = makeURLRequest(apiRequest: request)
         let response: AppStoreVersionsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)

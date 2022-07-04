@@ -69,7 +69,7 @@ class RequestUploadCommand {
         return request
     }
 
-    func execute(appScreenshotSetId: String, fileName: String, fileSize: Int, apiAccess: APIAccess) async throws ->
+    func execute(appScreenshotSetId: String, fileName: String, fileSize: Int) async throws ->
         ScreenshotResponse {
         let request = makeAPIRequest(appScreenshotSetId: appScreenshotSetId, fileName: fileName, fileSize: fileSize)
         let urlRequest = try makeURLRequest(apiRequest: request)

@@ -26,8 +26,7 @@ class ScreenshotUploader {
         let response = try await uploadRequestCommand.execute(
             appScreenshotSetId: appScreenshotSetId,
             fileName: fileName,
-            fileSize: fileSize,
-            apiAccess: apiAccess!
+            fileSize: fileSize
         )
         return response.data
     }
@@ -35,7 +34,7 @@ class ScreenshotUploader {
     private func deleteReservationIfUploadFailed(reservationId: String) async {
         do {
             let deleteCommand = DeleteAppScreenshotsCommand(apiAccess: apiAccess!)
-            try await deleteCommand.execute(appScreenshotId: reservationId, apiAccess: apiAccess!)
+            try await deleteCommand.execute(appScreenshotId: reservationId)
         } catch {
             print(error)
         }
@@ -47,7 +46,7 @@ class ScreenshotUploader {
         for upload in uploads {
             let subData = assetData.subdata(in: upload.offset ..< upload.length + upload.offset)
             do {
-                try await uploadCommand.execute(upload: upload, data: subData, apiAccess: apiAccess!)
+                try await uploadCommand.execute(upload: upload, data: subData)
             } catch {
                 print(error)
                 await deleteReservationIfUploadFailed(reservationId: response.id)

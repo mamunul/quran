@@ -42,7 +42,7 @@ class GetAppInfoCommand {
         return urlRequest
     }
 
-    func execute(appId: String, apiAccess: APIAccess) async throws -> APIResponse {
+    func execute(appId: String) async throws -> APIResponse {
         let request = APIRequest(appId: appId)
         let urlRequest = makeURLRequest(apiRequest: request)
         let response: APIResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)

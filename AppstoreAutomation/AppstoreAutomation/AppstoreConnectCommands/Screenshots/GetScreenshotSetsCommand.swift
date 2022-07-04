@@ -49,7 +49,7 @@ class GetScreenshotSetsCommand {
         return urlRequest
     }
 
-    func execute(appStoreLocalizedVersionId: String, apiAccess: APIAccess) async throws -> AppScreenshotSetsResponse {
+    func execute(appStoreLocalizedVersionId: String) async throws -> AppScreenshotSetsResponse {
         let request = APIRequest(localizationId: appStoreLocalizedVersionId)
         let urlRequest = makeURLRequest(apiRequest: request)
         let response: AppScreenshotSetsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
