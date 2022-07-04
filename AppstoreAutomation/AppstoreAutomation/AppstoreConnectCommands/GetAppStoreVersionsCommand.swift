@@ -19,6 +19,12 @@ struct AppStoreVersionAttributes: Codable {
     var downloadable: Bool
 }
 
+struct AppStoreVersion: Codable {
+    var attributes: AppStoreVersionAttributes
+    var type: String
+    var id: String
+}
+
 ///
 /// Command to get the id of the avialable platform for an app
 ///
@@ -31,12 +37,6 @@ struct AppStoreVersionAttributes: Codable {
 /// ```
 class GetAppStoreVersionsCommand {
     private let method = Method.get
-
-    struct AppStoreVersion: Codable {
-        var attributes: AppStoreVersionAttributes
-        var type: String
-        var id: String
-    }
 
     struct Request {
         static var empty: Request = Request(appId: "")

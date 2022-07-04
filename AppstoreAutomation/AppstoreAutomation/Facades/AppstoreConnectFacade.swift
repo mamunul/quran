@@ -33,92 +33,111 @@ class AppstoreConnectFacade {
 
     func modifyAppInfoLocalization(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes) async throws {
         let apiAccess = try verifyAPIAcess()
-        let response1 =
+        let response =
             try await ModifyAppInfoLocalizationCommand().execute(
                 appInfoLocalizationId: appInfoLocalizationId,
                 attributes: attributes,
                 apiAccess: apiAccess
             )
-        print(response1)
+        print(response)
     }
 
     func modifyAppStoreVersionLocalization(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes) async throws {
         let apiAccess = try verifyAPIAcess()
-        let response2 =
+        let response =
             try await ModifyAppStoreVersionLocalizationCommand().execute(
                 appStoreVersionLocalizaitonId: appStoreVersionLocalizaitonId,
                 attributes: attributes,
                 apiAccess: apiAccess
             )
-        print(response2)
+        print(response)
     }
 
-    func createAppStoreVersionLocalizaiton(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes) async throws {
+    func createAppStoreVersionLocalizaiton(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes) async throws ->
+        String {
         let apiAccess = try verifyAPIAcess()
-        let response2 =
+        let response =
             try await CreateAppStoreVersionLocalizationCommand().execute(
                 appStoreVersionId: appStoreVersionId,
                 attributes: attributes,
                 apiAccess: apiAccess
             )
-        print(response2)
+        print(response)
+        return response.data.id
     }
 
-    func createAppInfoLocalization(appInfoId: String, attributes: AppInfoLocalizationAttributes) async throws {
+    func createAppInfoLocalization(appInfoId: String, attributes: AppInfoLocalizationAttributes) async throws -> String {
         let apiAccess = try verifyAPIAcess()
 
-        let response1 =
+        let response =
             try await CreateAppInfoLocalizationCommand().execute(
                 appInfoId: appInfoId,
                 attributes: attributes,
                 apiAccess: apiAccess
             )
-        print(response1)
+        print(response)
+
+        return response.data.id
     }
 
     func getAppInfoLocalizations(appInfoId: String) async throws -> [AppInfoLocalization] {
         let apiAccess = try verifyAPIAcess()
-        let response4 = try await GetAppInfoLocalizationsCommand().execute(appInfoId: appInfoId, apiAccess: apiAccess)
+        let response = try await GetAppInfoLocalizationsCommand().execute(appInfoId: appInfoId, apiAccess: apiAccess)
 
-        return response4.data
+        return response.data
     }
 
-    func getScreenshots(screenshotSetId: String) async throws {
+    func getScreenshots(screenshotSetId: String) async throws -> [AppScreenshot] {
         let apiAccess = try verifyAPIAcess()
-        let response4 = try await GetScreenshotCommand().execute(screenshotSetId: screenshotSetId, apiAccess: apiAccess)
+        let response = try await GetScreenshotCommand().execute(screenshotSetId: screenshotSetId, apiAccess: apiAccess)
+        return response.data
+    }
 
-        print(response4)
+    func getScreenshotSets(appStoreLocalizedVersionId: String) async throws -> [AppScreenshotSet] {
+        let apiAccess = try verifyAPIAcess()
+        let response =
+            try await GetScreenshotSetsCommand().execute(
+                appStoreLocalizedVersionId: appStoreLocalizedVersionId,
+                apiAccess: apiAccess
+            )
+
+        return response.data
     }
 
     func getScreenshotSetId(displayType: DisplayType, appStoreLocalizedVersionId: String) async throws -> String? {
-        let apiAccess = try verifyAPIAcess()
-        let response3 =
-        try await GetScreenshotSetsCommand().execute(
-            appStoreLocalizedVersionId: appStoreLocalizedVersionId,
-            apiAccess: apiAccess
-        )
-        let screenshotSetId = response3.data.first(where: { $0.attributes.screenshotDisplayType == displayType })?.id
+        let response = try await getScreenshotSets(appStoreLocalizedVersionId: appStoreLocalizedVersionId)
+        let screenshotSetId = response.first(where: { $0.attributes.screenshotDisplayType == displayType })?.id
 
         return screenshotSetId
     }
 
-    func getAppStoreVesionId(platform: Platform, appId: String) async throws -> String? {
+    func getAppstoreVersions(appId: String) async throws -> [AppStoreVersion] {
         let apiAccess = try verifyAPIAcess()
-
         let response = try await GetAppStoreVersionsCommand().execute(appId: appId, apiAccess: apiAccess)
-        let appPlatformId = response.data.first(where: { $0.attributes.platform == platform })?.id
+        return response.data
+    }
+
+    func getAppStoreVesionId(platform: Platform, appId: String) async throws -> String? {
+        let response = try await getAppstoreVersions(appId: appId)
+        let appPlatformId = response.first(where: { $0.attributes.platform == platform })?.id
         return appPlatformId
     }
 
-    func getAppStoreLocalizedVersionId(appStoreVersionId: String, localization: Localization) async throws -> String? {
+    func getAppStoreVersionLocalizations(appStoreVersionId: String) async throws ->
+        [AppStoreVersionLocalization] {
         let apiAccess = try verifyAPIAcess()
-        let response2 =
+        let response =
             try await GetAppStoreVersionLocalizationsCommand().execute(
                 appStoreVersionId: appStoreVersionId,
-                localization: localization,
                 apiAccess: apiAccess
             )
-        let localizedVersionId = response2.data.first(where: { $0.attributes.locale == localization })?.id
+
+        return response.data
+    }
+
+    func getAppStoreLocalizedVersionId(appStoreVersionId: String, localization: Localization) async throws -> String? {
+        let localizations = try await getAppStoreVersionLocalizations(appStoreVersionId: appStoreVersionId)
+        let localizedVersionId = localizations.first(where: { $0.attributes.locale == localization })?.id
         return localizedVersionId
     }
 
@@ -132,10 +151,9 @@ class AppstoreConnectFacade {
 
     func getAppInfoId(appId: String) async throws -> String? {
         let apiAccess = try verifyAPIAcess()
-        let request4 = GetAppInfoCommand.Request(appId: appId)
-        let response4 = try await GetAppInfoCommand().execute(request: request4, apiAccess: apiAccess)
+        let response = try await GetAppInfoCommand().execute(appId: appId, apiAccess: apiAccess)
 
-        let appInfoId = response4.data.first?.id
+        let appInfoId = response.data.first?.id
         return appInfoId
     }
 

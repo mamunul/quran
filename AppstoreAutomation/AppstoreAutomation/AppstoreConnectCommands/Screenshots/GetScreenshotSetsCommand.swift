@@ -13,18 +13,16 @@ enum DisplayType: String, Codable {
     case APP_DESKTOP
 }
 
+struct AppScreenshotSet: Codable {
+    var attributes: GetScreenshotSetsCommand.Attributes
+    var id: String
+    var links: DocumentLink
+    var type: String
+}
+
 class GetScreenshotSetsCommand {
     struct Attributes: Codable {
         var screenshotDisplayType: DisplayType
-    }
-
-    struct AppScreenshotSet: Codable {
-        var attributes: Attributes
-        var id: String
-
-        var links: DocumentLink
-
-        var type: String
     }
 
     struct AppScreenshotSetsResponse: Codable {
