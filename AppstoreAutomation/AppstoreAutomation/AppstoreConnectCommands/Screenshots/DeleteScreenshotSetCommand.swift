@@ -9,7 +9,7 @@ import Foundation
 
 class DeleteScreenshotSetCommand {
     /*
-     DELETE \(baseUrl)/appScreenshotSets/{id}
+     DELETE \(apiAccess.baseUrl)/appScreenshotSets/{id}
      */
 
     struct APIRequest {
@@ -24,7 +24,7 @@ class DeleteScreenshotSetCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
-        let urlString = "\(baseUrl)/appScreenshotSets/\(apiRequest.appScreenshotsId)"
+        let urlString = "\(apiAccess.baseUrl)/appScreenshotSets/\(apiRequest.appScreenshotsId)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

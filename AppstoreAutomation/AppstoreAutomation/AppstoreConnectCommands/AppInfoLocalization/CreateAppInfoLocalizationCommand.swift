@@ -44,11 +44,12 @@ class CreateAppInfoLocalizationCommand {
     }
 
     private let method = Method.post
-    let urlString = "\(baseUrl)/appInfoLocalizations"
+    private var urlString: String
     private let apiAccess: APIAccess
 
     init(apiAccess: APIAccess) {
         self.apiAccess = apiAccess
+        urlString = "\(apiAccess.baseUrl)/appInfoLocalizations"
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {

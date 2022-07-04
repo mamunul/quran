@@ -26,7 +26,7 @@ class GetAppInfoLocalizationsCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
-        let urlString = "\(baseUrl)/appInfos/\(apiRequest.appInfoId)/appInfoLocalizations"
+        let urlString = "\(apiAccess.baseUrl)/appInfos/\(apiRequest.appInfoId)/appInfoLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

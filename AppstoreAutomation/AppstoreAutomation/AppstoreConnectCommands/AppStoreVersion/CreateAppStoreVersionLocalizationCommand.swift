@@ -76,11 +76,12 @@ class CreateAppStoreVersionLocalizationCommand {
     }
 
     private let method = Method.post
-    let urlString = "\(baseUrl)/appStoreVersionLocalizations"
+    private var urlString: String
     private let apiAccess: APIAccess
 
     init(apiAccess: APIAccess) {
         self.apiAccess = apiAccess
+        urlString = "\(apiAccess.baseUrl)/appStoreVersionLocalizations"
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {

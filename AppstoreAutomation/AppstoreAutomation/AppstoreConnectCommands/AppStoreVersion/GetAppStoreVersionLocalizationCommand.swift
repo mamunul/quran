@@ -22,7 +22,7 @@ class GetAppStoreVersionLocalizationCommand {
     }
 
     private func makeURLRequest(appStoreVersionLocalizationId: String) -> URLRequest {
-        let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(appStoreVersionLocalizationId)"
+        let urlString = "\(apiAccess.baseUrl)/appStoreVersionLocalizations/\(appStoreVersionLocalizationId)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

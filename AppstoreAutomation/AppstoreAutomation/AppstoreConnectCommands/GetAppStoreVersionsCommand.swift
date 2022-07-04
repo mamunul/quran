@@ -57,7 +57,7 @@ class GetAppStoreVersionsCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
-        let urlString = "\(baseUrl)/apps/\(apiRequest.appId)/appStoreVersions"
+        let urlString = "\(apiAccess.baseUrl)/apps/\(apiRequest.appId)/appStoreVersions"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

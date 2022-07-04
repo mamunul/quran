@@ -63,7 +63,7 @@ class CreateScreenshotSetCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
-        let urlString = "\(baseUrl)/appScreenshotSets"
+        let urlString = "\(apiAccess.baseUrl)/appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
