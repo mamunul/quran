@@ -36,8 +36,6 @@ struct AppStoreVersion: Codable {
 ///
 /// ```
 class GetAppStoreVersionsCommand {
-    private let method = Method.get
-
     struct APIRequest {
         static var empty: APIRequest = APIRequest(appId: "")
         static var quranApp = APIRequest(appId: "1632370801")
@@ -49,6 +47,13 @@ class GetAppStoreVersionsCommand {
     struct AppStoreVersionsResponse: Codable {
         var data: [AppStoreVersion]
         var links: DocumentLink
+    }
+
+    private let method = Method.get
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {

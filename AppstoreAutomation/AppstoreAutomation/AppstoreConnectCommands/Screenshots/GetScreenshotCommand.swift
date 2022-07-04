@@ -68,6 +68,11 @@ class GetScreenshotCommand {
     }
 
     private let method = Method.get
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
+    }
 
     struct APIRequest {
         /// this is actually platform id of an app

@@ -20,11 +20,16 @@ struct AppStoreVersionLocalizationsResponse: Codable {
 }
 
 class GetAppStoreVersionLocalizationsCommand {
-    private let method = Method.get
-
     struct APIRequest {
         /// this is actually platform id of an app
         var appStoreVersionId: String
+    }
+
+    private let method = Method.get
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {

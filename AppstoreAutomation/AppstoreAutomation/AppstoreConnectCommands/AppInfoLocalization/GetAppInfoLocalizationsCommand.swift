@@ -14,10 +14,15 @@ struct AppInfoLocalizationsResponse: Codable {
 }
 
 class GetAppInfoLocalizationsCommand {
-    private let method = Method.get
-
     struct APIRequest: Codable {
         var appInfoId: String
+    }
+
+    private let method = Method.get
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {

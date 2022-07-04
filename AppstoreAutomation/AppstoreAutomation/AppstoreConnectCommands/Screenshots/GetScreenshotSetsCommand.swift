@@ -35,6 +35,11 @@ class GetScreenshotSetsCommand {
     }
 
     private let method = Method.get
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
+    }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
         let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(apiRequest.localizationId)/appScreenshotSets"

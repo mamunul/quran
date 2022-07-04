@@ -17,9 +17,6 @@ struct AppInfoLocalizationAttributes: Codable {
 }
 
 class CreateAppInfoLocalizationCommand {
-    private let method = Method.post
-    let urlString = "\(baseUrl)/appInfoLocalizations"
-
     struct AppInfoData: Codable {
         /// appInfo Id
         var id: String
@@ -44,6 +41,14 @@ class CreateAppInfoLocalizationCommand {
 
     struct APIRequest: Codable {
         var data: RequestData
+    }
+
+    private let method = Method.post
+    let urlString = "\(baseUrl)/appInfoLocalizations"
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {

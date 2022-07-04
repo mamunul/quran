@@ -18,7 +18,6 @@ struct AppInfo: Codable {
 }
 
 class GetAppInfoCommand {
-    private let method = Method.get
     struct APIRequest {
         var appId: String
     }
@@ -26,6 +25,13 @@ class GetAppInfoCommand {
     struct APIResponse: Codable {
         var data: [AppInfo]
         var links: PagedDocumentLinks
+    }
+
+    private let method = Method.get
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {

@@ -21,8 +21,6 @@ struct AppInfoLocalizationResponse: Codable {
 }
 
 class ModifyAppInfoLocalizationCommand {
-    private let method = Method.patch
-
     struct AppInfoData: Codable {
         /// appInfo Id
         var id: String
@@ -45,6 +43,13 @@ class ModifyAppInfoLocalizationCommand {
 
     struct APIRequest: Codable {
         var data: RequestData
+    }
+
+    private let method = Method.patch
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
