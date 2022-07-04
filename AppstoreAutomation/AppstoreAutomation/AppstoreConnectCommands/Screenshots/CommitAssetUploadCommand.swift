@@ -23,11 +23,13 @@ class CommitAssetUploadCommand {
         var attributes: RequestDataAttributes
     }
 
-    struct UploadCommitRequest: Codable {
+    struct APIRequest: Codable {
         var data: RequestData
     }
 
-    private func makeURLRequest(apiRequest: UploadCommitRequest) throws -> URLRequest {
+    private let method = Method.patch
+
+    private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
         let urlString = "\(baseUrl)/appScreenshots/\(apiRequest.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
@@ -37,8 +39,15 @@ class CommitAssetUploadCommand {
         return urlRequest
     }
 
-    private let method = Method.patch
-    func execute(request: UploadCommitRequest, access: APIAccess) async throws {
+    private func makeAPIRequest(reservationId: String, sourceFileChecksum: String) -> APIRequest {
+        let attributes = RequestDataAttributes(uploaded: true, sourceFileChecksum: sourceFileChecksum)
+        let data = RequestData(id: reservationId, attributes: attributes)
+        let request = APIRequest(data: data)
+        return request
+    }
+
+    func execute(reservationId: String, sourceFileChecksum: String, access: APIAccess) async throws {
+        let request = makeAPIRequest(reservationId: reservationId, sourceFileChecksum: sourceFileChecksum)
         let urlRequest = try makeURLRequest(apiRequest: request)
         try await HTTPHandler().execute(urlRequest: urlRequest, access: access)
     }

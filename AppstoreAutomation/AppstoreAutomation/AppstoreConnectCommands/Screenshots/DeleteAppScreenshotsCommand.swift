@@ -22,7 +22,8 @@ class DeleteAppScreenshotsCommand {
         return urlRequest
     }
 
-    func execute(request: APIRequest, apiAccess: APIAccess) async throws {
+    func execute(appScreenshotId: String, apiAccess: APIAccess) async throws {
+        let request = APIRequest(appScreenshotId: appScreenshotId)
         let urlRequest = makeURLRequest(apiRequest: request)
         try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
     }
