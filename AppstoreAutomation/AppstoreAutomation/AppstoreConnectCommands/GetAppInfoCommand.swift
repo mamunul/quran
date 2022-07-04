@@ -35,7 +35,7 @@ class GetAppInfoCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
-        let urlString = "\(baseUrl)/apps/\(apiRequest.appId)/appInfos"
+        let urlString = "\(apiAccess.baseUrl)/apps/\(apiRequest.appId)/appInfos"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

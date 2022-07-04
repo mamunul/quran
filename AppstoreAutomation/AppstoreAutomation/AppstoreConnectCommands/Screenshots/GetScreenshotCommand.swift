@@ -80,7 +80,7 @@ class GetScreenshotCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
-        let urlString = "\(baseUrl)/appScreenshotSets/\(apiRequest.appscreenshotSetId)/appScreenshots"
+        let urlString = "\(apiAccess.baseUrl)/appScreenshotSets/\(apiRequest.appscreenshotSetId)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

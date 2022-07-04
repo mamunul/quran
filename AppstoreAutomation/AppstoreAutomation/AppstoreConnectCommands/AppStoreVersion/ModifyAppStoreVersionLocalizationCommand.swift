@@ -39,7 +39,7 @@ class ModifyAppStoreVersionLocalizationCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
-        let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(apiRequest.data.id)"
+        let urlString = "\(apiAccess.baseUrl)/appStoreVersionLocalizations/\(apiRequest.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

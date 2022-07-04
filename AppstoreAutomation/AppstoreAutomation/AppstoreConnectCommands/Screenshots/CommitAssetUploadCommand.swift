@@ -31,7 +31,7 @@ class CommitAssetUploadCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
-        let urlString = "\(baseUrl)/appScreenshots/\(apiRequest.data.id)"
+        let urlString = "\(apiAccess.baseUrl)/appScreenshots/\(apiRequest.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

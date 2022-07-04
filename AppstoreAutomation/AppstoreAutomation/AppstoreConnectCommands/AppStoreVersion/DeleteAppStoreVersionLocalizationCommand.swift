@@ -16,7 +16,7 @@ class DeleteAppStoreVersionLocalizationCommand {
     }
 
     private func makeURLRequest(appStoreVersionLocalizationId: String) -> URLRequest {
-        let urlString = "\(baseUrl)/appStoreVersions/\(appStoreVersionLocalizationId)/appStoreVersionLocalizations"
+        let urlString = "\(apiAccess.baseUrl)/appStoreVersions/\(appStoreVersionLocalizationId)/appStoreVersionLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue

@@ -53,7 +53,7 @@ class ModifyAppInfoLocalizationCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
-        let urlString = "\(baseUrl)/appInfoLocalizations/\(apiRequest.data.id)"
+        let urlString = "\(apiAccess.baseUrl)/appInfoLocalizations/\(apiRequest.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

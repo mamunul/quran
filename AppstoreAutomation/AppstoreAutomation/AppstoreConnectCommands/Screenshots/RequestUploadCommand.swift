@@ -8,7 +8,7 @@
 import Foundation
 
 class RequestUploadCommand {
-//    POST \(baseUrl)/appScreenshots
+//    POST \(apiAccess.baseUrl)/appScreenshots
     struct AppScreenshotSetData: Codable {
         var id: String
         var type: String = "appScreenshotSets"
@@ -50,7 +50,7 @@ class RequestUploadCommand {
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
-        let urlString = "\(baseUrl)/appScreenshots"
+        let urlString = "\(apiAccess.baseUrl)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
