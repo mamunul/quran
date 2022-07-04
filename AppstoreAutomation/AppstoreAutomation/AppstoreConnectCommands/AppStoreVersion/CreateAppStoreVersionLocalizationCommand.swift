@@ -101,7 +101,7 @@ class CreateAppStoreVersionLocalizationCommand {
         return request
     }
 
-    func execute(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess) async throws ->
+    func execute(appStoreVersionId: String, attributes: AppStoreVersionLocalizationAttributes) async throws ->
         AppStoreVersionLocalizationResponse {
         let request = makeAPIRequest(appStoreVersionId: appStoreVersionId, attributes: attributes)
         let urlRequest = try makeURLRequest(apiRequest: request)

@@ -14,7 +14,7 @@ class DataUploadCommand {
         self.apiAccess = apiAccess
     }
 
-    func execute(upload: UploadOperation, data: Data, apiAccess: APIAccess) async throws {
+    func execute(upload: UploadOperation, data: Data) async throws {
         let url = URL(string: upload.url)!
         var urlRequest = URLRequest(url: url)
 

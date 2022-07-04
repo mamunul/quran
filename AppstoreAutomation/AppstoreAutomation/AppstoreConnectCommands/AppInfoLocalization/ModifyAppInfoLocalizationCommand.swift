@@ -68,7 +68,7 @@ class ModifyAppInfoLocalizationCommand {
         return request
     }
 
-    func execute(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes, apiAccess: APIAccess) async throws ->
+    func execute(appInfoLocalizationId: String, attributes: AppInfoLocalizationAttributes) async throws ->
         AppInfoLocalizationResponse {
         let request = makeAPIRequest(appInfoLocalizationId: appInfoLocalizationId, attributes: attributes)
         let urlRequest = try makeURLRequest(apiRequest: request)

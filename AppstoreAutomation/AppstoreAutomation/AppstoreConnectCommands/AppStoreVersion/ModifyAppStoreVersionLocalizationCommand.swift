@@ -54,7 +54,7 @@ class ModifyAppStoreVersionLocalizationCommand {
         return request
     }
 
-    func execute(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess)
+    func execute(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes)
     async throws -> AppStoreVersionLocalizationResponse {
         let request = makeAPIRequest(appStoreVersionLocalizaitonId: appStoreVersionLocalizaitonId, attributes: attributes)
         let urlRequest = try makeURLRequest(apiRequest: request)

@@ -33,7 +33,7 @@ class GetAppInfoLocalizationsCommand {
         return urlRequest
     }
 
-    func execute(appInfoId: String, apiAccess: APIAccess) async throws -> AppInfoLocalizationsResponse {
+    func execute(appInfoId: String) async throws -> AppInfoLocalizationsResponse {
         let request = APIRequest(appInfoId: appInfoId)
         let urlRequest = makeURLRequest(apiRequest: request)
         let response: AppInfoLocalizationsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)

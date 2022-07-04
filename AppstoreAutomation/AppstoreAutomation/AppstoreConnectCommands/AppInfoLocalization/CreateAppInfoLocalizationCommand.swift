@@ -69,7 +69,7 @@ class CreateAppInfoLocalizationCommand {
         return request
     }
 
-    func execute(appInfoId: String, attributes: AppInfoLocalizationAttributes, apiAccess: APIAccess) async throws ->
+    func execute(appInfoId: String, attributes: AppInfoLocalizationAttributes) async throws ->
         AppInfoLocalizationResponse {
         let request = makeAPIRequest(appInfoId: appInfoId, attributes: attributes)
         let urlRequest = try makeURLRequest(apiRequest: request)

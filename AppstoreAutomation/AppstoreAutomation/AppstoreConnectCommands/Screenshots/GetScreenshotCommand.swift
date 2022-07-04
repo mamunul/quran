@@ -87,7 +87,7 @@ class GetScreenshotCommand {
         return urlRequest
     }
 
-    func execute(screenshotSetId: String, apiAccess: APIAccess) async throws -> AppScreenshotsResponse {
+    func execute(screenshotSetId: String) async throws -> AppScreenshotsResponse {
         let request = APIRequest(appscreenshotSetId: screenshotSetId)
         let urlRequest = makeURLRequest(apiRequest: request)
         let response: AppScreenshotsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)

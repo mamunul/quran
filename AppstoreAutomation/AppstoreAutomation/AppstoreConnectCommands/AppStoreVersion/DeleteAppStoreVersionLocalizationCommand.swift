@@ -9,6 +9,7 @@ import Foundation
 
 class DeleteAppStoreVersionLocalizationCommand {
     private let apiAccess: APIAccess
+    private let method = Method.delete
 
     init(apiAccess: APIAccess) {
         self.apiAccess = apiAccess
@@ -22,8 +23,7 @@ class DeleteAppStoreVersionLocalizationCommand {
         return urlRequest
     }
 
-    private let method = Method.delete
-    func execute(appStoreVersionLocalizationId: String, apiAccess: APIAccess) async throws {
+    func execute(appStoreVersionLocalizationId: String) async throws {
         let urlRequest = makeURLRequest(appStoreVersionLocalizationId: appStoreVersionLocalizationId)
         try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
     }
