@@ -22,19 +22,20 @@ class ScreenshotUploader {
     private var apiAccess: APIAccess?
     private func makeAnUploadRequest(_ appScreenshotSetId: String, _ fileName: String, _ fileSize: Int) async throws ->
         AppScreenshot {
-        let response =
-            try await RequestUploadCommand().execute(
-                appScreenshotSetId: appScreenshotSetId,
-                fileName: fileName,
-                fileSize: fileSize,
-                apiAccess: apiAccess!
-            )
+        let uploadRequestCommand = RequestUploadCommand(apiAccess: apiAccess!)
+        let response = try await uploadRequestCommand.execute(
+            appScreenshotSetId: appScreenshotSetId,
+            fileName: fileName,
+            fileSize: fileSize,
+            apiAccess: apiAccess!
+        )
         return response.data
     }
 
     private func deleteReservationIfUploadFailed(reservationId: String) async {
         do {
-            try await DeleteAppScreenshotsCommand().execute(appScreenshotId: reservationId, apiAccess: apiAccess!)
+            let deleteCommand = DeleteAppScreenshotsCommand(apiAccess: apiAccess!)
+            try await deleteCommand.execute(appScreenshotId: reservationId, apiAccess: apiAccess!)
         } catch {
             print(error)
         }
@@ -42,10 +43,11 @@ class ScreenshotUploader {
 
     private func uploadTheAsset(response: AppScreenshot, assetData: Data) async throws {
         let uploads = response.attributes.uploadOperations ?? []
+        let uploadCommand = DataUploadCommand(apiAccess: apiAccess!)
         for upload in uploads {
             let subData = assetData.subdata(in: upload.offset ..< upload.length + upload.offset)
             do {
-                try await DataUploadCommand().execute(upload: upload, data: subData, apiAccess: apiAccess!)
+                try await uploadCommand.execute(upload: upload, data: subData, apiAccess: apiAccess!)
             } catch {
                 print(error)
                 await deleteReservationIfUploadFailed(reservationId: response.id)
@@ -55,7 +57,8 @@ class ScreenshotUploader {
     }
 
     private func commitTheUpload(reservationId: String, checksum: String) async throws {
-        try await CommitAssetUploadCommand().execute(
+        let commitUploadCommand = CommitAssetUploadCommand(apiAccess: apiAccess!)
+        try await commitUploadCommand.execute(
             reservationId: reservationId,
             sourceFileChecksum: checksum,
             access: apiAccess!

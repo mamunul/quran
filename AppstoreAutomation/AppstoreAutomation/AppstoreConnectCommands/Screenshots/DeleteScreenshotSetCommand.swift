@@ -17,6 +17,11 @@ class DeleteScreenshotSetCommand {
     }
 
     private let method = Method.delete
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
+    }
 
     private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
         let urlString = "\(baseUrl)/appScreenshotSets/\(apiRequest.appScreenshotsId)"

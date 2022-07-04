@@ -8,10 +8,6 @@
 import Foundation
 
 class CommitAssetUploadCommand {
-    /*
-     PATCH /v1/appScreenshots/4d62262c-4ec1-4d89-b82c-c7b7a402e866
-     */
-
     struct RequestDataAttributes: Codable {
         var uploaded: Bool
         var sourceFileChecksum: String
@@ -28,6 +24,11 @@ class CommitAssetUploadCommand {
     }
 
     private let method = Method.patch
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
+    }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
         let urlString = "\(baseUrl)/appScreenshots/\(apiRequest.data.id)"

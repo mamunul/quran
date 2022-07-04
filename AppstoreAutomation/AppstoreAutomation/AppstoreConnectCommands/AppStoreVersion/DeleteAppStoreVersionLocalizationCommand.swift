@@ -8,6 +8,12 @@
 import Foundation
 
 class DeleteAppStoreVersionLocalizationCommand {
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
+    }
+
     private func makeURLRequest(appStoreVersionLocalizationId: String) -> URLRequest {
         let urlString = "\(baseUrl)/appStoreVersions/\(appStoreVersionLocalizationId)/appStoreVersionLocalizations"
         let url: URL = URL(string: urlString)!

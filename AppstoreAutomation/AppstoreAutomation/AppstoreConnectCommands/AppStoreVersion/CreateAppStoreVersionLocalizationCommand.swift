@@ -42,9 +42,6 @@ struct AppStoreVersionLocalizationAttributes: Codable {
 }
 
 class CreateAppStoreVersionLocalizationCommand {
-    private let method = Method.post
-    let urlString = "\(baseUrl)/appStoreVersionLocalizations"
-
     struct RelationshipData: Codable {
         var type: String = "appStoreVersions"
         var id: String
@@ -76,6 +73,14 @@ class CreateAppStoreVersionLocalizationCommand {
 
     struct AppStoreVersionLocalizationResponse: Codable {
         var data: ResponseData
+    }
+
+    private let method = Method.post
+    let urlString = "\(baseUrl)/appStoreVersionLocalizations"
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {

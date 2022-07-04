@@ -8,8 +8,6 @@
 import Foundation
 
 class ModifyAppStoreVersionLocalizationCommand {
-    private let method = Method.patch
-
     struct RelationshipData: Codable {
         var type: String = "appStoreVersions"
         var id: String
@@ -31,6 +29,13 @@ class ModifyAppStoreVersionLocalizationCommand {
 
     struct APIRequest: Codable {
         var data: RequestData
+    }
+
+    private let method = Method.patch
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
     }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {

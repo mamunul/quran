@@ -8,6 +8,11 @@
 import Foundation
 
 class DataUploadCommand {
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
+    }
 
     func execute(upload: UploadOperation, data: Data, apiAccess: APIAccess) async throws {
         let url = URL(string: upload.url)!

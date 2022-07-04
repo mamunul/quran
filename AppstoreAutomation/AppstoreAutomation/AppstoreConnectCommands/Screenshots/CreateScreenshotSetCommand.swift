@@ -56,6 +56,11 @@ class CreateScreenshotSetCommand {
     }
 
     private let method = Method.post
+    private let apiAccess: APIAccess
+
+    init(apiAccess: APIAccess) {
+        self.apiAccess = apiAccess
+    }
 
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
         let urlString = "\(baseUrl)/appScreenshotSets"
