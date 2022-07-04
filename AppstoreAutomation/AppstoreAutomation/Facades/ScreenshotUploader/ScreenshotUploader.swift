@@ -8,11 +8,21 @@
 import Foundation
 import CryptoKit
 
-protocol UploadCommandState {
-    func execute(uploader: ScreenshotUploader2) async throws
+struct Screenshot {
+    let url: URL
+    let displayType: DisplayType
+    let locale: Localization
 }
 
-class ScreenshotUploader2 {
+enum UploadError: Error {
+    case uploadFailed
+}
+
+protocol UploadCommandState {
+    func execute(uploader: ScreenshotUploader) async throws
+}
+
+class ScreenshotUploader {
     private var currentStep: UploadCommandState?
     func upload(appScreenshotSetId: String, apiAccess: APIAccess, screenshot: Screenshot) async throws {
         let data = try Data(contentsOf: screenshot.url)

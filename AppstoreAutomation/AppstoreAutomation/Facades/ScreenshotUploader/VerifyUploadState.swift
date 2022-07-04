@@ -9,7 +9,7 @@ import Foundation
 
 class VerifyUploadState: UploadCommandState {
     var failedStep: CancelUploadState?
-    func execute(uploader: ScreenshotUploader2) async throws {
+    func execute(uploader: ScreenshotUploader) async throws {
         uploader.setStep(step: nil)
     }
 }

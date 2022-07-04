@@ -32,7 +32,7 @@ class CommitUploadState: UploadCommandState {
         )
     }
 
-    func execute(uploader: ScreenshotUploader2) async throws {
+    func execute(uploader: ScreenshotUploader) async throws {
         failedStep = CancelUploadState(apiAccess: apiAccess)
         failedStep?.reservationId = reservationId
         do {
@@ -40,6 +40,7 @@ class CommitUploadState: UploadCommandState {
             uploader.setStep(step: nextStep)
         } catch {
             uploader.setStep(step: failedStep)
+            throw UploadError.uploadFailed
         }
     }
 }

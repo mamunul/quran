@@ -62,7 +62,7 @@ func testGetApi(facade: AppstoreConnectFacade) {
             guard let appPlatformId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId) else { return }
             guard let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .en) else { return }
             guard let screenshotSetId = try await facade.getScreenshotSetId(displayType: .APP_IPHONE_55, appStoreLocalizedVersionId: localizedVersionId) else { return }
-            try await facade.getScreenshots(screenshotSetId: screenshotSetId)
+            _ = try await facade.getScreenshots(screenshotSetId: screenshotSetId)
             print("success")
         } catch {
             print(error)
@@ -81,7 +81,7 @@ func testCreateALocalizationAPI(facade: AppstoreConnectFacade) {
                     name: "Quran in de-DE"
                 )
 
-            try await facade.createAppInfoLocalization(appInfoId: appInfoId, attributes: attributes)
+            _ = try await facade.createAppInfoLocalization(appInfoId: appInfoId, attributes: attributes)
 
         } catch {
             print(error)

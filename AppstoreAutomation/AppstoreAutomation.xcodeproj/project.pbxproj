@@ -8,11 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0A4DDF81286D750B002DFE51 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF80286D750B002DFE51 /* main.swift */; };
-		0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */; };
 		0A4DDF8A286D9A0F002DFE51 /* AuthTokenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF89286D9A0F002DFE51 /* AuthTokenGenerator.swift */; };
-		0A4DDF8C286DB4F2002DFE51 /* AppStoreVersions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */; };
 		0A9A8F292872E2E80037ACA6 /* DataUploadCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F282872E2E80037ACA6 /* DataUploadCommand.swift */; };
-		0A9A8F2C287300690037ACA6 /* ScreenshotUploader2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F2B287300690037ACA6 /* ScreenshotUploader2.swift */; };
+		0A9A8F2C287300690037ACA6 /* ScreenshotUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F2B287300690037ACA6 /* ScreenshotUploader.swift */; };
 		0A9A8F2E2873008B0037ACA6 /* RequestUploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F2D2873008B0037ACA6 /* RequestUploadState.swift */; };
 		0A9A8F30287300B70037ACA6 /* CommitUploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F2F287300B70037ACA6 /* CommitUploadState.swift */; };
 		0A9A8F32287300D40037ACA6 /* DataUploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A8F31287300D40037ACA6 /* DataUploadState.swift */; };
@@ -59,11 +57,9 @@
 /* Begin PBXFileReference section */
 		0A4DDF7D286D750B002DFE51 /* AppstoreAutomation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AppstoreAutomation; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A4DDF80286D750B002DFE51 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotUploader.swift; sourceTree = "<group>"; };
 		0A4DDF89286D9A0F002DFE51 /* AuthTokenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenGenerator.swift; sourceTree = "<group>"; };
-		0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreVersions.swift; sourceTree = "<group>"; };
 		0A9A8F282872E2E80037ACA6 /* DataUploadCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUploadCommand.swift; sourceTree = "<group>"; };
-		0A9A8F2B287300690037ACA6 /* ScreenshotUploader2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotUploader2.swift; sourceTree = "<group>"; };
+		0A9A8F2B287300690037ACA6 /* ScreenshotUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotUploader.swift; sourceTree = "<group>"; };
 		0A9A8F2D2873008B0037ACA6 /* RequestUploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestUploadState.swift; sourceTree = "<group>"; };
 		0A9A8F2F287300B70037ACA6 /* CommitUploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitUploadState.swift; sourceTree = "<group>"; };
 		0A9A8F31287300D40037ACA6 /* DataUploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUploadState.swift; sourceTree = "<group>"; };
@@ -145,7 +141,7 @@
 		0A9A8F2A2873004D0037ACA6 /* ScreenshotUploader */ = {
 			isa = PBXGroup;
 			children = (
-				0A9A8F2B287300690037ACA6 /* ScreenshotUploader2.swift */,
+				0A9A8F2B287300690037ACA6 /* ScreenshotUploader.swift */,
 				0A9A8F2D2873008B0037ACA6 /* RequestUploadState.swift */,
 				0A9A8F2F287300B70037ACA6 /* CommitUploadState.swift */,
 				0A9A8F31287300D40037ACA6 /* DataUploadState.swift */,
@@ -193,7 +189,6 @@
 		EE98473B286F0329005B2F38 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				0A4DDF8B286DB4F2002DFE51 /* AppStoreVersions.swift */,
 				0A4DDF89286D9A0F002DFE51 /* AuthTokenGenerator.swift */,
 				EE98473C286F0351005B2F38 /* HTTPHandler.swift */,
 				EE479DC628707F9B00140E15 /* CoreEntity.swift */,
@@ -228,7 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				0A9A8F2A2873004D0037ACA6 /* ScreenshotUploader */,
-				0A4DDF87286D7A23002DFE51 /* ScreenshotUploader.swift */,
 				EE1F59A0287020FA00EB8BEE /* AppstoreConnectFacade.swift */,
 			);
 			path = Facades;
@@ -328,7 +322,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A4DDF8C286DB4F2002DFE51 /* AppStoreVersions.swift in Sources */,
 				0A9A8F36287301F00037ACA6 /* VerifyUploadState.swift in Sources */,
 				0A9A8F34287301CE0037ACA6 /* CancelUploadState.swift in Sources */,
 				EE3B94EB286DF19100D18FB3 /* CreateScreenshotSetCommand.swift in Sources */,
@@ -347,8 +340,7 @@
 				EE98473A286F0249005B2F38 /* DeleteAppStoreVersionLocalizationCommand.swift in Sources */,
 				EE479DC528707F2200140E15 /* UsageExamples.swift in Sources */,
 				0A9A8F32287300D40037ACA6 /* DataUploadState.swift in Sources */,
-				0A9A8F2C287300690037ACA6 /* ScreenshotUploader2.swift in Sources */,
-				0A4DDF88286D7A23002DFE51 /* ScreenshotUploader.swift in Sources */,
+				0A9A8F2C287300690037ACA6 /* ScreenshotUploader.swift in Sources */,
 				EE479DBB2870445100140E15 /* ModifyAppInfoLocalizationCommand.swift in Sources */,
 				EE984727286F00EB005B2F38 /* GetScreenshotCommand.swift in Sources */,
 				EE984738286F022A005B2F38 /* GetAppStoreVersionLocalizationCommand.swift in Sources */,

@@ -40,6 +40,6 @@ func testUploadScreenshot() {
 //testUploadScreenshot()
 // testModifyAppStoreVersionLocalizedAPI()
 // testModifyAppInfoVersionAPI()
- testGetApi(facade: facade)
+// testGetApi(facade: facade)
 // testCreateALocalizationAPI(facade: facade)
 RunLoop.main.run()

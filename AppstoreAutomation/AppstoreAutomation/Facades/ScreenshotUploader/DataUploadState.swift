@@ -28,7 +28,7 @@ class DataUploadState: UploadCommandState {
         }
     }
 
-    func execute(uploader: ScreenshotUploader2) async throws {
+    func execute(uploader: ScreenshotUploader) async throws {
         failedState = CancelUploadState(apiAccess: apiAccess)
         failedState?.reservationId = appScreenshot?.id
         do {
@@ -37,6 +37,7 @@ class DataUploadState: UploadCommandState {
             uploader.setStep(step: nextStep)
         } catch {
             uploader.setStep(step: failedState)
+            throw UploadError.uploadFailed
         }
     }
 }
