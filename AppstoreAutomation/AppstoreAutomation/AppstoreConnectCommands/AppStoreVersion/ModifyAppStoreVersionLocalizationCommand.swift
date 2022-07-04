@@ -33,7 +33,10 @@ class ModifyAppStoreVersionLocalizationCommand {
         var data: RequestData
     }
 
-    func execute(request: LocalizationRequest, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
+    func execute(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
+        let data = RequestData(attributes: attributes, id: appStoreVersionLocalizaitonId)
+        let request = LocalizationRequest(data: data)
+
         let urlString = "\(baseUrl)appStoreVersionLocalizations/\(request.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

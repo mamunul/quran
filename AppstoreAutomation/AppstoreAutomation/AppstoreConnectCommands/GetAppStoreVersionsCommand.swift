@@ -51,7 +51,8 @@ class GetAppStoreVersionsCommand {
         var links: DocumentLink
     }
 
-    func execute(request: Request, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
+    func execute(appId: String, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
+        let request = Request(appId: appId)
         let urlString = "\(baseUrl)apps/\(request.appId)/appStoreVersions"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

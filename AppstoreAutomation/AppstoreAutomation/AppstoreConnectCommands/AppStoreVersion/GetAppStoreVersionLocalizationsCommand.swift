@@ -27,7 +27,10 @@ class GetAppStoreVersionLocalizationsCommand {
         var appStoreVersionId: String
     }
 
-    func execute(request: Request, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationsResponse {
+    func execute(appStoreVersionId: String, localization: Localization, apiAccess: APIAccess) async throws ->
+        AppStoreVersionLocalizationsResponse {
+        let request = Request(appStoreVersionId: appStoreVersionId)
+
         let urlString = "\(baseUrl)appStoreVersions/\(request.appStoreVersionId)/appStoreVersionLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

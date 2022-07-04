@@ -46,7 +46,14 @@ class CreateAppInfoLocalizationCommand {
         var data: RequestData
     }
 
-    func execute(request: Request, apiAccess: APIAccess) async throws -> AppInfoLocalizationResponse {
+    func execute(appInfoId: String, attributes: AppInfoLocalizationAttributes, apiAccess: APIAccess) async throws ->
+        AppInfoLocalizationResponse {
+        let appInfoData = AppInfoData(id: appInfoId)
+        let appInfo = AppInfo(data: appInfoData)
+        let relationships = Relationships(appInfo: appInfo)
+        let requestData = RequestData(attributes: attributes, relationships: relationships)
+        let request = Request(data: requestData)
+
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

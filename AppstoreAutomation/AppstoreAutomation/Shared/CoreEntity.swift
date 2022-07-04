@@ -20,6 +20,7 @@ struct APIAccess {
     var issuerID: String
     var apiKey: String
     var bundleId: String
+    var baseUrl: String
 }
 
 struct DocumentLink: Codable {

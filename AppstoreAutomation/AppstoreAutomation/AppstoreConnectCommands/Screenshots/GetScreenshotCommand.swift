@@ -74,7 +74,8 @@ class GetScreenshotCommand {
         var appscreenshotSetId: String
     }
 
-    func execute(request: Request, apiAccess: APIAccess) async throws -> AppScreenshotsResponse {
+    func execute(screenshotSetId: String, apiAccess: APIAccess) async throws -> AppScreenshotsResponse {
+        let request = Request(appscreenshotSetId: screenshotSetId)
         let urlString = "\(baseUrl)appScreenshotSets/\(request.appscreenshotSetId)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

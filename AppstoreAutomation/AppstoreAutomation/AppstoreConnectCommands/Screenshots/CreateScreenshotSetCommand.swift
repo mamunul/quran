@@ -9,7 +9,7 @@ import Foundation
 
 class CreateScreenshotSetCommand {
     struct Attributes: Codable {
-        var screenshotDisplayType: ScreenshotDisplayType
+        var screenshotDisplayType: DisplayType
     }
 
     struct AppStoreVersionLocalizationData: Codable {
@@ -50,7 +50,14 @@ class CreateScreenshotSetCommand {
     }
 
     private let method = Method.post
-    func execute(request: AppScreenshotSetRequest, apiAccess: APIAccess) async throws -> AppScreenshotSetResponse {
+    func execute(appStoreVersionLocalizaitonId: String, displayType: DisplayType, apiAccess: APIAccess) async throws -> AppScreenshotSetResponse {
+        let attributes = Attributes(screenshotDisplayType: displayType)
+        let data = AppStoreVersionLocalizationData(id: appStoreVersionLocalizaitonId)
+        let appStoreVersionLocalization = AppStoreVersionLocalization(data: data)
+        let relationship = Relationships(appStoreVersionLocalization: appStoreVersionLocalization)
+        let data2 = RequestData(attributes: attributes, relationships: relationship)
+        let request = AppScreenshotSetRequest(data: data2)
+
         let urlString = "\(baseUrl)appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
