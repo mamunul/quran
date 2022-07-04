@@ -47,7 +47,7 @@ class ScreenshotUploader {
     }
 
     private func deleteReservationIfUploadFailed(reservationId: String) async throws {
-        let request = DeleteAppScreenshotsCommand.Request(appScreenshotId: reservationId)
+        let request = DeleteAppScreenshotsCommand.APIRequest(appScreenshotId: reservationId)
         try await DeleteAppScreenshotsCommand().execute(request: request, apiAccess: apiAccess!)
     }
 

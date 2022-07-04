@@ -69,13 +69,13 @@ class GetScreenshotCommand {
 
     private let method = Method.get
 
-    struct Request {
+    struct APIRequest {
         /// this is actually platform id of an app
         var appscreenshotSetId: String
     }
 
     func execute(screenshotSetId: String, apiAccess: APIAccess) async throws -> AppScreenshotsResponse {
-        let request = Request(appscreenshotSetId: screenshotSetId)
+        let request = APIRequest(appscreenshotSetId: screenshotSetId)
         let urlString = "\(baseUrl)/appScreenshotSets/\(request.appscreenshotSetId)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
