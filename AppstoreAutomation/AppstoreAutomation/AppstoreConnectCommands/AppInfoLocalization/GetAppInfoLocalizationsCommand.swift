@@ -16,17 +16,21 @@ struct AppInfoLocalizationsResponse: Codable {
 class GetAppInfoLocalizationsCommand {
     private let method = Method.get
 
-    struct Request: Codable {
+    struct APIRequest: Codable {
         var appInfoId: String
     }
 
-    func execute(appInfoId: String, apiAccess: APIAccess) async throws -> AppInfoLocalizationsResponse {
-        let request = Request(appInfoId: appInfoId)
-
-        let urlString = "\(baseUrl)/appInfos/\(request.appInfoId)/appInfoLocalizations"
+    private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
+        let urlString = "\(baseUrl)/appInfos/\(apiRequest.appInfoId)/appInfoLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
+        return urlRequest
+    }
+
+    func execute(appInfoId: String, apiAccess: APIAccess) async throws -> AppInfoLocalizationsResponse {
+        let request = APIRequest(appInfoId: appInfoId)
+        let urlRequest = makeURLRequest(apiRequest: request)
         let response: AppInfoLocalizationsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

@@ -42,14 +42,19 @@ class RequestUploadCommand {
         var data: AppScreenshot
     }
 
-    private let method = Method.post
-    func execute(request: ScreenshotRequest, apiAccess: APIAccess) async throws -> ScreenshotResponse {
+    private func makeURLRequest(apiRequest: ScreenshotRequest) throws -> URLRequest {
         let urlString = "\(baseUrl)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = try JSONEncoder().encode(request)
+        urlRequest.httpBody = try JSONEncoder().encode(apiRequest)
+        return urlRequest
+    }
+
+    private let method = Method.post
+    func execute(request: ScreenshotRequest, apiAccess: APIAccess) async throws -> ScreenshotResponse {
+        let urlRequest = try makeURLRequest(apiRequest: request)
         let response: ScreenshotResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

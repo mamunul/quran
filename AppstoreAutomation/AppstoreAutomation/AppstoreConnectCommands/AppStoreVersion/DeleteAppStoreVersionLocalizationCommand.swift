@@ -8,16 +8,17 @@
 import Foundation
 
 class DeleteAppStoreVersionLocalizationCommand {
-    struct APIRequest {
-        var appStoreVersionLocalizationId: String
-    }
-
-    private let method = Method.delete
-    func execute(request: APIRequest, apiAccess: APIAccess) async throws {
-        let urlString = "\(baseUrl)/appStoreVersions/\(request.appStoreVersionLocalizationId)/appStoreVersionLocalizations"
+    private func makeURLRequest(appStoreVersionLocalizationId: String) -> URLRequest {
+        let urlString = "\(baseUrl)/appStoreVersions/\(appStoreVersionLocalizationId)/appStoreVersionLocalizations"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
+        return urlRequest
+    }
+
+    private let method = Method.delete
+    func execute(appStoreVersionLocalizationId: String, apiAccess: APIAccess) async throws {
+        let urlRequest = makeURLRequest(appStoreVersionLocalizationId: appStoreVersionLocalizationId)
         try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
     }
 }

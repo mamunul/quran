@@ -74,12 +74,17 @@ class GetScreenshotCommand {
         var appscreenshotSetId: String
     }
 
-    func execute(screenshotSetId: String, apiAccess: APIAccess) async throws -> AppScreenshotsResponse {
-        let request = APIRequest(appscreenshotSetId: screenshotSetId)
-        let urlString = "\(baseUrl)/appScreenshotSets/\(request.appscreenshotSetId)/appScreenshots"
+    private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
+        let urlString = "\(baseUrl)/appScreenshotSets/\(apiRequest.appscreenshotSetId)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
+        return urlRequest
+    }
+
+    func execute(screenshotSetId: String, apiAccess: APIAccess) async throws -> AppScreenshotsResponse {
+        let request = APIRequest(appscreenshotSetId: screenshotSetId)
+        let urlRequest = makeURLRequest(apiRequest: request)
         let response: AppScreenshotsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }

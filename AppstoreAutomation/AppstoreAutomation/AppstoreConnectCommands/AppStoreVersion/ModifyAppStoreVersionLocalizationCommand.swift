@@ -29,21 +29,30 @@ class ModifyAppStoreVersionLocalizationCommand {
         var id: String
     }
 
-    struct LocalizationRequest: Codable {
+    struct APIRequest: Codable {
         var data: RequestData
     }
 
-    func execute(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess)
-    async throws -> AppStoreVersionLocalizationResponse {
-        let data = RequestData(attributes: attributes, id: appStoreVersionLocalizaitonId)
-        let request = LocalizationRequest(data: data)
-
-        let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(request.data.id)"
+    private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
+        let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(apiRequest.data.id)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpMethod = method.rawValue
-        urlRequest.httpBody = try JSONEncoder().encode(request)
+        urlRequest.httpBody = try JSONEncoder().encode(apiRequest)
+        return urlRequest
+    }
+
+    private func makeAPIRequest(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes) -> APIRequest {
+        let data = RequestData(attributes: attributes, id: appStoreVersionLocalizaitonId)
+        let request = APIRequest(data: data)
+        return request
+    }
+
+    func execute(appStoreVersionLocalizaitonId: String, attributes: AppStoreVersionLocalizationAttributes, apiAccess: APIAccess)
+    async throws -> AppStoreVersionLocalizationResponse {
+        let request = makeAPIRequest(appStoreVersionLocalizaitonId: appStoreVersionLocalizaitonId, attributes: attributes)
+        let urlRequest = try makeURLRequest(apiRequest: request)
         let response: AppStoreVersionLocalizationResponse =
             try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response

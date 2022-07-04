@@ -51,12 +51,17 @@ class GetAppStoreVersionsCommand {
         var links: DocumentLink
     }
 
-    func execute(appId: String, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
-        let request = APIRequest(appId: appId)
-        let urlString = "\(baseUrl)/apps/\(request.appId)/appStoreVersions"
+    private func makeURLRequest(apiRequest: APIRequest) -> URLRequest {
+        let urlString = "\(baseUrl)/apps/\(apiRequest.appId)/appStoreVersions"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
+        return urlRequest
+    }
+
+    func execute(appId: String, apiAccess: APIAccess) async throws -> AppStoreVersionsResponse {
+        let request = APIRequest(appId: appId)
+        let urlRequest = makeURLRequest(apiRequest: request)
         let response: AppStoreVersionsResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
