@@ -8,12 +8,12 @@
 import Foundation
 
 class DeleteAppScreenshotsCommand {
-    struct Request {
+    struct APIRequest {
         var appScreenshotId: String
     }
 
     private let method = Method.delete
-    func execute(request: Request, apiAccess: APIAccess) async throws {
+    func execute(request: APIRequest, apiAccess: APIAccess) async throws {
         let urlString = "\(baseUrl)/appScreenshots/\(request.appScreenshotId)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

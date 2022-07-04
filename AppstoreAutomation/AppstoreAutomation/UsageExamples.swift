@@ -10,7 +10,7 @@ import Foundation
 func testModifyAppInfoVersionAPI(facade: AppstoreConnectFacade) {
     Task {
         do {
-            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
+            let appId = GetAppStoreVersionsCommand.APIRequest.quranApp.appId
             guard let appInfoId = try await facade.getAppInfoId(appId: appId) else { return }
             let localizations = try await facade.getAppInfoLocalizations(appInfoId: appInfoId)
 
@@ -34,7 +34,7 @@ func testModifyAppInfoVersionAPI(facade: AppstoreConnectFacade) {
 func testModifyAppStoreVersionLocalizedAPI(facade: AppstoreConnectFacade) {
     Task {
         do {
-            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
+            let appId = GetAppStoreVersionsCommand.APIRequest.quranApp.appId
             guard let appStoreVersionId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId) else { return }
             guard let appStoreVersionLocalizaitonId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appStoreVersionId, localization: .fr) else { return }
 
@@ -56,7 +56,7 @@ func testModifyAppStoreVersionLocalizedAPI(facade: AppstoreConnectFacade) {
 func testGetApi(facade: AppstoreConnectFacade) {
     Task {
         do {
-            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
+            let appId = GetAppStoreVersionsCommand.APIRequest.quranApp.appId
             guard let appInfoId = try await facade.getAppInfoId(appId: appId) else { return }
             _ = try await facade.getAppInfoLocalizations(appInfoId: appInfoId)
             guard let appPlatformId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId) else { return }
@@ -73,7 +73,7 @@ func testGetApi(facade: AppstoreConnectFacade) {
 func testCreateALocalizationAPI(facade: AppstoreConnectFacade) {
     Task {
         do {
-            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
+            let appId = GetAppStoreVersionsCommand.APIRequest.quranApp.appId
             guard let appInfoId = try await facade.getAppInfoId(appId: appId) else { return }
             let attributes =
                 AppInfoLocalizationAttributes(

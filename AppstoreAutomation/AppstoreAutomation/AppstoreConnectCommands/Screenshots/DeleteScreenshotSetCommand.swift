@@ -12,11 +12,11 @@ class DeleteScreenshotSetCommand {
      DELETE \(baseUrl)/appScreenshotSets/{id}
      */
 
-    struct Request {
+    struct APIRequest {
         var appScreenshotsId: String
     }
     private let method = Method.delete
-    func execute(request: Request, apiAccess: APIAccess) async throws {
+    func execute(request: APIRequest, apiAccess: APIAccess) async throws {
         let urlString = "\(baseUrl)/appScreenshotSets/\(request.appScreenshotsId)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

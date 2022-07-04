@@ -6,37 +6,36 @@
 //
 
 import Foundation
-
-class GetAppInfoCommand {
-    private let method = Method.get
-    struct Request {
-        var appId: String
-    }
-
+struct AppInfo: Codable {
     struct Attributes: Codable {
         var appStoreState: AppStoreVersionState
     }
 
-    struct AppInfo: Codable {
-        var attributes: Attributes?
-        var id: String
-        var links: DocumentLink
-        var type: String = "appInfos"
+    var attributes: Attributes?
+    var id: String
+    var links: DocumentLink
+    var type: String = "appInfos"
+}
+
+class GetAppInfoCommand {
+    private let method = Method.get
+    struct APIRequest {
+        var appId: String
     }
 
-    struct Response: Codable {
+    struct APIResponse: Codable {
         var data: [AppInfo]
         var links: PagedDocumentLinks
     }
 
-    func execute(appId: String, apiAccess: APIAccess) async throws -> Response {
-        let request = GetAppInfoCommand.Request(appId: appId)
+    func execute(appId: String, apiAccess: APIAccess) async throws -> APIResponse {
+        let request = APIRequest(appId: appId)
 
         let urlString = "\(baseUrl)/apps/\(request.appId)/appInfos"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
-        let response: Response = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
+        let response: APIResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
 }

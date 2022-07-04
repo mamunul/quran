@@ -14,38 +14,30 @@ enum DisplayType: String, Codable {
 }
 
 struct AppScreenshotSet: Codable {
-    var attributes: GetScreenshotSetsCommand.Attributes
+    struct Attributes: Codable {
+        var screenshotDisplayType: DisplayType
+    }
+
+    var attributes: Attributes
     var id: String
     var links: DocumentLink
     var type: String
 }
 
 class GetScreenshotSetsCommand {
-    struct Attributes: Codable {
-        var screenshotDisplayType: DisplayType
-    }
-
     struct AppScreenshotSetsResponse: Codable {
         var data: [AppScreenshotSet]
         var links: PagedDocumentLinks
     }
 
-    func execute<T: Response>() async throws -> T {
-        EmptyResponse() as! T
-    }
-
-    /*
-     GET \(baseUrl)/appScreenshotSets/{id}
-     */
-
-    struct Request {
+    struct APIRequest {
         var localizationId: String
     }
 
     private let method = Method.get
 
     func execute(appStoreLocalizedVersionId: String, apiAccess: APIAccess) async throws -> AppScreenshotSetsResponse {
-        let request = Request(localizationId: appStoreLocalizedVersionId)
+        let request = APIRequest(localizationId: appStoreLocalizedVersionId)
         let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(request.localizationId)/appScreenshotSets"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

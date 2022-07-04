@@ -20,7 +20,7 @@ func testUploadScreenshot() {
             let folderUrl = homeDirectory.appendingPathComponent(basePath, isDirectory: false)
             let screenshot = ScreenshotUploader.Screenshot(url: folderUrl, displayType: .APP_IPHONE_55, locale: .ja)
 
-            let appId = GetAppStoreVersionsCommand.Request.quranApp.appId
+            let appId = GetAppStoreVersionsCommand.APIRequest.quranApp.appId
             guard let appPlatformId = try await facade.getAppStoreVesionId(platform: .IOS, appId: appId) else { return }
             guard let localizedVersionId = try await facade.getAppStoreLocalizedVersionId(appStoreVersionId: appPlatformId, localization: .ja) else { return }
             var appScreenshotSetId = try await facade.getScreenshotSetId(displayType: .APP_IPHONE_55, appStoreLocalizedVersionId: localizedVersionId)

@@ -16,11 +16,11 @@ struct AppStoreVersionLocalizationResponse: Codable {
 class GetAppStoreVersionLocalizationCommand {
     private let method = Method.get
 
-    struct Request {
+    struct APIRequest {
         var appStoreVersionLocalizationId: String
     }
 
-    func execute(request: Request, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
+    func execute(request: APIRequest, apiAccess: APIAccess) async throws -> AppStoreVersionLocalizationResponse {
         let urlString = "\(baseUrl)/appStoreVersionLocalizations/\(request.appStoreVersionLocalizationId)"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)

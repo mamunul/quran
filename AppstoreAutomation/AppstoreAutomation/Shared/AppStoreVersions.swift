@@ -7,17 +7,6 @@
 
 import Foundation
 
-protocol Response: Codable {
-    static var empty: Response { get }
-}
-
-protocol Request: Codable {
-    static var empty: Request { get }
-}
-
-struct EmptyResponse: Response {
-    static var empty: Response = EmptyResponse()
-}
 
 protocol Command {
     /// - Parameters:
@@ -25,7 +14,7 @@ protocol Command {
     ///    - apiAccess: api access secret keys
     ///
     /// - Returns: return json type
-    func execute<T: Response>(request: Request, apiAccess: APIAccess) async throws -> T
+//    func execute<T: Response>(request: Request, apiAccess: APIAccess) async throws -> T
 }
 
 
