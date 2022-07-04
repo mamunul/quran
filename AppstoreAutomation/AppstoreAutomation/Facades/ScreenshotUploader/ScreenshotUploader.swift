@@ -18,26 +18,26 @@ enum UploadError: Error {
     case uploadFailed
 }
 
-protocol UploadCommandState {
+protocol UploadCommandStep {
     func execute(uploader: ScreenshotUploader) async throws
 }
 
 class ScreenshotUploader {
-    private var currentStep: UploadCommandState?
+    private var currentStep: UploadCommandStep?
     func upload(appScreenshotSetId: String, apiAccess: APIAccess, screenshot: Screenshot) async throws {
         let data = try Data(contentsOf: screenshot.url)
         let fileName = screenshot.url.lastPathComponent
         let md5Checksum = Insecure.MD5.hash(data: data).map { String(format: "%02hhx", $0) }.joined()
 
-        let commitStep = CommitUploadState(checksum: md5Checksum, apiAccess: apiAccess)
-        let requestUploadStep = RequestUploadState(
+        let commitStep = CommitUploadStep(checksum: md5Checksum, apiAccess: apiAccess)
+        let requestUploadStep = RequestUploadStep(
             appScreenshotSetId: appScreenshotSetId,
             fileName: fileName,
             fileSize: data.count,
             apiAccess: apiAccess
         )
 
-        let dataUploadStep = DataUploadState(assetData: data, apiAccess: apiAccess)
+        let dataUploadStep = DataUploadStep(assetData: data, apiAccess: apiAccess)
         dataUploadStep.nextStep = commitStep
         requestUploadStep.nextStep = dataUploadStep
         currentStep = requestUploadStep
@@ -47,7 +47,7 @@ class ScreenshotUploader {
         }
     }
 
-    func setStep(step: UploadCommandState?) {
+    func setStep(step: UploadCommandStep?) {
         currentStep = step
     }
 }

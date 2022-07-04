@@ -7,9 +7,9 @@
 
 import Foundation
 
-class CommitUploadState: UploadCommandState {
-    let nextStep = VerifyUploadState()
-    var failedStep: CancelUploadState?
+class CommitUploadStep: UploadCommandStep {
+    let nextStep = VerifyUploadStep()
+    var failedStep: CancelUploadStep?
     var reservationId: String?
     private var checksum: String
     private var apiAccess: APIAccess
@@ -33,7 +33,7 @@ class CommitUploadState: UploadCommandState {
     }
 
     func execute(uploader: ScreenshotUploader) async throws {
-        failedStep = CancelUploadState(apiAccess: apiAccess)
+        failedStep = CancelUploadStep(apiAccess: apiAccess)
         failedStep?.reservationId = reservationId
         do {
             try await commitTheUpload()

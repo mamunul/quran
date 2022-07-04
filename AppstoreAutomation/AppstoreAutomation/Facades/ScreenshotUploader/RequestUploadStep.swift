@@ -7,8 +7,8 @@
 
 import Foundation
 
-class RequestUploadState: UploadCommandState {
-    var nextStep: DataUploadState?
+class RequestUploadStep: UploadCommandStep {
+    var nextStep: DataUploadStep?
 
     private var appScreenshotSetId: String
     private var fileName: String
