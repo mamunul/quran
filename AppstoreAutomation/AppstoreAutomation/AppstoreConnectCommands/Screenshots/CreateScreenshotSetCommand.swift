@@ -7,6 +7,12 @@
 
 import Foundation
 
+struct PagedDocumentLinks: Codable {
+    var first: String?
+    var next: String?
+    var `self`: String
+}
+
 class CreateScreenshotSetCommand {
     struct Attributes: Codable {
         var screenshotDisplayType: DisplayType
@@ -49,6 +55,8 @@ class CreateScreenshotSetCommand {
         var links: DocumentLink
     }
 
+    private let method = Method.post
+
     private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
         let urlString = "\(baseUrl)/appScreenshotSets"
         let url: URL = URL(string: urlString)!
@@ -69,7 +77,6 @@ class CreateScreenshotSetCommand {
         return request
     }
 
-    private let method = Method.post
     func execute(appStoreVersionLocalizaitonId: String, displayType: DisplayType, apiAccess: APIAccess) async throws ->
         AppScreenshotSetResponse {
         let request = makeAPIRequest(appStoreVersionLocalizaitonId: appStoreVersionLocalizaitonId, displayType: displayType)
@@ -77,10 +84,4 @@ class CreateScreenshotSetCommand {
         let response: AppScreenshotSetResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response
     }
-}
-
-struct PagedDocumentLinks: Codable {
-    var first: String?
-    var next: String?
-    var `self`: String
 }

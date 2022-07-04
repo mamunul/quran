@@ -33,7 +33,7 @@ class RequestUploadCommand {
         var type: String = "appScreenshots"
     }
 
-    struct ScreenshotRequest: Codable {
+    struct APIRequest: Codable {
         var data: RequestData
     }
 
@@ -42,7 +42,9 @@ class RequestUploadCommand {
         var data: AppScreenshot
     }
 
-    private func makeURLRequest(apiRequest: ScreenshotRequest) throws -> URLRequest {
+    private let method = Method.post
+
+    private func makeURLRequest(apiRequest: APIRequest) throws -> URLRequest {
         let urlString = "\(baseUrl)/appScreenshots"
         let url: URL = URL(string: urlString)!
         var urlRequest = URLRequest(url: url)
@@ -52,8 +54,19 @@ class RequestUploadCommand {
         return urlRequest
     }
 
-    private let method = Method.post
-    func execute(request: ScreenshotRequest, apiAccess: APIAccess) async throws -> ScreenshotResponse {
+    private func makeAPIRequest(appScreenshotSetId: String, fileName: String, fileSize: Int) -> APIRequest {
+        let screenshotSetData = AppScreenshotSetData(id: appScreenshotSetId)
+        let screenshotSet = AppScreenshotSet(data: screenshotSetData)
+        let relationships = Relationships(appScreenshotSet: screenshotSet)
+        let attributes = RequestAttributes(fileName: fileName, fileSize: fileSize)
+        let requestData = RequestData(attributes: attributes, relationships: relationships)
+        let request = APIRequest(data: requestData)
+        return request
+    }
+
+    func execute(appScreenshotSetId: String, fileName: String, fileSize: Int, apiAccess: APIAccess) async throws ->
+        ScreenshotResponse {
+        let request = makeAPIRequest(appScreenshotSetId: appScreenshotSetId, fileName: fileName, fileSize: fileSize)
         let urlRequest = try makeURLRequest(apiRequest: request)
         let response: ScreenshotResponse = try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess)
         return response

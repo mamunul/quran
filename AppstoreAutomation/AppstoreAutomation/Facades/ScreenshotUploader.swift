@@ -8,90 +8,65 @@
 import CryptoKit
 import Foundation
 
-protocol IUploadable {
-    func makeAnUploadRequest(request: RequestUploadCommand.ScreenshotRequest, apiAccess: APIAccess)
-    func uploadTheAsset()
-    func commitTheUpload()
-    func verifyUpload()
-}
-
-extension IUploadable { // Template Method
-    func upload(request: RequestUploadCommand.ScreenshotRequest, apiAccess: APIAccess) {
-        makeAnUploadRequest(request: request, apiAccess: apiAccess)
-        uploadTheAsset()
-        commitTheUpload()
-        verifyUpload()
-    }
+struct Screenshot {
+    let url: URL
+    let displayType: DisplayType
+    let locale: Localization
 }
 
 class ScreenshotUploader {
-    struct Screenshot {
-        let url: URL
-        let displayType: DisplayType
-        let locale: Localization
+    enum UploadError: Error {
+        case uploadFailed
     }
 
     private var apiAccess: APIAccess?
-
     private func makeAnUploadRequest(_ appScreenshotSetId: String, _ fileName: String, _ fileSize: Int) async throws ->
-        RequestUploadCommand.ScreenshotResponse {
-        let screenshotSetData = RequestUploadCommand.AppScreenshotSetData(id: appScreenshotSetId)
-        let screenshotSet = RequestUploadCommand.AppScreenshotSet(data: screenshotSetData)
-        let relationships = RequestUploadCommand.Relationships(appScreenshotSet: screenshotSet)
-        let attributes = RequestUploadCommand.RequestAttributes(fileName: fileName, fileSize: fileSize)
-        let requestData = RequestUploadCommand.RequestData(attributes: attributes, relationships: relationships)
-        let request = RequestUploadCommand.ScreenshotRequest(data: requestData)
-
-        let response = try await RequestUploadCommand().execute(request: request, apiAccess: apiAccess!)
-        return response
+        AppScreenshot {
+        let response =
+            try await RequestUploadCommand().execute(
+                appScreenshotSetId: appScreenshotSetId,
+                fileName: fileName,
+                fileSize: fileSize,
+                apiAccess: apiAccess!
+            )
+        return response.data
     }
 
-    private func deleteReservationIfUploadFailed(reservationId: String) async throws {
-        let request = DeleteAppScreenshotsCommand.APIRequest(appScreenshotId: reservationId)
-        try await DeleteAppScreenshotsCommand().execute(request: request, apiAccess: apiAccess!)
+    private func deleteReservationIfUploadFailed(reservationId: String) async {
+        do {
+            try await DeleteAppScreenshotsCommand().execute(appScreenshotId: reservationId, apiAccess: apiAccess!)
+        } catch {
+            print(error)
+        }
     }
 
-    private func uploadTheAsset(response: RequestUploadCommand.ScreenshotResponse, assetData: Data) async throws {
-        let uploads = response.data.attributes.uploadOperations ?? []
+    private func uploadTheAsset(response: AppScreenshot, assetData: Data) async throws {
+        let uploads = response.attributes.uploadOperations ?? []
         for upload in uploads {
             let subData = assetData.subdata(in: upload.offset ..< upload.length + upload.offset)
-
-            let url = URL(string: upload.url)!
-            var urlRequest = URLRequest(url: url)
-
-            upload.requestHeaders.forEach { header in
-                urlRequest.setValue(header.value, forHTTPHeaderField: header.name)
-            }
-
-            urlRequest.httpMethod = upload.method
-            urlRequest.httpBody = subData
-
             do {
-                try await HTTPHandler().execute(urlRequest: urlRequest, access: apiAccess!)
+                try await DataUploadCommand().execute(upload: upload, data: subData, apiAccess: apiAccess!)
             } catch {
                 print(error)
-
-                do {
-                    try await deleteReservationIfUploadFailed(reservationId: response.data.id)
-                } catch {
-                    print(error)
-                }
+                await deleteReservationIfUploadFailed(reservationId: response.id)
+                throw UploadError.uploadFailed
             }
         }
     }
 
     private func commitTheUpload(reservationId: String, checksum: String) async throws {
-        let attributes = CommitAssetUploadCommand.RequestDataAttributes(uploaded: true, sourceFileChecksum: checksum)
-        let data = CommitAssetUploadCommand.RequestData(id: reservationId, attributes: attributes)
-        let request = CommitAssetUploadCommand.UploadCommitRequest(data: data)
-        try await CommitAssetUploadCommand().execute(request: request, access: apiAccess!)
+        try await CommitAssetUploadCommand().execute(
+            reservationId: reservationId,
+            sourceFileChecksum: checksum,
+            access: apiAccess!
+        )
     }
 
     private func verifyUpload() {
 //        GetScre
     }
 
-    func upload(appScreenshotSetId: String, apiAccess: APIAccess, screenshot: Screenshot) async throws{
+    func upload(appScreenshotSetId: String, apiAccess: APIAccess, screenshot: Screenshot) async throws {
         self.apiAccess = apiAccess
 
         let data = try Data(contentsOf: screenshot.url)
@@ -101,7 +76,7 @@ class ScreenshotUploader {
 
         let md5Checksum = Insecure.MD5.hash(data: data).map { String(format: "%02hhx", $0) }.joined()
         try await uploadTheAsset(response: response, assetData: data)
-        try await commitTheUpload(reservationId: response.data.id, checksum: md5Checksum)
+        try await commitTheUpload(reservationId: response.id, checksum: md5Checksum)
         verifyUpload()
     }
 }
