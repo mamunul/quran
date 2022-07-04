@@ -32,7 +32,7 @@ class RequestUploadState: UploadCommandState {
         return response.data
     }
 
-    func execute(uploader: ScreenshotUploader2) async throws {
+    func execute(uploader: ScreenshotUploader) async throws {
         let response = try await makeAnUploadRequest()
         nextStep?.appScreenshot = response
         uploader.setStep(step: nextStep)

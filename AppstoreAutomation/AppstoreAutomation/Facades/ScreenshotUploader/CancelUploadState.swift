@@ -23,7 +23,7 @@ class CancelUploadState: UploadCommandState {
         try await deleteCommand.execute(appScreenshotId: reservationId)
     }
 
-    func execute(uploader: ScreenshotUploader2) async throws {
+    func execute(uploader: ScreenshotUploader) async throws {
         try await deleteReservation()
         uploader.setStep(step: nil)
     }
