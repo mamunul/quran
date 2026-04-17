@@ -166,7 +166,7 @@ struct SurahContentView: View {
 //            }
             .listStyle(PlainListStyle())
             .searchable(text: $searchString)
-            .onChange(of: searchString) { newValue in
+            .onChange(of: searchString) { _,newValue in
                 Task {
                     if newValue.isEmpty {
                         filteredAyat = ayat

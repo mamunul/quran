@@ -32,12 +32,12 @@ struct QuranSearchView: View {
                         highlights: [Highlight]()
                     )
                     .padding(.horizontal, padding)
-                    .frame(height: TextViewFrameCalculator().frameSize(for: ayah.text, fontSize: Int(fontSize), width: proxy.size.width - padding * 2, paragraphAlignment: .left).height)
+                    .frame(height: calculateHeight(ayah: ayah, geometry: proxy))
                 }
                 .listRowInsets(EdgeInsets())
             }
             .listStyle(PlainListStyle())
-            .onChange(of: searchString, perform: { newValue in
+            .onChange(of: searchString) { _, newValue in
                 if newValue.isEmpty {
                     self.filteredAyat = allAyat
                 } else {
@@ -51,7 +51,7 @@ struct QuranSearchView: View {
                         }
                     }
                 }
-            })
+            }
             .onAppear {
                 Task.detached {
                     async let allAyat1 = presenter.getAyatTranslation()
@@ -66,7 +66,7 @@ struct QuranSearchView: View {
                         })
                     }
 
-                    let (surahNames, surahList, allAyat, filteredAyat) = await(surahNames1, surahList1, allAyat1, filteredAyat1)
+                    let (surahNames, surahList, allAyat, filteredAyat) = await (surahNames1, surahList1, allAyat1, filteredAyat1)
                     await MainActor.run {
                         self.surahTranslilerationList = surahNames
                         self.surahList = surahList
@@ -76,6 +76,17 @@ struct QuranSearchView: View {
                 }
             }
         }
+    }
+
+    private func calculateHeight(ayah: Ayah, geometry: GeometryProxy) -> CGFloat {
+        let calculator = TextViewFrameCalculator()
+        let size = calculator.frameSize(
+            for: ayah.text,
+            fontSize: Int(fontSize),
+            width: geometry.size.width - padding * 2,
+            paragraphAlignment: .left
+        )
+        return size.height
     }
 }
 

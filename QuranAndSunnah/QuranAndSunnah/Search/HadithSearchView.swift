@@ -74,9 +74,9 @@ struct HadithSearchView: View {
                 }
             }
             .listStyle(PlainListStyle())
-            .onChange(of: searchString, perform: { newValue in
+            .onChange(of: searchString) { _, newValue in
                 filterDataOnSearch(newValue)
-            })
+            }
             .task {
                 loadDataOnAppear()
             }

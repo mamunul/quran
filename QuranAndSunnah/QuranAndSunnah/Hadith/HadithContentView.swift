@@ -46,7 +46,7 @@ struct HadithChapterListView: View {
     @State var filteredList = [HadithChapter]()
     @State var chapterList = [HadithChapter]()
     @State var searchString = ""
-    fileprivate func loadHadithList() -> Task<(), Never> {
+    fileprivate func loadHadithList() -> Task<Void, Never> {
         return Task.detached {
             let chapterList = await presenter.getChapterList(collector: collector)
             var filterList = chapterList
@@ -60,8 +60,8 @@ struct HadithChapterListView: View {
             }
         }
     }
-    
-    fileprivate func searchHadithList() -> Task<(), Never> {
+
+    fileprivate func searchHadithList() -> Task<Void, Never> {
         return Task.detached {
             var filterList = await chapterList
             if await !searchString.isEmpty {
@@ -73,7 +73,7 @@ struct HadithChapterListView: View {
             }
         }
     }
-    
+
     var body: some View {
         List(self.filteredList) { chapter in
             NavigationLink {
@@ -93,7 +93,7 @@ struct HadithChapterListView: View {
         .listStyle(.sidebar)
         .navigationTitle(Text("\(self.collector.contentId.contentId.getTitle())"))
         .searchable(text: $searchString)
-        .onChange(of: searchString) { _ in
+        .onChange(of: searchString) { _, _ in
             _ = searchHadithList()
         }
         .onAppear {

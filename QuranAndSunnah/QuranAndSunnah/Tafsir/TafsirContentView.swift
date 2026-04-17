@@ -150,7 +150,7 @@ struct TafsirContentView: View {
                     }
                 }
             }
-            .onChange(of: fontSize) { newValue in
+            .onChange(of: fontSize) { _, newValue in
                 DispatchQueue.global().async {
                     presenter.updateFontSize(newValue)
                 }

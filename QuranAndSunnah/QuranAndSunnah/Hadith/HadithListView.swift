@@ -127,12 +127,12 @@ struct HadithListView: View {
             }
 
             let (hadithArabicList, allHadithEnglishList, hadithBookmarks, hadithHighlights, filteredList) =
-                await(hadithArabicList1, allHadithEnglishList1, hadithBookmarks1, hadithHighlights1, filteredList1)
+                await (hadithArabicList1, allHadithEnglishList1, hadithBookmarks1, hadithHighlights1, filteredList1)
             async let arabicHeights1 = presenter.getHeights(of: hadithArabicList, fontSize: fontSize, viewWidth: width)
             async let englishHeights1 = presenter.getHeights(of: allHadithEnglishList, fontSize: fontSize, viewWidth: width)
 
-            let (arabicHeights, englishHeights) = await(arabicHeights1, englishHeights1)
-            
+            let (arabicHeights, englishHeights) = await (arabicHeights1, englishHeights1)
+
             await MainActor.run {
                 self.hadithArabicList = hadithArabicList
                 self.allHadithEnglishList = allHadithEnglishList
@@ -175,7 +175,7 @@ struct HadithListView: View {
                         hadith: hadith,
                         hadithHighlights: $hadithHighlights,
                         fontSize: fontSize,
-                        height: englishHeights[hadith.wrappedValue.hadithNo]?.height ?? 0,// proxy.size.width - 2 * padding,
+                        height: englishHeights[hadith.wrappedValue.hadithNo]?.height ?? 0, // proxy.size.width - 2 * padding,
                         padding: padding,
                         searchString: $searchString)
 
@@ -184,7 +184,7 @@ struct HadithListView: View {
             .task {
                 loadOnAppear(proxy.size.width - 2 * padding)
             }
-            .onChange(of: searchString) { newValue in
+            .onChange(of: searchString) { _, newValue in
                 _ = searchHadith(newValue)
             }
             .listStyle(PlainListStyle())
@@ -200,9 +200,9 @@ struct HadithListView: View {
                 }, label: {
                     Image(systemName: "gear")
                 })
-                    .alwaysPopover(isPresented: $showingPopover) {
-                        SettingsView()
-                    }
+                .alwaysPopover(isPresented: $showingPopover) {
+                    SettingsView()
+                }
             }
         }
     }

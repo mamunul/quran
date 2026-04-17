@@ -75,7 +75,7 @@ struct SurahListView: View {
         .listStyle(PlainListStyle())
         .listStyle(.sidebar)
         .searchable(text: $searchString)
-        .onChange(of: searchString) { newValue in
+        .onChange(of: searchString) { _, newValue in
 
             if newValue.isEmpty {
                 surahList = self.presenter.surahList
@@ -88,7 +88,7 @@ struct SurahListView: View {
                 }
             }
         }
-        .onChange(of: self.presenter.surahList) { _ in
+        .onChange(of: self.presenter.surahList) { _, _ in
             surahList = self.presenter.surahList
         }
         .navigationTitle("All Surah")

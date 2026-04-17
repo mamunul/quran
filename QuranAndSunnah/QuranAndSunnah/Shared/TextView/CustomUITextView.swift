@@ -13,14 +13,13 @@ class CustomUITextView: UITextView, NSLayoutManagerDelegate {
     var onUnhighlight: ((_ highlight: Highlight) -> Void)?
 
     private var highlights = [Highlight]()
-
     private var unhighlightItem: Highlight?
+    private var highlightMenuItem: UIEditMenuInteraction?
 
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         addGestureRecognizer(tapGestureRecognizer)
-//        layoutManager.delegate = self
     }
 
     required init?(coder: NSCoder) {
@@ -34,17 +33,7 @@ class CustomUITextView: UITextView, NSLayoutManagerDelegate {
         let firstMatch = highlights.first { highlight in
             highlight.range.contains(charIndex)
         }
-
-        if firstMatch != nil {
-            unhighlightItem = firstMatch
-            let mnuController = UIMenuController.shared
-            let lookupMenu = UIMenuItem(title: "Unhighlight", action: #selector(unhighlight))
-            mnuController.menuItems = [lookupMenu]
-
-            becomeFirstResponder()
-            let rect = CGRect(origin: location, size: CGSize(width: 10, height: 5))
-            UIMenuController.shared.showMenu(from: self, rect: rect)
-        }
+        unhighlightItem = firstMatch
     }
 
     override var keyCommands: [UIKeyCommand]? {
@@ -58,9 +47,8 @@ class CustomUITextView: UITextView, NSLayoutManagerDelegate {
     }
 
     func addCustomMenu() {
-        let highlightMenuItem = UIMenuItem(title: "Highlight", action: #selector(hightlight(_:)))
-        let noteMenuItem = UIMenuItem(title: "Note", action: #selector(note(_:)))
-        UIMenuController.shared.menuItems = [highlightMenuItem, noteMenuItem]
+        highlightMenuItem = UIEditMenuInteraction(delegate: self)
+        addInteraction(highlightMenuItem!)
     }
 
     @objc func unhighlight(_ sender: Any?) {
@@ -86,7 +74,7 @@ class CustomUITextView: UITextView, NSLayoutManagerDelegate {
         return color
     }
 
-    @objc func hightlight(_ sender: Any?) {
+    @objc func highlight(_ sender: Any?) {
         let color = getHighlighColor()
         let attributes = [NSAttributedString.Key.backgroundColor: color]
         textStorage.addAttributes(attributes, range: selectedRange)
@@ -101,44 +89,26 @@ class CustomUITextView: UITextView, NSLayoutManagerDelegate {
         let attributes = [NSAttributedString.Key.backgroundColor: color]
         textStorage.addAttributes(attributes, range: selectedRange)
     }
+}
 
-    override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if
-            action == #selector(UIResponderStandardEditActions.cut(_:)) ||
-            action == #selector(UIResponderStandardEditActions.select(_:)) ||
-            action == #selector(UIResponderStandardEditActions.selectAll(_:)) ||
-            action == #selector(UIResponderStandardEditActions.paste(_:)) ||
-            action == #selector(UIResponderStandardEditActions.delete(_:)) ||
-            action == Selector(("_promptForReplace:")) ||
-            action == Selector(("_transliterateChinese:")) ||
-            action == Selector(("_insertDrawing:")) ||
-            action == #selector(captureTextFromCamera(_:)) ||
-            action == Selector(("_showTextStyleOptions:")) ||
-            action == Selector(("_translate:")) ||
-            action == Selector(("_addShortcut:")) ||
-            action == Selector(("_accessibilitySpeak:")) ||
-            action == Selector(("_accessibilitySpeakLanguageSelection:")) ||
-            action == Selector(("_accessibilityPauseSpeaking:")) ||
-            action == Selector(("_share:")) ||
-            action == #selector(UIResponderStandardEditActions.makeTextWritingDirectionRightToLeft(_:)) ||
-            action == #selector(UIResponderStandardEditActions.makeTextWritingDirectionLeftToRight(_:))
-        {
-            return false
-        } else if
-            action == #selector(UIResponderStandardEditActions.copy(_:)) ||
-            action == #selector(note(_:)) ||
-            action == #selector(hightlight(_:)) ||
-            action == Selector(("_lookup:")) ||
-            action == Selector(("_define:")) ||
-            action == #selector(unhighlight(_:))
-        {
-            return true
+extension CustomUITextView: UIEditMenuInteractionDelegate {
+    override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+        let highlightAction = UIAction(title: "Highlight") { [weak self] _ in
+            self?.highlight(nil)
         }
 
-        return true
-    }
+        let noteAction = UIAction(title: "Note") { [weak self] _ in
+            self?.note(nil)
+        }
 
-    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
-        10 // disabled
+        let unhighlight = UIAction(title: "Unhighlight") { [weak self] _ in
+            self?.unhighlight(nil)
+        }
+
+        if unhighlightItem != nil {
+            return UIMenu(children: [unhighlight] + suggestedActions)
+        } else {
+            return UIMenu(children: [highlightAction, noteAction] + suggestedActions)
+        }
     }
 }

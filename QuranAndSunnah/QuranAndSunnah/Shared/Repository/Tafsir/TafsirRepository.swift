@@ -72,7 +72,7 @@ class TafsirRepository: ITafsirRead {
 
         let fileUrl = Bundle.main.url(forResource: ayah.filePath, withExtension: "")!
 
-        let body = try String(contentsOf: fileUrl)
+        let body = try String(contentsOf: fileUrl, encoding: .utf8)
 
         let content = header + body + footer
 
